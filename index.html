@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindy Hotwife - Putiesposa Real y Gritona</title>
+    <title>Sindy Mireya</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -15,7 +15,6 @@
             line-height: 1.55;
         }
 
-        /* Nueva barra superior fija con texto filtrante */
         .top-bar {
             background: linear-gradient(to right, #8B0000, #4B0000);
             padding: 1rem 5vw;
@@ -95,6 +94,15 @@
             aspect-ratio: 1 / 1;
         }
 
+        #carrusel-top {
+            aspect-ratio: 1 / 1;
+        }
+
+        #carrusel-bottom {
+            aspect-ratio: 1 / 1.3;
+            max-height: 340px;
+        }
+
         .carousel-inner { display: flex; transition: transform 0.7s ease; }
         .carousel-item { min-width: 100%; height: 100%; }
         .carousel-item img {
@@ -128,9 +136,44 @@
             box-shadow: 0 18px 45px rgba(255,0,0,0.45);
         }
 
-        .price-main { font-size: clamp(3.2rem, 10vw, 4.5rem); font-weight: bold; color: #fff; margin: 0.6rem 0; text-shadow: 3px 3px 10px #000; }
-        .price-extra { font-size: clamp(2rem, 7vw, 3rem); color: #ffcc00; font-weight: bold; margin: 1rem 0; }
-        .price-desc { font-size: clamp(1rem, 3vw, 1.3rem); color: #eee; }
+        .price-main { 
+            font-size: clamp(3.4rem, 11vw, 4.8rem); 
+            font-weight: bold; 
+            color: #fff; 
+            margin: 0.5rem 0 0.8rem; 
+            text-shadow: 3px 3px 12px #000; 
+            line-height: 1;
+        }
+
+        .price-main .from {
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            opacity: 0.75;
+            font-weight: 400;
+            vertical-align: super;
+            margin-right: 0.3rem;
+        }
+
+        .price-desc {
+            font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+            color: #eee;
+            line-height: 1.6;
+            margin: 1rem 0 1.4rem;
+        }
+
+        .price-benefit {
+            font-size: clamp(1.05rem, 3vw, 1.25rem);
+            color: #ffdddd;
+            background: rgba(255, 204, 0, 0.08);
+            border: 1px solid rgba(255, 204, 0, 0.25);
+            border-radius: 10px;
+            padding: 1rem 1.3rem;
+            margin-top: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .price-benefit strong {
+            color: #ffcc00;
+        }
 
         .aviso-card, .grabacion-card {
             background: linear-gradient(135deg, #1a0000, #000);
@@ -147,10 +190,37 @@
             margin-bottom: 0.9rem;
         }
 
-        .aviso-card p, .grabacion-card p {
-            font-size: clamp(1rem, 3vw, 1.25rem);
-            color: #ffdddd;
-            line-height: 1.5;
+        .aviso-card ul {
+            list-style: none;
+            text-align: left;
+            max-width: 520px;
+            margin: 1rem auto 0;
+        }
+
+        .aviso-card li {
+            margin-bottom: 0.95rem;
+            position: relative;
+            padding-left: 1.9rem;
+            font-size: clamp(1rem, 3vw, 1.15rem);
+        }
+
+        .aviso-card li::before {
+            content: "•";
+            color: #ffcc00;
+            position: absolute;
+            left: 0;
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .aviso-card .highlight-new {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        .grabacion-card h3 {
+            line-height: 1.1;
+            margin-bottom: 0.7rem;
         }
 
         .social-section {
@@ -209,7 +279,6 @@
             font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
 
-        /* Contacto */
         .new-contact-section {
             background: linear-gradient(to bottom, #0f0000, #000);
             padding: clamp(5rem, 12vh, 8rem) 5vw;
@@ -242,9 +311,9 @@
 
         .contact-options {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: clamp(1.5rem, 4vw, 2.5rem);
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
             margin: 2rem 0 3rem;
         }
 
@@ -254,10 +323,9 @@
             border-radius: 16px;
             padding: clamp(1.8rem, 4vw, 2.5rem);
             width: 100%;
-            max-width: 480px;
+            max-width: 580px;
             box-shadow: 0 10px 30px rgba(255,0,0,0.25);
             transition: all 0.35s;
-            flex: 1 1 420px;
         }
 
         .contact-block:hover {
@@ -280,9 +348,9 @@
         .contact-cta {
             background: #25D366;
             color: white;
-            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
             font-weight: bold;
-            padding: 1.1rem 2.8rem;
+            padding: 1.2rem 3rem;
             border-radius: 60px;
             text-decoration: none;
             display: inline-flex;
@@ -290,6 +358,7 @@
             gap: 12px;
             box-shadow: 0 8px 25px rgba(37,213,102,0.5);
             transition: all 0.4s;
+            margin-top: 1.2rem;
         }
 
         .contact-cta:hover {
@@ -308,12 +377,8 @@
 
         @media (min-width: 950px) {
             .contact-options {
-                flex-direction: row;
-                align-items: stretch;
-            }
-            .contact-block {
-                flex: 1 1 45%;
-                max-width: 48%;
+                flex-direction: column;
+                align-items: center;
             }
         }
 
@@ -334,16 +399,15 @@
 </head>
 <body>
 
-    <!-- Barra superior reemplazada por texto filtrante -->
     <div class="top-bar">
-        Solo para <span>caballeros solventes</span>, discretos, atractivos y que sepan tratar a una puta casada como se merece
+        Solo para <span>adultos mayores de 18</span>, discretos, limpios y respetuosos
     </div>
 
     <header id="home">
         <div class="hero">
-            <h1>Sindy Hotwife</h1>
-            <p>La putiesposa gritona de 30 años – Casada real, puta por naturaleza</p>
-            <p class="hero-subtitle">1.63 m  ·  culo delicioso  ·  muy caliente en la cama</p>
+            <h1>Sindy Mireya</h1>
+            <p>Putiesposa caleta, gritona de 30 años, casada y con permiso del marido cornudo – solo para caballeros de mente abierta</p>
+            <p class="hero-subtitle">1.63 m · culo delicioso · muy caliente en la cama</p>
         </div>
     </header>
 
@@ -360,19 +424,27 @@
 
             <div class="aviso-card">
                 <h3>IMPORTANTE – LEE BIEN</h3>
-                <p>• Solo caballeros de buen ver, presentables y atractivos.<br>
-                • <strong>YO ELIGE CON QUIÉN COGER</strong> – no acepto a cualquiera.<br>
-                • Si eres seguidor verificado en <strong>Loverfans</strong>: solo menciona tu usuario, ¡sin foto!<br>
-                • Nuevos: pido <strong>foto efímera</strong> en el primer mensaje.<br>
-                • Sin foto (si no eres de Loverfans) = no respondo.<br>
-                • Solo 28+ solventes, limpios y discretos.</p>
+                <ul>
+                    <li><strong>Seguidores verificados de Loverfans:</strong> solo dime tu usuario y arrancamos ya (prioridad máxima)</li>
+                    <li><span class="highlight-new">Clientes nuevos:</span> pido <strong>foto efímera</strong> (cuerpo o cara) desde el primer mensaje</li>
+                    <li><strong>No contesto</strong> mensajes de “hola”, “qué tal”, “cómo estás” ni cosas vacías. Preséntate, mándame tu foto y ve directo: dime qué quieres hacerme, cómo me vas a coger, qué te pone… quiero fuego desde el primer mensaje 🔥</li>
+                    <li>Solo caballeros presentables, atractivos, limpios y discretos</li>
+                    <li>Edad mínima 28 años – solventes y respetuosos</li>
+                    <li><strong>Yo elijo con quién comparto mi tiempo y mi cuerpo</strong></li>
+                </ul>
             </div>
 
             <div class="aviso-card" style="border-color: #ff8800; background: linear-gradient(135deg, #220000, #000);">
-                <h3>Para mis fans de Loverfans</h3>
-                <p>Si ya estás suscrito y verificado:<br>
-                ¡Solo dime tu usuario y arrancamos directo! 🔥<br>
-                Sin foto efímera – prioridad total.</p>
+                <h3>HAZTE FAN EN LOVERFANS</h3>
+                <p>Suscríbete ahora y disfruta de todo mi contenido sin censura:<br>
+                Hotwife latina real, estilo de vida cornudo, mis encuentros más calientes,<br>
+                videos y fotos exclusivas, material constante y morbo sin límites 🔥<br>
+                ¡Prioridad total para mis suscriptores verificados!</p>
+                <a href="https://loverfans.com/sindyhotwife"
+                   class="contact-cta lovers" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-heart"></i>
+                    Ir a mi Loverfans ahora
+                </a>
             </div>
 
             <div class="social-section">
@@ -390,8 +462,7 @@
                 </div>
 
                 <p class="social-teaser">
-                    ¿Quieres verme más puta, más mojada y sin censura? 😈<br>
-                    Suscríbete ya y prepárate para lo que realmente quiero hacerte...
+                    Contenido real, encuentros reales y morbo sin censura 🔥
                 </p>
             </div>
         </div>
@@ -399,22 +470,37 @@
         <div class="sidebar">
             <div class="price-cards">
                 <div class="price-card">
-                    <h3>Encuentro Completo</h3>
-                    <div class="price-main">💰 S/150</div>
-                    <p class="price-desc">1 hora de morbo total: besos intensos, oral profundo, vaginal, todo lo que quieras si me pones a mil. Gritaré tu nombre cuando me revientes. ¡Especial para mis seguidores de Loverfans!</p>
+                    <h3>Encuentros Presenciales</h3>
+                    <div class="price-main">💰 S/150 <span style="font-size:0.55em; opacity:0.85; font-weight:400;">x hora</span></div>
+                    <p class="price-desc">
+                        A solas en un cuarto de hotel, completamente desnudos, sin prisas y sin tabúes.<br>
+                        Besos robados, orales mutuos profundos, todas las posiciones que se te ocurran y mis gemidos bien fuertes mientras me haces perder el control.<br>
+                        Sudor, piel contra piel, entrega total y un morbo que no para hasta que los dos estemos exhaustos.<br>
+                        <strong>Morbo puro y sin censura.</strong>
+                    </p>
+                    <p class="price-benefit">
+                        <strong>Seguidores verificados de Loverfans:</strong><br>
+                        precio especial <strong>S/120 x hora</strong> (20% OFF)
+                    </p>
                 </div>
 
                 <div class="grabacion-card">
-                    <h3>Grabación por Morbo</h3>
-                    <p>Fotos y/o videos de cada encuentro – solo por placer mutuo.<br>
-                    <strong>NUNCA grabo tu rostro.</strong><br>
-                    100% privacidad garantizada. ¡Extra morbo si eres fan de Loverfans!</p>
+                    <h3>GRABO TODOS MIS ENCUENTROS</h3>
+                    <p>El morbo es mío, de mi marido cornudo y nuestro juego. <strong>Grabamos todo</strong> porque nos encanta revivirlo después. Fotos y videos del encuentro se comparten contigo como parte del placer. <strong>NUNCA grabo tu rostro.</strong><br>Discreción total + morbo extremo. Mucho más rico si eres fan verificado 🔥</p>
                 </div>
 
                 <div class="price-card">
-                    <h3>Anal Extra</h3>
-                    <div class="price-extra">🔥 + S/50</div>
-                    <p class="price-desc">Si me convences y me abres rico, te doy el culo sin problema. Me encanta cuando me hacen gritar más fuerte. ¡Para mis seguidores de Loverfans, con prioridad!</p>
+                    <h3>Servicios Adicionales</h3>
+                    <div class="price-main">
+                        <span class="from">desde</span> S/50
+                    </div>
+                    <p class="price-desc">
+                        ¿Quieres que la cosa se ponga todavía más intensa?<br>
+                        Me puedo poner la lencería que mi marido cornudo me compra especialmente para que tú me la quites despacito…<br>
+                        O podemos irnos a la ducha y seguir cogiendo bien mojados, con el agua resbalando por nuestros cuerpos mientras no paramos.<br>
+                        Y si me gustas mucho, me mojas rico, me excitas de verdad y me convences… también te doy mi colita.<br>
+                        Todo lo que haga que el morbo explote aún más fuerte, depende de cuánto me pongas y de lo que me pidas.
+                    </p>
                 </div>
 
                 <div class="carousel" id="carrusel-bottom">
@@ -443,21 +529,10 @@
                     <h3>WhatsApp directo</h3>
                     <p>Mándame mensaje ahora mismo.<br>
                     Respondo rápido cuando me gusta lo que veo 🔥</p>
-                    <a href="https://wa.me/51929719499?text=Hola%20Sindy%20🔥%20quiero%20verte%20en%20acción" 
+                    <a href="https://wa.me/51929719499?text=Hola%20Sindy%20🔥%20quiero%20verte%20en%20acción"
                        class="contact-cta" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-whatsapp"></i>
                         Chatea conmigo ya
-                    </a>
-                </div>
-
-                <div class="contact-block">
-                    <h3>Acceso prioritario</h3>
-                    <p>Suscríbete a mi Loverfans y pasa el filtro automáticamente.<br>
-                    Contenido diario + prioridad para encuentros reales.</p>
-                    <a href="https://loverfans.com/sindyhotwife" 
-                       class="contact-cta lovers" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-heart"></i>
-                        Ir a mi Loverfans ahora
                     </a>
                 </div>
             </div>
