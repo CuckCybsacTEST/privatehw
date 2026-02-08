@@ -5,235 +5,326 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sindy Hotwife - Putiesposa Real y Gritona</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Roboto', sans-serif; background: #000; color: #fff; line-height: 1.5; }
-        header { background: linear-gradient(to right, #8B0000, #000); padding: 50px 20px; text-align: center; }
-        nav { background: #8B0000; padding: 12px; position: sticky; top: 0; z-index: 100; }
-        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; }
-        nav a { color: #fff; text-decoration: none; font-weight: bold; font-size: 1.1em; transition: color 0.3s; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.55;
+        }
+
+        header {
+            background: linear-gradient(to right, #8B0000, #000);
+            padding: 7vh 5vw;
+            text-align: center;
+        }
+
+        nav {
+            background: #8B0000;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: clamp(1rem, 2.5vw, 1.1em);
+            transition: color 0.3s;
+        }
+
         nav a:hover { color: #ff0000; }
-        .hero { padding: 40px 20px; text-align: center; }
-        .hero h1 { font-size: 3.5em; margin-bottom: 10px; color: #ff0000; text-shadow: 2px 2px 10px #000; }
-        .hero p { font-size: 1.6em; max-width: 800px; margin: 0 auto; color: #ffdddd; }
+
+        .hero {
+            padding: 5vh 5vw;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 3.8rem);
+            margin-bottom: 0.6rem;
+            color: #ff0000;
+            text-shadow: 2px 2px 12px #000;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 4vw, 1.7rem);
+            max-width: 900px;
+            margin: 0 auto;
+            color: #ffdddd;
+        }
+
         .hero-subtitle {
-            font-size: 1.05em;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
             color: #cc9999;
-            margin-top: 16px;
+            margin-top: 1rem;
             opacity: 0.65;
             font-weight: 300;
             letter-spacing: 0.8px;
             font-style: italic;
         }
+
         .main-content {
-            max-width: 1400px;
-            margin: 30px auto;
+            max-width: 1450px;
+            margin: 3rem auto;
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
-            padding: 0 20px;
+            gap: 2rem;
+            padding: 0 4vw;
         }
+
         .carousel-column {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
+            flex: 1 1 340px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 1.5rem;
         }
+
         .carousel {
             overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(139,0,0,0.7);
+            border-radius: 12px;
+            box-shadow: 0 8px 35px rgba(139,0,0,0.65);
             position: relative;
+            aspect-ratio: 1 / 1;
         }
-        .carousel-inner { display: flex; transition: transform 0.6s ease; }
-        .carousel-item { min-width: 100%; aspect-ratio: 1 / 1; }
+
+        .carousel-inner { display: flex; transition: transform 0.7s ease; }
+        .carousel-item { min-width: 100%; height: 100%; }
         .carousel-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
         }
+
         .sidebar {
-            flex: 1;
-            min-width: 340px;
+            flex: 1 1 360px;
         }
+
         .price-cards {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 1.8rem;
         }
+
         .price-card {
             background: linear-gradient(135deg, #8B0000, #4B0000);
-            padding: 35px;
-            border-radius: 20px;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(139,0,0,0.6);
-            transition: all 0.4s;
+            box-shadow: 0 8px 30px rgba(139,0,0,0.55);
+            transition: all 0.35s;
         }
-        .price-card:hover { transform: translateY(-12px); box-shadow: 0 20px 50px rgba(255,0,0,0.5); }
-        .price-main { font-size: 4.8em; font-weight: bold; color: #fff; margin: 10px 0; text-shadow: 3px 3px 10px #000; }
-        .price-extra { font-size: 3em; color: #ffcc00; font-weight: bold; margin: 15px 0; }
-        .price-desc { font-size: 1.4em; color: #eee; }
 
-        /* Estilo para los avisos (ambos) */
-        .aviso-card {
+        .price-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 45px rgba(255,0,0,0.45);
+        }
+
+        .price-main { font-size: clamp(3.2rem, 10vw, 4.5rem); font-weight: bold; color: #fff; margin: 0.6rem 0; text-shadow: 3px 3px 10px #000; }
+        .price-extra { font-size: clamp(2rem, 7vw, 3rem); color: #ffcc00; font-weight: bold; margin: 1rem 0; }
+        .price-desc { font-size: clamp(1rem, 3vw, 1.3rem); color: #eee; }
+
+        .aviso-card, .grabacion-card {
             background: linear-gradient(135deg, #1a0000, #000);
             border: 4px solid #ff0000;
-            padding: 24px 28px;
+            padding: clamp(1.4rem, 4vw, 2.2rem);
             border-radius: 16px;
             text-align: center;
             box-shadow: 0 8px 25px rgba(255,0,0,0.35);
-            font-size: 1.15em;
-            line-height: 1.45;
         }
 
-        .aviso-card h3 {
+        .aviso-card h3, .grabacion-card h3 {
             color: #ff0000;
-            font-size: 1.8em;
-            margin-bottom: 14px;
+            font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+            margin-bottom: 0.9rem;
         }
 
-        .aviso-card p {
+        .aviso-card p, .grabacion-card p {
+            font-size: clamp(1rem, 3vw, 1.25rem);
             color: #ffdddd;
-            margin: 0;
+            line-height: 1.5;
         }
 
-        /* Grabación por Morbo vuelve a su estilo original */
-        .grabacion-card {
-            background: linear-gradient(135deg, #1a0000, #000);
-            border: 4px solid #ff0000;
-            padding: 40px;
-            border-radius: 20px;
+        .social-section {
+            background: linear-gradient(135deg, #220000, #000);
+            border: 3px solid #ff8800;
+            border-radius: 16px;
+            padding: clamp(1.2rem, 3vw, 1.8rem);
             text-align: center;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(255,0,0,0.4);
+            margin-top: 1rem;
+            box-shadow: 0 6px 20px rgba(255,136,0,0.3);
         }
 
-        .grabacion-card h3 {
+        .social-section h4 {
+            color: #ff8800;
+            font-size: clamp(1.3rem, 3.5vw, 1.6rem);
+            margin-bottom: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.2rem, 4vw, 2.5rem);
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            font-size: clamp(2.2rem, 6vw, 3.2rem);
+            color: #ffdddd;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
             color: #ff0000;
-            font-size: 2.4em;
-            margin-bottom: 15px;
+            transform: scale(1.15) rotate(8deg);
         }
 
-        .grabacion-card p {
-            font-size: 1.4em;
-            color: #ffdddd;
-        }
+        .loverfans { color: #ff3366; }
+        .fansly     { color: #00d4ff; }
+        .telegram   { color: #229ED9; }
 
-        footer { background: #8B0000; text-align: center; padding: 35px; font-size: 1.2em; }
-
-        /* Segundo carrusel reducido */
-        #carrusel-bottom {
-            max-height: 400px;
-            margin-top: 30px;
-        }
-        #carrusel-bottom .carousel-item {
-            height: 100%;
-            aspect-ratio: 1 / 1;
-        }
-
-        /* Sección de contacto */
-        .contact-section {
-            background: linear-gradient(to bottom, #1a0000, #000);
-            padding: 70px 20px;
+        footer {
+            background: #8B0000;
             text-align: center;
+            padding: 2.5rem 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
-        .contact-container {
-            max-width: 700px;
+
+        /* Nueva sección de contacto */
+        .new-contact-section {
+            background: linear-gradient(to bottom, #0f0000, #000);
+            padding: clamp(5rem, 12vh, 8rem) 5vw;
+            border-top: 2px solid #8B0000;
+        }
+
+        .contact-wrapper {
+            max-width: 1100px;
             margin: 0 auto;
+            text-align: center;
         }
-        .contact-section h2 {
+
+        .contact-title {
+            font-size: clamp(2.4rem, 7vw, 3.6rem);
             color: #ff0000;
-            font-size: 3.2em;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 10px #000;
+            margin-bottom: 1.8rem;
+            text-shadow: 2px 2px 12px #000;
+            letter-spacing: 1px;
         }
-        .contact-text {
-            font-size: 1.5em;
+
+        .contact-subtitle {
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
             color: #ffdddd;
-            margin-bottom: 20px;
-            line-height: 1.4;
+            margin-bottom: 2.5rem;
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
         }
-        .contact-instruction {
-            font-size: 1.3em;
-            color: #ffcc00;
-            margin: 30px 0 40px;
-            font-weight: 500;
-            line-height: 1.6;
+
+        .contact-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(1.5rem, 4vw, 2.5rem);
+            margin: 2rem 0 3rem;
         }
-        .whatsapp-btn {
+
+        .contact-block {
+            background: linear-gradient(135deg, #220000, #0a0000);
+            border: 3px solid #ff0000;
+            border-radius: 16px;
+            padding: clamp(1.8rem, 4vw, 2.5rem);
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 30px rgba(255,0,0,0.25);
+            transition: all 0.35s;
+            flex: 1 1 420px;
+        }
+
+        .contact-block:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(255,0,0,0.4);
+        }
+
+        .contact-block h3 {
+            color: #ff8800;
+            font-size: clamp(1.5rem, 4vw, 1.9rem);
+            margin-bottom: 1rem;
+        }
+
+        .contact-block p {
+            font-size: clamp(1.05rem, 3vw, 1.25rem);
+            color: #ffdddd;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-cta {
             background: #25D366;
             color: white;
-            padding: 22px 60px;
-            border-radius: 60px;
-            font-size: 1.8em;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
             font-weight: bold;
+            padding: 1.1rem 2.8rem;
+            border-radius: 60px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 12px;
-            box-shadow: 0 10px 30px rgba(37, 213, 102, 0.5);
-            transition: all 0.35s ease;
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(37,213,102,0.5);
+            transition: all 0.4s;
         }
-        .whatsapp-btn:hover {
+
+        .contact-cta:hover {
             background: #128C7E;
             transform: translateY(-4px);
-            box-shadow: 0 18px 45px rgba(37, 213, 102, 0.7);
-            color: #fff;
+            box-shadow: 0 15px 40px rgba(37,213,102,0.7);
         }
-        .whatsapp-icon { font-size: 1.4em; }
-        .loverfans-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #ffcc00;
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .loverfans-link:hover { color: #ff0000; }
 
-        /* Media Queries */
+        .contact-cta.lovers {
+            background: #ff3366;
+        }
+
+        .contact-cta.lovers:hover {
+            background: #d92a55;
+        }
+
+        /* En pantallas grandes → dos bloques en una fila */
+        @media (min-width: 950px) {
+            .contact-options {
+                flex-direction: row;
+                align-items: stretch;
+            }
+
+            .contact-block {
+                flex: 1 1 45%;
+                max-width: 48%;
+            }
+        }
+
+        /* Media Queries generales */
         @media (max-width: 1100px) {
-            .main-content { flex-direction: column; }
-            .carousel-column { max-width: 100%; }
-            .carousel-item img { height: 300px; }
-            .price-main { font-size: 4em; }
-            .price-extra { font-size: 2.5em; }
-            nav ul { gap: 15px; }
-            #carrusel-bottom { max-height: 320px; }
+            .main-content { flex-direction: column; gap: 2.5rem; }
+            .carousel-column, .sidebar { max-width: 100%; }
+            #carrusel-bottom { max-height: 380px; }
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8em; }
-            .hero p { font-size: 1.4em; }
-            .hero-subtitle { font-size: 0.95em; margin-top: 14px; opacity: 0.6; }
-            .aviso-card { padding: 20px 24px; font-size: 1.05em; }
-            .aviso-card h3 { font-size: 1.6em; }
-            .grabacion-card { padding: 30px; }
-            .contact-section { padding: 60px 15px; }
-            .contact-section h2 { font-size: 2.6em; }
-            .contact-text { font-size: 1.35em; }
-            .contact-instruction { font-size: 1.2em; margin: 25px 0 35px; }
-            .whatsapp-btn { font-size: 1.6em; padding: 20px 50px; max-width: 100%; }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 2.4em; }
-            .hero p { font-size: 1.25em; }
-            .hero-subtitle { font-size: 0.9em; opacity: 0.55; }
-            .aviso-card { padding: 18px 20px; font-size: 1em; }
-            .aviso-card h3 { font-size: 1.45em; }
-            .grabacion-card { padding: 25px; }
-            .contact-section h2 { font-size: 2.2em; }
-            .contact-text { font-size: 1.25em; }
-            .whatsapp-btn { font-size: 1.45em; padding: 18px 40px; }
+        @media (max-width: 600px) {
+            .social-icons { gap: 1.8rem; }
+            .social-icon { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+            .contact-options { gap: 2rem; }
+            .contact-block { padding: 1.6rem; }
         }
     </style>
 </head>
@@ -266,7 +357,6 @@
                 </div>
             </div>
 
-            <!-- Primer aviso (reducido) -->
             <div class="aviso-card">
                 <h3>IMPORTANTE – LEE BIEN</h3>
                 <p>• Solo caballeros de buen ver, presentables y atractivos.<br>
@@ -277,12 +367,26 @@
                 • Solo 28+ solventes, limpios y discretos.</p>
             </div>
 
-            <!-- Segundo aviso corto -->
             <div class="aviso-card" style="border-color: #ff8800; background: linear-gradient(135deg, #220000, #000);">
                 <h3>Para mis fans de Loverfans</h3>
                 <p>Si ya estás suscrito y verificado:<br>
                 ¡Solo dime tu usuario y arrancamos directo! 🔥<br>
                 Sin foto efímera – prioridad total.</p>
+            </div>
+
+            <div class="social-section">
+                <h4>Mis plataformas</h4>
+                <div class="social-icons">
+                    <a href="https://loverfans.com/sindyhotwife" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-heart social-icon loverfans"></i>
+                    </a>
+                    <a href="https://fansly.com/SindyHotwife" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-star social-icon fansly"></i>
+                    </a>
+                    <a href="https://t.me/SindyHotwife" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-telegram-plane social-icon telegram"></i>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -294,7 +398,6 @@
                     <p class="price-desc">1 hora de morbo total: besos intensos, oral profundo, vaginal, todo lo que quieras si me pones a mil. Gritaré tu nombre cuando me revientes. ¡Especial para mis seguidores de Loverfans!</p>
                 </div>
 
-                <!-- Grabación por Morbo con estilo original -->
                 <div class="grabacion-card">
                     <h3>Grabación por Morbo</h3>
                     <p>Fotos y/o videos de cada encuentro – solo por placer mutuo.<br>
@@ -320,29 +423,39 @@
         </div>
     </div>
 
-    <section class="contact-section" id="contacto">
-        <div class="contact-container">
-            <h2>¡Contáctame YA!</h2>
-            <p class="contact-text">
-                ¿Listo para una hora de morbo puro conmigo?<br>
-                Escríbeme por WhatsApp ahora mismo.
+    <!-- Nueva sección de contacto -->
+    <section class="new-contact-section" id="contacto">
+        <div class="contact-wrapper">
+            <h2 class="contact-title">¿Quieres vivirlo conmigo?</h2>
+            
+            <p class="contact-subtitle">
+                Una hora de placer intenso, sin límites y sin censura.<br>
+                Solo hombres reales, discretos y que sepan encender fuego.
             </p>
-            <p class="contact-instruction">
-                Envía en tu primer mensaje:<br>
-                • Si eres seguidor de <strong>Loverfans</strong>: tu usuario verificado (sin foto efímera, ¡directo!).<br>
-                • Si eres nuevo: Foto efímera tuya (de las que se borran solas).<br>
-                • Tu nombre.<br>
-                • Algún detalle (si ya me cogiste antes).<br>
-                ¡Encuentros reales con mis fans de Loverfans – únete ya!
-            </p>
-            <a href="https://wa.me/51929719499?text=Hola%20Sindy%20🔥%20soy%20de%20Loverfans%20mi%20user%20es%20[tuuser]%20o%20te%20envío%20mi%20foto%20efímera" 
-               class="whatsapp-btn" 
-               target="_blank" 
-               rel="noopener noreferrer">
-                <span class="whatsapp-icon">📱</span> 
-                Chatea conmigo ahora +51 929 719 499
-            </a>
-            <a href="https://loverfans.com/sindyhotwife" class="loverfans-link" target="_blank" rel="noopener noreferrer">Únete a Loverfans para acceso prioritario 😈</a>
+
+            <div class="contact-options">
+                <div class="contact-block">
+                    <h3>WhatsApp directo</h3>
+                    <p>Mándame mensaje ahora mismo.<br>
+                    Respondo rápido cuando me gusta lo que veo 🔥</p>
+                    <a href="https://wa.me/51929719499?text=Hola%20Sindy%20🔥%20quiero%20verte%20en%20acción" 
+                       class="contact-cta" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        Chatea conmigo ya
+                    </a>
+                </div>
+
+                <div class="contact-block">
+                    <h3>Acceso prioritario</h3>
+                    <p>Suscríbete a mi Loverfans y pasa el filtro automáticamente.<br>
+                    Contenido diario + prioridad para encuentros reales.</p>
+                    <a href="https://loverfans.com/sindyhotwife" 
+                       class="contact-cta lovers" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-heart"></i>
+                        Ir a mi Loverfans ahora
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
