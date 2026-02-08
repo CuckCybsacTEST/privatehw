@@ -15,37 +15,32 @@
             line-height: 1.55;
         }
 
+        /* Nueva barra superior fija con texto filtrante */
+        .top-bar {
+            background: linear-gradient(to right, #8B0000, #4B0000);
+            padding: 1rem 5vw;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            font-weight: 700;
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            color: #ffdddd;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .top-bar span {
+            color: #ffcc00;
+            font-weight: 900;
+        }
+
         header {
             background: linear-gradient(to right, #8B0000, #000);
             padding: 7vh 5vw;
             text-align: center;
         }
-
-        nav {
-            background: #8B0000;
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: clamp(1rem, 2.5vw, 1.1em);
-            transition: color 0.3s;
-        }
-
-        nav a:hover { color: #ff0000; }
 
         .hero {
             padding: 5vh 5vw;
@@ -162,7 +157,7 @@
             background: linear-gradient(135deg, #220000, #000);
             border: 3px solid #ff8800;
             border-radius: 16px;
-            padding: clamp(1.2rem, 3vw, 1.8rem);
+            padding: clamp(1.5rem, 3vw, 2.2rem);
             text-align: center;
             margin-top: 1rem;
             box-shadow: 0 6px 20px rgba(255,136,0,0.3);
@@ -171,30 +166,41 @@
         .social-section h4 {
             color: #ff8800;
             font-size: clamp(1.3rem, 3.5vw, 1.6rem);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: clamp(1.2rem, 4vw, 2.5rem);
+            gap: clamp(1.5rem, 4vw, 3rem);
             flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
 
         .social-icon {
-            font-size: clamp(2.2rem, 6vw, 3.2rem);
+            font-size: clamp(2.4rem, 6vw, 3.6rem);
             color: #ffdddd;
             transition: all 0.3s ease;
         }
 
         .social-icon:hover {
             color: #ff0000;
-            transform: scale(1.15) rotate(8deg);
+            transform: scale(1.2) rotate(10deg);
         }
 
         .loverfans { color: #ff3366; }
         .fansly     { color: #00d4ff; }
         .telegram   { color: #229ED9; }
+
+        .social-teaser {
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            color: #ffaaaa;
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.45;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
         footer {
             background: #8B0000;
@@ -203,7 +209,7 @@
             font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
 
-        /* Nueva sección de contacto */
+        /* Contacto */
         .new-contact-section {
             background: linear-gradient(to bottom, #0f0000, #000);
             padding: clamp(5rem, 12vh, 8rem) 5vw;
@@ -300,20 +306,17 @@
             background: #d92a55;
         }
 
-        /* En pantallas grandes → dos bloques en una fila */
         @media (min-width: 950px) {
             .contact-options {
                 flex-direction: row;
                 align-items: stretch;
             }
-
             .contact-block {
                 flex: 1 1 45%;
                 max-width: 48%;
             }
         }
 
-        /* Media Queries generales */
         @media (max-width: 1100px) {
             .main-content { flex-direction: column; gap: 2.5rem; }
             .carousel-column, .sidebar { max-width: 100%; }
@@ -325,18 +328,16 @@
             .social-icon { font-size: clamp(2.5rem, 10vw, 3.5rem); }
             .contact-options { gap: 2rem; }
             .contact-block { padding: 1.6rem; }
+            .top-bar { font-size: clamp(0.95rem, 3.5vw, 1.1rem); padding: 0.9rem 6vw; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="#home">Inicio</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+    <!-- Barra superior reemplazada por texto filtrante -->
+    <div class="top-bar">
+        Solo para <span>caballeros solventes</span>, discretos, atractivos y que sepan tratar a una puta casada como se merece
+    </div>
 
     <header id="home">
         <div class="hero">
@@ -387,6 +388,11 @@
                         <i class="fab fa-telegram-plane social-icon telegram"></i>
                     </a>
                 </div>
+
+                <p class="social-teaser">
+                    ¿Quieres verme más puta, más mojada y sin censura? 😈<br>
+                    Suscríbete ya y prepárate para lo que realmente quiero hacerte...
+                </p>
             </div>
         </div>
 
@@ -423,7 +429,6 @@
         </div>
     </div>
 
-    <!-- Nueva sección de contacto -->
     <section class="new-contact-section" id="contacto">
         <div class="contact-wrapper">
             <h2 class="contact-title">¿Quieres vivirlo conmigo?</h2>
