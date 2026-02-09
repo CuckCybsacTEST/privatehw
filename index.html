@@ -14,7 +14,6 @@
             color: #fff;
             line-height: 1.55;
         }
-
         .top-bar {
             background: linear-gradient(to right, #8B0000, #4B0000);
             padding: 1rem 5vw;
@@ -29,37 +28,31 @@
             letter-spacing: 0.5px;
             border-bottom: 2px solid #ff0000;
         }
-
         .top-bar span {
             color: #ffcc00;
             font-weight: 900;
         }
-
         header {
             background: linear-gradient(to right, #8B0000, #000);
             padding: 7vh 5vw;
             text-align: center;
         }
-
         .hero {
             padding: 5vh 5vw;
             text-align: center;
         }
-
         .hero h1 {
             font-size: clamp(2.5rem, 8vw, 3.8rem);
             margin-bottom: 0.6rem;
             color: #ff0000;
             text-shadow: 2px 2px 12px #000;
         }
-
         .hero p {
             font-size: clamp(1.2rem, 4vw, 1.7rem);
             max-width: 900px;
             margin: 0 auto;
             color: #ffdddd;
         }
-
         .hero-subtitle {
             font-size: clamp(0.95rem, 2.5vw, 1.1rem);
             color: #cc9999;
@@ -69,7 +62,6 @@
             letter-spacing: 0.8px;
             font-style: italic;
         }
-
         .main-content {
             max-width: 1450px;
             margin: 3rem auto;
@@ -78,50 +70,40 @@
             gap: 2rem;
             padding: 0 4vw;
         }
-
-        .carousel-column {
+        .block {
             flex: 1 1 340px;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
         .carousel {
             overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 8px 35px rgba(139,0,0,0.65);
             position: relative;
             aspect-ratio: 1 / 1;
+            width: 100%;
+            max-width: 100%;
         }
-
-        #carrusel-top {
-            aspect-ratio: 1 / 1;
-        }
-
+        #carrusel-top,
         #carrusel-bottom {
-            aspect-ratio: 1 / 1.3;
-            max-height: 340px;
+            aspect-ratio: 1 / 1 !important;
         }
-
-        .carousel-inner { display: flex; transition: transform 0.7s ease; }
-        .carousel-item { min-width: 100%; height: 100%; }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.7s ease;
+            height: 100%;
+        }
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+        }
         .carousel-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
         }
-
-        .sidebar {
-            flex: 1 1 360px;
-        }
-
-        .price-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 1.8rem;
-        }
-
         .price-card {
             background: linear-gradient(135deg, #8B0000, #4B0000);
             padding: clamp(1.5rem, 4vw, 2.5rem);
@@ -130,21 +112,18 @@
             box-shadow: 0 8px 30px rgba(139,0,0,0.55);
             transition: all 0.35s;
         }
-
         .price-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 18px 45px rgba(255,0,0,0.45);
         }
-
-        .price-main { 
-            font-size: clamp(3.4rem, 11vw, 4.8rem); 
-            font-weight: bold; 
-            color: #fff; 
-            margin: 0.5rem 0 0.8rem; 
-            text-shadow: 3px 3px 12px #000; 
+        .price-main {
+            font-size: clamp(3.4rem, 11vw, 4.8rem);
+            font-weight: bold;
+            color: #fff;
+            margin: 0.5rem 0 0.8rem;
+            text-shadow: 3px 3px 12px #000;
             line-height: 1;
         }
-
         .price-main .from {
             font-size: clamp(1.4rem, 5vw, 2rem);
             opacity: 0.75;
@@ -152,14 +131,12 @@
             vertical-align: super;
             margin-right: 0.3rem;
         }
-
         .price-desc {
             font-size: clamp(1.05rem, 3.2vw, 1.35rem);
             color: #eee;
             line-height: 1.6;
             margin: 1rem 0 1.4rem;
         }
-
         .price-benefit {
             font-size: clamp(1.05rem, 3vw, 1.25rem);
             color: #ffdddd;
@@ -170,12 +147,10 @@
             margin-top: 1.2rem;
             line-height: 1.5;
         }
-
         .price-benefit strong {
             color: #ffcc00;
         }
-
-        .aviso-card, .grabacion-card {
+        .grabacion-card {
             background: linear-gradient(135deg, #1a0000, #000);
             border: 4px solid #ff0000;
             padding: clamp(1.4rem, 4vw, 2.2rem);
@@ -183,27 +158,41 @@
             text-align: center;
             box-shadow: 0 8px 25px rgba(255,0,0,0.35);
         }
-
-        .aviso-card h3, .grabacion-card h3 {
+        .grabacion-card h3 {
+            color: #ff0000;
+            font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+            margin-bottom: 0.9rem;
+            line-height: 1.1;
+        }
+        .aviso-card {
+            background: linear-gradient(135deg, #1a0000, #000);
+            border: 4px solid #ff0000;
+            padding: clamp(1.4rem, 4vw, 2.2rem);
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255,0,0,0.35);
+        }
+        .aviso-card.loverfans {
+            border-color: #ff8800;
+            background: linear-gradient(135deg, #220000, #000);
+        }
+        .aviso-card h3 {
             color: #ff0000;
             font-size: clamp(1.5rem, 4.5vw, 2.2rem);
             margin-bottom: 0.9rem;
         }
-
         .aviso-card ul {
             list-style: none;
             text-align: left;
             max-width: 520px;
             margin: 1rem auto 0;
         }
-
         .aviso-card li {
             margin-bottom: 0.95rem;
             position: relative;
             padding-left: 1.9rem;
             font-size: clamp(1rem, 3vw, 1.15rem);
         }
-
         .aviso-card li::before {
             content: "•";
             color: #ffcc00;
@@ -212,33 +201,23 @@
             font-size: 1.6rem;
             line-height: 1;
         }
-
         .aviso-card .highlight-new {
             color: #ffcc00;
             font-weight: bold;
         }
-
-        .grabacion-card h3 {
-            line-height: 1.1;
-            margin-bottom: 0.7rem;
-        }
-
         .social-section {
             background: linear-gradient(135deg, #220000, #000);
             border: 3px solid #ff8800;
             border-radius: 16px;
             padding: clamp(1.5rem, 3vw, 2.2rem);
             text-align: center;
-            margin-top: 1rem;
             box-shadow: 0 6px 20px rgba(255,136,0,0.3);
         }
-
         .social-section h4 {
             color: #ff8800;
             font-size: clamp(1.3rem, 3.5vw, 1.6rem);
             margin-bottom: 1.2rem;
         }
-
         .social-icons {
             display: flex;
             justify-content: center;
@@ -246,22 +225,18 @@
             flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
-
         .social-icon {
             font-size: clamp(2.4rem, 6vw, 3.6rem);
             color: #ffdddd;
             transition: all 0.3s ease;
         }
-
         .social-icon:hover {
             color: #ff0000;
             transform: scale(1.2) rotate(10deg);
         }
-
         .loverfans { color: #ff3366; }
-        .fansly     { color: #00d4ff; }
-        .telegram   { color: #229ED9; }
-
+        .fansly { color: #00d4ff; }
+        .telegram { color: #229ED9; }
         .social-teaser {
             font-size: clamp(1.1rem, 3vw, 1.35rem);
             color: #ffaaaa;
@@ -271,176 +246,154 @@
             max-width: 700px;
             margin: 0 auto;
         }
-
         footer {
             background: #8B0000;
             text-align: center;
             padding: 2.5rem 1rem;
             font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-top: 3rem;
         }
 
-        .new-contact-section {
-            background: linear-gradient(to bottom, #0f0000, #000);
-            padding: clamp(5rem, 12vh, 8rem) 5vw;
-            border-top: 2px solid #8B0000;
-        }
-
-        .contact-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-title {
-            font-size: clamp(2.4rem, 7vw, 3.6rem);
-            color: #ff0000;
-            margin-bottom: 1.8rem;
-            text-shadow: 2px 2px 12px #000;
-            letter-spacing: 1px;
-        }
-
-        .contact-subtitle {
-            font-size: clamp(1.3rem, 4vw, 1.7rem);
-            color: #ffdddd;
-            margin-bottom: 2.5rem;
-            max-width: 760px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.5;
-        }
-
-        .contact-options {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2.5rem;
-            margin: 2rem 0 3rem;
-        }
-
-        .contact-block {
-            background: linear-gradient(135deg, #220000, #0a0000);
-            border: 3px solid #ff0000;
-            border-radius: 16px;
-            padding: clamp(1.8rem, 4vw, 2.5rem);
-            width: 100%;
-            max-width: 580px;
-            box-shadow: 0 10px 30px rgba(255,0,0,0.25);
-            transition: all 0.35s;
-        }
-
-        .contact-block:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(255,0,0,0.4);
-        }
-
-        .contact-block h3 {
-            color: #ff8800;
-            font-size: clamp(1.5rem, 4vw, 1.9rem);
-            margin-bottom: 1rem;
-        }
-
-        .contact-block p {
-            font-size: clamp(1.05rem, 3vw, 1.25rem);
-            color: #ffdddd;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-cta {
-            background: #25D366;
+        /* ================================================== */
+        /*           BOTÓN LOVERFANS RESTAURADO              */
+        /* ================================================== */
+        .contact-cta.lovers {
+            display: inline-block;
+            background: #ff3366;
             color: white;
-            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
             font-weight: bold;
-            padding: 1.2rem 3rem;
+            padding: 1rem 2.2rem;
             border-radius: 60px;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 25px rgba(37,213,102,0.5);
-            transition: all 0.4s;
-            margin-top: 1.2rem;
-        }
-
-        .contact-cta:hover {
-            background: #128C7E;
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(37,213,102,0.7);
-        }
-
-        .contact-cta.lovers {
-            background: #ff3366;
+            margin-top: 1.5rem;
+            box-shadow: 
+                0 0 15px rgba(255, 51, 102, 0.7),
+                0 0 30px rgba(255, 51, 102, 0.4),
+                inset 0 0 10px rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
         }
 
         .contact-cta.lovers:hover {
-            background: #d92a55;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 0 25px rgba(255, 51, 102, 0.9),
+                0 0 50px rgba(255, 51, 102, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.25);
         }
 
         /* ================================================== */
-        /*                  DESKTOP (sin cambios)             */
+        /*           BOTÓN FLOTANTE WHATSAPP                 */
         /* ================================================== */
-
-        @media (min-width: 950px) {
-            .contact-options {
-                flex-direction: column;
-                align-items: center;
-            }
+        .whatsapp-float {
+            position: fixed;
+            width: 70px;
+            height: 70px;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 40px;
+            box-shadow: 0 10px 25px rgba(37, 213, 102, 0.55);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.15);
+            background: #128C7E;
+            box-shadow: 0 15px 35px rgba(37, 213, 102, 0.7);
+        }
+        .whatsapp-float i {
+            font-size: 42px;
+        }
+        .whatsapp-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(37, 213, 102, 0.4);
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
         }
 
+        /* Color amarillo para las frases destacadas */
+        .highlight-yellow {
+            color: #ffcc00;
+            font-weight: 700;
+        }
+
+        /* ================================================== */
+        /*                  DESKTOP                           */
+        /* ================================================== */
         @media (min-width: 1101px) {
             .main-content {
                 flex-direction: row;
             }
-            .carousel-column, .sidebar {
+            .block {
                 flex: 1 1 340px;
             }
+            #carrusel-top,
+            #carrusel-bottom {
+                aspect-ratio: 1 / 1 !important;
+                height: auto;
+                max-height: none;
+            }
         }
 
         /* ================================================== */
-        /*           MÓVIL - Orden exacto solicitado          */
+        /*                  MÓVIL                             */
         /* ================================================== */
-
         @media (max-width: 1100px) {
-
             .main-content {
-                display: grid;
-                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
                 gap: 2.5rem;
             }
-
-            /* Hacemos que los contenedores internos no interfieran */
-            .carousel-column,
-            .sidebar,
-            .price-cards {
+            .block {
                 display: contents;
             }
-
-            /* Asignamos el orden deseado */
-            #carrusel-top                                 { order: 1; }
-            .sidebar .price-card:first-of-type            { order: 2; }  /* Encuentros Presenciales */
-            .grabacion-card                               { order: 3; }
-            .carousel-column .aviso-card:first-of-type    { order: 4; }  /* IMPORTANTE – LEE BIEN */
-            #carrusel-bottom                              { order: 5; }
-            .sidebar .price-card:last-of-type             { order: 6; }  /* Servicios Adicionales */
-            .carousel-column .aviso-card:last-of-type     { order: 7; }  /* Hazte fan en Loverfans */
-            .social-section                               { order: 8; }
-
+            /* Orden en móvil */
+            #carrusel-top              { order: 1; }
+            #price-presenciales        { order: 2; }
+            #grabacion-card            { order: 3; }
+            #aviso-importante          { order: 4; }
+            #carrusel-bottom           { order: 5; }
+            #price-adicionales         { order: 6; }
+            #aviso-loverfans           { order: 7; }
+            #social-section            { order: 8; }
             #carrusel-bottom {
-                max-height: 380px;
+                aspect-ratio: 1 / 1.15;
+                max-height: 420px;
+            }
+            .whatsapp-float {
+                width: 65px;
+                height: 65px;
+                bottom: 25px;
+                right: 25px;
+            }
+            .whatsapp-float i {
+                font-size: 38px;
             }
         }
-
         @media (max-width: 600px) {
             .social-icons { gap: 1.8rem; }
             .social-icon { font-size: clamp(2.5rem, 10vw, 3.5rem); }
-            .contact-options { gap: 2rem; }
-            .contact-block { padding: 1.6rem; }
             .top-bar { font-size: clamp(0.95rem, 3.5vw, 1.1rem); padding: 0.9rem 6vw; }
         }
     </style>
 </head>
 <body>
-
-    <!-- El resto del HTML permanece exactamente igual que en tu versión anterior -->
 
     <div class="top-bar">
         Solo para <span>caballeros solventes, de mente abierta</span>, discretos, limpios y respetuosos
@@ -455,7 +408,10 @@
     </header>
 
     <div class="main-content">
-        <div class="carousel-column">
+
+        <!-- Columna izquierda -->
+        <div class="block left">
+
             <div class="carousel" id="carrusel-top">
                 <div class="carousel-inner" id="carouselInnerTop">
                     <div class="carousel-item"><img src="img/teaser1.jpg" alt="Teaser 1"></div>
@@ -465,7 +421,7 @@
                 </div>
             </div>
 
-            <div class="aviso-card">
+            <div class="aviso-card" id="aviso-importante">
                 <h3>IMPORTANTE – LEE BIEN</h3>
                 <ul>
                     <li><strong>Seguidores verificados de Loverfans:</strong> solo dime tu usuario y arrancamos ya (prioridad máxima)</li>
@@ -477,20 +433,18 @@
                 </ul>
             </div>
 
-            <div class="aviso-card" style="border-color: #ff8800; background: linear-gradient(135deg, #220000, #000);">
+            <div class="aviso-card loverfans" id="aviso-loverfans">
                 <h3>HAZTE FAN EN LOVERFANS</h3>
                 <p>Suscríbete ahora y disfruta de todo mi contenido sin censura:<br>
-                Hotwife latina real, estilo de vida cornudo, mis encuentros más calientes,<br>
-                videos y fotos exclusivas, material constante y morbo sin límites 🔥<br>
+                Hotwife latina real, estilo de vida cornudo, mis encuentros más calientes, videos y fotos exclusivas, material constante y morbo sin límites<br>
                 ¡Prioridad total para mis suscriptores verificados!</p>
                 <a href="https://loverfans.com/sindyhotwife"
                    class="contact-cta lovers" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-heart"></i>
-                    Toca aquí ahora
+                    <span>♥ Toca aquí ahora</span>
                 </a>
             </div>
 
-            <div class="social-section">
+            <div class="social-section" id="social-section">
                 <h4>Mis plataformas VIP</h4>
                 <div class="social-icons">
                     <a href="https://loverfans.com/sindyhotwife" target="_blank" rel="noopener noreferrer">
@@ -503,89 +457,76 @@
                         <i class="fab fa-telegram-plane social-icon telegram"></i>
                     </a>
                 </div>
-
                 <p class="social-teaser">
                     Contenido real, encuentros reales y morbo sin censura
                 </p>
             </div>
-        </div>
 
-        <div class="sidebar">
-            <div class="price-cards">
-                <div class="price-card">
-                    <h3>Encuentros Presenciales</h3>
-                    <div class="price-main"> S/150 <span style="font-size:0.55em; opacity:0.85; font-weight:400;">x hora</span></div>
-                    <p class="price-desc">
-                        A solas en un cuarto de hotel, desnudos, sin prisas y sin tabúes, besos robados, orales mutuos, todas las posiciones y gemidos intensos mientras me haces tuya.<br>
-                        Piel con piel y morbo hasta el cansancio<br>
-                        <strong>¡Me dejo llevar!</strong>
-                    </p>
-                    <p class="price-benefit">
-                        <strong>Seguidores verificados de Loverfans:</strong><br>
-                        precio especial <strong>S/120 x hora</strong> (20% OFF)
-                    </p>
+        </div><!-- .block.left -->
+
+
+        <!-- Columna derecha -->
+        <div class="block right">
+
+            <div class="price-card" id="price-presenciales">
+                <h3>Encuentros Presenciales</h3>
+                <div class="price-main">S/150 <span style="font-size:0.55em; opacity:0.85; font-weight:400;">x hora</span></div>
+                <p class="price-desc">
+                    A solas en un cuarto de hotel, desnudos, sin prisas y sin tabúes, besos robados, orales mutuos, todas las posiciones y gemidos intensos mientras me haces tuya.<br>
+                    Piel con piel y morbo hasta el cansancio<br>
+                    <strong>¡Me dejo llevar!</strong>
+                </p>
+                <p class="price-benefit">
+                    <strong>Seguidores verificados de Loverfans:</strong><br>
+                    precio especial <strong>S/120 x hora</strong> (20% OFF)
+                </p>
+            </div>
+
+            <div class="grabacion-card" id="grabacion-card">
+                <h3>GRABO TODOS MIS ENCUENTROS</h3>
+                <p>El morbo es mío, de mi marido cornudo y nuestro juego. <strong>Grabamos todo</strong> porque nos encanta revivirlo después. Fotos y videos del encuentro se comparten contigo como parte del placer. <span class="highlight-yellow">NUNCA grabo tu rostro.</span><br><span class="highlight-yellow">Discreción total</span> + morbo extremo. Mucho más rico si eres fan verificado</p>
+            </div>
+
+            <div class="price-card" id="price-adicionales">
+                <h3>Servicios Adicionales</h3>
+                <div class="price-main">
+                    <span class="from">desde</span> S/100
                 </div>
+                <p class="price-desc">
+                    ¿Quieres que sea aún más intenso?<br>
+                    <ul>
+                        <li><span class="highlight-yellow">Lencería</span> que mi marido me compra especialmente para que otro me la quite</li>
+                        <li><span class="highlight-yellow">Tomemos una ducha</span> mientras seguimos cogiendo bien mojados</li>
+                        <li><span class="highlight-yellow">Te doy mi colita</span> si me gustas, me mojas rico y me excitas de verdad</li>
+                    </ul>
+                </p>
+            </div>
 
-                <div class="grabacion-card">
-                    <h3>GRABO TODOS MIS ENCUENTROS</h3>
-                    <p>El morbo es mío, de mi marido cornudo y nuestro juego. <strong>Grabamos todo</strong> porque nos encanta revivirlo después. Fotos y videos del encuentro se comparten contigo como parte del placer. <strong>NUNCA grabo tu rostro.</strong><br>Discreción total + morbo extremo. Mucho más rico si eres fan verificado</p>
-                </div>
-
-                <div class="price-card">
-    <h3>Servicios Adicionales</h3>
-    <div class="price-main">
-        <span class="from">desde</span> S/100
-    </div>
-    <p class="price-desc">
-        ¿Quieres que sea aún más intenso?<br>
-        <ul>
-            
-            <li>Lencería que mi marido me compra especialmente para que otro me la quite</li>
-            <li>Tomemos una ducha mientras seguimos cogiendo bien mojados</li>
-            <li>Te doy mi colita si me gustas, me mojas rico y me excitas de verdad</li>
-        </ul>
-    </p>
-</div>
-
-                <div class="carousel" id="carrusel-bottom">
-                    <div class="carousel-inner" id="carouselInnerBottom">
-                        <div class="carousel-item"><img src="img/teaser2.jpg" alt="Teaser 2"></div>
-                        <div class="carousel-item"><img src="img/teaser4.jpg" alt="Teaser 4"></div>
-                        <div class="carousel-item"><img src="img/teaser5.jpg" alt="Teaser 5"></div>
-                        <div class="carousel-item"><img src="img/teaser7.jpg" alt="Teaser 7"></div>
-                    </div>
+            <div class="carousel" id="carrusel-bottom">
+                <div class="carousel-inner" id="carouselInnerBottom">
+                    <div class="carousel-item"><img src="img/teaser2.jpg" alt="Teaser 2"></div>
+                    <div class="carousel-item"><img src="img/teaser4.jpg" alt="Teaser 4"></div>
+                    <div class="carousel-item"><img src="img/teaser5.jpg" alt="Teaser 5"></div>
+                    <div class="carousel-item"><img src="img/teaser7.jpg" alt="Teaser 7"></div>
                 </div>
             </div>
-        </div>
+
+        </div><!-- .block.right -->
+
     </div>
-
-    <section class="new-contact-section" id="contacto">
-        <div class="contact-wrapper">
-            <h2 class="contact-title">HAGAMOS UNA CITA AHORA</h2>
-            
-            <p class="contact-subtitle">
-                Una hora de sexo con una mujer casada y muy infiel<br>
-                ¿Te atreves?
-            </p>
-
-            <div class="contact-options">
-                <div class="contact-block">
-                    <h3>WhatsApp directo</h3>
-                    <p>Mándame mensaje ahora mismo.<br>
-                    Respondo rápido cuando me gusta lo que veo</p>
-                    <a href="https://wa.me/51929719499?text=Hola%20Sindy%20quiero%20verte%20en%20acción"
-                       class="contact-cta" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-whatsapp"></i>
-                        Mándame un Whats
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <footer>
         <p>¡Soy real y esto es SOLO POR MORBO! Discreción absoluta. 😈🍑💦</p>
     </footer>
+
+    <!-- Botón flotante WhatsApp -->
+    <a href="https://wa.me/51929719499?text=Hola%20Sindy%20quiero%20verte%20en%20acción" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer">
+        <div class="whatsapp-pulse"></div>
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script>
         let currentSlideTop = 0;
