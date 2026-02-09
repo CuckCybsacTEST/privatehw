@@ -375,6 +375,10 @@
             background: #d92a55;
         }
 
+        /* ================================================== */
+        /*                  DESKTOP (sin cambios)             */
+        /* ================================================== */
+
         @media (min-width: 950px) {
             .contact-options {
                 flex-direction: column;
@@ -382,10 +386,47 @@
             }
         }
 
+        @media (min-width: 1101px) {
+            .main-content {
+                flex-direction: row;
+            }
+            .carousel-column, .sidebar {
+                flex: 1 1 340px;
+            }
+        }
+
+        /* ================================================== */
+        /*           MÓVIL - Orden exacto solicitado          */
+        /* ================================================== */
+
         @media (max-width: 1100px) {
-            .main-content { flex-direction: column; gap: 2.5rem; }
-            .carousel-column, .sidebar { max-width: 100%; }
-            #carrusel-bottom { max-height: 380px; }
+
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            /* Hacemos que los contenedores internos no interfieran */
+            .carousel-column,
+            .sidebar,
+            .price-cards {
+                display: contents;
+            }
+
+            /* Asignamos el orden deseado */
+            #carrusel-top                                 { order: 1; }
+            .sidebar .price-card:first-of-type            { order: 2; }  /* Encuentros Presenciales */
+            .grabacion-card                               { order: 3; }
+            .carousel-column .aviso-card:first-of-type    { order: 4; }  /* IMPORTANTE – LEE BIEN */
+            #carrusel-bottom                              { order: 5; }
+            .sidebar .price-card:last-of-type             { order: 6; }  /* Servicios Adicionales */
+            .carousel-column .aviso-card:last-of-type     { order: 7; }  /* Hazte fan en Loverfans */
+            .social-section                               { order: 8; }
+
+            #carrusel-bottom {
+                max-height: 380px;
+            }
         }
 
         @media (max-width: 600px) {
@@ -399,15 +440,17 @@
 </head>
 <body>
 
+    <!-- El resto del HTML permanece exactamente igual que en tu versión anterior -->
+
     <div class="top-bar">
-        Solo para <span>caballeros solventes</span>, discretos, limpios y respetuosos
+        Solo para <span>caballeros solventes, de mente abierta</span>, discretos, limpios y respetuosos
     </div>
 
     <header id="home">
         <div class="hero">
             <h1>Sindy Mireya</h1>
             <p>Putiesposa caleta, gritona de 30 años, casada y con permiso del marido cornudo – solo para caballeros de mente abierta</p>
-            <p class="hero-subtitle">1.60 m · culo delicioso · muy caliente en la cama</p>
+            <p class="hero-subtitle">1.63 m · culo delicioso · muy caliente en la cama</p>
         </div>
     </header>
 
@@ -415,10 +458,10 @@
         <div class="carousel-column">
             <div class="carousel" id="carrusel-top">
                 <div class="carousel-inner" id="carouselInnerTop">
-                    <div class="carousel-item"><img src="https://i.ibb.co/SDXHytFq/image.jpg" alt="Teaser 1"></div>
-                    <div class="carousel-item"><img src="https://i.ibb.co/qF9F89W9/image.jpg" alt="Teaser 2"></div>
-                    <div class="carousel-item"><img src="https://i.ibb.co/GQ64j4pL/image.jpg" alt="Teaser 3"></div>
-                    <div class="carousel-item"><img src="https://i.ibb.co/bjfFtY2M/image.jpg" alt="Teaser 4"></div>
+                    <div class="carousel-item"><img src="img/teaser1.jpg" alt="Teaser 1"></div>
+                    <div class="carousel-item"><img src="img/teaser3.jpg" alt="Teaser 3"></div>
+                    <div class="carousel-item"><img src="img/teaser6.jpg" alt="Teaser 6"></div>
+                    <div class="carousel-item"><img src="img/teaser8.jpg" alt="Teaser 8"></div>
                 </div>
             </div>
 
@@ -443,12 +486,12 @@
                 <a href="https://loverfans.com/sindyhotwife"
                    class="contact-cta lovers" target="_blank" rel="noopener noreferrer">
                     <i class="fas fa-heart"></i>
-                    Ir a mi Loverfans ahora
+                    Toca aquí ahora
                 </a>
             </div>
 
             <div class="social-section">
-                <h4>Mis plataformas</h4>
+                <h4>Mis plataformas VIP</h4>
                 <div class="social-icons">
                     <a href="https://loverfans.com/sindyhotwife" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-heart social-icon loverfans"></i>
@@ -471,12 +514,11 @@
             <div class="price-cards">
                 <div class="price-card">
                     <h3>Encuentros Presenciales</h3>
-                    <div class="price-main">💰 S/150 <span style="font-size:0.55em; opacity:0.85; font-weight:400;">x hora</span></div>
+                    <div class="price-main"> S/150 <span style="font-size:0.55em; opacity:0.85; font-weight:400;">x hora</span></div>
                     <p class="price-desc">
-                        A solas en un cuarto de hotel, completamente desnudos, sin prisas y sin tabúes.<br>
-                        Besos robados, orales mutuos profundos, todas las posiciones que se te ocurran y mis gemidos bien fuertes mientras me haces perder el control.<br>
-                        Sudor, piel contra piel, entrega total y un morbo que no para hasta que los dos estemos exhaustos.<br>
-                        <strong>Morbo puro y sin censura.</strong>
+                        A solas en un cuarto de hotel, desnudos, sin prisas y sin tabúes, besos robados, orales mutuos, todas las posiciones y gemidos intensos mientras me haces tuya.<br>
+                        Piel con piel y morbo hasta el cansancio<br>
+                        <strong>¡Me dejo llevar!</strong>
                     </p>
                     <p class="price-benefit">
                         <strong>Seguidores verificados de Loverfans:</strong><br>
@@ -490,25 +532,27 @@
                 </div>
 
                 <div class="price-card">
-                    <h3>Servicios Adicionales</h3>
-                    <div class="price-main">
-                        <span class="from">desde</span> S/50
-                    </div>
-                    <p class="price-desc">
-                        ¿Quieres que la cosa se ponga todavía más intensa?<br>
-                        Me puedo poner la lencería que mi marido cornudo me compra especialmente para que tú me la quites despacito…<br>
-                        O podemos irnos a la ducha y seguir cogiendo bien mojados, con el agua resbalando por nuestros cuerpos mientras no paramos.<br>
-                        Y si me gustas mucho, me mojas rico, me excitas de verdad y me convences… también te doy mi colita.<br>
-                        Todo lo que haga que el morbo explote aún más fuerte, depende de cuánto me pongas y de lo que me pidas.
-                    </p>
-                </div>
+    <h3>Servicios Adicionales</h3>
+    <div class="price-main">
+        <span class="from">desde</span> S/100
+    </div>
+    <p class="price-desc">
+        ¿Quieres que sea aún más intenso?<br>
+        <ul>
+            
+            <li>Lencería que mi marido me compra especialmente para que otro me la quite</li>
+            <li>Tomemos una ducha mientras seguimos cogiendo bien mojados</li>
+            <li>Te doy mi colita si me gustas, me mojas rico y me excitas de verdad</li>
+        </ul>
+    </p>
+</div>
 
                 <div class="carousel" id="carrusel-bottom">
                     <div class="carousel-inner" id="carouselInnerBottom">
-                        <div class="carousel-item"><img src="https://i.ibb.co/SDXHytFq/image.jpg" alt="Teaser 1"></div>
-                        <div class="carousel-item"><img src="https://i.ibb.co/qF9F89W9/image.jpg" alt="Teaser 2"></div>
-                        <div class="carousel-item"><img src="https://i.ibb.co/GQ64j4pL/image.jpg" alt="Teaser 3"></div>
-                        <div class="carousel-item"><img src="https://i.ibb.co/bjfFtY2M/image.jpg" alt="Teaser 4"></div>
+                        <div class="carousel-item"><img src="img/teaser2.jpg" alt="Teaser 2"></div>
+                        <div class="carousel-item"><img src="img/teaser4.jpg" alt="Teaser 4"></div>
+                        <div class="carousel-item"><img src="img/teaser5.jpg" alt="Teaser 5"></div>
+                        <div class="carousel-item"><img src="img/teaser7.jpg" alt="Teaser 7"></div>
                     </div>
                 </div>
             </div>
@@ -517,10 +561,11 @@
 
     <section class="new-contact-section" id="contacto">
         <div class="contact-wrapper">
-            <h2 class="contact-title">¿Quieres vivirlo conmigo?</h2>
+            <h2 class="contact-title">HAGAMOS UNA CITA AHORA</h2>
             
             <p class="contact-subtitle">
-                Una hora de sexo sin censura con una esposa muy infiel
+                Una hora de sexo con una mujer casada y muy infiel<br>
+                ¿Te atreves?
             </p>
 
             <div class="contact-options">
