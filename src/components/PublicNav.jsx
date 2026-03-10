@@ -50,6 +50,17 @@ export function PublicNav() {
                     : 'public-nav-link'
                 }
                 href={item.href}
+                onClick={() => {
+                  const sectionId = item.href.split('#')[1]
+
+                  if (pathname === '/' && sectionId) {
+                    window.dispatchEvent(
+                      new CustomEvent('section-nav-arrive', {
+                        detail: { sectionId },
+                      }),
+                    )
+                  }
+                }}
               >
                 {item.label}
               </a>

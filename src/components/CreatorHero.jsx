@@ -1,12 +1,39 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SubscriptionPlanSelector } from './SubscriptionPlanSelector'
 import { useAppState } from '../state/AppState'
+
+function getHeroViewportMode() {
+  if (typeof window === 'undefined') {
+    return 'desktop'
+  }
+
+  if (window.innerWidth > 900) {
+    return 'desktop'
+  }
+
+  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
+    return 'compact'
+  }
+
+  return 'regular'
+}
 
 export function CreatorHero({ content }) {
   const navigate = useNavigate()
   const { session, subscriptionProducts } = useAppState()
-  const subscriptionTable = content.creatorHome.subscriptionTable
   const defaultSubscriptionProduct = subscriptionProducts[0] || null
+  const [heroViewportMode, setHeroViewportMode] = useState(() => getHeroViewportMode())
+
+  useEffect(() => {
+    function handleViewportChange() {
+      setHeroViewportMode(getHeroViewportMode())
+    }
+
+    handleViewportChange()
+    window.addEventListener('resize', handleViewportChange)
+
+    return () => window.removeEventListener('resize', handleViewportChange)
+  }, [])
 
   function handleMembershipRoute(selectedPlanProduct) {
     const targetProduct = selectedPlanProduct || defaultSubscriptionProduct
@@ -24,8 +51,8 @@ export function CreatorHero({ content }) {
   }
 
   return (
-    <section className="creator-hero-section">
-      <div className="creator-hero-copy">
+    <section className={`creator-hero-section is-hero-${heroViewportMode}`}>
+      <div className={`creator-hero-copy is-hero-${heroViewportMode}`} id="home-top">
         <p className="creator-kicker">{content.creatorHome.kicker}</p>
         <h1>{content.creatorHome.title}</h1>
         <p className="creator-lead">{content.creatorHome.description}</p>
@@ -54,41 +81,6 @@ export function CreatorHero({ content }) {
               <span>{stat.label}</span>
             </article>
           ))}
-        </div>
-      </div>
-
-        <div className="creator-hero-visual" id="access-total">
-        <div className="creator-portrait-frame">
-          <img
-            src={content.creatorHome.heroImage}
-            alt="Creator portrait"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-          />
-        </div>
-
-        <div className="creator-profile-card">
-          <p className="creator-profile-eyebrow">{subscriptionTable.eyebrow}</p>
-          <h2>{subscriptionTable.title}</h2>
-          <p>{subscriptionTable.description}</p>
-          <p className="creator-subscription-access">{subscriptionTable.accessLabel}</p>
-
-          <div className="creator-subscription-table">
-            {subscriptionTable.rows.map((row) => (
-              <div className="creator-subscription-row" key={row.label}>
-                <span>{row.label}</span>
-                <strong>{row.value}</strong>
-              </div>
-            ))}
-          </div>
-
-          <SubscriptionPlanSelector
-            subscriptionProducts={subscriptionProducts}
-            subscriptionTable={subscriptionTable}
-            onPurchase={handleMembershipRoute}
-            context="hero"
-          />
         </div>
       </div>
     </section>

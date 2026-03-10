@@ -2,6 +2,22 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/AppState'
 
+function getMerchViewportMode() {
+  if (typeof window === 'undefined') {
+    return 'desktop'
+  }
+
+  if (window.innerWidth > 900) {
+    return 'desktop'
+  }
+
+  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
+    return 'compact'
+  }
+
+  return 'regular'
+}
+
 export function PhysicalMerchSection({ content }) {
   const navigate = useNavigate()
   const { products, session } = useAppState()
@@ -10,6 +26,7 @@ export function PhysicalMerchSection({ content }) {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
   )
+  const [merchViewportMode, setMerchViewportMode] = useState(() => getMerchViewportMode())
   const [visibleItems, setVisibleItems] = useState(() => merch.items.slice(0, 2))
 
   const merchItems = useMemo(() => merch.items || [], [merch.items])
@@ -17,6 +34,7 @@ export function PhysicalMerchSection({ content }) {
   useEffect(() => {
     function handleViewportChange() {
       setIsMobile(window.innerWidth <= 900)
+      setMerchViewportMode(getMerchViewportMode())
     }
 
     handleViewportChange()
@@ -82,8 +100,8 @@ export function PhysicalMerchSection({ content }) {
   }
 
   return (
-    <section className="physical-merch-section" id="merch">
-      <div className="physical-merch-shell">
+    <section className={`physical-merch-section is-merch-${merchViewportMode}`} id="merch">
+      <div className={`physical-merch-shell is-merch-${merchViewportMode}`}>
         <div className="section-heading">
           <p className="section-kicker">{merch.kicker}</p>
           <h2>{merch.title}</h2>

@@ -10,7 +10,7 @@ function resolveProductVisual(product, siteContent) {
   }
 
   if (product.productType === 'subscription') {
-    return siteContent.creatorHome.heroImage
+    return siteContent.accessTotal.heroImage
   }
 
   if (product.productType === 'video') {
@@ -124,7 +124,7 @@ export function CheckoutStartPage() {
               </div>
               {product.productType === 'subscription' ? (
                 <p className="checkout-subscription-note">
-                  Duracion: {product.metadata?.planPeriod || 'Plan temporal'} Â· Renovacion manual.
+                  Duracion: {product.metadata?.planPeriod || 'Plan temporal'} · Renovacion manual.
                 </p>
               ) : null}
             </div>
@@ -155,3 +155,4 @@ export function CheckoutStartPage() {
     </main>
   )
 }
+

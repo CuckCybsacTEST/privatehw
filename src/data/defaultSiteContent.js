@@ -67,6 +67,7 @@ export const defaultSiteContent = {
   bottomCarouselImages,
   sectionVisibility: {
     creatorHero: true,
+    accessTotal: true,
     mediaSpotlight: false,
     videoLibrary: true,
     videoCollections: true,
@@ -91,7 +92,6 @@ export const defaultSiteContent = {
     primaryCtaLabel: 'Acceder a membership',
     primaryCtaUrl: 'https://loverfans.com/sindyhotwife',
     secondaryCtaLabel: 'Explorar catalogo',
-    heroImage: 'img/teaser11.jpg',
     stats: [
       { value: '12+', label: 'assets iniciales' },
       { value: '3', label: 'capas de monetizacion' },
@@ -105,71 +105,72 @@ export const defaultSiteContent = {
       'Seccion separada para encuentros en /encuentros',
       'Base lista para blog, previews y video completo',
     ],
-    subscriptionTable: {
-      eyebrow: 'Acceso total',
-      title: 'Suscripcion premium',
-      description:
-        'Desbloquea el contenido principal del sitio, videos premium, packs destacados y futuras actualizaciones desde un solo acceso.',
-      price: 'S/79',
-      discountPercent: '0',
-      discountLabel: 'Oferta activa',
-      period: 'por mes',
-      plans: [
-        {
-          slug: 'monthly',
-          label: 'Mensual',
-          period: '1 mes',
-          durationValue: '1',
-          durationUnit: 'months',
-          price: 'S/79',
-          discountPercent: '0',
-          discountLabel: 'Oferta activa',
-          promoNote: 'Flexibilidad total para probar el acceso premium.',
-        },
-        {
-          slug: 'quarterly',
-          label: 'Trimestral',
-          period: '3 meses',
-          durationValue: '3',
-          durationUnit: 'months',
-          price: 'S/150',
-          discountPercent: '0',
-          discountLabel: 'Oferta activa',
-          promoNote: 'Mejor equilibrio entre precio y continuidad.',
-        },
-        {
-          slug: 'semiannual',
-          label: 'Semestral',
-          period: '6 meses',
-          durationValue: '6',
-          durationUnit: 'months',
-          price: 'S/250',
-          discountPercent: '0',
-          discountLabel: 'Oferta activa',
-          promoNote: 'Ideal para acceso prolongado con mejor ahorro.',
-        },
-        {
-          slug: 'annual',
-          label: 'Anual',
-          period: '12 meses',
-          durationValue: '12',
-          durationUnit: 'months',
-          price: 'S/300',
-          discountPercent: '0',
-          discountLabel: 'Oferta activa',
-          promoNote: 'La opcion con mayor ahorro para todo el ano.',
-        },
-      ],
-      accessLabel: 'Desbloquea todo el contenido web',
-      ctaLabel: 'Suscribirme ahora',
-      ctaUrl: 'https://loverfans.com/sindyhotwife',
-      rows: [
-        { label: 'Videos premium', value: 'Incluidos' },
-        { label: 'Packs destacados', value: 'Incluidos' },
-        { label: 'Blog privado', value: 'Acceso activo' },
-        { label: 'Actualizaciones', value: 'Semanales' },
-      ],
-    },
+  },
+  accessTotal: {
+    eyebrow: 'Acceso total',
+    title: 'Suscripcion premium',
+    description:
+      'Desbloquea el contenido principal del sitio, videos premium, packs destacados y futuras actualizaciones desde un solo acceso.',
+    heroImage: 'img/teaser11.jpg',
+    price: 'S/79',
+    discountPercent: '0',
+    discountLabel: 'Oferta activa',
+    period: 'por mes',
+    plans: [
+      {
+        slug: 'monthly',
+        label: 'Mensual',
+        period: '1 mes',
+        durationValue: '1',
+        durationUnit: 'months',
+        price: 'S/79',
+        discountPercent: '0',
+        discountLabel: 'Oferta activa',
+        promoNote: 'Flexibilidad total para probar el acceso premium.',
+      },
+      {
+        slug: 'quarterly',
+        label: 'Trimestral',
+        period: '3 meses',
+        durationValue: '3',
+        durationUnit: 'months',
+        price: 'S/150',
+        discountPercent: '0',
+        discountLabel: 'Oferta activa',
+        promoNote: 'Mejor equilibrio entre precio y continuidad.',
+      },
+      {
+        slug: 'semiannual',
+        label: 'Semestral',
+        period: '6 meses',
+        durationValue: '6',
+        durationUnit: 'months',
+        price: 'S/250',
+        discountPercent: '0',
+        discountLabel: 'Oferta activa',
+        promoNote: 'Ideal para acceso prolongado con mejor ahorro.',
+      },
+      {
+        slug: 'annual',
+        label: 'Anual',
+        period: '12 meses',
+        durationValue: '12',
+        durationUnit: 'months',
+        price: 'S/300',
+        discountPercent: '0',
+        discountLabel: 'Oferta activa',
+        promoNote: 'La opcion con mayor ahorro para todo el ano.',
+      },
+    ],
+    accessLabel: 'Desbloquea todo el contenido web',
+    ctaLabel: 'Suscribirme ahora',
+    ctaUrl: 'https://loverfans.com/sindyhotwife',
+    rows: [
+      { label: 'Videos premium', value: 'Incluidos' },
+      { label: 'Packs destacados', value: 'Incluidos' },
+      { label: 'Blog privado', value: 'Acceso activo' },
+      { label: 'Actualizaciones', value: 'Semanales' },
+    ],
   },
   mediaSpotlight: {
     title: 'Galeria editorial para destacar el universo de la marca',
@@ -777,9 +778,11 @@ function mergeItemsBySlug(defaultItems = [], savedItems = []) {
 }
 
 export function mergeSiteContent(partialContent = {}) {
+  const legacyAccessTotal =
+    partialContent.accessTotal || partialContent.creatorHome?.subscriptionTable || {}
   const mergedSubscriptionPlans = mergeItemsBySlug(
-    defaultSiteContent.creatorHome.subscriptionTable.plans,
-    partialContent.creatorHome?.subscriptionTable?.plans || [],
+    defaultSiteContent.accessTotal.plans,
+    legacyAccessTotal.plans || [],
   )
 
   return {
@@ -795,14 +798,12 @@ export function mergeSiteContent(partialContent = {}) {
       profileHighlights:
         partialContent.creatorHome?.profileHighlights ||
         defaultSiteContent.creatorHome.profileHighlights,
-      subscriptionTable: {
-        ...defaultSiteContent.creatorHome.subscriptionTable,
-        ...(partialContent.creatorHome?.subscriptionTable || {}),
-        plans: mergedSubscriptionPlans,
-        rows:
-          partialContent.creatorHome?.subscriptionTable?.rows ||
-          defaultSiteContent.creatorHome.subscriptionTable.rows,
-      },
+    },
+    accessTotal: {
+      ...defaultSiteContent.accessTotal,
+      ...legacyAccessTotal,
+      plans: mergedSubscriptionPlans,
+      rows: legacyAccessTotal.rows || defaultSiteContent.accessTotal.rows,
     },
     mediaSpotlight: {
       ...defaultSiteContent.mediaSpotlight,

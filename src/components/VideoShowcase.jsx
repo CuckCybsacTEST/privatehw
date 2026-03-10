@@ -13,21 +13,30 @@ function shuffleItems(items) {
   return next
 }
 
+function getMobileCatalogMode() {
+  if (typeof window === 'undefined') {
+    return 'regular'
+  }
+
+  const { innerWidth, innerHeight } = window
+
+  if (innerWidth <= 390 || innerHeight <= 844) {
+    return 'compact'
+  }
+
+  return 'regular'
+}
+
 export function VideoShowcase({ content }) {
   const videoItems = useMemo(() => content.videoLibrary.items || [], [content.videoLibrary.items])
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
   )
-  const [mobileCardsPerPage, setMobileCardsPerPage] = useState(() => {
-    if (typeof window === 'undefined') {
-      return 2
-    }
-
-    return window.innerWidth <= 430 || window.innerHeight <= 820 ? 1 : 2
-  })
+  const [mobileCatalogMode, setMobileCatalogMode] = useState(() => getMobileCatalogMode())
   const [visibleItems, setVisibleItems] = useState(() => shuffleItems(videoItems).slice(0, 6))
   const [activeMobilePage, setActiveMobilePage] = useState(0)
   const pauseUntilRef = useRef(0)
+  const mobileCardsPerPage = mobileCatalogMode === 'compact' ? 1 : 2
   const mobilePages = useMemo(() => {
     const pages = []
 
@@ -41,7 +50,7 @@ export function VideoShowcase({ content }) {
   useEffect(() => {
     function handleViewportChange() {
       setIsMobile(window.innerWidth <= 900)
-      setMobileCardsPerPage(window.innerWidth <= 430 || window.innerHeight <= 820 ? 1 : 2)
+      setMobileCatalogMode(getMobileCatalogMode())
     }
 
     handleViewportChange()
@@ -94,7 +103,15 @@ export function VideoShowcase({ content }) {
   }
 
   return (
-    <section className="video-showcase-section" id="videos">
+    <section
+      className={[
+        'video-showcase-section',
+        isMobile ? `is-mobile-${mobileCatalogMode}` : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      id="videos"
+    >
       <div className="section-heading section-heading-split">
         <div>
           <p className="section-kicker">Catalogo premium</p>

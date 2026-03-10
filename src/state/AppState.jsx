@@ -622,14 +622,14 @@ export function AppProvider({ children }) {
     }
   }
 
-  const allowedSubscriptionSlugs = new Set(
-    (siteContent.creatorHome.subscriptionTable.plans || []).map(
-      (plan) => `membership-${plan.slug}`,
-    ),
-  )
-  const subscriptionProducts = (siteContent.creatorHome.subscriptionTable.plans || [])
-    .map((plan) =>
-      products.find(
+    const allowedSubscriptionSlugs = new Set(
+      (siteContent.accessTotal.plans || []).map(
+        (plan) => `membership-${plan.slug}`,
+      ),
+    )
+    const subscriptionProducts = (siteContent.accessTotal.plans || [])
+      .map((plan) =>
+        products.find(
         (product) =>
           product.slug === `membership-${plan.slug}` &&
           product.productType === 'subscription' &&

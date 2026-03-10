@@ -13,10 +13,29 @@ function shuffleItems(items) {
   return next
 }
 
+function getCollectionsViewportMode() {
+  if (typeof window === 'undefined') {
+    return 'desktop'
+  }
+
+  if (window.innerWidth > 900) {
+    return 'desktop'
+  }
+
+  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
+    return 'compact'
+  }
+
+  return 'regular'
+}
+
 export function VideoCollectionsSection({ content }) {
   const collectionItems = useMemo(() => content.videoCollections.items || [], [content.videoCollections.items])
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
+  )
+  const [collectionsViewportMode, setCollectionsViewportMode] = useState(() =>
+    getCollectionsViewportMode(),
   )
   const [visibleCollections, setVisibleCollections] = useState(() =>
     shuffleItems(collectionItems).slice(0, 4),
@@ -25,6 +44,7 @@ export function VideoCollectionsSection({ content }) {
   useEffect(() => {
     function handleViewportChange() {
       setIsMobile(window.innerWidth <= 900)
+      setCollectionsViewportMode(getCollectionsViewportMode())
     }
 
     handleViewportChange()
@@ -56,7 +76,10 @@ export function VideoCollectionsSection({ content }) {
   }, [collectionItems, isMobile])
 
   return (
-    <section className="video-collections-section" id="collections">
+    <section
+      className={`video-collections-section is-collections-${collectionsViewportMode}`}
+      id="collections"
+    >
       <div className="section-heading section-heading-split">
         <div>
           <p className="section-kicker">Packs y categorias</p>

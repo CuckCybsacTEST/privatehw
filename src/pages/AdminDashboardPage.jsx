@@ -253,16 +253,16 @@ function ContentEditor() {
     try {
       const migratedTop = await migrateImageList(draft.topCarouselImages, 'topCarouselImages')
       const migratedBottom = await migrateImageList(draft.bottomCarouselImages, 'bottomCarouselImages')
-      const migratedHeroImage = /^https?:\/\//i.test(draft.creatorHome.heroImage)
-        ? draft.creatorHome.heroImage
-        : (await uploadManagedMediaFromUrl(draft.creatorHome.heroImage, 'site-images', 'creatorHome')).publicUrl
+      const migratedHeroImage = /^https?:\/\//i.test(draft.accessTotal.heroImage)
+        ? draft.accessTotal.heroImage
+        : (await uploadManagedMediaFromUrl(draft.accessTotal.heroImage, 'site-images', 'accessTotal')).publicUrl
 
       const nextDraft = {
         ...draft,
         topCarouselImages: migratedTop,
         bottomCarouselImages: migratedBottom,
-        creatorHome: {
-          ...draft.creatorHome,
+        accessTotal: {
+          ...draft.accessTotal,
           heroImage: migratedHeroImage,
         },
       }
@@ -277,6 +277,7 @@ function ContentEditor() {
 
   const sectionButtons = [
     ['creator', 'Creator'],
+    ['access', 'Acceso total'],
     ['spotlight', 'Spotlight'],
     ['videos', 'Videos'],
     ['collections', 'Packs'],
@@ -331,7 +332,6 @@ function ContentEditor() {
             <Field label="CTA principal" value={draft.creatorHome.primaryCtaLabel} onChange={(value) => setDraftValue(['creatorHome', 'primaryCtaLabel'], value)} />
             <Field label="URL CTA principal" value={draft.creatorHome.primaryCtaUrl} onChange={(value) => setDraftValue(['creatorHome', 'primaryCtaUrl'], value)} />
             <Field label="CTA secundario" value={draft.creatorHome.secondaryCtaLabel} onChange={(value) => setDraftValue(['creatorHome', 'secondaryCtaLabel'], value)} />
-            <MediaField label="Hero image" note="Sube la imagen principal de la portada." accept="image/*" bucket="site-images" folder="creator-home" value={draft.creatorHome.heroImage} onUpload={(file, bucket, folder) => handleUploadToPath(file, ['creatorHome', 'heroImage'], bucket, folder)} />
             <div className="admin-repeater">
               <div className="admin-section-header">
                 <div>
@@ -352,105 +352,103 @@ function ContentEditor() {
                 </div>
               ))}
             </div>
+          </SectionPanel>
+        ) : null}
+
+        {activeSection === 'access' ? (
+          <SectionPanel title="Acceso total" description="Gestiona la tabla de precios y el bloque visual del acceso total como componente independiente.">
+            <Field label="Eyebrow" value={draft.accessTotal.eyebrow} onChange={(value) => setDraftValue(['accessTotal', 'eyebrow'], value)} />
+            <Field label="Titulo tabla" value={draft.accessTotal.title} onChange={(value) => setDraftValue(['accessTotal', 'title'], value)} />
+            <TextareaField label="Descripcion tabla" rows={4} value={draft.accessTotal.description} onChange={(value) => setDraftValue(['accessTotal', 'description'], value)} />
+            <Field label="Texto acceso" value={draft.accessTotal.accessLabel} onChange={(value) => setDraftValue(['accessTotal', 'accessLabel'], value)} />
+            <Field label="CTA tabla" value={draft.accessTotal.ctaLabel} onChange={(value) => setDraftValue(['accessTotal', 'ctaLabel'], value)} />
+            <Field label="URL CTA tabla" value={draft.accessTotal.ctaUrl} onChange={(value) => setDraftValue(['accessTotal', 'ctaUrl'], value)} />
+            <MediaField label="Imagen acceso total" note="Visual principal del bloque independiente de acceso total." accept="image/*" bucket="site-images" folder="access-total" value={draft.accessTotal.heroImage} onUpload={(file, bucket, folder) => handleUploadToPath(file, ['accessTotal', 'heroImage'], bucket, folder)} />
             <div className="admin-repeater">
               <div className="admin-section-header">
                 <div>
-                  <h3>Tabla de suscripcion</h3>
-                  <p className="admin-meta">Bloque superpuesto sobre la imagen para vender el acceso total.</p>
+                  <h3>Planes dinamicos</h3>
+                  <p className="admin-meta">Cada plan controla precio, descuento y cuanto tiempo se suma al acceso total.</p>
                 </div>
+                <button
+                  type="button"
+                  className="admin-secondary-button"
+                  onClick={() =>
+                    addListItem(['accessTotal', 'plans'], {
+                      slug: `plan-${Date.now()}`,
+                      label: 'Nuevo plan',
+                      period: '1 mes',
+                      durationValue: '1',
+                      durationUnit: 'months',
+                      price: 'S/0',
+                      discountPercent: '0',
+                      discountLabel: 'Oferta activa',
+                      promoNote: '',
+                    })
+                  }
+                >
+                  Agregar plan
+                </button>
               </div>
-              <Field label="Eyebrow" value={draft.creatorHome.subscriptionTable.eyebrow} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'eyebrow'], value)} />
-              <Field label="Titulo tabla" value={draft.creatorHome.subscriptionTable.title} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'title'], value)} />
-              <TextareaField label="Descripcion tabla" rows={4} value={draft.creatorHome.subscriptionTable.description} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'description'], value)} />
-              <Field label="Texto acceso" value={draft.creatorHome.subscriptionTable.accessLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'accessLabel'], value)} />
-              <Field label="CTA tabla" value={draft.creatorHome.subscriptionTable.ctaLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'ctaLabel'], value)} />
-              <Field label="URL CTA tabla" value={draft.creatorHome.subscriptionTable.ctaUrl} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'ctaUrl'], value)} />
-              <div className="admin-repeater">
-                <div className="admin-section-header">
-                  <div>
-                    <h3>Planes dinamicos</h3>
-                    <p className="admin-meta">Cada plan controla precio, descuento y cuantos meses se suman al acceso total.</p>
-                  </div>
+              {draft.accessTotal.plans.map((plan, index) => (
+                <div className="admin-array-card" key={plan.slug || `subscription-plan-${index}`}>
+                  <Field label="Slug" value={plan.slug} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'slug'], value)} />
+                  <Field label="Label visible" value={plan.label} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'label'], value)} />
+                  <Field label="Periodo visible" value={plan.period} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'period'], value)} />
+                  <Field label="Duracion" value={plan.durationValue || plan.durationMonths} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'durationValue'], value)} />
+                  <label className="admin-field">
+                    <span>Unidad</span>
+                    <select value={plan.durationUnit || 'months'} onChange={(event) => setDraftValue(['accessTotal', 'plans', index, 'durationUnit'], event.target.value)}>
+                      <option value="days">Dias</option>
+                      <option value="months">Meses</option>
+                    </select>
+                  </label>
+                  <Field label="Precio base" value={plan.price} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'price'], value)} />
+                  <Field label="Descuento (%)" value={plan.discountPercent} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'discountPercent'], value)} />
+                  <Field label="Label descuento" value={plan.discountLabel} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'discountLabel'], value)} />
+                  <TextareaField label="Nota promo" rows={3} value={plan.promoNote} onChange={(value) => setDraftValue(['accessTotal', 'plans', index, 'promoNote'], value)} />
                   <button
                     type="button"
-                    className="admin-secondary-button"
-                    onClick={() =>
-                      addListItem(['creatorHome', 'subscriptionTable', 'plans'], {
-                        slug: `plan-${Date.now()}`,
-                        label: 'Nuevo plan',
-                        period: '1 mes',
-                        durationValue: '1',
-                        durationUnit: 'months',
-                        price: 'S/0',
-                        discountPercent: '0',
-                        discountLabel: 'Oferta activa',
-                        promoNote: '',
-                      })
-                    }
+                    className="admin-danger-button"
+                    onClick={() => removeListItem(['accessTotal', 'plans'], index)}
                   >
-                    Agregar plan
+                    Eliminar plan
                   </button>
                 </div>
-                {draft.creatorHome.subscriptionTable.plans.map((plan, index) => (
-                  <div className="admin-array-card" key={plan.slug || `subscription-plan-${index}`}>
-                    <Field label="Slug" value={plan.slug} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'slug'], value)} />
-                    <Field label="Label visible" value={plan.label} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'label'], value)} />
-                    <Field label="Periodo visible" value={plan.period} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'period'], value)} />
-                    <Field label="Duracion" value={plan.durationValue || plan.durationMonths} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'durationValue'], value)} />
-                    <label className="admin-field">
-                      <span>Unidad</span>
-                      <select value={plan.durationUnit || 'months'} onChange={(event) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'durationUnit'], event.target.value)}>
-                        <option value="days">Dias</option>
-                        <option value="months">Meses</option>
-                      </select>
-                    </label>
-                    <Field label="Precio base" value={plan.price} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'price'], value)} />
-                    <Field label="Descuento (%)" value={plan.discountPercent} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'discountPercent'], value)} />
-                    <Field label="Label descuento" value={plan.discountLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'discountLabel'], value)} />
-                    <TextareaField label="Nota promo" rows={3} value={plan.promoNote} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'promoNote'], value)} />
-                    <button
-                      type="button"
-                      className="admin-danger-button"
-                      onClick={() => removeListItem(['creatorHome', 'subscriptionTable', 'plans'], index)}
-                    >
-                      Eliminar plan
-                    </button>
-                  </div>
-                ))}
+              ))}
+            </div>
+            <div className="admin-repeater">
+              <div className="admin-section-header">
+                <div>
+                  <h3>Filas de la tabla</h3>
+                  <p className="admin-meta">Cada fila muestra una capacidad o acceso desbloqueado.</p>
+                </div>
+                <button
+                  type="button"
+                  className="admin-secondary-button"
+                  onClick={() =>
+                    addListItem(['accessTotal', 'rows'], {
+                      label: 'Nueva fila',
+                      value: 'Incluido',
+                    })
+                  }
+                >
+                  Agregar fila
+                </button>
               </div>
-              <div className="admin-repeater">
-                <div className="admin-section-header">
-                  <div>
-                    <h3>Filas de la tabla</h3>
-                    <p className="admin-meta">Cada fila muestra una capacidad o acceso desbloqueado.</p>
-                  </div>
+              {draft.accessTotal.rows.map((row, index) => (
+                <div className="admin-array-card" key={`subscription-row-${index}`}>
+                  <Field label="Concepto" value={row.label} onChange={(value) => setDraftValue(['accessTotal', 'rows', index, 'label'], value)} />
+                  <Field label="Valor" value={row.value} onChange={(value) => setDraftValue(['accessTotal', 'rows', index, 'value'], value)} />
                   <button
                     type="button"
-                    className="admin-secondary-button"
-                    onClick={() =>
-                      addListItem(['creatorHome', 'subscriptionTable', 'rows'], {
-                        label: 'Nueva fila',
-                        value: 'Incluido',
-                      })
-                    }
+                    className="admin-danger-button"
+                    onClick={() => removeListItem(['accessTotal', 'rows'], index)}
                   >
-                    Agregar fila
+                    Eliminar
                   </button>
                 </div>
-                {draft.creatorHome.subscriptionTable.rows.map((row, index) => (
-                  <div className="admin-array-card" key={`subscription-row-${index}`}>
-                    <Field label="Concepto" value={row.label} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'rows', index, 'label'], value)} />
-                    <Field label="Valor" value={row.value} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'rows', index, 'value'], value)} />
-                    <button
-                      type="button"
-                      className="admin-danger-button"
-                      onClick={() => removeListItem(['creatorHome', 'subscriptionTable', 'rows'], index)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
           </SectionPanel>
         ) : null}
@@ -660,6 +658,7 @@ function ContentEditor() {
               </div>
               {[
                 ['creatorHero', 'Home: Hero principal'],
+                ['accessTotal', 'Home: Acceso total'],
                 ['mediaSpotlight', 'Home: Media spotlight'],
                 ['videoLibrary', 'Home: Videos individuales'],
                 ['videoCollections', 'Home: Packs y colecciones'],

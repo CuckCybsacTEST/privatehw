@@ -41,7 +41,7 @@ export function MembershipSection({ content }) {
           <p>{content.membership.planDescription}</p>
           <SubscriptionPlanSelector
             subscriptionProducts={subscriptionProducts}
-            subscriptionTable={content.creatorHome.subscriptionTable}
+            subscriptionTable={content.accessTotal}
             onPurchase={handleSubscribe}
             context="membership"
           />

@@ -87,11 +87,11 @@ export function normalizeSubscriptionPlans(subscriptionTable = {}) {
 }
 
 export function buildDefaultProducts(content = defaultSiteContent) {
-  const subscriptionPlans = normalizeSubscriptionPlans(content.creatorHome.subscriptionTable)
+  const subscriptionPlans = normalizeSubscriptionPlans(content.accessTotal)
 
   const subscriptionProducts = subscriptionPlans.map((plan) => ({
     slug: `membership-${plan.slug}`,
-    title: `${content.creatorHome.subscriptionTable.title || 'Acceso total'} Â· ${plan.label}`,
+    title: `${content.accessTotal.title || 'Acceso total'} · ${plan.label}`,
     productType: 'subscription',
     checkoutMode: 'payment',
     accessScope: 'all_digital',
@@ -222,3 +222,4 @@ export function normalizeEntitlement(entitlement = {}, fallbackIndex = 0) {
 export function normalizeEntitlements(entitlements = []) {
   return entitlements.map((entitlement, index) => normalizeEntitlement(entitlement, index))
 }
+
