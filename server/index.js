@@ -450,21 +450,31 @@ app.post('/api/stripe/create-checkout-session', async (req, res) => {
     assertServerConfig()
 
     const { user, profile } = await getAuthenticatedUser(req.headers.authorization || '')
-    const { productSlug } = req.body || {}
+    const { productSlug, context = {} } = req.body || {}
 
     if (!productSlug) {
       res.status(400).json({ error: 'Falta productSlug.', code: 'BAD_REQUEST' })
       return
     }
 
+    const physicalOrderRequestId = context.physicalOrderRequestId || ''
     const product = await resolveProductBySlug(productSlug)
     const customerId = await ensureStripeCustomer(profile)
+    const successQuery = [
+      'session_id={CHECKOUT_SESSION_ID}',
+      `product=${encodeURIComponent(product.slug)}`,
+      physicalOrderRequestId
+        ? `request=${encodeURIComponent(physicalOrderRequestId)}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join('&')
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: product.checkout_mode,
       customer: customerId,
       line_items: [buildLineItem(product)],
-      success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}&product=${encodeURIComponent(product.slug)}`,
+      success_url: `${appUrl}/checkout/success?${successQuery}`,
       cancel_url: `${appUrl}/checkout/cancel?product=${encodeURIComponent(product.slug)}`,
       client_reference_id: user.id,
       allow_promotion_codes: true,
@@ -473,6 +483,7 @@ app.post('/api/stripe/create-checkout-session', async (req, res) => {
         product_slug: product.slug,
         access_scope: product.access_scope,
         product_type: product.product_type,
+        physical_order_request_id: physicalOrderRequestId,
       },
       subscription_data:
         product.checkout_mode === 'subscription'

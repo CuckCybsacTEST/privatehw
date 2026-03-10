@@ -442,7 +442,7 @@ export const defaultSiteContent = {
     title: 'Colecciones premium listas para venderse por pack o categoria',
     description:
       'Bloque dedicado a bundles de videos, packs tematicos y categorias premium, con precio, cantidad de piezas y CTA directos.',
-    browseLabel: 'Ver todos los packs',
+    browseLabel: 'Ver todos',
     browseHref: '/packs',
     items: [
       {
@@ -695,6 +695,81 @@ export const defaultSiteContent = {
       },
     ],
   },
+  freeContent: {
+    kicker: 'Contenido Gratis',
+    title: 'Galeria gratuita para usuarios registrados',
+    description:
+      'Espacio exclusivo para usuarios con cuenta activa, pensado para discovery, pruebas de formato y una entrada ligera al ecosistema del sitio.',
+    accessNote: 'Tu cuenta ya puede acceder a esta galeria sin suscripcion activa.',
+    items: [
+      {
+        slug: 'free-media-01',
+        title: 'Media Asset 101',
+        description: 'Foto placeholder para poblar la galeria gratuita y validar el grid.',
+        category: 'Foto',
+        mediaType: 'image',
+        image: 'img/teaser1.jpg',
+        thumbnail: 'img/teaser1.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+      {
+        slug: 'free-media-02',
+        title: 'Media Asset 102',
+        description: 'Video placeholder preparado para futuras subidas o enlaces remotos.',
+        category: 'Video',
+        mediaType: 'video',
+        image: 'img/teaser4.jpg',
+        thumbnail: 'img/teaser4.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+      {
+        slug: 'free-media-03',
+        title: 'Media Asset 103',
+        description: 'Item adicional para enriquecer el browse y la experiencia de usuario registrada.',
+        category: 'Foto',
+        mediaType: 'image',
+        image: 'img/teaser7.jpg',
+        thumbnail: 'img/teaser7.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+      {
+        slug: 'free-media-04',
+        title: 'Media Asset 104',
+        description: 'Bloque neutral listo para thumbnails de video o clips cortos gratuitos.',
+        category: 'Video',
+        mediaType: 'video',
+        image: 'img/teaser9.jpg',
+        thumbnail: 'img/teaser9.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+      {
+        slug: 'free-media-05',
+        title: 'Media Asset 105',
+        description: 'Imagen adicional de ejemplo para una galeria gratuita mas amplia.',
+        category: 'Foto',
+        mediaType: 'image',
+        image: 'img/teaser11.jpg',
+        thumbnail: 'img/teaser11.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+      {
+        slug: 'free-media-06',
+        title: 'Media Asset 106',
+        description: 'Placeholder final para contenido gratis gestionado desde admin.',
+        category: 'Video',
+        mediaType: 'video',
+        image: 'img/teaser12.jpg',
+        thumbnail: 'img/teaser12.jpg',
+        mediaUrl: '',
+        isPublished: true,
+      },
+    ],
+  },
   membership: {
     title: 'Accesos, beneficios y caminos de compra',
     description:
@@ -834,6 +909,14 @@ export function mergeSiteContent(partialContent = {}) {
       items: mergeItemsBySlug(
         defaultSiteContent.physicalMerch.items,
         partialContent.physicalMerch?.items || [],
+      ),
+    },
+    freeContent: {
+      ...defaultSiteContent.freeContent,
+      ...(partialContent.freeContent || {}),
+      items: mergeItemsBySlug(
+        defaultSiteContent.freeContent.items,
+        partialContent.freeContent?.items || [],
       ),
     },
     sectionVisibility: {

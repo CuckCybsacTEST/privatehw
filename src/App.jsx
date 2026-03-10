@@ -7,12 +7,15 @@ import { BlogPostPage } from './pages/BlogPostPage'
 import { CheckoutCancelPage } from './pages/CheckoutCancelPage'
 import { CheckoutStartPage } from './pages/CheckoutStartPage'
 import { CheckoutSuccessPage } from './pages/CheckoutSuccessPage'
+import { CalzonesPage } from './pages/CalzonesPage'
 import { CollectionCatalogPage } from './pages/CollectionCatalogPage'
 import { EncuentrosPage } from './pages/EncuentrosPage'
+import { FreeContentPage } from './pages/FreeContentPage'
 import { HomePage } from './pages/HomePage'
 import { MemberLibraryPage } from './pages/MemberLibraryPage'
 import { VideoCatalogPage } from './pages/VideoCatalogPage'
 import { VideoDetailPage } from './pages/VideoDetailPage'
+import { PhysicalCheckoutPage } from './pages/PhysicalCheckoutPage'
 
 const AdminDashboardPage = lazy(() =>
   import('./pages/AdminDashboardPage').then((module) => ({
@@ -53,6 +56,20 @@ function ProtectedMemberRoute() {
   return <MemberLibraryPage />
 }
 
+function ProtectedRegisteredRoute({ children, redirectTo = '/access' }) {
+  const { isBootstrapping, session } = useAppState()
+
+  if (isBootstrapping) {
+    return <main className="admin-shell">Cargando contenido...</main>
+  }
+
+  if (!session) {
+    return <Navigate to={redirectTo} replace />
+  }
+
+  return children
+}
+
 function AppRoutes() {
   const { session } = useAppState()
 
@@ -66,8 +83,25 @@ function AppRoutes() {
         <Route path="/videos" element={<VideoCatalogPage />} />
         <Route path="/videos/:slug" element={<VideoDetailPage />} />
         <Route path="/packs" element={<CollectionCatalogPage />} />
+        <Route path="/calzones" element={<CalzonesPage />} />
+        <Route
+          path="/calzones/checkout/:slug"
+          element={
+            <ProtectedRegisteredRoute redirectTo={window.location.pathname ? `/access?redirect=${encodeURIComponent(window.location.pathname)}` : '/access?redirect=/calzones'}>
+              <PhysicalCheckoutPage />
+            </ProtectedRegisteredRoute>
+          }
+        />
         <Route path="/access" element={<AccessPage />} />
         <Route path="/library" element={<ProtectedMemberRoute />} />
+        <Route
+          path="/free-content"
+          element={
+            <ProtectedRegisteredRoute redirectTo="/access?redirect=/free-content">
+              <FreeContentPage />
+            </ProtectedRegisteredRoute>
+          }
+        />
         <Route path="/checkout/start/:productSlug" element={<CheckoutStartPage />} />
         <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
         <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />

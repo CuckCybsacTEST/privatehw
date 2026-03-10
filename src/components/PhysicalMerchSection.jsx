@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState'
 
 function getMerchViewportMode() {
   if (typeof window === 'undefined') {
@@ -20,9 +19,7 @@ function getMerchViewportMode() {
 
 export function PhysicalMerchSection({ content }) {
   const navigate = useNavigate()
-  const { products, session } = useAppState()
   const merch = content.physicalMerch
-  const [error, setError] = useState('')
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
   )
@@ -81,22 +78,8 @@ export function PhysicalMerchSection({ content }) {
     return () => window.clearInterval(intervalId)
   }, [isMobile, merchItems])
 
-  async function handlePurchase(item) {
-    const product = products.find((entry) => entry.accessScope === `physical:${item.slug}`)
-
-    if (!product) {
-      window.open(item.purchaseUrl, '_blank', 'noopener,noreferrer')
-      return
-    }
-
-    setError('')
-
-    if (!session || !session.accessToken) {
-      navigate(`/access?redirect=/checkout/start/${product.slug}`)
-      return
-    }
-
-    navigate(`/checkout/start/${product.slug}`)
+  function handlePurchase(item) {
+    navigate(`/calzones/checkout/${item.slug}`)
   }
 
   return (
@@ -132,18 +115,15 @@ export function PhysicalMerchSection({ content }) {
             </article>
           ))}
         </div>
-        {error ? <p className="admin-error">{error}</p> : null}
-
         <div className="physical-merch-footer">
           <p>{merch.note}</p>
-          <a
-            className="section-more-link"
-            href={merch.primaryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            className="section-more-link section-more-link-collections"
+            type="button"
+            onClick={() => navigate('/calzones')}
           >
             {merch.primaryLabel}
-          </a>
+          </button>
         </div>
       </div>
     </section>

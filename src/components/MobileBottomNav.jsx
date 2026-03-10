@@ -7,6 +7,7 @@ import {
   HiHome,
   HiLockClosed,
   HiOutlineLibrary,
+  HiPhotograph,
   HiPlay,
 } from 'react-icons/hi'
 
@@ -24,64 +25,92 @@ export function MobileBottomNav({ session }) {
   const [activeKey, setActiveKey] = useState(pathname === '/' ? 'home' : libraryHref)
 
   const items = useMemo(
-    () => [
-      {
-        key: 'home',
-        label: 'Inicio',
-        href: resolveSectionHref(pathname, 'home-top'),
-        icon: HiHome,
-        type: 'section',
-        sectionId: 'home-top',
-      },
-      {
-        key: 'access-total',
-        label: 'Acceso total',
-        href: resolveSectionHref(pathname, 'access-total'),
-        icon: HiLockClosed,
-        type: 'section',
-        sectionId: 'access-total',
-      },
-      {
-        key: 'videos',
-        label: 'Videos premium',
-        href: resolveSectionHref(pathname, 'videos'),
-        icon: HiPlay,
-        type: 'section',
-        sectionId: 'videos',
-      },
-      {
-        key: 'collections',
-        label: 'Packs',
-        href: resolveSectionHref(pathname, 'collections'),
-        icon: HiCollection,
-        type: 'section',
-        sectionId: 'collections',
-      },
-      {
-        key: 'merch',
-        label: 'Calzones',
-        href: resolveSectionHref(pathname, 'merch'),
-        icon: HiGift,
-        type: 'section',
-        sectionId: 'merch',
-      },
-      {
-        key: 'blog',
-        label: 'Blog',
-        href: resolveSectionHref(pathname, 'blog'),
-        icon: HiBookOpen,
-        type: 'section',
-        sectionId: 'blog',
-      },
-      {
-        key: libraryHref,
-        label: libraryLabel,
-        href: libraryHref,
-        icon: HiOutlineLibrary,
+    () => {
+      const freeContentItem = {
+        key: '/free-content',
+        label: 'Contenido Gratis',
+        href: '/free-content',
+        icon: HiPhotograph,
         type: 'route',
-      },
-    ],
-    [libraryHref, libraryLabel, pathname],
+      }
+
+      const baseItems = [
+        {
+          key: 'home',
+          label: 'Inicio',
+          href: resolveSectionHref(pathname, 'home-top'),
+          icon: HiHome,
+          type: 'section',
+          sectionId: 'home-top',
+        },
+        {
+          key: 'access-total',
+          label: 'Acceso total',
+          href: resolveSectionHref(pathname, 'access-total'),
+          icon: HiLockClosed,
+          type: 'section',
+          sectionId: 'access-total',
+        },
+        {
+          key: 'videos',
+          label: 'Catalogo premium',
+          href: resolveSectionHref(pathname, 'videos'),
+          icon: HiPlay,
+          type: 'section',
+          sectionId: 'videos',
+        },
+        {
+          key: 'collections',
+          label: 'Packs',
+          href: resolveSectionHref(pathname, 'collections'),
+          icon: HiCollection,
+          type: 'section',
+          sectionId: 'collections',
+        },
+        {
+          key: '/calzones',
+          label: 'Calzones',
+          href: '/calzones',
+          icon: HiGift,
+          type: 'route',
+        },
+        {
+          key: 'blog',
+          label: 'Blog',
+          href: resolveSectionHref(pathname, 'blog'),
+          icon: HiBookOpen,
+          type: 'section',
+          sectionId: 'blog',
+        },
+      ]
+
+      if (!session) {
+        return [
+          ...baseItems,
+          freeContentItem,
+          {
+            key: libraryHref,
+            label: libraryLabel,
+            href: libraryHref,
+            icon: HiOutlineLibrary,
+            type: 'route',
+          },
+        ]
+      }
+
+      return [
+        ...baseItems,
+        freeContentItem,
+        {
+          key: libraryHref,
+          label: libraryLabel,
+          href: libraryHref,
+          icon: HiOutlineLibrary,
+          type: 'route',
+        },
+      ]
+    },
+    [libraryHref, libraryLabel, pathname, session],
   )
 
   useEffect(() => {
@@ -92,6 +121,16 @@ export function MobileBottomNav({ session }) {
     if (pathname !== '/') {
       if (pathname.startsWith('/blog')) {
         setActiveKey('blog')
+        return
+      }
+
+      if (pathname === '/free-content') {
+        setActiveKey('/free-content')
+        return
+      }
+
+      if (pathname === '/calzones') {
+        setActiveKey('/calzones')
         return
       }
 

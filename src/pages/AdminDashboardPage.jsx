@@ -281,6 +281,7 @@ function ContentEditor() {
     ['spotlight', 'Spotlight'],
     ['videos', 'Videos'],
     ['collections', 'Packs'],
+    ['free', 'Contenido Gratis'],
     ['membership', 'Membership'],
     ['blog', 'Blog'],
     ['encuentros', 'Encuentros'],
@@ -612,6 +613,66 @@ function ContentEditor() {
             </div>
           </SectionPanel>
         ) : null}
+        {activeSection === 'free' ? (
+          <SectionPanel title="Contenido Gratis" description="Gestiona la galeria gratuita para usuarios registrados con fotos, videos y placeholders editables.">
+            <Field label="Kicker" value={draft.freeContent.kicker} onChange={(value) => setDraftValue(['freeContent', 'kicker'], value)} />
+            <Field label="Titulo" value={draft.freeContent.title} onChange={(value) => setDraftValue(['freeContent', 'title'], value)} />
+            <TextareaField label="Descripcion" rows={4} value={draft.freeContent.description} onChange={(value) => setDraftValue(['freeContent', 'description'], value)} />
+            <TextareaField label="Nota de acceso" rows={3} value={draft.freeContent.accessNote} onChange={(value) => setDraftValue(['freeContent', 'accessNote'], value)} />
+            <div className="admin-repeater">
+              <div className="admin-section-header">
+                <div>
+                  <h3>Items gratis</h3>
+                  <p className="admin-meta">Sube fotos o videos, define tipo de media y publica solo lo que quieras mostrar.</p>
+                </div>
+                <button
+                  type="button"
+                  className="admin-secondary-button"
+                  onClick={() =>
+                    addListItem(['freeContent', 'items'], {
+                      slug: `free-media-${Date.now()}`,
+                      title: 'Media Asset Placeholder',
+                      description: 'Descripcion neutral del contenido gratis.',
+                      category: 'Foto',
+                      mediaType: 'image',
+                      image: '',
+                      thumbnail: '',
+                      mediaUrl: '',
+                      isPublished: true,
+                    })
+                  }
+                >
+                  Agregar item
+                </button>
+              </div>
+              {draft.freeContent.items.map((item, index) => (
+                <div className="admin-array-card" key={item.slug || `free-item-${index}`}>
+                  <Field label="Slug" value={item.slug} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'slug'], value)} />
+                  <Field label="Titulo" value={item.title} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'title'], value)} />
+                  <TextareaField label="Descripcion" rows={3} value={item.description} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'description'], value)} />
+                  <Field label="Categoria" value={item.category} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'category'], value)} />
+                  <label className="admin-field">
+                    <span>Tipo de media</span>
+                    <select value={item.mediaType || 'image'} onChange={(event) => setDraftValue(['freeContent', 'items', index, 'mediaType'], event.target.value)}>
+                      <option value="image">Foto</option>
+                      <option value="video">Video</option>
+                    </select>
+                  </label>
+                  <Field label="URL imagen" value={item.image} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'image'], value)} />
+                  <Field label="URL thumbnail" value={item.thumbnail} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'thumbnail'], value)} />
+                  <Field label="URL media" value={item.mediaUrl} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'mediaUrl'], value)} />
+                  <MediaField label="Subir imagen / thumbnail" accept="image/*" bucket="site-images" folder="free-content" value={item.thumbnail || item.image} onUpload={(file, bucket, folder) => handleUploadToPath(file, ['freeContent', 'items', index, 'thumbnail'], bucket, folder)} />
+                  <MediaField label="Subir video" accept="video/*" bucket="site-videos" folder="free-content" value={item.mediaUrl} onUpload={(file, bucket, folder) => handleUploadToPath(file, ['freeContent', 'items', index, 'mediaUrl'], bucket, folder)} />
+                  <label className="admin-toggle-row">
+                    <span>Publicado</span>
+                    <input type="checkbox" checked={item.isPublished !== false} onChange={(event) => setDraftValue(['freeContent', 'items', index, 'isPublished'], event.target.checked)} />
+                  </label>
+                  <button type="button" className="admin-danger-button" onClick={() => removeListItem(['freeContent', 'items'], index)}>Eliminar</button>
+                </div>
+              ))}
+            </div>
+          </SectionPanel>
+        ) : null}
         {activeSection === 'blog' ? (
           <>
             <SectionPanel title="Blog teaser" description="Gestiona el bloque teaser del blog en la home.">
@@ -842,6 +903,89 @@ function UsersEditor() {
   )
 }
 
+function PhysicalOrdersEditor() {
+  const { physicalOrders, updatePhysicalOrder } = useAppState()
+
+  return (
+    <section className="admin-panel-section">
+      <div className="admin-section-header">
+        <div>
+          <p className="admin-eyebrow">Pedidos fisicos</p>
+          <h2>Gestion de envios manuales</h2>
+          <p className="admin-meta">
+            Revisa destino, carrier, tracking y estado de fulfillment de cada pedido.
+          </p>
+        </div>
+      </div>
+      <div className="admin-users-list">
+        {physicalOrders.length ? (
+          physicalOrders.map((order) => (
+            <article className="admin-user-card" key={order.id}>
+              <div className="admin-user-copy">
+                <h3>{order.productTitle}</h3>
+                <p>{order.userEmail}</p>
+                <p>
+                  Destino: <strong>{order.recipientName}</strong> · {order.city}, {order.country}
+                </p>
+                <p className="admin-note">
+                  {order.addressLine1}
+                  {order.addressLine2 ? ` · ${order.addressLine2}` : ''}
+                  {order.reference ? ` · Ref: ${order.reference}` : ''}
+                </p>
+                <div className="admin-user-metrics">
+                  <span>Pago: <strong>{order.status}</strong></span>
+                  <span>Envio: <strong>{order.shippingStatus}</strong></span>
+                  <span>Precio: <strong>{order.priceLabel}</strong></span>
+                </div>
+                <div className="admin-actions-row">
+                  <label className="admin-field">
+                    <span>Carrier</span>
+                    <select
+                      value={order.carrier || 'manual_review'}
+                      onChange={(event) => updatePhysicalOrder(order.id, { carrier: event.target.value })}
+                    >
+                      <option value="manual_review">Revision manual</option>
+                      <option value="olva">Olva</option>
+                      <option value="shalom">Shalom</option>
+                      <option value="dhl">DHL</option>
+                      <option value="fedex">FedEx</option>
+                      <option value="other">Otro</option>
+                    </select>
+                  </label>
+                  <label className="admin-field">
+                    <span>Tracking</span>
+                    <input
+                      value={order.trackingNumber || ''}
+                      onChange={(event) => updatePhysicalOrder(order.id, { trackingNumber: event.target.value })}
+                    />
+                  </label>
+                  <label className="admin-field">
+                    <span>Estado de envio</span>
+                    <select
+                      value={order.shippingStatus || 'awaiting_payment'}
+                      onChange={(event) => updatePhysicalOrder(order.id, { shippingStatus: event.target.value })}
+                    >
+                      <option value="awaiting_payment">Pendiente de pago</option>
+                      <option value="processing">Preparando</option>
+                      <option value="shipped">Enviado</option>
+                      <option value="delivered">Entregado</option>
+                      <option value="cancelled">Cancelado</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </article>
+          ))
+        ) : (
+          <article className="admin-hint">
+            <p>Todavia no hay pedidos fisicos registrados.</p>
+          </article>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function AdminDashboardPage() {
   const navigate = useNavigate()
   const { logout, session } = useAppState()
@@ -865,8 +1009,11 @@ export function AdminDashboardPage() {
         <div className="admin-tabs">
           <button type="button" className={activeTab === 'content' ? 'admin-tab active' : 'admin-tab'} onClick={() => setActiveTab('content')}>Contenido</button>
           <button type="button" className={activeTab === 'users' ? 'admin-tab active' : 'admin-tab'} onClick={() => setActiveTab('users')}>Usuarios</button>
+          <button type="button" className={activeTab === 'physical' ? 'admin-tab active' : 'admin-tab'} onClick={() => setActiveTab('physical')}>Pedidos fisicos</button>
         </div>
-        {activeTab === 'content' ? <ContentEditor /> : <UsersEditor />}
+        {activeTab === 'content' ? <ContentEditor /> : null}
+        {activeTab === 'users' ? <UsersEditor /> : null}
+        {activeTab === 'physical' ? <PhysicalOrdersEditor /> : null}
       </section>
     </main>
   )

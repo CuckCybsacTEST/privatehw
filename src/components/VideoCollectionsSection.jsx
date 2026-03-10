@@ -31,6 +31,10 @@ function getCollectionsViewportMode() {
 
 export function VideoCollectionsSection({ content }) {
   const collectionItems = useMemo(() => content.videoCollections.items || [], [content.videoCollections.items])
+  const browseLabel =
+    content.videoCollections.browseLabel === 'Ver todos los packs'
+      ? 'Ver todos'
+      : content.videoCollections.browseLabel
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
   )
@@ -87,10 +91,10 @@ export function VideoCollectionsSection({ content }) {
           <p>{content.videoCollections.description}</p>
         </div>
         <Link
-          className="section-more-link desktop-only"
+          className="section-more-link section-more-link-collections desktop-only"
           to={content.videoCollections.browseHref}
         >
-          {content.videoCollections.browseLabel}
+          {browseLabel}
         </Link>
       </div>
 
@@ -101,8 +105,8 @@ export function VideoCollectionsSection({ content }) {
       </div>
 
       <div className="section-more-actions mobile-only">
-        <Link className="section-more-link" to={content.videoCollections.browseHref}>
-          {content.videoCollections.browseLabel}
+        <Link className="section-more-link section-more-link-collections" to={content.videoCollections.browseHref}>
+          {browseLabel}
         </Link>
       </div>
     </section>

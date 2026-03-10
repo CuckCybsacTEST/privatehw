@@ -9,12 +9,14 @@ export function CheckoutSuccessPage() {
   const {
     getProductBySlug,
     getProductDestination,
+    markPhysicalOrderPaid,
     refreshCommerceData,
     siteContent,
   } = useAppState()
   const [searchParams] = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const productSlug = searchParams.get('product')
+  const physicalOrderRequestId = searchParams.get('request')
   const [statusText, setStatusText] = useState('Validando tu acceso...')
   const [isResolved, setIsResolved] = useState(false)
   const product = useMemo(
@@ -60,6 +62,9 @@ export function CheckoutSuccessPage() {
       }
 
       if (product.productType === 'physical') {
+        if (physicalOrderRequestId) {
+          markPhysicalOrderPaid(physicalOrderRequestId, sessionId || '')
+        }
         setStatusText('La orden fisica ya esta registrada en tu biblioteca.')
         setIsResolved(true)
         timeoutId = setTimeout(() => navigate(destination, { replace: true }), 2200)

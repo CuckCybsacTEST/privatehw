@@ -47,6 +47,7 @@ const BLOG_POSTS_KEY = 'privatehw.blog-posts.v1'
 const PRODUCTS_KEY = 'privatehw.products.v1'
 const ENTITLEMENTS_KEY = 'privatehw.entitlements.v1'
 const ORDERS_KEY = 'privatehw.orders.v1'
+const PHYSICAL_ORDERS_KEY = 'privatehw.physical-orders.v1'
 const USERS_KEY = 'privatehw.users.v1'
 const CUSTOMER_ADMIN_KEY = 'privatehw.customer-admin.v1'
 const SESSION_KEY = 'privatehw.session.v1'
@@ -74,6 +75,9 @@ export function AppProvider({ children }) {
     normalizeEntitlements(readStorageValue(ENTITLEMENTS_KEY, defaultEntitlements)),
   )
   const [orders, setOrders] = useState(() => readStorageValue(ORDERS_KEY, []))
+  const [physicalOrders, setPhysicalOrders] = useState(() =>
+    readStorageValue(PHYSICAL_ORDERS_KEY, []),
+  )
   const [session, setSession] = useState(() =>
     isSupabaseConfigured ? null : readStorageValue(SESSION_KEY, null),
   )
@@ -142,6 +146,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     writeStorageValue(ORDERS_KEY, orders)
   }, [orders])
+
+  useEffect(() => {
+    writeStorageValue(PHYSICAL_ORDERS_KEY, physicalOrders)
+  }, [physicalOrders])
 
   useEffect(() => {
     if (isSupabaseConfigured) {
@@ -398,7 +406,7 @@ export function AppProvider({ children }) {
     return { session: nextSession, requiresEmailConfirmation: false }
   }
 
-  async function createCheckoutSession(productSlug) {
+  async function createCheckoutSession(productSlug, context = {}) {
     if (!session) {
       const authError = new Error('Necesitas iniciar sesion para continuar con la compra.')
       authError.code = 'AUTH_REQUIRED'
@@ -411,7 +419,7 @@ export function AppProvider({ children }) {
         'Content-Type': 'application/json',
         Authorization: session.accessToken ? `Bearer ${session.accessToken}` : '',
       },
-      body: JSON.stringify({ productSlug }),
+      body: JSON.stringify({ productSlug, context }),
     })
 
     const payload = await response.json().catch(() => ({}))
@@ -555,6 +563,96 @@ export function AppProvider({ children }) {
     return uploadMediaAssetFromUrl(sourceUrl, bucket, folder)
   }
 
+  function createPhysicalOrderRequest(payload) {
+    const nextOrder = {
+      id: `physical-order-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      userId: session?.id || '',
+      userName: session?.name || payload.recipientName || 'Cliente',
+      userEmail: session?.email || payload.email || '',
+      status: 'pending_payment',
+      shippingStatus: 'awaiting_payment',
+      carrier: payload.carrier || 'manual_review',
+      trackingNumber: '',
+      productSlug: payload.productSlug,
+      productTitle: payload.productTitle,
+      productImage: payload.productImage || '',
+      priceLabel: payload.priceLabel || '',
+      quantity: payload.quantity || 1,
+      recipientName: payload.recipientName || '',
+      phone: payload.phone || '',
+      country: payload.country || '',
+      region: payload.region || '',
+      city: payload.city || '',
+      postalCode: payload.postalCode || '',
+      addressLine1: payload.addressLine1 || '',
+      addressLine2: payload.addressLine2 || '',
+      reference: payload.reference || '',
+      shippingMethod: payload.shippingMethod || 'manual_quote',
+      deliveryNotes: payload.deliveryNotes || '',
+      adminNotes: '',
+      checkoutSessionId: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      paidAt: null,
+      deliveredAt: null,
+    }
+
+    setPhysicalOrders((currentOrders) => [nextOrder, ...currentOrders])
+    return nextOrder
+  }
+
+  function markPhysicalOrderPaid(orderId, checkoutSessionId = '') {
+    let updatedOrder = null
+
+    setPhysicalOrders((currentOrders) =>
+      currentOrders.map((order) => {
+        if (order.id !== orderId) {
+          return order
+        }
+
+        updatedOrder = {
+          ...order,
+          status: 'paid',
+          shippingStatus:
+            order.shippingStatus === 'awaiting_payment' ? 'processing' : order.shippingStatus,
+          checkoutSessionId: checkoutSessionId || order.checkoutSessionId,
+          paidAt: order.paidAt || new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        }
+
+        return updatedOrder
+      }),
+    )
+
+    return updatedOrder
+  }
+
+  function updatePhysicalOrder(orderId, patch) {
+    setPhysicalOrders((currentOrders) =>
+      currentOrders.map((order) =>
+        order.id === orderId
+          ? {
+              ...order,
+              ...patch,
+              deliveredAt:
+                patch.shippingStatus === 'delivered' && !order.deliveredAt
+                  ? new Date().toISOString()
+                  : patch.deliveredAt ?? order.deliveredAt,
+              updatedAt: new Date().toISOString(),
+            }
+          : order,
+      ),
+    )
+  }
+
+  function getPhysicalOrdersForUser(userId = session?.id) {
+    if (!userId) {
+      return []
+    }
+
+    return physicalOrders.filter((order) => order.userId === userId)
+  }
+
   function hasEntitlement(entitlementKey) {
     if (session?.role === 'admin') {
       return true
@@ -603,6 +701,10 @@ export function AppProvider({ children }) {
 
     if (product.productType === 'pack') {
       return `/library?focus=${encodeURIComponent(product.slug)}`
+    }
+
+    if (product.productType === 'physical') {
+      return '/library?focus=physical-orders'
     }
 
     return `/library?focus=${encodeURIComponent(product.slug)}`
@@ -662,14 +764,20 @@ export function AppProvider({ children }) {
       products,
       entitlements,
       orders,
+      physicalOrders,
       hasEntitlement,
       getContentAccess,
+      getProductByScope,
       getProductBySlug,
       getProductDestination,
       subscriptionProducts,
       subscriptionProduct,
       formatPriceFromAmount,
       refreshCommerceData,
+      createPhysicalOrderRequest,
+      markPhysicalOrderPaid,
+      updatePhysicalOrder,
+      getPhysicalOrdersForUser,
       users,
       customerAdminData,
       setUsers,
@@ -691,6 +799,7 @@ export function AppProvider({ children }) {
       products,
       entitlements,
       orders,
+      physicalOrders,
       users,
       customerAdminData,
     ],

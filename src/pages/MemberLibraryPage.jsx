@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
@@ -32,12 +32,15 @@ export function MemberLibraryPage() {
     blogPosts,
     entitlements,
     formatPriceFromAmount,
+    getPhysicalOrdersForUser,
     getContentAccess,
     orders,
     products,
     session,
     siteContent,
   } = useAppState()
+  const [searchParams] = useSearchParams()
+  const focusTarget = searchParams.get('focus')
 
   const accessSummary = summarizeAccess(entitlements)
   const activeEntitlements = useMemo(
@@ -104,6 +107,10 @@ export function MemberLibraryPage() {
     () =>
       unlockedPacks.filter((item) => !directEntitlementKeys.has(`pack:${item.slug}`)),
     [directEntitlementKeys, unlockedPacks],
+  )
+  const physicalOrders = useMemo(
+    () => getPhysicalOrdersForUser(session?.id),
+    [getPhysicalOrdersForUser, session?.id],
   )
 
   function getVideoAccessLabel(slug) {
@@ -234,6 +241,63 @@ export function MemberLibraryPage() {
                 <p>Cuando compres un video o actives la suscripcion, aparecera aqui.</p>
                 <Link className="hero-primary-cta" to="/videos">
                   Explorar videos
+                </Link>
+              </article>
+            )}
+          </div>
+        </section>
+
+        <section className="member-library-section" id="physical-orders">
+          <div className="section-heading section-heading-split">
+            <div>
+              <p className="section-kicker">Pedidos fisicos</p>
+              <h2>Tus compras con envio</h2>
+              <p>Pedidos fisicos registrados con datos de entrega y seguimiento manual.</p>
+            </div>
+            <Link className="section-more-link desktop-only" to="/calzones">
+              Ir a la tienda
+            </Link>
+          </div>
+          <div className="member-orders-list">
+            {physicalOrders.length ? (
+              physicalOrders.map((order) => (
+                <article
+                  className={focusTarget === 'physical-orders' ? 'member-order-card is-highlighted' : 'member-order-card'}
+                  key={order.id}
+                >
+                  <div className="member-order-head">
+                    <div>
+                      <span>Producto</span>
+                      <strong>{order.productTitle}</strong>
+                    </div>
+                    <div>
+                      <span>Estado</span>
+                      <strong>{order.shippingStatus}</strong>
+                    </div>
+                    <div>
+                      <span>Total</span>
+                      <strong>{order.priceLabel}</strong>
+                    </div>
+                  </div>
+                  <div className="member-order-items">
+                    <div className="member-order-item">
+                      <div>
+                        <strong>
+                          {order.city}, {order.country}
+                        </strong>
+                        <span>{order.addressLine1}</span>
+                      </div>
+                      <small>{order.carrier || 'revision manual'}</small>
+                    </div>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <article className="content-gated-card">
+                <h2>No hay pedidos fisicos aun</h2>
+                <p>Cuando completes una compra fisica, el pedido aparecera aqui con su estado.</p>
+                <Link className="hero-primary-cta" to="/calzones">
+                  Explorar tienda
                 </Link>
               </article>
             )}
