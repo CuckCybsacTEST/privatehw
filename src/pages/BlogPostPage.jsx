@@ -1,14 +1,40 @@
-import { Link, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 
 export function BlogPostPage() {
+  const navigate = useNavigate()
   const { slug } = useParams()
-  const { blogPosts, session, siteContent } = useAppState()
+  const {
+    blogPosts,
+    hasEntitlement,
+    session,
+    siteContent,
+    subscriptionProducts,
+  } = useAppState()
   const post = blogPosts.find((item) => item.slug === slug) || blogPosts[0]
   const canPreviewDraft = session?.role === 'admin'
-  const canRead = post?.accessLevel !== 'subscription' || session?.role === 'admin'
+  const canRead =
+    post?.accessLevel !== 'subscription' || hasEntitlement('all_digital') || session?.role === 'admin'
+  const [error, setError] = useState('')
+  const subscriptionProduct = subscriptionProducts[0] || null
+
+  async function handleSubscribe() {
+    if (!subscriptionProduct) {
+      return
+    }
+
+    setError('')
+
+    if (!session || !session.accessToken) {
+      navigate(`/access?redirect=/checkout/start/${subscriptionProduct.slug}`)
+      return
+    }
+
+    navigate(`/checkout/start/${subscriptionProduct.slug}`)
+  }
 
   if (!post) {
     return null
@@ -88,14 +114,10 @@ export function BlogPostPage() {
             <div className="content-gated-card">
               <h2>Contenido con suscripcion</h2>
               <p>Este post requiere acceso activo de suscripcion para leerse completo.</p>
-              <a
-                className="hero-primary-cta"
-                href={siteContent.membership.planUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <button className="hero-primary-cta" type="button" onClick={handleSubscribe}>
                 {siteContent.membership.planCta}
-              </a>
+              </button>
+              {error ? <p className="admin-error">{error}</p> : null}
             </div>
           )}
         </div>

@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useAppState } from '../state/AppState'
 
 export function SiteFooter({ content }) {
+  const { session } = useAppState()
+
   return (
     <footer className="site-footer">
       <div className="site-footer-grid">
@@ -17,6 +20,9 @@ export function SiteFooter({ content }) {
           <a href={content.socialUrl} target="_blank" rel="noopener noreferrer">
             Telegram
           </a>
+          <Link to={session ? '/library' : '/access'}>
+            {session ? 'Mi biblioteca' : 'Acceso cliente'}
+          </Link>
           <Link to="/encuentros">Encuentros</Link>
           <Link to="/admin/login">Admin</Link>
         </div>

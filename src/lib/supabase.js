@@ -1,6 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 import { defaultSiteContent, mergeSiteContent } from '../data/defaultSiteContent'
 import { defaultBlogPosts, normalizeBlogPost } from '../data/defaultBlogPosts'
+import {
+  buildDefaultProducts,
+  defaultEntitlements,
+  mergeProducts,
+  normalizeEntitlement,
+} from '../data/defaultCommerce'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey =
@@ -37,7 +43,7 @@ function normalizeProfile(profile) {
   }
 }
 
-function normalizeSession(user, profile) {
+function normalizeSession(user, profile, accessToken = '') {
   if (!user) {
     return null
   }
@@ -48,6 +54,7 @@ function normalizeSession(user, profile) {
       profile?.display_name || user.user_metadata?.display_name || user.email || 'User',
     email: user.email || '',
     role: profile?.role || 'public',
+    accessToken,
   }
 }
 
@@ -67,10 +74,10 @@ export async function getCurrentSession() {
     .eq('id', session.user.id)
     .maybeSingle()
 
-  return normalizeSession(session.user, profile)
+  return normalizeSession(session.user, profile, session.access_token)
 }
 
-export async function signInWithPassword({ email, password }) {
+export async function signInWithPassword({ email, password, requireAdmin = false }) {
   const client = assertSupabase()
   const { data, error } = await client.auth.signInWithPassword({ email, password })
 
@@ -96,12 +103,45 @@ export async function signInWithPassword({ email, password }) {
     throw new Error('Este usuario esta deshabilitado.')
   }
 
-  if (profile.role !== 'admin') {
+  if (requireAdmin && profile.role !== 'admin') {
     await client.auth.signOut()
     throw new Error('Este usuario no tiene permisos de administrador.')
   }
 
-  return normalizeSession(data.user, profile)
+  return normalizeSession(data.user, profile, data.session?.access_token || '')
+}
+
+export async function signUpWithPassword({ email, password, displayName }) {
+  const client = assertSupabase()
+  const { data, error } = await client.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        display_name: displayName,
+      },
+    },
+  })
+
+  if (error) {
+    throw error
+  }
+
+  if (!data.user) {
+    throw new Error('No se pudo crear el usuario.')
+  }
+
+  const { data: profile } = await client
+    .from('profiles')
+    .select('id, display_name, role, status, email')
+    .eq('id', data.user.id)
+    .maybeSingle()
+
+  if (!data.session?.access_token) {
+    return null
+  }
+
+  return normalizeSession(data.user, profile, data.session.access_token)
 }
 
 export async function signOut() {
@@ -126,7 +166,7 @@ export function listenToAuthChanges(callback) {
         .eq('id', session.user.id)
         .maybeSingle()
 
-      callback(normalizeSession(session.user, profile))
+      callback(normalizeSession(session.user, profile, session.access_token))
     })
   })
 
@@ -245,18 +285,239 @@ export async function upsertSiteContent(content, updatedBy) {
   }
 }
 
-export async function getProfiles() {
+function normalizeProductRow(row, fallbackIndex = 0) {
+  return {
+    id: row.id || `product-row-${fallbackIndex}`,
+    slug: row.slug,
+    title: row.title,
+    productType: row.product_type,
+    checkoutMode: row.checkout_mode,
+    accessScope: row.access_scope,
+    priceAmount: row.price_amount,
+    currency: row.currency,
+    priceLabel: row.price_label,
+    active: row.active,
+    stripePriceId: row.stripe_price_id || '',
+    metadata: row.metadata || {},
+  }
+}
+
+export async function fetchProducts(content = defaultSiteContent) {
   const client = assertSupabase()
   const { data, error } = await client
-    .from('profiles')
-    .select('id, display_name, email, role, status')
+    .from('products')
+    .select(
+      'id, slug, title, product_type, checkout_mode, access_scope, price_amount, currency, price_label, active, stripe_price_id, metadata',
+    )
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    throw error
+  }
+
+  return mergeProducts(
+    buildDefaultProducts(content),
+    data?.map((row, index) => normalizeProductRow(row, index)) || [],
+  )
+}
+
+export async function upsertProducts(products = []) {
+  const client = assertSupabase()
+  const payload = products.map((product) => ({
+    slug: product.slug,
+    title: product.title,
+    product_type: product.productType,
+    checkout_mode: product.checkoutMode,
+    access_scope: product.accessScope,
+    price_amount: product.priceAmount,
+    currency: product.currency,
+    price_label: product.priceLabel,
+    active: product.active !== false,
+    stripe_price_id: product.stripePriceId || null,
+    metadata: product.metadata || {},
+  }))
+
+  const { error } = await client.from('products').upsert(payload, { onConflict: 'slug' })
+
+  if (error) {
+    throw error
+  }
+}
+
+export async function fetchCurrentEntitlements() {
+  const client = assertSupabase()
+  const {
+    data: { session },
+  } = await client.auth.getSession()
+
+  if (!session?.user) {
+    return defaultEntitlements
+  }
+
+  const { data, error } = await client
+    .from('entitlements')
+    .select('id, user_id, product_slug, entitlement_key, status, expires_at')
+    .eq('user_id', session.user.id)
     .order('created_at', { ascending: false })
 
   if (error) {
     throw error
   }
 
-  return data.map(normalizeProfile)
+  return (data || []).map((row, index) =>
+    normalizeEntitlement(
+      {
+        id: row.id,
+        userId: row.user_id,
+        productSlug: row.product_slug,
+        entitlementKey: row.entitlement_key,
+        status: row.status,
+        expiresAt: row.expires_at,
+      },
+      index,
+    ),
+  )
+}
+
+function normalizeOrderRow(row, fallbackIndex = 0) {
+  return {
+    id: row.id || `order-${fallbackIndex}`,
+    providerOrderId: row.provider_order_id || '',
+    status: row.status || 'pending',
+    totalAmount: row.total_amount || 0,
+    currency: row.currency || 'PEN',
+    createdAt: row.created_at || null,
+    metadata: row.metadata || {},
+    items: (row.order_items || []).map((item, itemIndex) => ({
+      id: item.id || `order-item-${fallbackIndex}-${itemIndex}`,
+      productSlug: item.product_slug || '',
+      quantity: item.quantity || 1,
+      unitAmount: item.unit_amount || 0,
+      totalAmount: item.total_amount || 0,
+      metadata: item.metadata || {},
+    })),
+  }
+}
+
+export async function fetchCurrentOrders() {
+  const client = assertSupabase()
+  const {
+    data: { session },
+  } = await client.auth.getSession()
+
+  if (!session?.user) {
+    return []
+  }
+
+  const { data, error } = await client
+    .from('orders')
+    .select(
+      'id, provider_order_id, status, total_amount, currency, created_at, metadata, order_items(id, product_slug, quantity, unit_amount, total_amount, metadata)',
+    )
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw error
+  }
+
+  return (data || []).map((row, index) => normalizeOrderRow(row, index))
+}
+
+export async function getProfiles() {
+  const client = assertSupabase()
+  const { data, error } = await client
+    .from('profiles')
+    .select('id, display_name, email, role, status, stripe_customer_id, created_at')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw error
+  }
+
+  return data.map((profile) => ({
+    ...normalizeProfile(profile),
+    stripeCustomerId: profile.stripe_customer_id || '',
+    createdAt: profile.created_at || null,
+  }))
+}
+
+export async function getCustomerAdminSnapshot() {
+  const client = assertSupabase()
+  const [profilesResponse, ordersResponse, entitlementsResponse] = await Promise.all([
+    client
+      .from('profiles')
+      .select('id, display_name, email, role, status, stripe_customer_id, created_at')
+      .order('created_at', { ascending: false }),
+    client
+      .from('orders')
+      .select('id, user_id, status, total_amount, currency, created_at, provider_order_id, order_items(product_slug)')
+      .order('created_at', { ascending: false }),
+    client
+      .from('entitlements')
+      .select('id, user_id, product_slug, entitlement_key, status, expires_at, created_at')
+      .order('created_at', { ascending: false }),
+  ])
+
+  if (profilesResponse.error) {
+    throw profilesResponse.error
+  }
+
+  if (ordersResponse.error) {
+    throw ordersResponse.error
+  }
+
+  if (entitlementsResponse.error) {
+    throw entitlementsResponse.error
+  }
+
+  const ordersByUser = new Map()
+  for (const order of ordersResponse.data || []) {
+    const nextOrders = ordersByUser.get(order.user_id) || []
+    nextOrders.push({
+      id: order.id,
+      status: order.status,
+      totalAmount: order.total_amount || 0,
+      currency: order.currency || 'PEN',
+      createdAt: order.created_at || null,
+      providerOrderId: order.provider_order_id || '',
+      productSlugs: (order.order_items || []).map((item) => item.product_slug).filter(Boolean),
+    })
+    ordersByUser.set(order.user_id, nextOrders)
+  }
+
+  const entitlementsByUser = new Map()
+  for (const entitlement of entitlementsResponse.data || []) {
+    const nextEntitlements = entitlementsByUser.get(entitlement.user_id) || []
+    nextEntitlements.push({
+      id: entitlement.id,
+      productSlug: entitlement.product_slug || '',
+      entitlementKey: entitlement.entitlement_key,
+      status: entitlement.status,
+      expiresAt: entitlement.expires_at || null,
+      createdAt: entitlement.created_at || null,
+    })
+    entitlementsByUser.set(entitlement.user_id, nextEntitlements)
+  }
+
+  return (profilesResponse.data || []).map((profile) => {
+    const normalized = normalizeProfile(profile)
+    const userOrders = ordersByUser.get(profile.id) || []
+    const userEntitlements = entitlementsByUser.get(profile.id) || []
+
+    return {
+      ...normalized,
+      stripeCustomerId: profile.stripe_customer_id || '',
+      createdAt: profile.created_at || null,
+      orderCount: userOrders.length,
+      paidOrderCount: userOrders.filter((order) => order.status === 'paid').length,
+      totalSpentAmount: userOrders
+        .filter((order) => order.status === 'paid')
+        .reduce((sum, order) => sum + (order.totalAmount || 0), 0),
+      latestOrderAt: userOrders[0]?.createdAt || null,
+      orders: userOrders,
+      entitlements: userEntitlements,
+    }
+  })
 }
 
 export async function updateProfile(userId, patch) {

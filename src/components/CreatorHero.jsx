@@ -1,5 +1,27 @@
+import { useNavigate } from 'react-router-dom'
+import { SubscriptionPlanSelector } from './SubscriptionPlanSelector'
+import { useAppState } from '../state/AppState'
+
 export function CreatorHero({ content }) {
+  const navigate = useNavigate()
+  const { session, subscriptionProducts } = useAppState()
   const subscriptionTable = content.creatorHome.subscriptionTable
+  const defaultSubscriptionProduct = subscriptionProducts[0] || null
+
+  function handleMembershipRoute(selectedPlanProduct) {
+    const targetProduct = selectedPlanProduct || defaultSubscriptionProduct
+
+    if (!targetProduct) {
+      return
+    }
+
+    if (!session || !session.accessToken) {
+      navigate(`/access?redirect=/checkout/start/${targetProduct.slug}`)
+      return
+    }
+
+    navigate(`/checkout/start/${targetProduct.slug}`)
+  }
 
   return (
     <section className="creator-hero-section">
@@ -17,14 +39,9 @@ export function CreatorHero({ content }) {
         </div>
 
         <div className="creator-hero-actions">
-          <a
-            className="hero-primary-cta"
-            href={content.creatorHome.primaryCtaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <button className="hero-primary-cta" type="button" onClick={() => handleMembershipRoute()}>
             {content.creatorHome.primaryCtaLabel}
-          </a>
+          </button>
           <a className="hero-secondary-cta" href="#videos">
             {content.creatorHome.secondaryCtaLabel}
           </a>
@@ -40,7 +57,7 @@ export function CreatorHero({ content }) {
         </div>
       </div>
 
-      <div className="creator-hero-visual">
+        <div className="creator-hero-visual" id="access-total">
         <div className="creator-portrait-frame">
           <img
             src={content.creatorHome.heroImage}
@@ -55,12 +72,6 @@ export function CreatorHero({ content }) {
           <p className="creator-profile-eyebrow">{subscriptionTable.eyebrow}</p>
           <h2>{subscriptionTable.title}</h2>
           <p>{subscriptionTable.description}</p>
-
-          <div className="creator-subscription-price">
-            <strong>{subscriptionTable.price}</strong>
-            <span>{subscriptionTable.period}</span>
-          </div>
-
           <p className="creator-subscription-access">{subscriptionTable.accessLabel}</p>
 
           <div className="creator-subscription-table">
@@ -72,14 +83,12 @@ export function CreatorHero({ content }) {
             ))}
           </div>
 
-          <a
-            className="hero-primary-cta creator-subscription-cta"
-            href={subscriptionTable.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {subscriptionTable.ctaLabel}
-          </a>
+          <SubscriptionPlanSelector
+            subscriptionProducts={subscriptionProducts}
+            subscriptionTable={subscriptionTable}
+            onPurchase={handleMembershipRoute}
+            context="hero"
+          />
         </div>
       </div>
     </section>

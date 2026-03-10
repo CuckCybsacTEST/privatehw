@@ -111,7 +111,55 @@ export const defaultSiteContent = {
       description:
         'Desbloquea el contenido principal del sitio, videos premium, packs destacados y futuras actualizaciones desde un solo acceso.',
       price: 'S/79',
+      discountPercent: '0',
+      discountLabel: 'Oferta activa',
       period: 'por mes',
+      plans: [
+        {
+          slug: 'monthly',
+          label: 'Mensual',
+          period: '1 mes',
+          durationValue: '1',
+          durationUnit: 'months',
+          price: 'S/79',
+          discountPercent: '0',
+          discountLabel: 'Oferta activa',
+          promoNote: 'Flexibilidad total para probar el acceso premium.',
+        },
+        {
+          slug: 'quarterly',
+          label: 'Trimestral',
+          period: '3 meses',
+          durationValue: '3',
+          durationUnit: 'months',
+          price: 'S/150',
+          discountPercent: '0',
+          discountLabel: 'Oferta activa',
+          promoNote: 'Mejor equilibrio entre precio y continuidad.',
+        },
+        {
+          slug: 'semiannual',
+          label: 'Semestral',
+          period: '6 meses',
+          durationValue: '6',
+          durationUnit: 'months',
+          price: 'S/250',
+          discountPercent: '0',
+          discountLabel: 'Oferta activa',
+          promoNote: 'Ideal para acceso prolongado con mejor ahorro.',
+        },
+        {
+          slug: 'annual',
+          label: 'Anual',
+          period: '12 meses',
+          durationValue: '12',
+          durationUnit: 'months',
+          price: 'S/300',
+          discountPercent: '0',
+          discountLabel: 'Oferta activa',
+          promoNote: 'La opcion con mayor ahorro para todo el ano.',
+        },
+      ],
       accessLabel: 'Desbloquea todo el contenido web',
       ctaLabel: 'Suscribirme ahora',
       ctaUrl: 'https://loverfans.com/sindyhotwife',
@@ -651,7 +699,7 @@ export const defaultSiteContent = {
     description:
       'La home centraliza membresia, video premium, futuros bundles y CTA directos hacia los canales mas rentables.',
     planLabel: 'Membership',
-    planTitle: 'Acceso premium verificado',
+    planTitle: 'Planes de acceso total',
     planDescription:
       'Bloque principal para resumir beneficios, frecuencia de actualizacion y prioridad para miembros.',
     planItems: [
@@ -729,6 +777,11 @@ function mergeItemsBySlug(defaultItems = [], savedItems = []) {
 }
 
 export function mergeSiteContent(partialContent = {}) {
+  const mergedSubscriptionPlans = mergeItemsBySlug(
+    defaultSiteContent.creatorHome.subscriptionTable.plans,
+    partialContent.creatorHome?.subscriptionTable?.plans || [],
+  )
+
   return {
     ...defaultSiteContent,
     ...partialContent,
@@ -745,6 +798,7 @@ export function mergeSiteContent(partialContent = {}) {
       subscriptionTable: {
         ...defaultSiteContent.creatorHome.subscriptionTable,
         ...(partialContent.creatorHome?.subscriptionTable || {}),
+        plans: mergedSubscriptionPlans,
         rows:
           partialContent.creatorHome?.subscriptionTable?.rows ||
           defaultSiteContent.creatorHome.subscriptionTable.rows,

@@ -52,6 +52,17 @@ function generateUserId() {
   return `user-${Math.random().toString(36).slice(2, 10)}`
 }
 
+function formatDateLabel(value) {
+  if (!value) {
+    return 'Sin fecha'
+  }
+
+  return new Intl.DateTimeFormat('es-PE', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(value))
+}
+
 function SectionPanel({ title, description, children }) {
   return (
     <section className="admin-editor-panel">
@@ -351,11 +362,62 @@ function ContentEditor() {
               <Field label="Eyebrow" value={draft.creatorHome.subscriptionTable.eyebrow} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'eyebrow'], value)} />
               <Field label="Titulo tabla" value={draft.creatorHome.subscriptionTable.title} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'title'], value)} />
               <TextareaField label="Descripcion tabla" rows={4} value={draft.creatorHome.subscriptionTable.description} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'description'], value)} />
-              <Field label="Precio" value={draft.creatorHome.subscriptionTable.price} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'price'], value)} />
-              <Field label="Periodo" value={draft.creatorHome.subscriptionTable.period} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'period'], value)} />
               <Field label="Texto acceso" value={draft.creatorHome.subscriptionTable.accessLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'accessLabel'], value)} />
               <Field label="CTA tabla" value={draft.creatorHome.subscriptionTable.ctaLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'ctaLabel'], value)} />
               <Field label="URL CTA tabla" value={draft.creatorHome.subscriptionTable.ctaUrl} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'ctaUrl'], value)} />
+              <div className="admin-repeater">
+                <div className="admin-section-header">
+                  <div>
+                    <h3>Planes dinamicos</h3>
+                    <p className="admin-meta">Cada plan controla precio, descuento y cuantos meses se suman al acceso total.</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="admin-secondary-button"
+                    onClick={() =>
+                      addListItem(['creatorHome', 'subscriptionTable', 'plans'], {
+                        slug: `plan-${Date.now()}`,
+                        label: 'Nuevo plan',
+                        period: '1 mes',
+                        durationValue: '1',
+                        durationUnit: 'months',
+                        price: 'S/0',
+                        discountPercent: '0',
+                        discountLabel: 'Oferta activa',
+                        promoNote: '',
+                      })
+                    }
+                  >
+                    Agregar plan
+                  </button>
+                </div>
+                {draft.creatorHome.subscriptionTable.plans.map((plan, index) => (
+                  <div className="admin-array-card" key={plan.slug || `subscription-plan-${index}`}>
+                    <Field label="Slug" value={plan.slug} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'slug'], value)} />
+                    <Field label="Label visible" value={plan.label} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'label'], value)} />
+                    <Field label="Periodo visible" value={plan.period} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'period'], value)} />
+                    <Field label="Duracion" value={plan.durationValue || plan.durationMonths} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'durationValue'], value)} />
+                    <label className="admin-field">
+                      <span>Unidad</span>
+                      <select value={plan.durationUnit || 'months'} onChange={(event) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'durationUnit'], event.target.value)}>
+                        <option value="days">Dias</option>
+                        <option value="months">Meses</option>
+                      </select>
+                    </label>
+                    <Field label="Precio base" value={plan.price} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'price'], value)} />
+                    <Field label="Descuento (%)" value={plan.discountPercent} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'discountPercent'], value)} />
+                    <Field label="Label descuento" value={plan.discountLabel} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'discountLabel'], value)} />
+                    <TextareaField label="Nota promo" rows={3} value={plan.promoNote} onChange={(value) => setDraftValue(['creatorHome', 'subscriptionTable', 'plans', index, 'promoNote'], value)} />
+                    <button
+                      type="button"
+                      className="admin-danger-button"
+                      onClick={() => removeListItem(['creatorHome', 'subscriptionTable', 'plans'], index)}
+                    >
+                      Eliminar plan
+                    </button>
+                  </div>
+                ))}
+              </div>
               <div className="admin-repeater">
                 <div className="admin-section-header">
                   <div>
@@ -639,9 +701,17 @@ function ContentEditor() {
 }
 
 function UsersEditor() {
-  const { isSupabaseConfigured, refreshUsers, updateManagedUser, users } = useAppState()
+  const {
+    customerAdminData,
+    formatPriceFromAmount,
+    isSupabaseConfigured,
+    refreshUsers,
+    updateManagedUser,
+    users,
+  } = useAppState()
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'public', status: 'active' })
   const activeAdmins = useMemo(() => users.filter((user) => user.role === 'admin' && user.status === 'active'), [users])
+  const [searchTerm, setSearchTerm] = useState('')
   const [roleDrafts, setRoleDrafts] = useState({})
 
   useEffect(() => {
@@ -668,6 +738,21 @@ function UsersEditor() {
     await updateManagedUser(user.id, { role: roleDrafts[user.id] || user.role })
   }
 
+  const visibleCustomers = useMemo(() => {
+    const source = isSupabaseConfigured ? customerAdminData : users
+    const needle = searchTerm.trim().toLowerCase()
+
+    if (!needle) {
+      return source
+    }
+
+    return source.filter((user) =>
+      [user.name, user.email, user.role, user.status]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(needle)),
+    )
+  }, [customerAdminData, isSupabaseConfigured, searchTerm, users])
+
   return (
     <section className="admin-panel-section">
       <div className="admin-section-header">
@@ -683,9 +768,67 @@ function UsersEditor() {
           {isSupabaseConfigured ? <div className="admin-hint"><p>Con Supabase activo, crea usuarios en Authentication / Users.</p><p className="admin-note">Luego puedes volver aqui para cambiar rol o estado del perfil.</p><button type="button" className="admin-secondary-button" onClick={refreshUsers}>Recargar usuarios</button></div> : <button className="admin-primary-button" type="submit">Crear usuario</button>}
         </form>
         <div className="admin-users-list">
-          {users.map((user) => (
+          <label className="admin-field">
+            <span>Buscar cliente</span>
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Correo, nombre, rol o estado"
+            />
+          </label>
+          {visibleCustomers.map((user) => (
             <article className="admin-user-card" key={user.id}>
-              <div><h3>{user.name}</h3><p>{user.email}</p><p>Rol: <strong>{user.role}</strong> · Estado: <strong>{user.status}</strong></p></div>
+              <div className="admin-user-copy">
+                <h3>{user.name}</h3>
+                <p>{user.email}</p>
+                <p>Rol: <strong>{user.role}</strong> · Estado: <strong>{user.status}</strong></p>
+                {isSupabaseConfigured ? (
+                  <>
+                    <div className="admin-user-metrics">
+                      <span>Ordenes: <strong>{user.orderCount || 0}</strong></span>
+                      <span>Pagadas: <strong>{user.paidOrderCount || 0}</strong></span>
+                      <span>Gasto total: <strong>{formatPriceFromAmount(user.totalSpentAmount || 0, 'PEN')}</strong></span>
+                    </div>
+                    <p className="admin-note">
+                      Stripe customer: {user.stripeCustomerId || 'No asignado'} · Alta: {formatDateLabel(user.createdAt)}
+                    </p>
+                    <p className="admin-note">
+                      Ultima orden: {formatDateLabel(user.latestOrderAt)}
+                    </p>
+                    <div className="admin-entitlement-chips">
+                      {(user.entitlements || []).length ? (
+                        user.entitlements
+                          .filter((entry) => entry.status === 'active')
+                          .slice(0, 6)
+                          .map((entry) => (
+                            <span className="admin-chip" key={entry.id}>
+                              {entry.entitlementKey}
+                            </span>
+                          ))
+                      ) : (
+                        <span className="admin-chip muted">Sin accesos activos</span>
+                      )}
+                    </div>
+                    {(user.orders || []).length ? (
+                      <div className="admin-user-orders">
+                        {user.orders.slice(0, 3).map((order) => (
+                          <div className="admin-user-order" key={order.id}>
+                            <div>
+                              <strong>{order.providerOrderId || order.id}</strong>
+                              <span>{formatDateLabel(order.createdAt)}</span>
+                            </div>
+                            <div>
+                              <strong>{formatPriceFromAmount(order.totalAmount, order.currency)}</strong>
+                              <span>{order.status}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </>
+                ) : null}
+              </div>
               <div className="admin-actions-row">
                 <select className="admin-inline-select" value={roleDrafts[user.id] || user.role} onChange={(event) => setRoleDrafts((current) => ({ ...current, [user.id]: event.target.value }))}><option value="public">Publico</option><option value="admin">Admin</option></select>
                 <button type="button" className="admin-secondary-button" onClick={() => handleRoleSave(user)}>Guardar rol</button>

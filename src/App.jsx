@@ -1,11 +1,16 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppProvider, useAppState } from './state/AppState'
+import { AccessPage } from './pages/AccessPage'
 import { BlogIndexPage } from './pages/BlogIndexPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { CheckoutCancelPage } from './pages/CheckoutCancelPage'
+import { CheckoutStartPage } from './pages/CheckoutStartPage'
+import { CheckoutSuccessPage } from './pages/CheckoutSuccessPage'
 import { CollectionCatalogPage } from './pages/CollectionCatalogPage'
 import { EncuentrosPage } from './pages/EncuentrosPage'
 import { HomePage } from './pages/HomePage'
+import { MemberLibraryPage } from './pages/MemberLibraryPage'
 import { VideoCatalogPage } from './pages/VideoCatalogPage'
 import { VideoDetailPage } from './pages/VideoDetailPage'
 
@@ -34,6 +39,20 @@ function ProtectedAdminRoute() {
   return <AdminDashboardPage />
 }
 
+function ProtectedMemberRoute() {
+  const { isBootstrapping, session } = useAppState()
+
+  if (isBootstrapping) {
+    return <main className="admin-shell">Cargando biblioteca...</main>
+  }
+
+  if (!session) {
+    return <Navigate to="/access?redirect=/library" replace />
+  }
+
+  return <MemberLibraryPage />
+}
+
 function AppRoutes() {
   const { session } = useAppState()
 
@@ -47,6 +66,11 @@ function AppRoutes() {
         <Route path="/videos" element={<VideoCatalogPage />} />
         <Route path="/videos/:slug" element={<VideoDetailPage />} />
         <Route path="/packs" element={<CollectionCatalogPage />} />
+        <Route path="/access" element={<AccessPage />} />
+        <Route path="/library" element={<ProtectedMemberRoute />} />
+        <Route path="/checkout/start/:productSlug" element={<CheckoutStartPage />} />
+        <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+        <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
         <Route
           path="/admin"
           element={

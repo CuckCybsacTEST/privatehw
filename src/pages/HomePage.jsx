@@ -14,7 +14,7 @@ export function HomePage() {
   const { sectionVisibility } = siteContent
 
   return (
-    <main className="creator-home">
+    <main className="creator-home" id="home-top">
       <PublicNav />
       {sectionVisibility.creatorHero ? <CreatorHero content={siteContent} /> : null}
       {sectionVisibility.mediaSpotlight ? <SpotlightGrid content={siteContent} /> : null}

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppState } from '../state/AppState'
 
 function VideoPreview({ item }) {
   if (item.previewVideoUrl) {
@@ -24,6 +26,27 @@ function VideoPreview({ item }) {
 }
 
 export function VideoCard({ item }) {
+  const navigate = useNavigate()
+  const { getContentAccess, session } = useAppState()
+  const access = getContentAccess(`video:${item.slug}`)
+  const [error, setError] = useState('')
+
+  async function handlePurchase() {
+    if (access.unlocked || !access.product) {
+      navigate(`/videos/${item.slug}`)
+      return
+    }
+
+    setError('')
+
+    if (!session || !session.accessToken) {
+      navigate(`/access?redirect=/checkout/start/${access.product.slug}`)
+      return
+    }
+
+    navigate(`/checkout/start/${access.product.slug}`)
+  }
+
   return (
     <article className="video-card" key={item.slug}>
       <VideoPreview item={item} />
@@ -37,21 +60,20 @@ export function VideoCard({ item }) {
         <p>{item.description}</p>
         <div className="video-card-access">
           <strong>{item.priceLabel}</strong>
-          <small>{item.accessLabel}</small>
+          <small>
+            {access.unlocked
+              ? access.includedBySubscription
+                ? 'Incluido en tu suscripcion'
+                : 'Desbloqueado'
+              : item.accessLabel}
+          </small>
         </div>
         <div className="video-card-actions">
-          <a
-            className="video-buy-link"
-            href={item.purchaseUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Comprar video
-          </a>
-          <Link className="video-preview-link" to={`/videos/${item.slug}`}>
-            Ver detalle
-          </Link>
+          <button className="video-buy-link" type="button" onClick={handlePurchase}>
+            {access.unlocked ? 'Ver acceso' : 'Comprar video'}
+          </button>
         </div>
+        {error ? <p className="admin-error">{error}</p> : null}
       </div>
     </article>
   )
