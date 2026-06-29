@@ -11,7 +11,10 @@ Esta fase prepara la base comercial del proyecto antes de conectar Stripe.
 
 ## Regla de acceso implementada
 
-- `membership-total` desbloquea todo el contenido digital
+- `tier:starter` desbloquea videos premium
+- `tier:plus` desbloquea videos premium y packs
+- `tier:pro` desbloquea videos premium, packs y blog privado
+- `tier:elite` desbloquea todo el contenido digital y beneficios extendidos
 - cada video desbloquea solo ese video
 - cada pack desbloquea solo ese pack
 - la coleccion fisica no desbloquea contenido digital
@@ -33,9 +36,9 @@ Los scripts usan `create table if not exists`, asi que son seguros como actualiz
 
 ## Siguiente fase
 
-Conectar Stripe en modo test para:
+Conectar Stripe en modo test para tarjetas:
 
-- `membership-total` como suscripcion
+- tiers de suscripcion como productos dinamicos
 - videos, packs y fisicos como compras unicas
 - webhook para crear `orders` y `entitlements`
 

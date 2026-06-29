@@ -1,45 +1,96 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SubscriptionPlanSelector } from './SubscriptionPlanSelector'
+import { useTranslation } from 'react-i18next'
+import { normalizeSubscriptionTiers } from '../data/defaultCommerce'
 import { useAppState } from '../state/AppState'
-
-function getAccessViewportMode() {
-  if (typeof window === 'undefined') {
-    return 'desktop'
-  }
-
-  if (window.innerWidth > 900) {
-    return 'desktop'
-  }
-
-  if (window.innerWidth <= 390 || window.innerHeight <= 844) {
-    return 'compact'
-  }
-
-  return 'regular'
-}
+import { resolveLocalizedSection } from '../utils/localizedContent'
 
 export function AccessTotalSection({ content }) {
   const navigate = useNavigate()
   const { session, subscriptionProducts } = useAppState()
-  const [accessViewportMode, setAccessViewportMode] = useState(() => getAccessViewportMode())
+  const { i18n, t } = useTranslation()
   const defaultSubscriptionProduct = subscriptionProducts[0] || null
+  const accessTotal = resolveLocalizedSection(
+    content?.accessTotal ? content : { accessTotal: content },
+    'accessTotal',
+    i18n.resolvedLanguage,
+  )
+  const pricingPlans = useMemo(
+    () =>
+      normalizeSubscriptionTiers(accessTotal)
+        .slice(0, 4)
+        .map((plan, index) => {
+          const product =
+            subscriptionProducts.find(
+              (item) =>
+                item.slug === `membership-${plan.slug}` &&
+                item.accessScope === `tier:${plan.slug}`,
+            ) ||
+            subscriptionProducts[index] ||
+            null
+
+          return {
+            ...plan,
+            product,
+            priceLabel: product?.priceLabel || plan.discountedPriceLabel || plan.price || '$0',
+          }
+        }),
+    [accessTotal, subscriptionProducts],
+  )
+  const valuePhrases = useMemo(() => {
+    const phrases = t('content.accessTotalValuePhrases', { returnObjects: true })
+    return Array.isArray(phrases) ? phrases : []
+  }, [t, i18n.resolvedLanguage])
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0)
+  const safeSelectedPlanIndex =
+    selectedPlanIndex >= 0 && selectedPlanIndex < pricingPlans.length ? selectedPlanIndex : 0
+  const selectedPlan = pricingPlans[safeSelectedPlanIndex] || null
+  const selectedValuePhrase = valuePhrases.length
+    ? valuePhrases[safeSelectedPlanIndex % valuePhrases.length]
+    : selectedPlan?.label || ''
+  const progressPercent = pricingPlans.length
+    ? Math.round(((safeSelectedPlanIndex + 1) / pricingPlans.length) * 100)
+    : 0
 
   useEffect(() => {
-    function handleViewportChange() {
-      setAccessViewportMode(getAccessViewportMode())
+    if (selectedPlanIndex >= pricingPlans.length) {
+      setSelectedPlanIndex(0)
+    }
+  }, [pricingPlans.length, selectedPlanIndex])
+
+  useEffect(() => {
+    if (pricingPlans.length <= 1) {
+      return undefined
     }
 
-    handleViewportChange()
-    window.addEventListener('resize', handleViewportChange)
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    return () => window.removeEventListener('resize', handleViewportChange)
-  }, [])
+    if (prefersReducedMotion) {
+      return undefined
+    }
 
-  function handleMembershipRoute(selectedPlanProduct) {
-    const targetProduct = selectedPlanProduct || defaultSubscriptionProduct
+    const intervalId = window.setInterval(() => {
+      setSelectedPlanIndex((currentIndex) => (currentIndex + 1) % pricingPlans.length)
+    }, 3200)
+
+    return () => window.clearInterval(intervalId)
+  }, [pricingPlans.length])
+
+  function handleMembershipRoute() {
+    const targetProduct = selectedPlan?.product || defaultSubscriptionProduct
 
     if (!targetProduct) {
+      if (accessTotal.ctaUrl) {
+        if (accessTotal.ctaUrl.startsWith('/')) {
+          navigate(accessTotal.ctaUrl)
+          return
+        }
+
+        window.location.assign(accessTotal.ctaUrl)
+      }
+
       return
     }
 
@@ -52,41 +103,50 @@ export function AccessTotalSection({ content }) {
   }
 
   return (
-    <section className={`access-total-section is-access-${accessViewportMode}`} id="access-total">
+    <section className="access-total-section" id="access-total">
       <div className="access-total-shell">
-        <div className="access-total-visual">
-          <div className="access-total-frame">
-            <img
-              src={content.heroImage}
-              alt="Creator portrait"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
+        <div
+          className="access-total-compact-card"
+          style={{ '--access-total-progress': `${progressPercent}%` }}
+        >
+          <span className="access-total-kicker">{accessTotal.eyebrow || t('content.accessBenefits')}</span>
+          <h2>{accessTotal.title || t('content.subscriptionPremium')}</h2>
+          <p className="access-total-lede">
+            {accessTotal.description ||
+              'Comparacion resumida para convertir rapido. El detalle completo aparece mas abajo.'}
+          </p>
+
+          <div className="access-total-plan-grid">
+            {pricingPlans.map((plan, index) => (
+              <button
+                className={
+                  index === safeSelectedPlanIndex
+                    ? 'access-total-plan-tile is-active'
+                    : 'access-total-plan-tile'
+                }
+                key={plan.slug}
+                type="button"
+                onClick={() => setSelectedPlanIndex(index)}
+                aria-pressed={index === safeSelectedPlanIndex}
+              >
+                <span>{plan.label}</span>
+                <strong>{plan.priceLabel}</strong>
+              </button>
+            ))}
           </div>
 
-          <div className={`access-total-card is-access-${accessViewportMode}`}>
-            <p className="creator-profile-eyebrow">{content.eyebrow}</p>
-            <h2>{content.title}</h2>
-            <p>{content.description}</p>
-            <p className="creator-subscription-access">{content.accessLabel}</p>
-
-            <div className="creator-subscription-table">
-              {content.rows.map((row) => (
-                <div className="creator-subscription-row" key={row.label}>
-                  <span>{row.label}</span>
-                  <strong>{row.value}</strong>
-                </div>
-              ))}
+          {selectedPlan ? (
+            <div className="access-total-selected-strip" aria-live="polite">
+              <span>{selectedPlan.label}</span>
+              <strong>{selectedValuePhrase}</strong>
             </div>
+          ) : null}
 
-            <SubscriptionPlanSelector
-              subscriptionProducts={subscriptionProducts}
-              subscriptionTable={content}
-              onPurchase={handleMembershipRoute}
-              context="hero"
-            />
-          </div>
+          <button className="hero-primary-cta access-total-cta" type="button" onClick={handleMembershipRoute}>
+            {accessTotal.ctaLabel || t('content.subscribeAndUnlock')}
+          </button>
+
+          <div className="access-total-accent-bar" aria-hidden="true" />
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { defaultSiteContent, mergeSiteContent } from '../data/defaultSiteContent'
@@ -10,22 +11,31 @@ import { defaultUsers } from '../data/defaultUsers'
 import {
   buildDefaultProducts,
   defaultEntitlements,
-  mergeProducts,
+  isDerivedProductType,
+  isPersistentProductType,
   normalizeEntitlements,
+  normalizeSubscriptionTiers,
 } from '../data/defaultCommerce'
 import {
   deleteBlogPost,
   fetchBlogPosts,
+  createManualEncuentrosReservation as createManualEncuentrosReservationRequest,
   fetchCurrentEntitlements,
   fetchCurrentOrders,
   fetchProducts,
   fetchSiteContent,
+  getAdminAuditEvents,
   getCustomerAdminSnapshot,
   getCurrentSession,
   getProfiles,
   isSupabaseConfigured,
+  createManagedUser as createManagedUserRequest,
+  updateManagedSubscription as updateManagedSubscriptionRequest,
   listenToAuthChanges,
+  translateAdminContent,
   signInWithPassword,
+  signInWithOAuth,
+  signInWithTelegram,
   signUpWithPassword,
   signOut,
   updateProfile,
@@ -35,12 +45,17 @@ import {
   uploadMediaAsset,
   uploadMediaAssetFromUrl,
 } from '../lib/supabase'
+import { uploadGoogleDriveVideoAsset } from '../lib/googleDrive.js'
 import { defaultBlogPosts, mergeBlogPosts } from '../data/defaultBlogPosts'
+import { isEntitlementActive } from '../utils/entitlements'
+import { getTranslationState } from '../utils/translationSync'
+import { hashStableValue } from '../utils/translationSync'
 import {
   readStorageValue,
   removeStorageValue,
   writeStorageValue,
 } from '../utils/storage'
+import { normalizeRecordingChoice } from '../utils/encuentrosBooking'
 
 const SITE_CONTENT_KEY = 'privatehw.site-content.v2'
 const BLOG_POSTS_KEY = 'privatehw.blog-posts.v1'
@@ -52,25 +67,346 @@ const USERS_KEY = 'privatehw.users.v1'
 const CUSTOMER_ADMIN_KEY = 'privatehw.customer-admin.v1'
 const SESSION_KEY = 'privatehw.session.v1'
 
-const AppStateContext = createContext(null)
+const globalAppState = globalThis
+const AppStateContext =
+  globalAppState.__privatehwAppStateContext ||
+  (globalAppState.__privatehwAppStateContext = createContext(null))
+
+function withTimeout(promise, timeoutMs = 10000, timeoutMessage = 'La operacion tardo demasiado.') {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      window.setTimeout(() => reject(new Error(timeoutMessage)), timeoutMs)
+    }),
+  ])
+}
+
+function normalizeFeaturedSlot(value, fallbackFeatured = false) {
+  if (value === 'primary' || value === 'secondary') {
+    return value
+  }
+
+  return fallbackFeatured ? 'primary' : 'none'
+}
+
+function parseDateOrNull(value) {
+  if (!value) {
+    return null
+  }
+
+  const parsed = new Date(value)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
+function getFallbackUsersState() {
+  return defaultUsers
+}
+
+function isLikelySupabaseAuthConnectivityError(error) {
+  const message = String(error?.message || '').toLowerCase()
+  const code = String(error?.cause?.code || error?.code || '').toUpperCase()
+
+  return (
+    message.includes('fetch failed') ||
+    message.includes('failed to fetch') ||
+    message.includes('getaddrinfo') ||
+    message.includes('network') ||
+    message.includes('tardo demasiado') ||
+    ['ENOTFOUND', 'EAI_AGAIN', 'ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT'].includes(code)
+  )
+}
+
+function getActiveAdminCount(nextUsers = [], excludeUserId = '') {
+  return nextUsers.filter(
+    (user) =>
+      user.id !== excludeUserId &&
+      user.role === 'admin' &&
+      user.status === 'active',
+  ).length
+}
+
+function wouldRemoveAdminAccess(currentUser = {}, patch = {}) {
+  const nextRole = patch.role ?? currentUser.role
+  const nextStatus = patch.status ?? currentUser.status
+  const isDeletion = Boolean(patch._delete)
+
+  return (
+    currentUser.role === 'admin' &&
+    currentUser.status === 'active' &&
+    (isDeletion || nextRole !== 'admin' || nextStatus !== 'active')
+  )
+}
+
+function addDuration(baseDate, durationUnit, durationValue) {
+  const nextDate = new Date(baseDate)
+
+  if (durationUnit === 'days') {
+    nextDate.setDate(nextDate.getDate() + durationValue)
+    return nextDate
+  }
+
+  nextDate.setMonth(nextDate.getMonth() + durationValue)
+  return nextDate
+}
+
+function buildOrderDateMap(nextOrders = []) {
+  return new Map(
+    nextOrders.map((order) => [order.id, parseDateOrNull(order.createdAt)]),
+  )
+}
+
+function buildManualReservationOrder({
+  guestName = '',
+  recordingChoice = 'standard',
+  selectedDate = '',
+  selectedTime = '',
+  pricing = {},
+  session = null,
+}) {
+  const reservationRequestId = `reservation-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
+  const createdAt = new Date().toISOString()
+  const advanceAmount = Number.isFinite(pricing.advanceAmount) ? pricing.advanceAmount : 0
+  const effectiveAmount = Number.isFinite(pricing.effectiveAmount) ? pricing.effectiveAmount : 0
+  const baseAmount = Number.isFinite(pricing.baseAmount) ? pricing.baseAmount : 0
+  const remainingAmount = Number.isFinite(pricing.remainingAmount)
+    ? pricing.remainingAmount
+    : Math.max(0, effectiveAmount - advanceAmount)
+  const normalizedGuestName = String(guestName || '').trim()
+
+  return {
+    id: `manual-order-${Date.now()}`,
+    providerOrderId: `manual-${reservationRequestId}`,
+    status: 'pending',
+    totalAmount: advanceAmount,
+    currency: pricing.currency || 'PEN',
+    createdAt,
+    metadata: {
+      checkoutType: 'reservation',
+      productType: 'reservation',
+      productSlug: 'reservation-encuentros',
+      reservationRequestId,
+      reservationGuestName: normalizedGuestName,
+      reservationName: normalizedGuestName,
+      reservationDate: selectedDate,
+      reservationTime: selectedTime,
+      reservationRecordingChoice: recordingChoice,
+      reservationAdvanceAmount: advanceAmount,
+      reservationTotalAmount: effectiveAmount,
+      reservationRemainingAmount: remainingAmount,
+      reservationBasePriceAmount: baseAmount,
+      reservationAdvanceLabel: pricing.advanceLabel || '',
+      reservationTotalLabel: pricing.effectiveLabel || '',
+      reservationRemainingLabel: pricing.remainingLabel || '',
+      paymentMethod: 'PLIN / YAPE',
+      paymentNumber: '+51931756041',
+      paymentHolder: 'Silvia ****',
+      reservationChannel: 'manual',
+      reservationStatus: 'pending_manual_payment',
+      userId: session?.id || null,
+      userEmail: session?.email || null,
+    },
+    items: [
+      {
+        id: `manual-order-item-${Date.now()}`,
+        productSlug: 'reservation-encuentros',
+        quantity: 1,
+        unitAmount: advanceAmount,
+        totalAmount: advanceAmount,
+        metadata: {
+          reservationRequestId,
+          reservationGuestName: normalizedGuestName,
+          reservationDate: selectedDate,
+          reservationTime: selectedTime,
+        },
+      },
+    ],
+  }
+}
+
+function isSubscriptionEntitlementKey(value = '') {
+  return String(value || '').startsWith('tier:')
+}
+
+function buildSubscriptionGrantSet(nextEntitlements = [], nextProducts = []) {
+  const productsBySlug = new Map(nextProducts.map((product) => [product.slug, product]))
+  const grants = new Set()
+
+  nextEntitlements.forEach((entitlement) => {
+    if (!isSubscriptionEntitlementKey(entitlement.entitlementKey) || !isEntitlementActive(entitlement)) {
+      return
+    }
+
+    const product = productsBySlug.get(entitlement.productSlug) || null
+    const productGrants = Array.isArray(product?.metadata?.grants) && product.metadata.grants.length
+      ? product.metadata.grants
+      : []
+
+    productGrants.forEach((grant) => {
+      const normalizedGrant = String(grant || '').trim()
+      if (normalizedGrant) {
+        grants.add(normalizedGrant)
+      }
+    })
+  })
+
+  return grants
+}
+
+function enrichSubscriptionEntitlements(nextEntitlements = [], nextOrders = [], nextProducts = []) {
+  const productsBySlug = new Map(nextProducts.map((product) => [product.slug, product]))
+  const orderCreatedAtById = buildOrderDateMap(nextOrders)
+
+  return nextEntitlements.map((entitlement) => {
+    if (!isSubscriptionEntitlementKey(entitlement.entitlementKey)) {
+      return entitlement
+    }
+
+    const product = productsBySlug.get(entitlement.productSlug) || null
+
+    if (!product) {
+      return entitlement
+    }
+
+    const durationValue = Number.parseInt(
+      product.metadata?.durationValue || product.metadata?.durationMonths || '0',
+      10,
+    )
+    const safeDurationValue = Number.isFinite(durationValue) && durationValue > 0 ? durationValue : 1
+    const durationUnit = product.metadata?.durationUnit === 'days' ? 'days' : 'months'
+    const baseDate =
+      orderCreatedAtById.get(entitlement.sourceOrderId) ||
+      parseDateOrNull(entitlement.createdAt) ||
+      parseDateOrNull(entitlement.expiresAt) ||
+      new Date()
+
+    const storedExpiry = parseDateOrNull(entitlement.expiresAt)
+    const computedExpiry = addDuration(baseDate, durationUnit, safeDurationValue)
+    const effectiveExpiry =
+      storedExpiry && storedExpiry.getTime() > computedExpiry.getTime()
+        ? storedExpiry
+        : computedExpiry
+
+    return {
+      ...entitlement,
+      expiresAt: effectiveExpiry.toISOString(),
+      createdAt: entitlement.createdAt || baseDate.toISOString(),
+    }
+  })
+}
+
+function mergeGeneratedProducts(generatedProducts = [], existingProducts = []) {
+  const savedBySlug = new Map(existingProducts.map((product) => [product.slug, product]))
+
+  const syncedGeneratedProducts = generatedProducts.map((generatedProduct) => {
+    const savedProduct = savedBySlug.get(generatedProduct.slug)
+
+    if (!savedProduct && isDerivedProductType(generatedProduct.productType)) {
+      return null
+    }
+
+    if (!savedProduct) {
+      return generatedProduct
+    }
+
+    return {
+      ...savedProduct,
+      ...generatedProduct,
+      id: savedProduct.id || generatedProduct.id,
+      active:
+        typeof savedProduct.active === 'boolean'
+          ? savedProduct.active
+          : generatedProduct.active,
+      stripePriceId: savedProduct.stripePriceId || generatedProduct.stripePriceId,
+    }
+  })
+  .filter(Boolean)
+
+  const generatedSlugs = new Set(generatedProducts.map((product) => product.slug))
+  const customProducts = existingProducts.filter(
+    (product) =>
+      !generatedSlugs.has(product.slug) &&
+      !['membership-', 'video-', 'pack-', 'physical-', 'blog-', 'reservation-'].some((prefix) =>
+        String(product.slug || '').startsWith(prefix),
+      ),
+  )
+
+  return [...syncedGeneratedProducts, ...customProducts]
+}
+
+function buildBlogTranslationSource(post = {}) {
+  return {
+    title: post.title || '',
+    excerpt: post.excerpt || '',
+    seoTitle: post.seoTitle || '',
+    seoDescription: post.seoDescription || '',
+    contentHtml: post.contentHtml || '<p></p>',
+    category: post.category || '',
+    tags: post.tags || [],
+    mediaItems: (post.mediaItems || []).map((item) => ({
+      title: item.title || '',
+      caption: item.caption || '',
+    })),
+  }
+}
+
+function applyTranslatedBlogPost(post, translatedResult, targetLocale = 'en', mode = 'full') {
+  const translated = translatedResult?.translated || {}
+  const currentLocalized = post.localized || {}
+  const nextLocalized = {
+    ...currentLocalized,
+    [targetLocale]: mode === 'missing'
+      ? {
+          ...translated,
+          ...(currentLocalized[targetLocale] || {}),
+        }
+      : translated,
+  }
+
+  return {
+    ...post,
+    localized: nextLocalized,
+    localizedMeta: {
+      ...(post.localizedMeta || {}),
+      [targetLocale]: {
+        ...(post.localizedMeta?.[targetLocale] || {}),
+        blogPost: {
+          sourceHash: translatedResult?.sourceHash || hashStableValue(buildBlogTranslationSource(post)),
+          translatedAt: translatedResult?.translatedAt || new Date().toISOString(),
+          provider: translatedResult?.provider || '',
+          mode,
+        },
+      },
+    },
+  }
+}
 
 export function AppProvider({ children }) {
-  const [siteContent, setSiteContent] = useState(() =>
-    mergeSiteContent(readStorageValue(SITE_CONTENT_KEY, defaultSiteContent)),
+  const initialSiteContent = isSupabaseConfigured
+    ? mergeSiteContent(defaultSiteContent)
+    : mergeSiteContent(readStorageValue(SITE_CONTENT_KEY, defaultSiteContent))
+  const initialBlogPosts = isSupabaseConfigured
+    ? mergeBlogPosts(defaultBlogPosts, [])
+    : mergeBlogPosts(defaultBlogPosts, readStorageValue(BLOG_POSTS_KEY, defaultBlogPosts))
+  const [siteContent, setSiteContent] = useState(() => initialSiteContent)
+  const [users, setUsers] = useState(() =>
+    isSupabaseConfigured ? [] : readStorageValue(USERS_KEY, defaultUsers),
   )
-  const [users, setUsers] = useState(() => readStorageValue(USERS_KEY, defaultUsers))
   const [customerAdminData, setCustomerAdminData] = useState(() =>
     readStorageValue(CUSTOMER_ADMIN_KEY, []),
   )
-  const [blogPosts, setBlogPosts] = useState(() =>
-    mergeBlogPosts(defaultBlogPosts, readStorageValue(BLOG_POSTS_KEY, defaultBlogPosts)),
+  const [adminAuditEvents, setAdminAuditEvents] = useState(() =>
+    readStorageValue('privatehw.admin-audit-events.v1', []),
   )
-  const [products, setProducts] = useState(() =>
-    mergeProducts(
-      buildDefaultProducts(defaultSiteContent),
-      readStorageValue(PRODUCTS_KEY, buildDefaultProducts(defaultSiteContent)),
-    ),
-  )
+  const [blogPosts, setBlogPosts] = useState(() => initialBlogPosts)
+  const [products, setProducts] = useState(() => {
+    const generatedProducts = buildDefaultProducts(initialSiteContent, initialBlogPosts)
+    if (isSupabaseConfigured) {
+      return generatedProducts
+    }
+
+    const savedProducts = readStorageValue(PRODUCTS_KEY, generatedProducts)
+    return mergeGeneratedProducts(generatedProducts, savedProducts)
+  })
   const [entitlements, setEntitlements] = useState(() =>
     normalizeEntitlements(readStorageValue(ENTITLEMENTS_KEY, defaultEntitlements)),
   )
@@ -82,16 +418,31 @@ export function AppProvider({ children }) {
     isSupabaseConfigured ? null : readStorageValue(SESSION_KEY, null),
   )
   const [isBootstrapping, setIsBootstrapping] = useState(true)
+  const blogLocaleRepairRef = useRef({ signature: '', running: false })
 
-  async function safeFetchProducts(content) {
+  useEffect(() => {
+    setSiteContent((current) => {
+      const normalized = mergeSiteContent(current)
+
+      if (hashStableValue(normalized) === hashStableValue(current)) {
+        return current
+      }
+
+      return normalized
+    })
+  }, [siteContent])
+
+  async function safeFetchProducts(content, nextBlogPosts = blogPosts) {
     if (!isSupabaseConfigured) {
-      return mergeProducts(buildDefaultProducts(content), products)
+      const generatedProducts = buildDefaultProducts(content, nextBlogPosts)
+      return mergeGeneratedProducts(generatedProducts, products)
     }
 
     try {
-      return await fetchProducts(content)
+      return await fetchProducts(content, nextBlogPosts)
     } catch {
-      return mergeProducts(buildDefaultProducts(content), products)
+      const generatedProducts = buildDefaultProducts(content, nextBlogPosts)
+      return mergeGeneratedProducts(generatedProducts, products)
     }
   }
 
@@ -119,6 +470,144 @@ export function AppProvider({ children }) {
     }
   }
 
+  function hydrateSessionSideData(nextSession) {
+    queueMicrotask(async () => {
+      try {
+        const [nextEntitlements, nextOrders] = await Promise.all([
+          withTimeout(
+            safeFetchEntitlements(),
+            8000,
+            'La carga de accesos excedio el tiempo esperado.',
+          ),
+          withTimeout(
+            safeFetchOrders(),
+            8000,
+            'La carga de ordenes excedio el tiempo esperado.',
+          ),
+        ])
+
+        setEntitlements(enrichSubscriptionEntitlements(nextEntitlements, nextOrders, products))
+        setOrders(nextOrders)
+      } catch {
+        setEntitlements(defaultEntitlements)
+        setOrders([])
+      }
+
+      if (nextSession?.role === 'admin') {
+        loadAdminData(nextSession)
+      }
+    })
+  }
+
+  async function loadAdminData(nextSession = session) {
+    if (!isSupabaseConfigured) {
+      return
+    }
+
+    if (nextSession?.role !== 'admin') {
+      return
+    }
+
+    try {
+      const [remoteUsers, adminSnapshot] = await Promise.all([
+        withTimeout(getProfiles(), 8000, 'La carga de perfiles admin excedio el tiempo esperado.'),
+        withTimeout(
+          getCustomerAdminSnapshot(),
+          8000,
+          'La carga del resumen comercial excedio el tiempo esperado.',
+        ),
+      ])
+
+      setUsers(remoteUsers)
+      setCustomerAdminData(adminSnapshot)
+    } catch {
+      setUsers(getFallbackUsersState())
+      setCustomerAdminData([])
+    }
+
+    try {
+      const auditEvents = await withTimeout(
+        getAdminAuditEvents(nextSession?.accessToken || ''),
+        8000,
+        'La carga de la auditoria excedio el tiempo esperado.',
+      )
+
+      setAdminAuditEvents(auditEvents)
+    } catch {
+      setAdminAuditEvents([])
+    }
+  }
+
+  async function repairPublishedBlogTranslations(nextPosts = blogPosts) {
+    if (!isSupabaseConfigured || session?.role !== 'admin') {
+      return nextPosts
+    }
+
+    const translatedPosts = await Promise.all(
+      nextPosts.map(async (post) => {
+        if (post.status !== 'published') {
+          return post
+        }
+
+        const source = buildBlogTranslationSource(post)
+        const translationState = getTranslationState({
+          source,
+          translated: post.localized?.en,
+          meta: post.localizedMeta,
+          locale: 'en',
+        })
+
+        if (translationState === 'synced') {
+          return post
+        }
+
+        try {
+          const translatedResult = await translateAdminContent(source, {
+            sourceLocale: 'es',
+            targetLocale: 'en',
+            mode: 'full',
+            scope: 'blogPost',
+          })
+
+          return applyTranslatedBlogPost(post, translatedResult, 'en', 'full')
+        } catch {
+          return post
+        }
+      }),
+    )
+
+    const changedPosts = translatedPosts.filter(
+      (post, index) => hashStableValue(post) !== hashStableValue(nextPosts[index]),
+    )
+
+    if (!changedPosts.length) {
+      return nextPosts
+    }
+
+    setBlogPosts(translatedPosts)
+    writeStorageValue(BLOG_POSTS_KEY, translatedPosts)
+
+    const nextGeneratedProducts = buildDefaultProducts(siteContent, translatedPosts)
+    const nextMergedProducts = mergeGeneratedProducts(nextGeneratedProducts, products)
+    setProducts(nextMergedProducts)
+
+    try {
+      await Promise.all(changedPosts.map((post) => upsertBlogPost(post)))
+    } catch {
+      // Keep the local repair even if the remote sync is temporarily unavailable.
+    }
+
+    try {
+      await upsertProducts(
+        nextMergedProducts.filter((product) => isPersistentProductType(product.productType)),
+      )
+    } catch {
+      // Product regeneration can lag behind until the commerce schema is fully aligned.
+    }
+
+    return translatedPosts
+  }
+
   useEffect(() => {
     writeStorageValue(SITE_CONTENT_KEY, siteContent)
   }, [siteContent])
@@ -130,6 +619,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     writeStorageValue(CUSTOMER_ADMIN_KEY, customerAdminData)
   }, [customerAdminData])
+
+  useEffect(() => {
+    writeStorageValue('privatehw.admin-audit-events.v1', adminAuditEvents)
+  }, [adminAuditEvents])
 
   useEffect(() => {
     writeStorageValue(BLOG_POSTS_KEY, blogPosts)
@@ -176,20 +669,23 @@ export function AppProvider({ children }) {
 
       try {
         const [remoteContent, remotePosts, remoteSession] = await Promise.all([
-          fetchSiteContent(),
-          fetchBlogPosts(),
-          getCurrentSession(),
+          withTimeout(fetchSiteContent(), 8000, 'La carga de site_content excedio el tiempo esperado.'),
+          withTimeout(fetchBlogPosts(), 8000, 'La carga del blog excedio el tiempo esperado.'),
+          withTimeout(getCurrentSession(), 8000, 'La carga de sesion excedio el tiempo esperado.'),
         ])
 
         if (!isMounted) {
           return
         }
 
-        setSiteContent(remoteContent)
-        setBlogPosts(mergeBlogPosts(defaultBlogPosts, remotePosts))
+        const nextBlogPosts = mergeBlogPosts(defaultBlogPosts, remotePosts)
+        const nextSiteContent = mergeSiteContent(remoteContent)
+
+        setSiteContent(nextSiteContent)
+        setBlogPosts(nextBlogPosts)
         setSession(remoteSession)
 
-        const remoteProducts = await safeFetchProducts(remoteContent)
+        const remoteProducts = await safeFetchProducts(nextSiteContent, nextBlogPosts)
 
         if (isMounted) {
           setProducts(remoteProducts)
@@ -202,7 +698,9 @@ export function AppProvider({ children }) {
           ])
 
           if (isMounted) {
-            setEntitlements(remoteEntitlements)
+            setEntitlements(
+              enrichSubscriptionEntitlements(remoteEntitlements, remoteOrders, remoteProducts),
+            )
             setOrders(remoteOrders)
           }
         } else if (isMounted) {
@@ -211,25 +709,27 @@ export function AppProvider({ children }) {
         }
 
         if (remoteSession?.role === 'admin') {
-          const [remoteUsers, adminSnapshot] = await Promise.all([
-            getProfiles(),
-            getCustomerAdminSnapshot(),
-          ])
-
-          if (isMounted) {
-            setUsers(remoteUsers)
-            setCustomerAdminData(adminSnapshot)
-          }
+          queueMicrotask(() => {
+            loadAdminData(remoteSession)
+          })
         }
       } catch {
         if (isMounted) {
+          const fallbackSiteContent = mergeSiteContent(
+            readStorageValue(SITE_CONTENT_KEY, defaultSiteContent),
+          )
+          const fallbackBlogPosts = mergeBlogPosts(
+            defaultBlogPosts,
+            readStorageValue(BLOG_POSTS_KEY, defaultBlogPosts),
+          )
           setSession(null)
-          setUsers(defaultUsers)
-          setBlogPosts(defaultBlogPosts)
-          setProducts(buildDefaultProducts(defaultSiteContent))
+          setUsers(getFallbackUsersState())
+          setBlogPosts(fallbackBlogPosts)
+          setProducts(buildDefaultProducts(fallbackSiteContent, fallbackBlogPosts))
           setEntitlements(defaultEntitlements)
           setOrders([])
           setCustomerAdminData([])
+          setSiteContent(fallbackSiteContent)
         }
       } finally {
         if (isMounted) {
@@ -250,37 +750,81 @@ export function AppProvider({ children }) {
       return undefined
     }
 
-    const subscription = listenToAuthChanges(async (nextSession) => {
+    const subscription = listenToAuthChanges((nextSession) => {
       setSession(nextSession)
 
       if (nextSession) {
-        const [remoteEntitlements, remoteOrders] = await Promise.all([
-          safeFetchEntitlements(),
-          safeFetchOrders(),
-        ])
-        setEntitlements(remoteEntitlements)
-        setOrders(remoteOrders)
-      } else {
-        setEntitlements(defaultEntitlements)
-        setOrders([])
-      }
-
-      if (nextSession?.role === 'admin') {
-        const [remoteUsers, adminSnapshot] = await Promise.all([
-          getProfiles(),
-          getCustomerAdminSnapshot(),
-        ])
-        setUsers(remoteUsers)
-        setCustomerAdminData(adminSnapshot)
+        hydrateSessionSideData(nextSession)
         return
       }
 
-      setUsers(defaultUsers)
+      setEntitlements(defaultEntitlements)
+      setOrders([])
+      setUsers(getFallbackUsersState())
       setCustomerAdminData([])
     })
 
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    if (
+      isBootstrapping ||
+      !isSupabaseConfigured ||
+      session?.role !== 'admin' ||
+      !blogPosts.length
+    ) {
+      return undefined
+    }
+
+    const repairCandidates = blogPosts.filter((post) => {
+      if (post.status !== 'published') {
+        return false
+      }
+
+      const translationState = getTranslationState({
+        source: buildBlogTranslationSource(post),
+        translated: post.localized?.en,
+        meta: post.localizedMeta,
+        locale: 'en',
+      })
+
+      return translationState !== 'synced'
+    })
+
+    if (!repairCandidates.length) {
+      return undefined
+    }
+
+    const repairSignature = repairCandidates
+      .map((post) => `${post.id}:${hashStableValue(buildBlogTranslationSource(post))}`)
+      .join('|')
+
+    if (blogLocaleRepairRef.current.running || blogLocaleRepairRef.current.signature === repairSignature) {
+      return undefined
+    }
+
+    blogLocaleRepairRef.current.signature = repairSignature
+    blogLocaleRepairRef.current.running = true
+
+    let cancelled = false
+
+    queueMicrotask(async () => {
+      try {
+        if (cancelled) {
+          return
+        }
+
+        await repairPublishedBlogTranslations(blogPosts)
+      } finally {
+        blogLocaleRepairRef.current.running = false
+      }
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [blogPosts, isBootstrapping, session?.role])
 
   async function loginWithEmail(form) {
     if (!isSupabaseConfigured) {
@@ -307,16 +851,48 @@ export function AppProvider({ children }) {
       return nextSession
     }
 
-    const nextSession = await signInWithPassword({ ...form, requireAdmin: true })
-    setSession(nextSession)
-    const [nextEntitlements, nextOrders] = await Promise.all([
-      safeFetchEntitlements(),
-      safeFetchOrders(),
-    ])
-    setEntitlements(nextEntitlements)
-    setOrders(nextOrders)
+    try {
+      const nextSession = await withTimeout(
+        signInWithPassword({ ...form, requireAdmin: true }),
+        10000,
+        'El login admin tardo demasiado. Revisa tu conexion o intenta otra vez.',
+      )
+      setSession(nextSession)
+      hydrateSessionSideData(nextSession)
 
-    return nextSession
+      return nextSession
+    } catch (error) {
+      const canFallbackToDemo =
+        isLikelySupabaseAuthConnectivityError(error) ||
+        String(error?.message || '').includes('public.profiles')
+
+      if (!canFallbackToDemo) {
+        throw error
+      }
+
+      const matchedUser = defaultUsers.find(
+        (user) =>
+          user.email.toLowerCase() === form.email.toLowerCase() &&
+          user.password === form.password &&
+          user.role === 'admin' &&
+          user.status === 'active',
+      )
+
+      if (!matchedUser) {
+        throw error
+      }
+
+      const nextSession = {
+        id: matchedUser.id,
+        name: matchedUser.name,
+        email: matchedUser.email,
+        role: matchedUser.role,
+        accessToken: '',
+      }
+
+      setSession(nextSession)
+      return nextSession
+    }
   }
 
   async function loginMemberWithEmail(form) {
@@ -344,14 +920,13 @@ export function AppProvider({ children }) {
       return nextSession
     }
 
-    const nextSession = await signInWithPassword(form)
+    const nextSession = await withTimeout(
+      signInWithPassword(form),
+      10000,
+      'El login tardo demasiado. Revisa tu conexion o intenta otra vez.',
+    )
     setSession(nextSession)
-    const [nextEntitlements, nextOrders] = await Promise.all([
-      safeFetchEntitlements(),
-      safeFetchOrders(),
-    ])
-    setEntitlements(nextEntitlements)
-    setOrders(nextOrders)
+    hydrateSessionSideData(nextSession)
 
     return nextSession
   }
@@ -396,14 +971,254 @@ export function AppProvider({ children }) {
     }
 
     setSession(nextSession)
-    const [nextEntitlements, nextOrders] = await Promise.all([
-      safeFetchEntitlements(),
-      safeFetchOrders(),
-    ])
-    setEntitlements(nextEntitlements)
-    setOrders(nextOrders)
+    hydrateSessionSideData(nextSession)
 
     return { session: nextSession, requiresEmailConfirmation: false }
+  }
+
+  async function loginMemberWithOAuth(provider, redirectTo = '/') {
+    if (!isSupabaseConfigured) {
+      throw new Error('El acceso social requiere Supabase configurado.')
+    }
+
+    const callbackUrl = new URL('/access', window.location.origin)
+    callbackUrl.searchParams.set('redirect', redirectTo || '/')
+    callbackUrl.searchParams.set('oauth', '1')
+
+    await signInWithOAuth(provider, callbackUrl.toString())
+
+    return null
+  }
+
+  async function loginMemberWithTelegram(telegramUser) {
+    if (!isSupabaseConfigured) {
+      throw new Error('Telegram requiere Supabase configurado.')
+    }
+
+    const nextSession = await withTimeout(
+      signInWithTelegram(telegramUser),
+      15000,
+      'Telegram tardo demasiado en validar el acceso. Revisa tu conexion o intenta otra vez.',
+    )
+
+    setSession(nextSession)
+    hydrateSessionSideData(nextSession)
+
+    return nextSession
+  }
+
+  async function createManagedUser(form) {
+    if (!isSupabaseConfigured) {
+      const alreadyExists = users.some(
+        (user) => user.email.toLowerCase() === String(form.email || '').toLowerCase(),
+      )
+
+      if (alreadyExists) {
+        throw new Error('Este correo ya existe en el entorno local.')
+      }
+
+      const nextUser = {
+        id: `local-user-${Date.now()}`,
+        name: form.name || form.email.split('@')[0],
+        email: form.email,
+        password: form.password,
+        role: form.role || 'public',
+        status: form.status || 'active',
+      }
+
+      setUsers((currentUsers) => [...currentUsers, nextUser])
+
+      if (form.subscriptionPlanSlug) {
+        const selectedProduct = subscriptionProducts.find(
+          (product) => product.slug === form.subscriptionPlanSlug,
+        )
+
+        if (selectedProduct) {
+          const startAt = form.subscriptionStartAt ? new Date(form.subscriptionStartAt) : new Date()
+          const parsedDurationValue = Number.parseInt(
+            form.subscriptionDurationValue || selectedProduct.metadata?.durationValue || '1',
+            10,
+          )
+          const durationValue =
+            Number.isFinite(parsedDurationValue) && parsedDurationValue > 0 ? parsedDurationValue : 1
+          const durationUnit =
+            form.subscriptionDurationUnit === 'days'
+              ? 'days'
+              : selectedProduct.metadata?.durationUnit === 'days'
+                ? 'days'
+                : 'months'
+          const expiresAt = addDuration(
+            Number.isNaN(startAt.getTime()) ? new Date() : startAt,
+            durationUnit,
+            durationValue,
+          ).toISOString()
+
+          setEntitlements((currentEntitlements) =>
+            normalizeEntitlements([
+              ...currentEntitlements,
+              {
+                id: `entitlement-${Date.now()}`,
+                userId: nextUser.id,
+                productSlug: selectedProduct.slug,
+                entitlementKey: selectedProduct.accessScope || '',
+                status: 'active',
+                expiresAt,
+                createdAt: new Date().toISOString(),
+                sourceOrderId: '',
+                grantSource: 'admin',
+                grantedBy: session?.id || '',
+              },
+            ]),
+          )
+        }
+      }
+
+      return {
+        ok: true,
+        profile: {
+          id: nextUser.id,
+          display_name: nextUser.name,
+          email: nextUser.email,
+          role: nextUser.role,
+          status: nextUser.status,
+        },
+      }
+    }
+
+    const result = await createManagedUserRequest(
+      {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role,
+        status: form.status,
+        subscriptionPlanSlug: form.subscriptionPlanSlug || '',
+        subscriptionStartAt: form.subscriptionStartAt || '',
+        subscriptionDurationValue: form.subscriptionDurationValue || '',
+        subscriptionDurationUnit: form.subscriptionDurationUnit || 'months',
+      },
+      session?.accessToken || '',
+    )
+
+    await refreshUsers()
+    return result
+  }
+
+  async function updateManagedSubscription(userId, form) {
+    const action = form.action === 'revoke' ? 'revoke' : 'grant'
+
+    if (!isSupabaseConfigured) {
+      const targetUser = users.find((user) => user.id === userId)
+      if (!targetUser) {
+        throw new Error('El usuario no existe en el entorno local.')
+      }
+
+      if (action === 'revoke') {
+        setEntitlements((currentEntitlements) =>
+          normalizeEntitlements(
+            currentEntitlements.map((entitlement) => {
+              if (
+                entitlement.userId !== userId ||
+                !isSubscriptionEntitlementKey(entitlement.entitlementKey)
+              ) {
+                return entitlement
+              }
+
+              return {
+                ...entitlement,
+                status: 'revoked',
+                expiresAt: new Date().toISOString(),
+                grantSource: 'admin',
+                grantedBy: session?.id || '',
+              }
+            }),
+          ),
+        )
+
+        return { ok: true, entitlement: null }
+      }
+
+      const selectedProduct = subscriptionProducts.find(
+        (product) => product.slug === form.planSlug,
+      )
+
+      if (!selectedProduct) {
+        throw new Error('El plan de suscripcion no existe en el entorno local.')
+      }
+
+      const startAt = parseDateOrNull(form.startAt) || new Date()
+      const parsedDurationValue = Number.parseInt(
+        form.durationValue || selectedProduct.metadata?.durationValue || selectedProduct.metadata?.durationMonths || '1',
+        10,
+      )
+      const durationValue =
+        Number.isFinite(parsedDurationValue) && parsedDurationValue > 0 ? parsedDurationValue : 1
+      const durationUnit =
+        form.durationUnit === 'days'
+          ? 'days'
+          : selectedProduct.metadata?.durationUnit === 'days'
+            ? 'days'
+            : 'months'
+      const expiresAt = addDuration(startAt, durationUnit, durationValue).toISOString()
+      const updatedEntitlement = {
+        id: `entitlement-${Date.now()}`,
+        userId,
+        productSlug: selectedProduct.slug,
+        entitlementKey: selectedProduct.accessScope || '',
+        status: 'active',
+        expiresAt,
+        createdAt: new Date().toISOString(),
+        sourceOrderId: '',
+        grantSource: 'admin',
+        grantedBy: session?.id || '',
+      }
+
+      setEntitlements((currentEntitlements) => {
+        let matchedCurrentTier = false
+
+        const nextEntitlements = currentEntitlements.map((entitlement) => {
+          if (entitlement.userId !== userId || !isSubscriptionEntitlementKey(entitlement.entitlementKey)) {
+            return entitlement
+          }
+
+          if (entitlement.entitlementKey === updatedEntitlement.entitlementKey) {
+            matchedCurrentTier = true
+            return { ...entitlement, ...updatedEntitlement }
+          }
+
+          return {
+            ...entitlement,
+            status: 'revoked',
+            expiresAt: new Date().toISOString(),
+            grantSource: 'admin',
+            grantedBy: session?.id || '',
+          }
+        })
+
+        if (matchedCurrentTier) {
+          return normalizeEntitlements(nextEntitlements)
+        }
+
+        return normalizeEntitlements([...nextEntitlements, updatedEntitlement])
+      })
+
+      return { ok: true, entitlement: updatedEntitlement }
+    }
+
+    const result = await updateManagedSubscriptionRequest(
+      userId,
+      {
+        action,
+        planSlug: form.planSlug || '',
+        startAt: form.startAt || '',
+        durationValue: form.durationValue || '',
+        durationUnit: form.durationUnit || 'months',
+      },
+      session?.accessToken || '',
+    )
+
+    await refreshUsers()
+    return result
   }
 
   async function createCheckoutSession(productSlug, context = {}) {
@@ -440,20 +1255,71 @@ export function AppProvider({ children }) {
     window.location.assign(payload.url)
   }
 
+  async function createEncounterReservationRequest(payload = {}) {
+    const nextOrder = buildManualReservationOrder({
+      guestName: payload.guestName || '',
+      recordingChoice: normalizeRecordingChoice(payload.recordingChoice || 'standard'),
+      selectedDate: payload.selectedDate || '',
+      selectedTime: payload.selectedTime || '',
+      pricing: payload.pricing || {},
+      session,
+    })
+
+    try {
+      const serverOrder = await createManualEncuentrosReservationRequest(
+        {
+          guestName: payload.guestName || '',
+          recordingChoice: normalizeRecordingChoice(payload.recordingChoice || 'standard'),
+          selectedDate: payload.selectedDate || '',
+          selectedTime: payload.selectedTime || '',
+          pricing: payload.pricing || {},
+        },
+        session?.accessToken || '',
+      )
+
+      const normalizedServerOrder = serverOrder || nextOrder
+
+      setOrders((currentOrders) => [
+        normalizedServerOrder,
+        ...currentOrders.filter(
+          (order) =>
+            order.providerOrderId !== normalizedServerOrder.providerOrderId &&
+            order.id !== normalizedServerOrder.id,
+        ),
+      ])
+
+      return normalizedServerOrder
+    } catch {
+      setOrders((currentOrders) => [
+        nextOrder,
+        ...currentOrders.filter(
+          (order) => order.providerOrderId !== nextOrder.providerOrderId && order.id !== nextOrder.id,
+        ),
+      ])
+
+      return nextOrder
+    }
+  }
+
   async function refreshCommerceData() {
     const [nextProducts, nextEntitlements, nextOrders] = await Promise.all([
-      safeFetchProducts(siteContent),
+      safeFetchProducts(siteContent, blogPosts),
       safeFetchEntitlements(),
       safeFetchOrders(),
     ])
 
     setProducts(nextProducts)
-    setEntitlements(nextEntitlements)
+    const enrichedEntitlements = enrichSubscriptionEntitlements(
+      nextEntitlements,
+      nextOrders,
+      nextProducts,
+    )
+    setEntitlements(enrichedEntitlements)
     setOrders(nextOrders)
 
     return {
       products: nextProducts,
-      entitlements: nextEntitlements,
+      entitlements: enrichedEntitlements,
       orders: nextOrders,
     }
   }
@@ -464,23 +1330,28 @@ export function AppProvider({ children }) {
     }
 
     setSession(null)
-    setUsers(defaultUsers)
+    setUsers(getFallbackUsersState())
     setEntitlements(defaultEntitlements)
     setOrders([])
     setCustomerAdminData([])
+    setAdminAuditEvents([])
   }
 
   async function saveSiteContent(nextContent) {
     const normalizedContent = mergeSiteContent(nextContent)
     setSiteContent(normalizedContent)
-    const nextProducts = mergeProducts(buildDefaultProducts(normalizedContent), products)
-    setProducts(nextProducts)
+    const nextProducts = buildDefaultProducts(normalizedContent, blogPosts)
+    setProducts((currentProducts) => mergeGeneratedProducts(nextProducts, currentProducts))
 
     if (isSupabaseConfigured && session?.role === 'admin') {
       await upsertSiteContent(normalizedContent, session.id)
 
       try {
-        await upsertProducts(nextProducts)
+        await upsertProducts(
+          mergeGeneratedProducts(nextProducts, products).filter((product) =>
+            isPersistentProductType(product.productType),
+          ),
+        )
       } catch {
         // Product sync can lag behind until the commerce schema is applied in Supabase.
       }
@@ -492,38 +1363,118 @@ export function AppProvider({ children }) {
       return
     }
 
-    const [remoteUsers, adminSnapshot] = await Promise.all([
-      getProfiles(),
-      getCustomerAdminSnapshot(),
-    ])
-    setUsers(remoteUsers)
-    setCustomerAdminData(adminSnapshot)
+    await loadAdminData()
   }
 
   async function saveBlogPost(nextPost) {
-    const normalizedPost = mergeBlogPosts([], [nextPost])[0]
+    const normalizedPost = mergeBlogPosts([], [
+      {
+        ...nextPost,
+        featuredSlot: normalizeFeaturedSlot(nextPost.featuredSlot, nextPost.featured),
+      },
+    ])[0]
+    const optimisticPost = {
+      ...normalizedPost,
+      updatedAt: new Date().toISOString(),
+    }
+    const normalizedSlot = normalizedPost.featuredSlot
+    const clearFeaturedSlot = (post) =>
+      normalizedSlot !== 'none' && post.slug !== normalizedPost.slug && post.featuredSlot === normalizedSlot
+        ? { ...post, featuredSlot: 'none', featured: false }
+        : post
 
-    if (!isSupabaseConfigured || session?.role !== 'admin') {
-      setBlogPosts((currentPosts) => mergeBlogPosts(currentPosts, [normalizedPost]))
-      return normalizedPost
+    const persistBlogPosts = (candidatePost) => {
+      setBlogPosts((currentPosts) => {
+        const nextPosts = mergeBlogPosts(currentPosts.map(clearFeaturedSlot), [candidatePost])
+        const nextGeneratedProducts = buildDefaultProducts(siteContent, nextPosts)
+        setProducts((currentProducts) => mergeGeneratedProducts(nextGeneratedProducts, currentProducts))
+        writeStorageValue(BLOG_POSTS_KEY, nextPosts)
+        return nextPosts
+      })
     }
 
-    const savedPost = await upsertBlogPost(normalizedPost)
-    setBlogPosts((currentPosts) => mergeBlogPosts(currentPosts, [savedPost]))
-    return savedPost
+    if (!isSupabaseConfigured || session?.role !== 'admin') {
+      persistBlogPosts(optimisticPost)
+      return optimisticPost
+    }
+
+    persistBlogPosts(optimisticPost)
+
+    const savedPost = await upsertBlogPost(optimisticPost)
+    const hydratedSavedPost = {
+      ...optimisticPost,
+      ...savedPost,
+      priceLabel: savedPost.priceLabel || normalizedPost.priceLabel || '',
+      priceAmount: Number.isFinite(savedPost.priceAmount)
+        ? savedPost.priceAmount
+        : optimisticPost.priceAmount || 0,
+      currency: savedPost.currency || normalizedPost.currency || 'USD',
+      updatedAt: savedPost.updatedAt || savedPost.updated_at || optimisticPost.updatedAt,
+    }
+    persistBlogPosts(hydratedSavedPost)
+
+    try {
+      const nextGeneratedProducts = buildDefaultProducts(
+        siteContent,
+        mergeBlogPosts(blogPosts.map(clearFeaturedSlot), [hydratedSavedPost]),
+      )
+      await upsertProducts(
+        mergeGeneratedProducts(nextGeneratedProducts, products).filter((product) =>
+          isPersistentProductType(product.productType),
+        ),
+      )
+    } catch {
+      // Blog product sync can lag behind until the commerce schema is applied in Supabase.
+    }
+
+    return hydratedSavedPost
   }
 
   async function removeManagedBlogPost(postId) {
     if (!isSupabaseConfigured || session?.role !== 'admin') {
-      setBlogPosts((currentPosts) => currentPosts.filter((post) => post.id !== postId))
+      setBlogPosts((currentPosts) => {
+        const nextPosts = currentPosts.filter((post) => post.id !== postId)
+        const nextGeneratedProducts = buildDefaultProducts(siteContent, nextPosts)
+        setProducts((currentProducts) => mergeGeneratedProducts(nextGeneratedProducts, currentProducts))
+        writeStorageValue(BLOG_POSTS_KEY, nextPosts)
+        return nextPosts
+      })
       return
     }
 
     await deleteBlogPost(postId)
-    setBlogPosts((currentPosts) => currentPosts.filter((post) => post.id !== postId))
+    setBlogPosts((currentPosts) => {
+      const nextPosts = currentPosts.filter((post) => post.id !== postId)
+      const nextGeneratedProducts = buildDefaultProducts(siteContent, nextPosts)
+      setProducts((currentProducts) => mergeGeneratedProducts(nextGeneratedProducts, currentProducts))
+      writeStorageValue(BLOG_POSTS_KEY, nextPosts)
+      return nextPosts
+    })
+
+    try {
+      const nextPosts = blogPosts.filter((post) => post.id !== postId)
+      const nextGeneratedProducts = buildDefaultProducts(siteContent, nextPosts)
+      await upsertProducts(
+        mergeGeneratedProducts(nextGeneratedProducts, products).filter((product) =>
+          isPersistentProductType(product.productType),
+        ),
+      )
+    } catch {
+      // Blog product sync can lag behind until the commerce schema is applied in Supabase.
+    }
   }
 
   async function updateManagedUser(userId, patch) {
+    const currentUser = users.find((user) => user.id === userId) || null
+
+    if (currentUser && wouldRemoveAdminAccess(currentUser, patch)) {
+      const remainingAdmins = getActiveAdminCount(users, userId)
+
+      if (remainingAdmins === 0) {
+        throw new Error('Debes conservar al menos un administrador activo.')
+      }
+    }
+
     if (!isSupabaseConfigured || session?.role !== 'admin') {
       if (patch?._delete) {
         setUsers((currentUsers) => currentUsers.filter((user) => user.id !== userId))
@@ -547,20 +1498,47 @@ export function AppProvider({ children }) {
     await refreshUsers()
   }
 
-  async function uploadManagedMedia(file, bucket, folder = 'home') {
+  async function uploadManagedMedia(file, bucket, folder = 'home', onProgress, options = {}) {
     if (!isSupabaseConfigured || session?.role !== 'admin') {
       return null
     }
 
-    return uploadMediaAsset(file, bucket, folder)
+    return uploadMediaAsset(file, bucket, folder, onProgress, options)
   }
 
-  async function uploadManagedMediaFromUrl(sourceUrl, bucket, folder = 'home') {
+  async function uploadManagedVideoMedia(file, slug, variant, onProgress) {
     if (!isSupabaseConfigured || session?.role !== 'admin') {
       return null
     }
 
-    return uploadMediaAssetFromUrl(sourceUrl, bucket, folder)
+    if (!session.accessToken) {
+      throw new Error('No hay sesion activa para subir videos a Drive.')
+    }
+
+    return {
+      provider: 'google-drive',
+      ...(await uploadGoogleDriveVideoAsset({
+        file,
+        slug,
+        variant,
+        accessToken: session.accessToken,
+        onProgress,
+      })),
+    }
+  }
+
+  async function uploadManagedMediaFromUrl(
+    sourceUrl,
+    bucket,
+    folder = 'home',
+    onProgress,
+    options = {},
+  ) {
+    if (!isSupabaseConfigured || session?.role !== 'admin') {
+      return null
+    }
+
+    return uploadMediaAssetFromUrl(sourceUrl, bucket, folder, onProgress, options)
   }
 
   function createPhysicalOrderRequest(payload) {
@@ -658,17 +1636,18 @@ export function AppProvider({ children }) {
       return true
     }
 
-    return entitlements.some((entitlement) => {
-      if (entitlement.status !== 'active') {
-        return false
-      }
+    return effectiveEntitlements.some(
+      (entitlement) =>
+        entitlement.entitlementKey === entitlementKey && isEntitlementActive(entitlement),
+    )
+  }
 
-      if (entitlement.expiresAt && new Date(entitlement.expiresAt).getTime() < Date.now()) {
-        return false
-      }
+  function hasSubscriptionGrant(grant) {
+    if (session?.role === 'admin') {
+      return true
+    }
 
-      return entitlement.entitlementKey === entitlementKey
-    })
+    return subscriptionGrantSet.has(String(grant || '').trim())
   }
 
   function getProductByScope(scope) {
@@ -677,6 +1656,24 @@ export function AppProvider({ children }) {
 
   function getProductBySlug(productSlug) {
     return products.find((product) => product.slug === productSlug) || null
+  }
+
+  function getVideoItemByScope(scope) {
+    if (!scope || !scope.startsWith('video:')) {
+      return null
+    }
+
+    const slug = scope.replace('video:', '')
+    return siteContent.videoLibrary.items.find((item) => item.slug === slug) || null
+  }
+
+  function getBlogPostByScope(scope) {
+    if (!scope || !scope.startsWith('blog:')) {
+      return null
+    }
+
+    const slug = scope.replace('blog:', '')
+    return blogPosts.find((post) => post.slug === slug) || null
   }
 
   function getProductDestination(productSlug) {
@@ -699,6 +1696,11 @@ export function AppProvider({ children }) {
       return `/videos/${slug}`
     }
 
+    if (product.productType === 'blog') {
+      const slug = product.metadata?.contentSlug || product.accessScope.replace('blog:', '')
+      return `/blog/${slug}`
+    }
+
     if (product.productType === 'pack') {
       return `/library?focus=${encodeURIComponent(product.slug)}`
     }
@@ -707,43 +1709,156 @@ export function AppProvider({ children }) {
       return '/library?focus=physical-orders'
     }
 
+    if (product.productType === 'reservation') {
+      return '/library?focus=reservations'
+    }
+
     return `/library?focus=${encodeURIComponent(product.slug)}`
   }
 
   function getContentAccess(scope) {
+    const videoItem = getVideoItemByScope(scope)
+    const blogPost = getBlogPostByScope(scope)
     const product = getProductByScope(scope)
-    const hasAllDigital = hasEntitlement('all_digital')
+    const requiredGrant =
+      product?.metadata?.requiredGrant ||
+      (videoItem ? 'video' : blogPost ? 'blog' : product?.productType === 'pack' ? 'pack' : null)
+    const hasSubscriptionGrant = requiredGrant ? subscriptionGrantSet.has(requiredGrant) : false
     const hasDirectAccess = hasEntitlement(scope)
-    const unlocked = hasAllDigital || hasDirectAccess
+
+    if (videoItem) {
+      const accessMode = videoItem.accessMode || 'purchase'
+      const videoProduct = accessMode === 'purchase' ? product : accessMode === 'subscription' ? subscriptionProduct : null
+      const unlocked =
+        accessMode === 'public' ||
+        (accessMode === 'registered' && Boolean(session)) ||
+        (accessMode === 'subscription' && hasSubscriptionGrant) ||
+        (accessMode === 'purchase' && (hasSubscriptionGrant || hasDirectAccess))
+
+      return {
+        product: videoProduct,
+        unlocked,
+        includedBySubscription:
+          accessMode === 'subscription'
+            ? hasSubscriptionGrant
+            : accessMode === 'purchase'
+              ? hasSubscriptionGrant && !hasDirectAccess
+              : false,
+        requiresPurchase: accessMode === 'purchase' && !unlocked,
+        accessMode,
+        content: videoItem,
+      }
+    }
+
+    if (blogPost) {
+      const accessMode = blogPost.accessLevel || 'public'
+      const unlocked =
+        accessMode === 'public' ||
+        (accessMode === 'registered' && Boolean(session)) ||
+        (accessMode === 'subscription' && hasSubscriptionGrant) ||
+        (accessMode === 'purchase' && (hasSubscriptionGrant || hasDirectAccess))
+
+      return {
+        product,
+        unlocked,
+        includedBySubscription:
+          accessMode === 'subscription'
+            ? hasSubscriptionGrant
+            : accessMode === 'purchase'
+              ? hasSubscriptionGrant && !hasDirectAccess
+              : false,
+        requiresPurchase: accessMode === 'purchase' && !unlocked,
+        accessMode,
+        content: blogPost,
+      }
+    }
+
+    const unlocked = hasSubscriptionGrant || hasDirectAccess
 
     return {
       product,
       unlocked,
-      includedBySubscription: !unlocked ? false : hasAllDigital && scope !== 'all_digital',
-      requiresPurchase: !unlocked && scope !== 'all_digital',
+      includedBySubscription: !unlocked ? false : hasSubscriptionGrant,
+      requiresPurchase: !unlocked,
+      accessMode: 'purchase',
     }
   }
 
-    const allowedSubscriptionSlugs = new Set(
-      (siteContent.accessTotal.plans || []).map(
-        (plan) => `membership-${plan.slug}`,
-      ),
-    )
-    const subscriptionProducts = (siteContent.accessTotal.plans || [])
-      .map((plan) =>
-        products.find(
-        (product) =>
-          product.slug === `membership-${plan.slug}` &&
-          product.productType === 'subscription' &&
-          product.accessScope === 'all_digital',
-      ) || null,
-    )
-    .filter(Boolean)
-    .filter((product) => allowedSubscriptionSlugs.has(product.slug))
+  const effectiveEntitlements = useMemo(
+    () => enrichSubscriptionEntitlements(entitlements, orders, products),
+    [entitlements, orders, products],
+  )
+  const subscriptionTiers = useMemo(
+    () => normalizeSubscriptionTiers(siteContent.accessTotal || {}),
+    [siteContent.accessTotal],
+  )
+  const subscriptionProducts = useMemo(
+    () =>
+      subscriptionTiers
+        .map((tier) => {
+          const product =
+            products.find(
+              (item) =>
+                item.slug === `membership-${tier.slug}` &&
+                item.productType === 'subscription' &&
+                item.accessScope === `tier:${tier.slug}`,
+            ) ||
+            products.find(
+              (item) =>
+                item.productType === 'subscription' &&
+                item.accessScope === `tier:${tier.slug}`,
+            ) ||
+            null
+
+          if (product) {
+            return product
+          }
+
+          return {
+            slug: `membership-${tier.slug}`,
+            title: `${siteContent.accessTotal?.title || 'Acceso total'} · ${tier.label}`,
+            productType: 'subscription',
+            checkoutMode: 'subscription',
+            accessScope: `tier:${tier.slug}`,
+            priceAmount: tier.discountedPriceAmount,
+            currency: 'USD',
+            priceLabel: tier.discountedPriceLabel || '$0',
+            active: true,
+            stripePriceId: '',
+            metadata: {
+              durationValue: tier.durationValue,
+              durationUnit: tier.durationUnit,
+              durationMonths: tier.durationMonths,
+              durationDays: tier.durationDays,
+              planLabel: tier.label,
+              planPeriod: tier.period,
+              promoNote: tier.promoNote,
+              originalPriceAmount: tier.originalPriceAmount,
+              originalPriceLabel: tier.originalPriceLabel,
+              discountedPriceAmount: tier.discountedPriceAmount,
+              discountedPriceLabel: tier.discountedPriceLabel,
+              discountPercent: tier.discountPercent,
+              hasDiscount: tier.hasDiscount,
+              savingsAmount: tier.savingsAmount,
+              savingsLabel: tier.savingsLabel,
+              discountLabel: tier.discountLabel,
+              grants: tier.grants,
+              rank: tier.rank,
+              requiredGrant: tier.grants[0] || 'video',
+            },
+          }
+        })
+        .filter(Boolean),
+    [products, siteContent.accessTotal, subscriptionTiers],
+  )
+  const subscriptionGrantSet = useMemo(
+    () => buildSubscriptionGrantSet(effectiveEntitlements, products),
+    [effectiveEntitlements, products],
+  )
   const subscriptionProduct = subscriptionProducts[0] || null
 
-  function formatPriceFromAmount(amount = 0, currency = 'PEN') {
-    return new Intl.NumberFormat('es-PE', {
+  function formatPriceFromAmount(amount = 0, currency = 'USD') {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency,
       minimumFractionDigits: 2,
@@ -766,6 +1881,7 @@ export function AppProvider({ children }) {
       orders,
       physicalOrders,
       hasEntitlement,
+      hasSubscriptionGrant,
       getContentAccess,
       getProductByScope,
       getProductBySlug,
@@ -775,20 +1891,27 @@ export function AppProvider({ children }) {
       formatPriceFromAmount,
       refreshCommerceData,
       createPhysicalOrderRequest,
+      createEncounterReservationRequest,
       markPhysicalOrderPaid,
       updatePhysicalOrder,
       getPhysicalOrdersForUser,
       users,
       customerAdminData,
+      adminAuditEvents,
       setUsers,
       loginWithEmail,
       loginMemberWithEmail,
+      loginMemberWithOAuth,
+      loginMemberWithTelegram,
       signUpMemberWithEmail,
+      createManagedUser,
       createCheckoutSession,
       logout,
       refreshUsers,
       updateManagedUser,
+      updateManagedSubscription,
       uploadManagedMedia,
+      uploadManagedVideoMedia,
       uploadManagedMediaFromUrl,
     }),
     [
@@ -800,8 +1923,12 @@ export function AppProvider({ children }) {
       entitlements,
       orders,
       physicalOrders,
+      createEncounterReservationRequest,
       users,
       customerAdminData,
+      adminAuditEvents,
+      subscriptionGrantSet,
+      updateManagedSubscription,
     ],
   )
 

@@ -1,66 +1,78 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-function getMerchViewportMode() {
-  if (typeof window === 'undefined') {
-    return 'desktop'
-  }
-
-  if (window.innerWidth > 900) {
-    return 'desktop'
-  }
-
-  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
-    return 'compact'
-  }
-
-  return 'regular'
-}
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { resolveLocalizedSection } from '../utils/localizedContent'
+import { useViewportState } from '../hooks/useViewportState'
 
 export function PhysicalMerchSection({ content }) {
-  const navigate = useNavigate()
-  const merch = content.physicalMerch
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
-  )
-  const [merchViewportMode, setMerchViewportMode] = useState(() => getMerchViewportMode())
-  const [visibleItems, setVisibleItems] = useState(() => merch.items.slice(0, 2))
-
+  const { i18n, t } = useTranslation()
+  const merch = resolveLocalizedSection(content, 'physicalMerch', i18n.resolvedLanguage)
+  const { mode: merchViewportMode, isMobile } = useViewportState()
   const merchItems = useMemo(() => merch.items || [], [merch.items])
+  const validMerchItems = useMemo(
+    () => merchItems.filter((item) => Boolean(item.slug) && Boolean(item.image)),
+    [merchItems],
+  )
+  const merchSignature = useMemo(() => merchItems.map((item) => item.slug).join('|'), [merchItems])
+  const visibleMerchOrderRef = useRef([])
+  const visibleMerchSignatureRef = useRef('')
+  const [visibleItemSlugs, setVisibleItemSlugs] = useState([])
 
-  useEffect(() => {
-    function handleViewportChange() {
-      setIsMobile(window.innerWidth <= 900)
-      setMerchViewportMode(getMerchViewportMode())
+  const visibleCount = isMobile ? 2 : 3
+
+  const visibleItems = useMemo(() => {
+    if (!validMerchItems.length) {
+      return []
     }
 
-    handleViewportChange()
-    window.addEventListener('resize', handleViewportChange)
+    const merchBySlug = new Map(validMerchItems.map((item) => [item.slug, item]))
 
-    return () => window.removeEventListener('resize', handleViewportChange)
-  }, [])
+    if (!visibleItemSlugs.length) {
+      return visibleMerchOrderRef.current
+        .slice(0, visibleCount)
+        .map((slug) => merchBySlug.get(slug))
+        .filter(Boolean)
+    }
+
+    return visibleItemSlugs.map((slug) => merchBySlug.get(slug)).filter(Boolean)
+  }, [validMerchItems, visibleCount, visibleItemSlugs])
 
   useEffect(() => {
-    if (!merchItems.length) {
-      setVisibleItems([])
+    if (visibleMerchSignatureRef.current !== merchSignature) {
+      visibleMerchSignatureRef.current = merchSignature
+      visibleMerchOrderRef.current = validMerchItems.map((item) => item.slug)
+    }
+  }, [merchSignature, validMerchItems])
+
+  useEffect(() => {
+    if (!validMerchItems.length) {
+      setVisibleItemSlugs((current) => (current.length ? [] : current))
       return
     }
 
-    setVisibleItems(merchItems.slice(0, isMobile ? 2 : 3))
-  }, [isMobile, merchItems])
+    const nextSlugs = visibleMerchOrderRef.current.length
+      ? visibleMerchOrderRef.current.slice(0, visibleCount)
+      : validMerchItems.slice(0, visibleCount).map((item) => item.slug)
+
+    setVisibleItemSlugs((current) => {
+      if (current.length === nextSlugs.length && current.every((slug, index) => slug === nextSlugs[index])) {
+        return current
+      }
+
+      return nextSlugs
+    })
+  }, [merchSignature, validMerchItems, visibleCount])
 
   useEffect(() => {
-    const visibleCount = isMobile ? 2 : 3
-
-    if (merchItems.length <= visibleCount) {
+    if (validMerchItems.length <= visibleCount) {
       return undefined
     }
 
     const intervalId = window.setInterval(() => {
-      setVisibleItems((currentItems) => {
-        const currentSlugs = new Set(currentItems.map((item) => item.slug))
-        const availableItems = merchItems.filter((item) => !currentSlugs.has(item.slug))
-        const sourceItems = availableItems.length >= visibleCount ? availableItems : merchItems
+      setVisibleItemSlugs((currentSlugs) => {
+        const currentSlugSet = new Set(currentSlugs)
+        const availableItems = validMerchItems.filter((item) => !currentSlugSet.has(item.slug))
+        const sourceItems = availableItems.length >= visibleCount ? availableItems : validMerchItems
         const shuffledItems = [...sourceItems]
 
         for (let index = shuffledItems.length - 1; index > 0; index -= 1) {
@@ -71,24 +83,23 @@ export function PhysicalMerchSection({ content }) {
           ]
         }
 
-        return shuffledItems.slice(0, visibleCount)
+        return shuffledItems.slice(0, visibleCount).map((item) => item.slug)
       })
     }, 3400)
 
     return () => window.clearInterval(intervalId)
-  }, [isMobile, merchItems])
-
-  function handlePurchase(item) {
-    navigate(`/calzones/checkout/${item.slug}`)
-  }
+  }, [isMobile, validMerchItems, visibleCount])
 
   return (
     <section className={`physical-merch-section is-merch-${merchViewportMode}`} id="merch">
       <div className={`physical-merch-shell is-merch-${merchViewportMode}`}>
-        <div className="section-heading">
+        <div className="section-heading physical-merch-heading">
           <p className="section-kicker">{merch.kicker}</p>
           <h2>{merch.title}</h2>
-          <p>{merch.description}</p>
+          <p className="physical-merch-lede">{merch.description}</p>
+          <p className="physical-merch-note">
+            Presentacion discreta, empaque premium y un flujo de compra sereno.
+          </p>
         </div>
 
         <div className="physical-merch-list">
@@ -104,26 +115,18 @@ export function PhysicalMerchSection({ content }) {
                   <strong>{item.priceLabel}</strong>
                   <span>{item.stockLabel}</span>
                 </div>
-                <button
-                  className="video-buy-link"
-                  type="button"
-                  onClick={() => handlePurchase(item)}
-                >
-                  Solicitar compra
-                </button>
+                <Link className="video-buy-link" to={`/calzones/${item.slug}`}>
+                  {t('content.buyNow')}
+                </Link>
               </div>
             </article>
           ))}
         </div>
         <div className="physical-merch-footer">
           <p>{merch.note}</p>
-          <button
-            className="section-more-link section-more-link-collections"
-            type="button"
-            onClick={() => navigate('/calzones')}
-          >
+          <Link className="section-more-link section-more-link-collections" to="/calzones">
             {merch.primaryLabel}
-          </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AccessTotalSection } from '../components/AccessTotalSection'
+import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { BlogTeaserSection } from '../components/BlogTeaserSection'
+import { HomePreviewRail } from '../components/HomePreviewRail'
 import { CreatorHero } from '../components/CreatorHero'
 import { MembershipSection } from '../components/MembershipSection'
-import { PhysicalMerchSection } from '../components/PhysicalMerchSection'
-import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { SpotlightGrid } from '../components/SpotlightGrid'
 import { VideoCollectionsSection } from '../components/VideoCollectionsSection'
@@ -13,11 +14,49 @@ import { useAppState } from '../state/AppState'
 
 export function HomePage() {
   const { siteContent } = useAppState()
+  const { i18n } = useTranslation()
   const { sectionVisibility } = siteContent
+  const hasAccessTotalTiers =
+    Array.isArray(siteContent?.accessTotal?.tiers) && siteContent.accessTotal.tiers.length > 0
+  const lastSectionIdRef = useRef('')
+  const sectionScrollLockRef = useRef(false)
+  const sectionScrollUnlockRef = useRef(null)
+  const languageScrollLockRef = useRef(false)
+  const languageScrollUnlockRef = useRef(null)
 
   useEffect(() => {
-    function highlightTarget(sectionId) {
+    languageScrollLockRef.current = true
+
+    if (languageScrollUnlockRef.current) {
+      window.clearTimeout(languageScrollUnlockRef.current)
+    }
+
+    languageScrollUnlockRef.current = window.setTimeout(() => {
+      languageScrollLockRef.current = false
+    }, 300)
+
+    return () => {
+      if (languageScrollUnlockRef.current) {
+        window.clearTimeout(languageScrollUnlockRef.current)
+      }
+    }
+  }, [i18n.resolvedLanguage])
+
+  useEffect(() => {
+    function revealTarget(sectionId) {
       if (!sectionId) {
+        return
+      }
+
+      if (languageScrollLockRef.current) {
+        return
+      }
+
+      if (sectionScrollLockRef.current && lastSectionIdRef.current === sectionId) {
+        return
+      }
+
+      if (lastSectionIdRef.current === sectionId) {
         return
       }
 
@@ -27,6 +66,17 @@ export function HomePage() {
         return
       }
 
+      lastSectionIdRef.current = sectionId
+      sectionScrollLockRef.current = true
+      if (sectionScrollUnlockRef.current) {
+        window.clearTimeout(sectionScrollUnlockRef.current)
+      }
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+
       target.classList.remove('section-arrival-highlight')
       window.requestAnimationFrame(() => {
         target.classList.add('section-arrival-highlight')
@@ -35,14 +85,18 @@ export function HomePage() {
       window.setTimeout(() => {
         target.classList.remove('section-arrival-highlight')
       }, 1600)
+
+      sectionScrollUnlockRef.current = window.setTimeout(() => {
+        sectionScrollLockRef.current = false
+      }, 650)
     }
 
     function handleHashArrival() {
-      highlightTarget(window.location.hash.replace('#', ''))
+      revealTarget(window.location.hash.replace('#', ''))
     }
 
     function handleManualArrival(event) {
-      highlightTarget(event.detail?.sectionId)
+      revealTarget(event.detail?.sectionId)
     }
 
     handleHashArrival()
@@ -52,33 +106,37 @@ export function HomePage() {
     return () => {
       window.removeEventListener('hashchange', handleHashArrival)
       window.removeEventListener('section-nav-arrive', handleManualArrival)
+      if (sectionScrollUnlockRef.current) {
+        window.clearTimeout(sectionScrollUnlockRef.current)
+      }
     }
   }, [])
 
   return (
-    <main className="creator-home">
-      <PublicNav />
-      {sectionVisibility.creatorHero || sectionVisibility.accessTotal ? (
-        <section className="hero-access-row">
-          {sectionVisibility.creatorHero ? <CreatorHero content={siteContent} /> : null}
-          {sectionVisibility.accessTotal ? <AccessTotalSection content={siteContent.accessTotal} /> : null}
-        </section>
-      ) : null}
-      {sectionVisibility.mediaSpotlight ? <SpotlightGrid content={siteContent} /> : null}
-      {sectionVisibility.videoLibrary ? <VideoShowcase content={siteContent} /> : null}
-      {sectionVisibility.videoCollections || sectionVisibility.physicalMerch ? (
-        <section className="collections-commerce-row">
-          {sectionVisibility.videoCollections ? (
-            <VideoCollectionsSection content={siteContent} />
-          ) : null}
-          {sectionVisibility.physicalMerch ? (
-            <PhysicalMerchSection content={siteContent} />
-          ) : null}
-        </section>
-      ) : null}
-      {sectionVisibility.membership ? <MembershipSection content={siteContent} /> : null}
-      {sectionVisibility.blogTeaser ? <BlogTeaserSection content={siteContent} /> : null}
-      {sectionVisibility.siteFooter ? <SiteFooter content={siteContent} /> : null}
+    <main className="creator-home home-preview-page">
+      <AtmosphericBackdrop
+        variant="editorial"
+        intensity="soft"
+        glowPosition="center-right"
+        grain={false}
+        withVignette={false}
+        className="home-backdrop"
+      />
+      <HomePreviewRail />
+      <div className="home-preview-main">
+        {sectionVisibility.creatorHero || sectionVisibility.accessTotal ? (
+          <section className="hero-access-row">
+            {sectionVisibility.creatorHero ? <CreatorHero content={siteContent} /> : null}
+            {sectionVisibility.accessTotal ? <AccessTotalSection content={siteContent} /> : null}
+          </section>
+        ) : null}
+        {sectionVisibility.mediaSpotlight ? <SpotlightGrid content={siteContent} /> : null}
+        {sectionVisibility.videoLibrary ? <VideoShowcase content={siteContent} /> : null}
+        {sectionVisibility.membership || hasAccessTotalTiers ? <MembershipSection content={siteContent} /> : null}
+        {sectionVisibility.videoCollections ? <VideoCollectionsSection content={siteContent} /> : null}
+        {sectionVisibility.blogTeaser ? <BlogTeaserSection content={siteContent} /> : null}
+        {sectionVisibility.siteFooter ? <SiteFooter content={siteContent} /> : null}
+      </div>
     </main>
   )
 }

@@ -1,62 +1,177 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   HiBookOpen,
   HiCollection,
-  HiGift,
-  HiHome,
-  HiPhotograph,
+  HiOutlineGlobe,
   HiOutlineLibrary,
-  HiPlay,
+  HiUser,
 } from 'react-icons/hi'
+import { AiFillFire, AiOutlineShopping, AiOutlineVideoCamera } from 'react-icons/ai'
 import { useAppState } from '../state/AppState'
-import { MobileBottomNav } from './MobileBottomNav'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 function resolveSectionHref(pathname, sectionId) {
   return pathname === '/' ? `#${sectionId}` : `/#${sectionId}`
 }
 
+function getNavToneStyles(tone) {
+  const tones = {
+    home: {
+      color: 'var(--color-primary-hover)',
+      bg: 'rgba(209, 31, 66, 0.12)',
+      border: 'rgba(209, 31, 66, 0.22)',
+      glow: 'rgba(209, 31, 66, 0.16)',
+    },
+    premium: {
+      color: 'var(--color-accent-fire)',
+      bg: 'rgba(255, 138, 42, 0.12)',
+      border: 'rgba(255, 138, 42, 0.2)',
+      glow: 'rgba(255, 138, 42, 0.16)',
+    },
+    packs: {
+      color: 'var(--color-accent)',
+      bg: 'rgba(214, 90, 35, 0.12)',
+      border: 'rgba(214, 90, 35, 0.2)',
+      glow: 'rgba(214, 90, 35, 0.16)',
+    },
+    calzones: {
+      color: 'var(--color-warning)',
+      bg: 'rgba(226, 178, 75, 0.12)',
+      border: 'rgba(226, 178, 75, 0.2)',
+      glow: 'rgba(226, 178, 75, 0.16)',
+    },
+    blog: {
+      color: 'var(--color-text-secondary)',
+      bg: 'rgba(245, 238, 231, 0.08)',
+      border: 'rgba(245, 238, 231, 0.14)',
+      glow: 'rgba(245, 238, 231, 0.1)',
+    },
+    profile: {
+      color: 'var(--color-primary)',
+      bg: 'rgba(171, 21, 51, 0.12)',
+      border: 'rgba(171, 21, 51, 0.2)',
+      glow: 'rgba(171, 21, 51, 0.16)',
+    },
+    library: {
+      color: 'var(--color-accent-fire)',
+      bg: 'rgba(255, 138, 42, 0.12)',
+      border: 'rgba(255, 138, 42, 0.2)',
+      glow: 'rgba(255, 138, 42, 0.16)',
+    },
+    signin: {
+      color: 'var(--color-warning)',
+      bg: 'rgba(226, 178, 75, 0.12)',
+      border: 'rgba(226, 178, 75, 0.2)',
+      glow: 'rgba(226, 178, 75, 0.16)',
+    },
+    language: {
+      color: 'var(--color-text-secondary)',
+      bg: 'rgba(245, 238, 231, 0.06)',
+      border: 'rgba(245, 238, 231, 0.12)',
+      glow: 'rgba(245, 238, 231, 0.08)',
+    },
+  }
+
+  const selectedTone = tones[tone] || tones.premium
+
+  return {
+    '--nav-icon-color': selectedTone.color,
+    '--nav-icon-bg': selectedTone.bg,
+    '--nav-icon-border': selectedTone.border,
+    '--nav-icon-glow': selectedTone.glow,
+  }
+}
+
+function PublicNavCardLink({ href, active, onClick, children, route = false }) {
+  const className = route ? 'public-nav-card public-nav-card-route' : 'public-nav-card'
+
+  if (route) {
+    return (
+      <NavLink className={({ isActive }) => (isActive ? `${className} is-active` : className)} to={href}>
+        {children}
+      </NavLink>
+    )
+  }
+
+  return (
+    <Link className={active ? `${className} is-active` : className} to={href} onClick={onClick}>
+      {children}
+    </Link>
+  )
+}
+
 export function PublicNav() {
   const location = useLocation()
   const { session } = useAppState()
+  const { t, i18n } = useTranslation()
   const pathname = location.pathname
+  const currentLanguage = i18n.resolvedLanguage?.slice(0, 2) || i18n.language?.slice(0, 2) || 'es'
+
   const primaryItems = [
-    { label: 'Inicio', href: resolveSectionHref(pathname, 'home-top'), type: 'section', icon: HiHome },
     {
-      label: 'Catalogo premium',
+      label: t('nav.home'),
+      href: resolveSectionHref(pathname, 'home-top'),
+      type: 'section',
+      icon: AiFillFire,
+      tone: 'home',
+    },
+    {
+      label: t('nav.premium'),
       href: resolveSectionHref(pathname, 'videos'),
       type: 'section',
-      icon: HiPlay,
+      icon: AiOutlineVideoCamera,
+      tone: 'premium',
     },
     {
-      label: 'Packs',
-      href: resolveSectionHref(pathname, 'collections'),
-      type: 'section',
+      label: t('nav.packs'),
+      href: '/packs',
+      type: 'route',
       icon: HiCollection,
+      tone: 'packs',
     },
     {
-      label: 'Calzones',
+      label: t('nav.calzones'),
       href: '/calzones',
       type: 'route',
-      icon: HiGift,
+      icon: AiOutlineShopping,
+      tone: 'calzones',
     },
-    { label: 'Blog', href: resolveSectionHref(pathname, 'blog'), type: 'section', icon: HiBookOpen },
-  ]
-  const freeContentItem = {
-    label: 'Contenido Gratis',
-    href: '/free-content',
-    type: 'route',
-    icon: HiPhotograph,
-  }
-  const visiblePrimaryItems = session ? primaryItems : [...primaryItems, freeContentItem]
-  const utilityItems = [
     {
-      label: session ? 'Mi biblioteca' : 'Ingresar',
-      href: session ? '/library' : '/access',
-      type: 'route',
-      icon: HiOutlineLibrary,
+      label: t('nav.blog'),
+      href: resolveSectionHref(pathname, 'blog'),
+      type: 'section',
+      icon: HiBookOpen,
+      tone: 'blog',
     },
   ]
-  const visibleUtilityItems = session ? [freeContentItem, ...utilityItems] : utilityItems
+
+  const utilityItems = session
+    ? [
+        {
+          label: session.name || t('nav.profile'),
+          href: '/profile',
+          type: 'route',
+          icon: HiUser,
+          tone: 'profile',
+        },
+        {
+          label: t('nav.library'),
+          href: '/library',
+          type: 'route',
+          icon: HiOutlineLibrary,
+          tone: 'library',
+        },
+      ]
+    : [
+        {
+          label: t('nav.signIn'),
+          href: '/access',
+          type: 'route',
+          icon: HiOutlineLibrary,
+          tone: 'signin',
+        },
+      ]
 
   function handleSectionClick(itemHref) {
     const sectionId = itemHref.split('#')[1]
@@ -73,79 +188,76 @@ export function PublicNav() {
   return (
     <>
       <header className="public-nav" aria-label="Navegacion principal">
-        <Link className="public-brand" to="/">
+        <Link className="public-brand public-nav-brandcard" to="/">
           <span className="public-brand-mark">SM</span>
           <span className="public-brand-copy">
             <strong>Sindy Mireya</strong>
-            <small>Creator Studio</small>
+            <small>Hotwife</small>
           </span>
         </Link>
 
         <div className="public-nav-sidebar">
-          <nav className="public-nav-links" aria-label="Navegacion principal">
-            {visiblePrimaryItems.map((item) => {
+          <nav className="public-nav-panel" aria-label="Navegacion principal">
+            {primaryItems.map((item) => {
               const Icon = item.icon
               const isRoute = item.type === 'route'
 
-              return isRoute ? (
-                <NavLink
-                  key={item.label}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'public-nav-link public-nav-link-route is-active'
-                      : 'public-nav-link public-nav-link-route'
-                  }
-                  to={item.href}
-                >
-                  <Icon aria-hidden="true" />
-                  <span>{item.label}</span>
-                </NavLink>
-              ) : (
-                <a
-                  key={item.label}
-                  className={
-                    pathname === '/' && item.label === 'Inicio'
-                      ? 'public-nav-link is-active'
-                      : 'public-nav-link'
-                  }
+              return (
+                <PublicNavCardLink
+                  key={item.href}
                   href={item.href}
+                  active={item.href === resolveSectionHref(pathname, 'home-top')}
                   onClick={() => handleSectionClick(item.href)}
+                  route={isRoute}
                 >
-                  <Icon aria-hidden="true" />
-                  <span>{item.label}</span>
-                </a>
+                  <span className="public-nav-card-icon" aria-hidden="true" style={getNavToneStyles(item.tone)}>
+                    <Icon />
+                  </span>
+                  <span className="public-nav-card-copy">
+                    <strong>{item.label}</strong>
+                  </span>
+                  <span className="public-nav-card-chevron" aria-hidden="true">
+                    {'>'}
+                  </span>
+                </PublicNavCardLink>
               )
             })}
           </nav>
 
-          <div className="public-nav-utility">
-            {visibleUtilityItems.map((item) => {
+          <div className="public-nav-divider" aria-hidden="true" />
+
+          <div className="public-nav-panel public-nav-panel-utility">
+            {utilityItems.map((item) => {
               const Icon = item.icon
 
               return (
-                <NavLink
-                  key={item.label}
-                  className={({ isActive }) =>
-                    isActive ? 'public-nav-link public-nav-link-route is-active' : 'public-nav-link public-nav-link-route'
-                  }
-                  to={item.href}
-                >
-                  <Icon aria-hidden="true" />
-                  <span>{item.label}</span>
-                </NavLink>
+              <PublicNavCardLink key={item.href} href={item.href} route>
+                <span className="public-nav-card-icon" aria-hidden="true" style={getNavToneStyles(item.tone)}>
+                  <Icon />
+                </span>
+                  <span className="public-nav-card-copy">
+                    <strong>{item.label}</strong>
+                  </span>
+                  <span className="public-nav-card-chevron" aria-hidden="true">
+                    {'>'}
+                  </span>
+                </PublicNavCardLink>
               )
             })}
-            <NavLink className="public-nav-link public-nav-link-route" to="/encuentros">
-              <HiCollection aria-hidden="true" />
-              <span>Encuentros</span>
-            </NavLink>
-            <Link className="public-admin-link" to="/admin/login">
-              Admin
-            </Link>
+
+            <div className="public-nav-language-card">
+              <span className="public-nav-language-icon" aria-hidden="true" style={getNavToneStyles('language')}>
+                <HiOutlineGlobe />
+              </span>
+              <div className="public-nav-language-copy">
+                <strong>{t('language.label')}</strong>
+                <small>{currentLanguage.toUpperCase()}</small>
+              </div>
+              <LanguageSwitcher className="public-nav-language" />
+            </div>
           </div>
         </div>
       </header>
-      <MobileBottomNav session={session} />
     </>
   )
 }

@@ -1,9 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
+import { resolveLocalizedSection } from '../utils/localizedContent'
 
-function PhysicalStoreCard({ item, onPurchase }) {
+function PhysicalStoreCard({ item }) {
+  const { t } = useTranslation()
+
   return (
     <article className="physical-store-card">
       <div className="physical-store-visual">
@@ -17,30 +21,21 @@ function PhysicalStoreCard({ item, onPurchase }) {
         </div>
         <h3>{item.title}</h3>
         <p>{item.detailDescription || item.subtitle}</p>
-        <button className="hero-primary-cta" type="button" onClick={() => onPurchase(item)}>
-          Comprar y programar envio
-        </button>
+        <Link className="hero-primary-cta" to={`/calzones/${item.slug}`}>
+          {item.buyLabel || t('content.buyNow')}
+        </Link>
       </div>
     </article>
   )
 }
 
 export function CalzonesPage() {
-  const navigate = useNavigate()
-  const { siteContent, session } = useAppState()
-  const merch = siteContent.physicalMerch
-
-  function handlePurchase(item) {
-    if (!session) {
-      navigate(`/access?redirect=/calzones/checkout/${item.slug}`)
-      return
-    }
-
-    navigate(`/calzones/checkout/${item.slug}`)
-  }
+  const { siteContent } = useAppState()
+  const { i18n, t } = useTranslation()
+  const merch = resolveLocalizedSection(siteContent, 'physicalMerch', i18n.resolvedLanguage)
 
   return (
-    <main className="creator-home">
+    <main className="creator-home physical-store-page-shell">
       <PublicNav />
       <section className="physical-store-page">
         <div className="physical-store-hero">
@@ -50,29 +45,26 @@ export function CalzonesPage() {
             <p>{merch.description}</p>
           </div>
           <div className="physical-store-panel">
-            <h2>Compra asistida y envio manual</h2>
-            <p>
-              Elige un producto, completa tus datos de entrega y deja registrado tu pedido
-              para que el equipo lo procese y coordine el envio.
-            </p>
+            <h2>{t('physicalStore.panelTitle')}</h2>
+            <p>{t('physicalStore.panelDescription')}</p>
             <ul className="physical-store-points">
-              <li>Checkout seguro para el producto fisico</li>
-              <li>Direccion y datos de entrega en tu pedido</li>
-              <li>Seguimiento manual desde el panel admin</li>
+              <li>{t('physicalStore.point1')}</li>
+              <li>{t('physicalStore.point2')}</li>
+              <li>{t('physicalStore.point3')}</li>
             </ul>
           </div>
         </div>
 
         <section className="physical-store-grid" aria-label="Tienda fisica">
           {merch.items.map((item) => (
-            <PhysicalStoreCard item={item} key={item.slug} onPurchase={handlePurchase} />
+            <PhysicalStoreCard item={item} key={item.slug} />
           ))}
         </section>
 
         <div className="physical-store-footer-note">
           <p>{merch.note}</p>
           <Link className="section-more-link section-more-link-collections" to="/library">
-            Ver mi biblioteca
+            {t('physicalStore.libraryLink')}
           </Link>
         </div>
       </section>

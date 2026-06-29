@@ -1,226 +1,180 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { PublicNav } from '../components/PublicNav'
-import { SiteFooter } from '../components/SiteFooter'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { TelegramLoginWidget } from '../components/TelegramLoginWidget'
 import { useAppState } from '../state/AppState'
+import { AiFillX } from 'react-icons/ai'
+import { BiLogoTelegram } from 'react-icons/bi'
+import { FcGoogle } from 'react-icons/fc'
 
 export function AccessPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/'
+  const isOAuthCallback = searchParams.get('oauth') === '1'
   const {
+    isSupabaseConfigured,
     session,
-    siteContent,
-    loginMemberWithEmail,
-    logout,
-    signUpMemberWithEmail,
-    subscriptionProducts,
+    loginMemberWithOAuth,
+    loginMemberWithTelegram,
   } = useAppState()
-  const [mode, setMode] = useState('login')
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' })
-  const [registerForm, setRegisterForm] = useState({
-    displayName: '',
-    email: '',
-    password: '',
-  })
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const highlightedPlan = subscriptionProducts[0] || null
+  const [activeOAuthProvider, setActiveOAuthProvider] = useState('')
+  const [telegramOpen, setTelegramOpen] = useState(false)
+  const { t } = useTranslation()
+  const telegramBotUsername = import.meta.env.VITE_TELEGRAM_BOT_USERNAME || ''
+  const postAuthTarget = isOAuthCallback ? '/' : redirectTo && redirectTo !== '/access' ? redirectTo : '/'
 
-  function handleLoginChange(event) {
-    const { name, value } = event.target
-    setLoginForm((current) => ({ ...current, [name]: value }))
+  if (session) {
+    return <Navigate to={postAuthTarget} replace />
   }
 
-  function handleRegisterChange(event) {
-    const { name, value } = event.target
-    setRegisterForm((current) => ({ ...current, [name]: value }))
-  }
-
-  async function handleLoginSubmit(event) {
-    event.preventDefault()
+  async function handleOAuthLogin(provider) {
     setError('')
     setNotice('')
     setIsSubmitting(true)
+    setActiveOAuthProvider(provider)
 
     try {
-      await loginMemberWithEmail(loginForm)
-      navigate(redirectTo, { replace: true })
+      await loginMemberWithOAuth(provider, '/')
     } catch (nextError) {
-      setError(nextError.message || 'No se pudo iniciar sesion.')
+      setError(nextError.message || t('access.oauthError'))
     } finally {
       setIsSubmitting(false)
+      setActiveOAuthProvider('')
     }
   }
 
-  async function handleRegisterSubmit(event) {
-    event.preventDefault()
+  async function handleTelegramAuth(telegramUser) {
     setError('')
     setNotice('')
     setIsSubmitting(true)
+    setActiveOAuthProvider('telegram')
 
     try {
-      const result = await signUpMemberWithEmail(registerForm)
-
-      if (result.requiresEmailConfirmation) {
-        setNotice(
-          'La cuenta fue creada. Revisa tu correo para confirmar el acceso antes de comprar.',
-        )
-        setMode('login')
-        return
-      }
-
-      navigate(redirectTo, { replace: true })
+      await loginMemberWithTelegram(telegramUser)
+      setTelegramOpen(false)
+      navigate('/', { replace: true })
     } catch (nextError) {
-      setError(nextError.message || 'No se pudo crear la cuenta.')
+      setError(nextError.message || t('access.oauthError'))
     } finally {
       setIsSubmitting(false)
+      setActiveOAuthProvider('')
     }
   }
 
   return (
-    <main className="creator-home">
-      <PublicNav />
-      <section className="content-listing-page access-page">
-        <Link className="content-back-link" to="/">
-          Volver a la home
-        </Link>
+    <main className="access-auth-page">
+      <section className="access-auth-shell">
+        <div className="access-auth-card">
+          <div className="access-auth-topbar">
+            <Link className="access-auth-home-link" to="/">
+              {t('access.backHome')}
+            </Link>
+            <LanguageSwitcher className="access-auth-language" />
+          </div>
 
-        <div className="access-layout">
-          <article className="access-card access-card-copy">
-            <p className="section-kicker">Acceso del cliente</p>
-            <h1>Entrar o crear cuenta para desbloquear contenido</h1>
-            <p>
-              Usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear
-              videos, packs y publicaciones premium.
-            </p>
+          <div className="access-auth-brand" aria-hidden="true">
+            <span className="access-auth-brand-mark">
+              <AiFillX />
+            </span>
+          </div>
 
-            {highlightedPlan ? (
-              <div className="access-plan-highlight">
-                <strong>{highlightedPlan.priceLabel}</strong>
-                <span>
-                  Acceso total desde {highlightedPlan.metadata?.planPeriod || 'tu plan activo'} para
-                  desbloquear todo el contenido digital.
-                </span>
-              </div>
-            ) : null}
+          <div className="access-auth-copy">
+            <p className="access-auth-eyebrow">{t('access.eyebrow')}</p>
+            <h1>{t('access.authTitle')}</h1>
+            <p>{t('access.authSubtitle')}</p>
+          </div>
 
-            {session ? (
-              <div className="access-session-card">
-                <p>Sesion activa como</p>
-                <strong>{session.email}</strong>
-                <span>
-                  {session.role === 'admin'
-                    ? 'Administrador con acceso total.'
-                    : 'Cliente autenticado listo para comprar.'}
-                </span>
-                <div className="access-session-actions">
-                  <button
-                    className="hero-primary-cta"
-                    type="button"
-                    onClick={() => navigate('/library')}
-                  >
-                    Ir a mi biblioteca
-                  </button>
-                  <button className="video-preview-link" type="button" onClick={logout}>
-                    Cerrar sesion
-                  </button>
-                </div>
-              </div>
-            ) : null}
-          </article>
+          <div className="access-auth-buttons">
+            <button
+              className="access-auth-button access-auth-button-google"
+              type="button"
+              onClick={() => handleOAuthLogin('google')}
+              disabled={isSubmitting || !isSupabaseConfigured}
+            >
+              <span className="access-auth-button-icon" aria-hidden="true">
+                <FcGoogle />
+              </span>
+              <span>
+                {isSubmitting && activeOAuthProvider === 'google'
+                  ? t('access.connecting')
+                  : t('access.googleLogin')}
+              </span>
+            </button>
 
-          <article className="access-card access-card-form">
-            <div className="access-tabs" role="tablist" aria-label="Acceso del cliente">
+            <button
+              className="access-auth-button access-auth-button-x"
+              type="button"
+              onClick={() => handleOAuthLogin('twitter')}
+              disabled={isSubmitting || !isSupabaseConfigured}
+            >
+              <span className="access-auth-button-icon access-auth-button-icon-x" aria-hidden="true">
+                <AiFillX />
+              </span>
+              <span>
+                {isSubmitting && activeOAuthProvider === 'twitter'
+                  ? t('access.connecting')
+                  : t('access.xLogin')}
+              </span>
+            </button>
+
+            <button
+              className="access-auth-button access-auth-button-telegram"
+              type="button"
+              onClick={() => {
+                setError('')
+                setNotice('')
+                setTelegramOpen((current) => !current)
+              }}
+              disabled={isSubmitting || !isSupabaseConfigured || !telegramBotUsername}
+            >
+              <span className="access-auth-button-icon access-auth-button-icon-telegram" aria-hidden="true">
+                <BiLogoTelegram />
+              </span>
+              <span>
+                {isSubmitting && activeOAuthProvider === 'telegram'
+                  ? t('access.telegramConnecting')
+                  : t('access.telegramLogin')}
+              </span>
+            </button>
+          </div>
+
+          {!isSupabaseConfigured ? (
+            <p className="access-auth-note">{t('access.oauthUnavailable')}</p>
+          ) : !telegramBotUsername ? (
+            <p className="access-auth-note">{t('access.telegramUnavailable')}</p>
+          ) : null}
+
+          {telegramOpen && isSupabaseConfigured && telegramBotUsername ? (
+            <div className="access-auth-telegram-panel">
+              <p className="access-auth-note">{t('access.telegramLoginHint')}</p>
+              <TelegramLoginWidget
+                botUsername={telegramBotUsername}
+                onAuth={handleTelegramAuth}
+                onError={(nextError) => {
+                  setError(nextError?.message || t('access.oauthError'))
+                  setIsSubmitting(false)
+                  setActiveOAuthProvider('')
+                }}
+              />
               <button
-                className={mode === 'login' ? 'is-active' : ''}
+                className="access-auth-link"
                 type="button"
-                onClick={() => setMode('login')}
+                onClick={() => setTelegramOpen(false)}
               >
-                Iniciar sesion
-              </button>
-              <button
-                className={mode === 'register' ? 'is-active' : ''}
-                type="button"
-                onClick={() => setMode('register')}
-              >
-                Crear cuenta
+                {t('access.telegramClose')}
               </button>
             </div>
+          ) : null}
 
-            {mode === 'login' ? (
-              <form className="access-form" onSubmit={handleLoginSubmit}>
-                <label className="admin-field">
-                  <span>Correo</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={loginForm.email}
-                    onChange={handleLoginChange}
-                    required
-                  />
-                </label>
-                <label className="admin-field">
-                  <span>Clave</span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={loginForm.password}
-                    onChange={handleLoginChange}
-                    required
-                  />
-                </label>
-                {error ? <p className="admin-error">{error}</p> : null}
-                {notice ? <p className="admin-note">{notice}</p> : null}
-                <button className="admin-primary-button" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Entrando...' : 'Ingresar'}
-                </button>
-              </form>
-            ) : (
-              <form className="access-form" onSubmit={handleRegisterSubmit}>
-                <label className="admin-field">
-                  <span>Nombre visible</span>
-                  <input
-                    type="text"
-                    name="displayName"
-                    value={registerForm.displayName}
-                    onChange={handleRegisterChange}
-                    required
-                  />
-                </label>
-                <label className="admin-field">
-                  <span>Correo</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={registerForm.email}
-                    onChange={handleRegisterChange}
-                    required
-                  />
-                </label>
-                <label className="admin-field">
-                  <span>Clave</span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={registerForm.password}
-                    onChange={handleRegisterChange}
-                    minLength={8}
-                    required
-                  />
-                </label>
-                {error ? <p className="admin-error">{error}</p> : null}
-                {notice ? <p className="admin-note">{notice}</p> : null}
-                <button className="admin-primary-button" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Creando...' : 'Crear cuenta'}
-                </button>
-              </form>
-            )}
-          </article>
+          {error ? <p className="access-auth-error">{error}</p> : null}
+          {notice ? <p className="access-auth-note">{notice}</p> : null}
         </div>
       </section>
-      <SiteFooter content={siteContent} />
     </main>
   )
 }

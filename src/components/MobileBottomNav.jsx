@@ -1,263 +1,117 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import {
-  HiBookOpen,
-  HiCollection,
-  HiGift,
-  HiHome,
-  HiLockClosed,
-  HiOutlineLibrary,
-  HiPhotograph,
-  HiPlay,
-} from 'react-icons/hi'
+import { useTranslation } from 'react-i18next'
+import { HiBookOpen, HiCollection, HiOutlineLibrary } from 'react-icons/hi'
+import { AiFillFire, AiOutlineShopping, AiOutlineVideoCamera } from 'react-icons/ai'
+import { useAppState } from '../state/AppState'
 
-function resolveSectionHref(pathname, sectionId) {
-  return pathname === '/' ? `#${sectionId}` : `/#${sectionId}`
+function getNavToneStyles(tone) {
+  const tones = {
+    home: {
+      color: 'var(--color-primary-hover)',
+      bg: 'rgba(209, 31, 66, 0.12)',
+      border: 'rgba(209, 31, 66, 0.2)',
+      glow: 'rgba(209, 31, 66, 0.16)',
+    },
+    premium: {
+      color: 'var(--color-accent-fire)',
+      bg: 'rgba(255, 138, 42, 0.12)',
+      border: 'rgba(255, 138, 42, 0.2)',
+      glow: 'rgba(255, 138, 42, 0.16)',
+    },
+    packs: {
+      color: 'var(--color-accent)',
+      bg: 'rgba(214, 90, 35, 0.12)',
+      border: 'rgba(214, 90, 35, 0.2)',
+      glow: 'rgba(214, 90, 35, 0.16)',
+    },
+    merch: {
+      color: 'var(--color-accent)',
+      bg: 'rgba(214, 90, 35, 0.12)',
+      border: 'rgba(214, 90, 35, 0.2)',
+      glow: 'rgba(214, 90, 35, 0.16)',
+    },
+    blog: {
+      color: 'var(--color-text-secondary)',
+      bg: 'rgba(245, 238, 231, 0.08)',
+      border: 'rgba(245, 238, 231, 0.14)',
+      glow: 'rgba(245, 238, 231, 0.1)',
+    },
+    library: {
+      color: 'var(--color-accent-fire)',
+      bg: 'rgba(255, 138, 42, 0.12)',
+      border: 'rgba(255, 138, 42, 0.2)',
+      glow: 'rgba(255, 138, 42, 0.16)',
+    },
+    access: {
+      color: 'var(--color-warning)',
+      bg: 'rgba(226, 178, 75, 0.12)',
+      border: 'rgba(226, 178, 75, 0.2)',
+      glow: 'rgba(226, 178, 75, 0.16)',
+    },
+  }
+
+  const selectedTone = tones[tone] || tones.premium
+
+  return {
+    '--nav-icon-color': selectedTone.color,
+    '--nav-icon-bg': selectedTone.bg,
+    '--nav-icon-border': selectedTone.border,
+    '--nav-icon-glow': selectedTone.glow,
+  }
 }
 
-export function MobileBottomNav({ session }) {
+function isRouteActive(pathname, href) {
+  if (href === '/') {
+    return pathname === '/'
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
+export function MobileBottomNav() {
+  const { session } = useAppState()
+  const { t } = useTranslation()
   const location = useLocation()
   const pathname = location.pathname
-  const itemRefs = useRef([])
-  const manualScrollLockRef = useRef(0)
-  const libraryLabel = session ? 'Biblioteca' : 'Ingresar'
   const libraryHref = session ? '/library' : '/access'
-  const [activeKey, setActiveKey] = useState(pathname === '/' ? 'home' : libraryHref)
+  const isEncuentrosPage = pathname.startsWith('/encuentros')
 
-  const items = useMemo(
-    () => {
-      const freeContentItem = {
-        key: '/free-content',
-        label: 'Contenido Gratis',
-        href: '/free-content',
-        icon: HiPhotograph,
-        type: 'route',
-      }
-
-      const baseItems = [
-        {
-          key: 'home',
-          label: 'Inicio',
-          href: resolveSectionHref(pathname, 'home-top'),
-          icon: HiHome,
-          type: 'section',
-          sectionId: 'home-top',
-        },
-        {
-          key: 'access-total',
-          label: 'Acceso total',
-          href: resolveSectionHref(pathname, 'access-total'),
-          icon: HiLockClosed,
-          type: 'section',
-          sectionId: 'access-total',
-        },
-        {
-          key: 'videos',
-          label: 'Catalogo premium',
-          href: resolveSectionHref(pathname, 'videos'),
-          icon: HiPlay,
-          type: 'section',
-          sectionId: 'videos',
-        },
-        {
-          key: 'collections',
-          label: 'Packs',
-          href: resolveSectionHref(pathname, 'collections'),
-          icon: HiCollection,
-          type: 'section',
-          sectionId: 'collections',
-        },
-        {
-          key: '/calzones',
-          label: 'Calzones',
-          href: '/calzones',
-          icon: HiGift,
-          type: 'route',
-        },
-        {
-          key: 'blog',
-          label: 'Blog',
-          href: resolveSectionHref(pathname, 'blog'),
-          icon: HiBookOpen,
-          type: 'section',
-          sectionId: 'blog',
-        },
-      ]
-
-      if (!session) {
-        return [
-          ...baseItems,
-          freeContentItem,
-          {
-            key: libraryHref,
-            label: libraryLabel,
-            href: libraryHref,
-            icon: HiOutlineLibrary,
-            type: 'route',
-          },
-        ]
-      }
-
-      return [
-        ...baseItems,
-        freeContentItem,
-        {
-          key: libraryHref,
-          label: libraryLabel,
-          href: libraryHref,
-          icon: HiOutlineLibrary,
-          type: 'route',
-        },
-      ]
-    },
-    [libraryHref, libraryLabel, pathname, session],
-  )
-
-  useEffect(() => {
-    itemRefs.current = itemRefs.current.slice(0, items.length)
-  }, [items.length])
-
-  useEffect(() => {
-    if (pathname !== '/') {
-      if (pathname.startsWith('/blog')) {
-        setActiveKey('blog')
-        return
-      }
-
-      if (pathname === '/free-content') {
-        setActiveKey('/free-content')
-        return
-      }
-
-      if (pathname === '/calzones') {
-        setActiveKey('/calzones')
-        return
-      }
-
-      if (pathname === '/library' || pathname === '/access') {
-        setActiveKey(libraryHref)
-        return
-      }
-
-      setActiveKey('home')
-      return
-    }
-
-    const sectionItems = items.filter((item) => item.type === 'section')
-    const sectionElements = sectionItems.map((item) => ({
-      key: item.key,
-      element: document.getElementById(item.sectionId),
-    }))
-
-    if (!sectionElements.some((item) => item.element)) {
-      setActiveKey('home')
-      return
-    }
-
-    function syncActiveSection() {
-      if (Date.now() < manualScrollLockRef.current) {
-        return
-      }
-
-      const viewportOffset = window.innerWidth <= 900 ? 96 : 32
-      let nextActiveKey = sectionItems[0]?.key ?? 'home'
-      const reachedSections = sectionElements
-        .map((item, index) => ({
-          key: item.key,
-          index,
-          top: item.element?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY,
-        }))
-        .filter((item) => item.top <= viewportOffset)
-        .sort((left, right) => {
-          if (left.top === right.top) {
-            return left.index - right.index
-          }
-
-          return right.top - left.top
-        })
-
-      if (reachedSections.length) {
-        nextActiveKey = reachedSections[0].key
-      }
-
-      const firstSection = sectionElements[0]?.element
-
-      if (firstSection && firstSection.getBoundingClientRect().top > viewportOffset) {
-        nextActiveKey = 'home'
-      }
-
-      setActiveKey((currentKey) => (currentKey === nextActiveKey ? currentKey : nextActiveKey))
-    }
-
-    syncActiveSection()
-    window.addEventListener('scroll', syncActiveSection, { passive: true })
-    window.addEventListener('resize', syncActiveSection)
-
-    return () => {
-      window.removeEventListener('scroll', syncActiveSection)
-      window.removeEventListener('resize', syncActiveSection)
-    }
-  }, [items, libraryHref, pathname])
-
-  useEffect(() => {
-    const activeIndex = items.findIndex((item) => item.key === activeKey)
-    const nextItem = itemRefs.current[activeIndex]
-
-    if (!nextItem) {
-      return
-    }
-
-    nextItem.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center',
-      block: 'nearest',
-    })
-  }, [activeKey, items])
+  if (isEncuentrosPage) {
+    return null
+  }
 
   return (
     <nav className="mobile-bottom-nav" aria-label="Navegacion movil">
       <div className="mobile-bottom-nav-track">
-        {items.map((item, index) => {
+        {[
+          { key: 'home', label: t('nav.home'), href: '/', icon: AiFillFire, tone: 'home' },
+          { key: 'videos', label: t('nav.premium'), href: '/videos', icon: AiOutlineVideoCamera, tone: 'premium' },
+          { key: 'packs', label: t('nav.packs'), href: '/packs', icon: HiCollection, tone: 'packs' },
+          { key: 'calzones', label: t('nav.calzones'), href: '/calzones', icon: AiOutlineShopping, tone: 'merch' },
+          { key: 'blog', label: t('nav.blog'), href: '/blog', icon: HiBookOpen, tone: 'blog' },
+          {
+            key: 'library',
+            label: session ? t('nav.library') : t('nav.signIn'),
+            href: libraryHref,
+            icon: HiOutlineLibrary,
+            tone: session ? 'library' : 'access',
+          },
+        ].map((item) => {
           const Icon = item.icon
-
-          if (item.type === 'route') {
-            return (
-              <NavLink
-                key={item.key}
-                ref={(node) => {
-                  itemRefs.current[index] = node
-                }}
-                className={({ isActive }) => {
-                  const routeActive = item.href === '/' ? pathname === '/' : isActive
-                  return routeActive ? 'mobile-bottom-nav-item is-active' : 'mobile-bottom-nav-item'
-                }}
-                to={item.href}
-                onClick={() => setActiveKey(item.key)}
-              >
-                <Icon aria-hidden="true" />
-                <span>{item.label}</span>
-              </NavLink>
-            )
-          }
-
-          const isActive = pathname === '/' && activeKey === item.key
+          const isActive = isRouteActive(pathname, item.href)
 
           return (
-          <a
-            key={item.key}
-            ref={(node) => {
-              itemRefs.current[index] = node
-            }}
-            className={isActive ? 'mobile-bottom-nav-item is-active' : 'mobile-bottom-nav-item'}
-            href={item.href}
-            onClick={() => {
-              manualScrollLockRef.current = Date.now() + 1200
-              setActiveKey(item.key)
-            }}
-          >
+            <NavLink
+              key={item.key}
+              style={getNavToneStyles(item.tone)}
+              className={isActive ? 'mobile-bottom-nav-item is-active' : 'mobile-bottom-nav-item'}
+              to={item.href}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={item.label}
+            >
               <Icon aria-hidden="true" />
-              <span>{item.label}</span>
-            </a>
+              <span className="sr-only">{item.label}</span>
+            </NavLink>
           )
         })}
       </div>

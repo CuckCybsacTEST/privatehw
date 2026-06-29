@@ -1,10 +1,12 @@
 import { Link, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 
 export function CheckoutCancelPage() {
   const { siteContent } = useAppState()
+  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const product = searchParams.get('product')
 
@@ -14,19 +16,16 @@ export function CheckoutCancelPage() {
       <section className="content-listing-page access-page">
         <div className="access-layout single-column">
           <article className="access-card access-card-copy">
-            <p className="section-kicker">Checkout cancelado</p>
-            <h1>La compra no se completo</h1>
-            <p>
-              No se registro ningun cobro. Puedes volver a intentarlo cuando quieras
-              desde el catalogo o desde la seccion de acceso.
-            </p>
-            {product ? <p className="admin-note">Producto: {product}</p> : null}
+            <p className="section-kicker">{t('checkout.cancel')}</p>
+            <h1>{t('checkout.reviewTitle')}</h1>
+            <p>{t('checkout.reviewDescription')}</p>
+            {product ? <p className="admin-note">{t('checkout.resultProduct')}: {product}</p> : null}
             <div className="access-session-actions">
               <Link className="hero-primary-cta" to="/">
-                Volver a la home
+                {t('access.backHome')}
               </Link>
               <Link className="video-preview-link" to="/library">
-                Ir a mi biblioteca
+                {t('checkout.goLibrary')}
               </Link>
             </div>
           </article>

@@ -1,0 +1,15 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+.env.*
+*.log
+graphify-out
+dev-server.log
+dev-server.out.log
+dev-server.err.log
+dev-start.out.log
+dev-start.err.log
+vite-dev.log
+vite-dev.err

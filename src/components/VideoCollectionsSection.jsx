@@ -1,113 +1,96 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { CollectionCard } from './CollectionCard'
-
-function shuffleItems(items) {
-  const next = [...items]
-
-  for (let index = next.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1))
-    ;[next[index], next[swapIndex]] = [next[swapIndex], next[index]]
-  }
-
-  return next
-}
-
-function getCollectionsViewportMode() {
-  if (typeof window === 'undefined') {
-    return 'desktop'
-  }
-
-  if (window.innerWidth > 900) {
-    return 'desktop'
-  }
-
-  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
-    return 'compact'
-  }
-
-  return 'regular'
-}
+import { useTranslation } from 'react-i18next'
+import { PackPreviewCard } from './PackPreviewCard'
+import { ViewAllPacksCard } from './ViewAllPacksCard'
+import { resolveLocalizedSection } from '../utils/localizedContent'
+import { useViewportState } from '../hooks/useViewportState'
 
 export function VideoCollectionsSection({ content }) {
-  const collectionItems = useMemo(() => content.videoCollections.items || [], [content.videoCollections.items])
-  const browseLabel =
-    content.videoCollections.browseLabel === 'Ver todos los packs'
-      ? 'Ver todos'
-      : content.videoCollections.browseLabel
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth <= 900 : false,
+  const { i18n, t } = useTranslation()
+  const videoCollections = resolveLocalizedSection(content, 'videoCollections', i18n.resolvedLanguage)
+  const physicalMerch = resolveLocalizedSection(content, 'physicalMerch', i18n.resolvedLanguage)
+  const collectionItems = useMemo(() => videoCollections.items || [], [videoCollections.items])
+  const validCollectionItems = useMemo(
+    () =>
+      collectionItems.filter((item) => Boolean(item.slug) && Boolean(item.coverImage)),
+    [collectionItems],
   )
-  const [collectionsViewportMode, setCollectionsViewportMode] = useState(() =>
-    getCollectionsViewportMode(),
+  const previewLimit = Number.isFinite(Number(videoCollections.previewLimit))
+    ? Number(videoCollections.previewLimit)
+    : 5
+  const visibleCollectionItems = useMemo(
+    () => validCollectionItems.slice(0, previewLimit),
+    [validCollectionItems, previewLimit],
   )
-  const [visibleCollections, setVisibleCollections] = useState(() =>
-    shuffleItems(collectionItems).slice(0, 4),
-  )
-
-  useEffect(() => {
-    function handleViewportChange() {
-      setIsMobile(window.innerWidth <= 900)
-      setCollectionsViewportMode(getCollectionsViewportMode())
-    }
-
-    handleViewportChange()
-    window.addEventListener('resize', handleViewportChange)
-
-    return () => window.removeEventListener('resize', handleViewportChange)
-  }, [])
-
-  useEffect(() => {
-    setVisibleCollections(shuffleItems(collectionItems).slice(0, 4))
-  }, [collectionItems, isMobile])
-
-  useEffect(() => {
-    if (collectionItems.length <= 4) {
-      return undefined
-    }
-
-    const intervalId = window.setInterval(() => {
-      setVisibleCollections((currentCollections) => {
-        const currentSlugs = new Set(currentCollections.map((item) => item.slug))
-        const availableCollections = collectionItems.filter((item) => !currentSlugs.has(item.slug))
-        const sourceCollections = availableCollections.length >= 4 ? availableCollections : collectionItems
-
-        return shuffleItems(sourceCollections).slice(0, 4)
-      })
-    }, isMobile ? 5200 : 4200)
-
-    return () => window.clearInterval(intervalId)
-  }, [collectionItems, isMobile])
+  const browseLabel = videoCollections.browseLabel || t('content.viewAllPacks')
+  const { mode: collectionsViewportMode } = useViewportState()
+  const requestItems = Array.isArray(physicalMerch.items) ? physicalMerch.items.slice(0, 3) : []
 
   return (
     <section
       className={`video-collections-section is-collections-${collectionsViewportMode}`}
       id="collections"
     >
-      <div className="section-heading section-heading-split">
-        <div>
-          <p className="section-kicker">Packs y categorias</p>
-          <h2>{content.videoCollections.title}</h2>
-          <p>{content.videoCollections.description}</p>
+      <div className="section-heading section-heading-split video-collections-heading">
+        <div className="video-collections-heading-copy">
+          <p className="section-kicker">{t('content.packsCategories')}</p>
+          <h2>{videoCollections.title || t('content.premiumCatalog')}</h2>
+          <p className="video-collections-lede">{videoCollections.description}</p>
         </div>
-        <Link
-          className="section-more-link section-more-link-collections desktop-only"
-          to={content.videoCollections.browseHref}
-        >
-          {browseLabel}
-        </Link>
       </div>
 
-      <div className="video-collections-grid">
-        {visibleCollections.map((collection) => (
-          <CollectionCard collection={collection} key={collection.slug} />
-        ))}
-      </div>
+      <div className="video-collections-preview-layout">
+        <div className="video-collections-main-column">
+          <div className="video-collections-grid">
+            {visibleCollectionItems.map((collection) => (
+              <PackPreviewCard
+                collection={collection}
+                key={collection.slug}
+              />
+            ))}
+            <ViewAllPacksCard
+              description={videoCollections.description}
+              href={videoCollections.browseHref}
+              label={browseLabel}
+              title={videoCollections.title}
+            />
+          </div>
+        </div>
 
-      <div className="section-more-actions mobile-only">
-        <Link className="section-more-link section-more-link-collections" to={content.videoCollections.browseHref}>
-          {browseLabel}
-        </Link>
+        <aside className="video-collections-request-panel">
+          <div className="video-collections-request-header">
+            <p className="video-collections-request-kicker">{physicalMerch.kicker}</p>
+            <h3>{physicalMerch.title}</h3>
+            <p>{physicalMerch.description}</p>
+          </div>
+
+          <div className="video-collections-request-list">
+            {requestItems.map((item, index) => (
+              <div className="video-collections-request-item" key={item.slug || index}>
+                <div className="video-collections-request-item-copy">
+                  <strong>{item.title}</strong>
+                  {item.subtitle ? <span>{item.subtitle}</span> : null}
+                </div>
+                <div className="video-collections-request-item-meta">
+                  <strong>{item.priceLabel}</strong>
+                  {item.stockLabel ? <span>{item.stockLabel}</span> : null}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            className="hero-primary-cta video-collections-request-cta"
+            to={physicalMerch.primaryUrl || '/calzones'}
+          >
+            {physicalMerch.primaryLabel}
+          </Link>
+
+          <p className="video-collections-request-note">
+            {physicalMerch.note}
+          </p>
+        </aside>
       </div>
     </section>
   )

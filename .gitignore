@@ -3,3 +3,8 @@ dist/
 vite-dev.log
 vite-dev.err
 .env
+dev-*.log
+dev-*.out.log
+dev-*.err.log
+vite-dev.log
+vite-dev.err

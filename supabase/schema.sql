@@ -3,12 +3,12 @@ create extension if not exists pgcrypto;
 create or replace function public.handle_updated_at()
 returns trigger
 language plpgsql
-as $$
+as $handle$
 begin
   new.updated_at = timezone('utc', now());
   return new;
 end;
-$$;
+$handle$;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
@@ -93,7 +93,7 @@ create table if not exists public.orders (
 create table if not exists public.order_items (
   id uuid primary key default gen_random_uuid(),
   order_id uuid not null references public.orders(id) on delete cascade,
-  product_slug text not null references public.products(slug) on delete restrict,
+  product_slug text not null,
   quantity integer not null default 1,
   unit_amount integer not null default 0,
   total_amount integer not null default 0,
@@ -101,17 +101,25 @@ create table if not exists public.order_items (
   created_at timestamptz not null default timezone('utc', now())
 );
 
+create index if not exists order_items_product_slug_idx
+  on public.order_items (product_slug);
+
 create table if not exists public.entitlements (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.profiles(id) on delete cascade,
-  product_slug text references public.products(slug) on delete set null,
+  product_slug text,
   entitlement_key text not null,
   status text not null default 'active' check (status in ('active', 'revoked', 'expired')),
   source_order_id uuid references public.orders(id) on delete set null,
+  grant_source text not null default 'checkout',
+  granted_by uuid references public.profiles(id) on delete set null,
   expires_at timestamptz,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
+
+create index if not exists entitlements_product_slug_idx
+  on public.entitlements (product_slug);
 
 create unique index if not exists profiles_stripe_customer_id_idx
 on public.profiles (stripe_customer_id)
@@ -120,12 +128,35 @@ where stripe_customer_id is not null;
 create unique index if not exists entitlements_user_key_idx
 on public.entitlements (user_id, entitlement_key);
 
+alter table public.entitlements add column if not exists grant_source text not null default 'checkout';
+alter table public.entitlements add column if not exists granted_by uuid references public.profiles(id) on delete set null;
+
+create table if not exists public.admin_audit_events (
+  id uuid primary key default gen_random_uuid(),
+  event_type text not null,
+  actor_id uuid references public.profiles(id) on delete set null,
+  target_user_id uuid references public.profiles(id) on delete set null,
+  entity_type text not null default 'user',
+  entity_id text,
+  payload jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default timezone('utc', now())
+);
+
+create index if not exists admin_audit_events_created_at_idx
+  on public.admin_audit_events (created_at desc);
+
+create index if not exists admin_audit_events_actor_id_idx
+  on public.admin_audit_events (actor_id);
+
+create index if not exists admin_audit_events_target_user_id_idx
+  on public.admin_audit_events (target_user_id);
+
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer
 set search_path = public
-as $$
+as $new_user$
 begin
   insert into public.profiles (id, email, display_name)
   values (
@@ -138,7 +169,33 @@ begin
 
   return new;
 end;
-$$;
+$new_user$;
+
+create or replace function public.get_my_profile()
+returns table (
+  id uuid,
+  email text,
+  display_name text,
+  stripe_customer_id text,
+  role text,
+  status text
+)
+language sql
+stable
+security definer
+set search_path = public
+as $profile$
+  select
+    p.id,
+    p.email,
+    p.display_name,
+    p.stripe_customer_id,
+    p.role,
+    p.status
+  from public.profiles p
+  where p.id = auth.uid()
+  limit 1;
+$profile$;
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created

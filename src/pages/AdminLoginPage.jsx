@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { useAppState } from '../state/AppState'
 
 export function AdminLoginPage() {
   const navigate = useNavigate()
   const { isSupabaseConfigured, session, loginWithEmail, users } = useAppState()
+  const { t } = useTranslation()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -48,17 +51,15 @@ export function AdminLoginPage() {
     <main className="admin-shell">
       <section className="admin-auth-card">
         <div className="admin-auth-copy">
-          <p className="admin-eyebrow">Panel administrativo</p>
-          <h1>Gestion interna del sitio</h1>
-          <p>
-            Desde aqui puedes actualizar imagenes, precios, enlaces y usuarios
-            de trabajo.
-          </p>
+          <p className="admin-eyebrow">{t('auth.eyebrow')}</p>
+          <h1>{t('auth.title')}</h1>
+          <p>{t('auth.description')}</p>
+          <LanguageSwitcher className="admin-auth-language" />
         </div>
 
         <form className="admin-form" onSubmit={handleSubmit}>
           <label className="admin-field">
-            <span>Correo</span>
+            <span>{t('auth.email')}</span>
             <input
               type="email"
               name="email"
@@ -70,7 +71,7 @@ export function AdminLoginPage() {
           </label>
 
           <label className="admin-field">
-            <span>Clave</span>
+            <span>{t('auth.password')}</span>
             <input
               type="password"
               name="password"
@@ -84,32 +85,28 @@ export function AdminLoginPage() {
           {error ? <p className="admin-error">{error}</p> : null}
 
           <button className="admin-primary-button" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Entrando...' : 'Entrar al panel'}
+            {isSubmitting ? t('auth.signingIn') : t('auth.signIn')}
           </button>
         </form>
 
         <div className="admin-hint">
           {isSupabaseConfigured ? (
             <>
-              <p>Supabase esta activo para autenticacion.</p>
-              <p className="admin-note">
-                Usa un usuario creado en Supabase Auth con rol `admin` en
-                `public.profiles`.
-              </p>
+              <p>{t('auth.supabaseActive')}</p>
+              <p className="admin-note">{t('auth.useAdminUser')}</p>
             </>
           ) : (
             <>
-              <p>Demo admin local:</p>
+              <p>{t('auth.localDemo')}</p>
               {adminUsers.map((user) => (
                 <code key={user.id}>
-                  {user.email} / {user.password}
+                  {user.email}
                 </code>
               ))}
             </>
           )}
           <p className="admin-note">
-            Esta autenticacion es local para prototipado. Aun no reemplaza un
-            backend seguro.
+            {t('auth.localPrototyping')}
           </p>
         </div>
       </section>

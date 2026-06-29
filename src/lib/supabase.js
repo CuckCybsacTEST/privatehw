@@ -3,25 +3,53 @@ import { defaultSiteContent, mergeSiteContent } from '../data/defaultSiteContent
 import { defaultBlogPosts, normalizeBlogPost } from '../data/defaultBlogPosts'
 import {
   buildDefaultProducts,
+  buildDerivedProducts,
+  buildPersistentProducts,
   defaultEntitlements,
   mergeProducts,
+  isPersistentProductType,
   normalizeEntitlement,
 } from '../data/defaultCommerce'
+import { normalizeRecordingChoice } from '../utils/encuentrosBooking'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
   import.meta.env.VITE_SUPABASE_ANON_KEY
 
+function getDirectStorageEndpoint() {
+  if (!supabaseUrl) {
+    return ''
+  }
+
+  try {
+    const url = new URL(supabaseUrl)
+    const hostParts = url.hostname.split('.')
+
+    if (hostParts.length >= 3 && hostParts[1] === 'supabase' && hostParts[2] === 'co') {
+      return `https://${hostParts[0]}.storage.supabase.co/storage/v1/upload/resumable`
+    }
+
+    return `${url.origin}/storage/v1/upload/resumable`
+  } catch {
+    return `${supabaseUrl}/storage/v1/upload/resumable`
+  }
+}
+
+const supabaseStorageResumableEndpoint = getDirectStorageEndpoint()
+
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 
+const globalSupabaseState = globalThis
+
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-      },
-    })
+  ? (globalSupabaseState.__privatehwSupabaseClient ||
+      (globalSupabaseState.__privatehwSupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+        },
+      })))
   : null
 
 function assertSupabase() {
@@ -32,12 +60,164 @@ function assertSupabase() {
   return supabase
 }
 
+function withSupabaseTimeout(promise, timeoutMs, message) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      window.setTimeout(() => reject(new Error(message)), timeoutMs)
+    }),
+  ])
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms)
+  })
+}
+
+async function retrySupabaseOperation(operation, attempts = 2, delayMs = 600) {
+  let lastError
+
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return await operation()
+    } catch (error) {
+      lastError = error
+
+      if (attempt < attempts - 1) {
+        await delay(delayMs)
+      }
+    }
+  }
+
+  throw lastError
+}
+
+async function uploadFileWithProgress(client, file, bucket, filePath, onProgress) {
+  const {
+    data: { session },
+  } = await client.auth.getSession()
+  const accessToken = session?.access_token || ''
+
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.open('POST', `${supabaseUrl}/storage/v1/object/${bucket}/${filePath}`)
+    request.setRequestHeader('apikey', supabaseAnonKey)
+
+    if (accessToken) {
+      request.setRequestHeader('Authorization', `Bearer ${accessToken}`)
+    }
+
+    request.setRequestHeader('x-upsert', 'false')
+    request.setRequestHeader('cache-control', '3600')
+
+    request.upload.onprogress = (event) => {
+      if (!onProgress || !event.lengthComputable) {
+        return
+      }
+
+      onProgress(Math.min(100, Math.round((event.loaded / event.total) * 100)))
+    }
+
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 300) {
+        onProgress?.(100)
+        resolve()
+        return
+      }
+
+      try {
+        const payload = JSON.parse(request.responseText)
+        reject(new Error(payload.message || payload.error || 'No se pudo subir el archivo.'))
+      } catch {
+        reject(new Error('No se pudo subir el archivo.'))
+      }
+    }
+
+    request.onerror = () => reject(new Error('Fallo la conexion durante la subida.'))
+    request.send(file)
+  })
+}
+
+async function uploadFileResumable(client, file, bucket, filePath, onProgress) {
+  const { Upload } = await import('tus-js-client')
+  const {
+    data: { session },
+  } = await client.auth.getSession()
+  const accessToken = session?.access_token || ''
+
+  return new Promise((resolve, reject) => {
+    const upload = new Upload(file, {
+      endpoint: supabaseStorageResumableEndpoint,
+      retryDelays: [0, 3000, 5000, 10000, 20000],
+      chunkSize: 6 * 1024 * 1024,
+      uploadDataDuringCreation: true,
+      removeFingerprintOnSuccess: true,
+      fingerprint(currentFile) {
+        return Promise.resolve(
+          [
+            'supabase-resumable',
+            bucket,
+            filePath,
+            currentFile.name,
+            currentFile.type,
+            currentFile.size,
+            currentFile.lastModified,
+          ].join('-'),
+        )
+      },
+      headers: {
+        ...(supabaseAnonKey ? { apikey: supabaseAnonKey } : {}),
+        ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
+        'x-upsert': 'false',
+      },
+      metadata: {
+        bucketName: bucket,
+        objectName: filePath,
+        contentType: file.type || 'application/octet-stream',
+        cacheControl: 3600,
+        metadata: JSON.stringify({}),
+      },
+      onError(error) {
+        reject(
+          new Error(
+            error?.originalResponse?.getBody?.() ||
+              error?.message ||
+              'No se pudo completar la subida resumable.',
+          ),
+        )
+      },
+      onProgress(bytesUploaded, bytesTotal) {
+        if (!onProgress || !bytesTotal) {
+          return
+        }
+
+        onProgress(Math.min(100, Math.round((bytesUploaded / bytesTotal) * 100)))
+      },
+      onSuccess() {
+        onProgress?.(100)
+        resolve()
+      },
+    })
+
+    upload
+      .findPreviousUploads()
+      .then((previousUploads) => {
+        if (previousUploads.length) {
+          upload.resumeFromPreviousUpload(previousUploads[0])
+        }
+
+        upload.start()
+      })
+      .catch(reject)
+  })
+}
+
 function normalizeProfile(profile) {
   return {
     id: profile.id,
     name: profile.display_name || profile.email || 'User',
     email: profile.email || '',
-    password: 'managed-in-supabase',
     role: profile.role || 'public',
     status: profile.status || 'active',
   }
@@ -54,7 +234,57 @@ function normalizeSession(user, profile, accessToken = '') {
       profile?.display_name || user.user_metadata?.display_name || user.email || 'User',
     email: user.email || '',
     role: profile?.role || 'public',
+    status: profile?.status || 'active',
     accessToken,
+  }
+}
+
+async function fetchCurrentProfile(client) {
+  try {
+    const { data, error } = await withSupabaseTimeout(
+      client.rpc('get_my_profile'),
+      8000,
+      'La lectura del perfil actual tardo demasiado.',
+    )
+
+    if (error) {
+      throw error
+    }
+
+    if (Array.isArray(data)) {
+      return data[0] || null
+    }
+
+    return data || null
+  } catch (error) {
+    const message = error?.message || ''
+
+    if (
+      message.includes('get_my_profile') ||
+      message.includes('Could not find the function public.get_my_profile')
+    ) {
+      const {
+        data: { session },
+      } = await client.auth.getSession()
+
+      if (!session?.user) {
+        return null
+      }
+
+      const { data: profile } = await withSupabaseTimeout(
+        client
+          .from('profiles')
+          .select('id, display_name, role, status, email, stripe_customer_id')
+          .eq('id', session.user.id)
+          .maybeSingle(),
+        12000,
+        'La lectura de public.profiles tardo demasiado.',
+      )
+
+      return profile || null
+    }
+
+    throw error
   }
 }
 
@@ -62,34 +292,44 @@ export async function getCurrentSession() {
   const client = assertSupabase()
   const {
     data: { session },
-  } = await client.auth.getSession()
+  } = await withSupabaseTimeout(
+    client.auth.getSession(),
+    8000,
+    'La lectura de sesion Supabase tardo demasiado.',
+  )
 
   if (!session?.user) {
     return null
   }
 
-  const { data: profile } = await client
-    .from('profiles')
-    .select('id, display_name, role, status, email')
-    .eq('id', session.user.id)
-    .maybeSingle()
+  const profile = await fetchCurrentProfile(client)
+
+  if (!profile || profile.status !== 'active') {
+    await client.auth.signOut()
+    return null
+  }
 
   return normalizeSession(session.user, profile, session.access_token)
 }
 
 export async function signInWithPassword({ email, password, requireAdmin = false }) {
   const client = assertSupabase()
-  const { data, error } = await client.auth.signInWithPassword({ email, password })
+  const { data, error } = await retrySupabaseOperation(
+    () =>
+      withSupabaseTimeout(
+        client.auth.signInWithPassword({ email, password }),
+        15000,
+        'Supabase Auth tardo demasiado al validar el login.',
+      ),
+    2,
+    750,
+  )
 
   if (error) {
     throw error
   }
 
-  const { data: profile } = await client
-    .from('profiles')
-    .select('id, display_name, role, status, email')
-    .eq('id', data.user.id)
-    .maybeSingle()
+  const profile = await retrySupabaseOperation(() => fetchCurrentProfile(client), 3, 500)
 
   if (!profile) {
     await client.auth.signOut()
@@ -109,6 +349,64 @@ export async function signInWithPassword({ email, password, requireAdmin = false
   }
 
   return normalizeSession(data.user, profile, data.session?.access_token || '')
+}
+
+export async function signInWithOAuth(provider, redirectTo) {
+  const client = assertSupabase()
+
+  const callbackUrl = redirectTo
+    ? new URL(redirectTo, window.location.origin).toString()
+    : window.location.origin
+
+  const { data, error } = await withSupabaseTimeout(
+    client.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: callbackUrl,
+      },
+    }),
+    15000,
+    'Supabase tardo demasiado al iniciar el acceso social.',
+  )
+
+  if (error) {
+    throw error
+  }
+
+  if (!data?.url) {
+    throw new Error('No se pudo iniciar el acceso social.')
+  }
+
+  window.location.assign(data.url)
+
+  return data
+}
+
+export async function signInWithTelegram(telegramUser) {
+  const response = await fetch('/api/auth/telegram', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      telegramUser,
+    }),
+  })
+
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'No se pudo validar el acceso de Telegram.')
+  }
+
+  const email = String(payload.email || '').trim()
+  const password = String(payload.password || '').trim()
+
+  if (!email || !password) {
+    throw new Error('Telegram no devolvio credenciales validas.')
+  }
+
+  return signInWithPassword({ email, password })
 }
 
 export async function signUpWithPassword({ email, password, displayName }) {
@@ -131,11 +429,7 @@ export async function signUpWithPassword({ email, password, displayName }) {
     throw new Error('No se pudo crear el usuario.')
   }
 
-  const { data: profile } = await client
-    .from('profiles')
-    .select('id, display_name, role, status, email')
-    .eq('id', data.user.id)
-    .maybeSingle()
+  const profile = await fetchCurrentProfile(client)
 
   if (!data.session?.access_token) {
     return null
@@ -144,9 +438,47 @@ export async function signUpWithPassword({ email, password, displayName }) {
   return normalizeSession(data.user, profile, data.session.access_token)
 }
 
+export async function createManagedUser(payload, authToken = '') {
+  const response = await fetch('/api/admin/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo crear el usuario administrado.')
+  }
+
+  return data
+}
+
+export async function updateManagedSubscription(userId, payload, authToken = '') {
+  const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}/subscription`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo actualizar la suscripcion administrada.')
+  }
+
+  return data
+}
+
 export async function signOut() {
   const client = assertSupabase()
-  await client.auth.signOut()
+  await withSupabaseTimeout(client.auth.signOut(), 8000, 'El cierre de sesion tardo demasiado.')
 }
 
 export function listenToAuthChanges(callback) {
@@ -159,15 +491,17 @@ export function listenToAuthChanges(callback) {
       return
     }
 
-    queueMicrotask(async () => {
-      const { data: profile } = await client
-        .from('profiles')
-        .select('id, display_name, role, status, email')
-        .eq('id', session.user.id)
-        .maybeSingle()
+    window.setTimeout(async () => {
+      const profile = await fetchCurrentProfile(client)
+
+      if (!profile || profile.status !== 'active') {
+        await client.auth.signOut()
+        callback(null)
+        return
+      }
 
       callback(normalizeSession(session.user, profile, session.access_token))
-    })
+    }, 0)
   })
 
   return subscription
@@ -188,8 +522,49 @@ export async function fetchSiteContent() {
   return data?.content ? mergeSiteContent(data.content) : defaultSiteContent
 }
 
+export async function fetchEncuentrosBookingPricing(recordingChoice = 'standard') {
+  const choice = normalizeRecordingChoice(recordingChoice)
+  const response = await fetch(`/api/encuentros/booking/pricing?recording=${encodeURIComponent(choice)}`)
+
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'No se pudo cargar el precio de la reserva.')
+  }
+
+  return payload?.pricing || null
+}
+
+export async function createManualEncuentrosReservation(payload = {}, authToken = '') {
+  const response = await fetch('/api/encuentros/reservations', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo registrar la reserva manual.')
+  }
+
+  return data?.order || data || null
+}
+
 function normalizeBlogPostRow(row, fallbackIndex = 0) {
   const body = row.body && typeof row.body === 'object' && !Array.isArray(row.body) ? row.body : {}
+  const localized = body.localized && typeof body.localized === 'object' ? body.localized : {}
+  const localizedMeta =
+    body.localizedMeta && typeof body.localizedMeta === 'object' ? body.localizedMeta : {}
+  const featuredSlot =
+    body.featuredSlot === 'primary' || body.featuredSlot === 'secondary'
+      ? body.featuredSlot
+      : body.featured
+        ? 'primary'
+        : 'none'
 
   return normalizeBlogPost(
     {
@@ -200,10 +575,27 @@ function normalizeBlogPostRow(row, fallbackIndex = 0) {
       excerpt: row.excerpt,
       coverImage: body.coverImage || row.cover_media_path || '',
       status: row.status,
-      accessLevel: body.accessLevel || 'free',
+      accessLevel: body.accessLevel || 'public',
+      priceLabel: body.priceLabel || '',
+      priceAmount: Number.isFinite(body.priceAmount) ? body.priceAmount : 0,
+      currency: body.currency || 'USD',
       publishedAt: row.published_at,
+      updatedAt: row.updated_at || null,
+      scheduledAt: body.scheduledAt || null,
+      featured: featuredSlot !== 'none',
+      featuredSlot,
+      feedFeatured: Boolean(body.feedFeatured),
+      bannerSlot: body.bannerSlot || 'none',
+      allowIndexing: body.allowIndexing !== false,
+      seoTitle: body.seoTitle || row.title,
+      seoDescription: body.seoDescription || row.excerpt || '',
+      socialImage: body.socialImage || body.coverImage || row.cover_media_path || '',
+      readingTime: body.readingTime || '',
+      tags: body.tags || [],
       contentHtml: body.html || '<p></p>',
       mediaItems: body.mediaItems || [],
+      localized,
+      localizedMeta,
     },
     fallbackIndex,
   )
@@ -213,7 +605,7 @@ export async function fetchBlogPosts() {
   const client = assertSupabase()
   const { data, error } = await client
     .from('blog_posts')
-    .select('id, slug, title, excerpt, body, cover_media_path, status, published_at')
+    .select('id, slug, title, excerpt, body, cover_media_path, status, published_at, updated_at')
     .order('published_at', { ascending: false, nullsFirst: false })
     .order('created_at', { ascending: false })
 
@@ -238,9 +630,26 @@ export async function upsertBlogPost(post) {
     body: {
       html: post.contentHtml,
       mediaItems: post.mediaItems || [],
-      accessLevel: post.accessLevel || 'free',
+      accessLevel: post.accessLevel || 'public',
       category: post.category || 'General',
       coverImage: post.coverImage || '',
+      priceLabel: post.priceLabel || '',
+      priceAmount: Number.isFinite(post.priceAmount) ? post.priceAmount : 0,
+      currency: post.currency || 'USD',
+      scheduledAt: post.scheduledAt || null,
+      featured: Boolean(post.featuredSlot && post.featuredSlot !== 'none') || Boolean(post.featured),
+      featuredSlot: post.featuredSlot || (post.featured ? 'primary' : 'none'),
+      feedFeatured: Boolean(post.feedFeatured),
+      bannerSlot: post.bannerSlot || 'none',
+      allowIndexing: post.allowIndexing !== false,
+      seoTitle: post.seoTitle || post.title,
+      seoDescription: post.seoDescription || post.excerpt || '',
+      socialImage: post.socialImage || post.coverImage || '',
+      readingTime: post.readingTime || '',
+      tags: post.tags || [],
+      localized: post.localized && typeof post.localized === 'object' ? post.localized : {},
+      localizedMeta:
+        post.localizedMeta && typeof post.localizedMeta === 'object' ? post.localizedMeta : {},
     },
     cover_media_path: post.coverImage || '',
     status: post.status || 'draft',
@@ -250,7 +659,7 @@ export async function upsertBlogPost(post) {
   const { data, error } = await client
     .from('blog_posts')
     .upsert(payload, { onConflict: 'slug' })
-    .select('id, slug, title, excerpt, body, cover_media_path, status, published_at')
+    .select('id, slug, title, excerpt, body, cover_media_path, status, published_at, updated_at')
     .single()
 
   if (error) {
@@ -302,7 +711,7 @@ function normalizeProductRow(row, fallbackIndex = 0) {
   }
 }
 
-export async function fetchProducts(content = defaultSiteContent) {
+export async function fetchProducts(content = defaultSiteContent, blogPosts = defaultBlogPosts) {
   const client = assertSupabase()
   const { data, error } = await client
     .from('products')
@@ -315,32 +724,62 @@ export async function fetchProducts(content = defaultSiteContent) {
     throw error
   }
 
-  return mergeProducts(
-    buildDefaultProducts(content),
+  const persistentProducts = mergeProducts(
+    buildPersistentProducts(content),
     data?.map((row, index) => normalizeProductRow(row, index)) || [],
   )
+  const derivedProducts = buildDerivedProducts(content, blogPosts)
+
+  return [...persistentProducts, ...derivedProducts]
 }
 
 export async function upsertProducts(products = []) {
   const client = assertSupabase()
-  const payload = products.map((product) => ({
-    slug: product.slug,
-    title: product.title,
-    product_type: product.productType,
-    checkout_mode: product.checkoutMode,
-    access_scope: product.accessScope,
-    price_amount: product.priceAmount,
-    currency: product.currency,
-    price_label: product.priceLabel,
-    active: product.active !== false,
-    stripe_price_id: product.stripePriceId || null,
-    metadata: product.metadata || {},
-  }))
+  const payload = products
+    .filter((product) => isPersistentProductType(product.productType))
+    .map((product) => ({
+      slug: product.slug,
+      title: product.title,
+      product_type: product.productType,
+      checkout_mode: product.checkoutMode,
+      access_scope: product.accessScope,
+      price_amount: product.priceAmount,
+      currency: product.currency,
+      price_label: product.priceLabel,
+      active: product.active !== false,
+      stripe_price_id: product.stripePriceId || null,
+      metadata: product.metadata || {},
+    }))
 
-  const { error } = await client.from('products').upsert(payload, { onConflict: 'slug' })
+  if (!payload.length) {
+    return
+  }
 
-  if (error) {
-    throw error
+  const { data: existingRows, error: loadError } = await client
+    .from('products')
+    .select('slug')
+    .in(
+      'slug',
+      payload.map((product) => product.slug),
+    )
+
+  if (loadError) {
+    throw loadError
+  }
+
+  const existingSlugs = new Set((existingRows || []).map((row) => row.slug))
+
+  const results = await Promise.all(
+    payload.map((row) =>
+      existingSlugs.has(row.slug)
+        ? client.from('products').update(row).eq('slug', row.slug)
+        : client.from('products').insert(row),
+    ),
+  )
+
+  const failedResult = results.find((result) => result?.error)
+  if (failedResult?.error) {
+    throw failedResult.error
   }
 }
 
@@ -356,7 +795,7 @@ export async function fetchCurrentEntitlements() {
 
   const { data, error } = await client
     .from('entitlements')
-    .select('id, user_id, product_slug, entitlement_key, status, expires_at')
+    .select('id, user_id, product_slug, entitlement_key, status, expires_at, created_at')
     .eq('user_id', session.user.id)
     .order('created_at', { ascending: false })
 
@@ -373,6 +812,10 @@ export async function fetchCurrentEntitlements() {
         entitlementKey: row.entitlement_key,
         status: row.status,
         expiresAt: row.expires_at,
+        createdAt: row.created_at,
+        sourceOrderId: '',
+        grantSource: 'checkout',
+        grantedBy: '',
       },
       index,
     ),
@@ -385,7 +828,7 @@ function normalizeOrderRow(row, fallbackIndex = 0) {
     providerOrderId: row.provider_order_id || '',
     status: row.status || 'pending',
     totalAmount: row.total_amount || 0,
-    currency: row.currency || 'PEN',
+    currency: row.currency || 'USD',
     createdAt: row.created_at || null,
     metadata: row.metadata || {},
     items: (row.order_items || []).map((item, itemIndex) => ({
@@ -477,7 +920,7 @@ export async function getCustomerAdminSnapshot() {
       id: order.id,
       status: order.status,
       totalAmount: order.total_amount || 0,
-      currency: order.currency || 'PEN',
+      currency: order.currency || 'USD',
       createdAt: order.created_at || null,
       providerOrderId: order.provider_order_id || '',
       productSlugs: (order.order_items || []).map((item) => item.product_slug).filter(Boolean),
@@ -488,14 +931,17 @@ export async function getCustomerAdminSnapshot() {
   const entitlementsByUser = new Map()
   for (const entitlement of entitlementsResponse.data || []) {
     const nextEntitlements = entitlementsByUser.get(entitlement.user_id) || []
-    nextEntitlements.push({
-      id: entitlement.id,
-      productSlug: entitlement.product_slug || '',
-      entitlementKey: entitlement.entitlement_key,
-      status: entitlement.status,
-      expiresAt: entitlement.expires_at || null,
-      createdAt: entitlement.created_at || null,
-    })
+      nextEntitlements.push({
+        id: entitlement.id,
+        productSlug: entitlement.product_slug || '',
+        entitlementKey: entitlement.entitlement_key,
+        status: entitlement.status,
+        expiresAt: entitlement.expires_at || null,
+        createdAt: entitlement.created_at || null,
+        sourceOrderId: '',
+        grantSource: 'checkout',
+        grantedBy: '',
+      })
     entitlementsByUser.set(entitlement.user_id, nextEntitlements)
   }
 
@@ -520,6 +966,56 @@ export async function getCustomerAdminSnapshot() {
   })
 }
 
+export async function getAdminAuditEvents(authToken = '') {
+  if (!authToken) {
+    return []
+  }
+
+  const response = await fetch('/api/admin/audit-events', {
+    headers: {
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo cargar la auditoria administrativa.')
+  }
+
+  return data.events || []
+}
+
+export async function translateAdminContent(payload, options = {}) {
+  const client = assertSupabase()
+  const {
+    data: { session },
+  } = await client.auth.getSession()
+
+  const response = await fetch('/api/admin/translate', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+    },
+    body: JSON.stringify({
+      payload,
+      sourceLocale: options.sourceLocale || 'es',
+      targetLocale: options.targetLocale || 'en',
+      mode: options.mode || 'full',
+      scope: options.scope || '',
+    }),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo traducir el contenido.')
+  }
+
+  return data
+}
+
 export async function updateProfile(userId, patch) {
   const client = assertSupabase()
   const { data, error } = await client
@@ -540,7 +1036,13 @@ export async function updateProfile(userId, patch) {
   return normalizeProfile(data)
 }
 
-export async function uploadMediaAsset(file, bucket, folder = 'home') {
+export async function uploadMediaAsset(
+  file,
+  bucket,
+  folder = 'home',
+  onProgress,
+  options = {},
+) {
   const client = assertSupabase()
   const extension = file.name.split('.').pop()?.toLowerCase() || 'bin'
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`
@@ -551,13 +1053,10 @@ export async function uploadMediaAsset(file, bucket, folder = 'home') {
       ? 'audio'
       : 'image'
 
-  const { error } = await client.storage.from(bucket).upload(filePath, file, {
-    cacheControl: '3600',
-    upsert: false,
-  })
-
-  if (error) {
-    throw error
+  if (options.resumable) {
+    await uploadFileResumable(client, file, bucket, filePath, onProgress)
+  } else {
+    await uploadFileWithProgress(client, file, bucket, filePath, onProgress)
   }
 
   const { data } = client.storage.from(bucket).getPublicUrl(filePath)
@@ -578,7 +1077,13 @@ export async function uploadMediaAsset(file, bucket, folder = 'home') {
   }
 }
 
-export async function uploadMediaAssetFromUrl(sourceUrl, bucket, folder = 'home') {
+export async function uploadMediaAssetFromUrl(
+  sourceUrl,
+  bucket,
+  folder = 'home',
+  onProgress,
+  options = {},
+) {
   const response = await fetch(sourceUrl)
 
   if (!response.ok) {
@@ -590,5 +1095,5 @@ export async function uploadMediaAssetFromUrl(sourceUrl, bucket, folder = 'home'
   const inferredType = blob.type || 'image/jpeg'
   const file = new File([blob], cleanName, { type: inferredType })
 
-  return uploadMediaAsset(file, bucket, folder)
+  return uploadMediaAsset(file, bucket, folder, onProgress, options)
 }

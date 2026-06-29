@@ -1,21 +1,51 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { AppProvider, useAppState } from './state/AppState'
-import { AccessPage } from './pages/AccessPage'
+import { AgeVerificationGate } from './components/AgeVerificationGate'
+import { LanguageSync } from './components/LanguageSync'
+import { AppLoader } from './components/AppLoader'
+import { HomePreviewTopBar } from './components/HomePreviewTopBar'
+import { MobileBottomNav } from './components/MobileBottomNav'
+import { HomePage } from './pages/HomePage'
 import { BlogIndexPage } from './pages/BlogIndexPage'
 import { BlogPostPage } from './pages/BlogPostPage'
-import { CheckoutCancelPage } from './pages/CheckoutCancelPage'
-import { CheckoutStartPage } from './pages/CheckoutStartPage'
-import { CheckoutSuccessPage } from './pages/CheckoutSuccessPage'
-import { CalzonesPage } from './pages/CalzonesPage'
-import { CollectionCatalogPage } from './pages/CollectionCatalogPage'
-import { EncuentrosPage } from './pages/EncuentrosPage'
-import { FreeContentPage } from './pages/FreeContentPage'
-import { HomePage } from './pages/HomePage'
-import { MemberLibraryPage } from './pages/MemberLibraryPage'
-import { VideoCatalogPage } from './pages/VideoCatalogPage'
-import { VideoDetailPage } from './pages/VideoDetailPage'
-import { PhysicalCheckoutPage } from './pages/PhysicalCheckoutPage'
+const AccessPage = lazy(() => import('./pages/AccessPage').then((module) => ({ default: module.AccessPage })))
+const CheckoutCancelPage = lazy(() =>
+  import('./pages/CheckoutCancelPage').then((module) => ({ default: module.CheckoutCancelPage })),
+)
+const CheckoutStartPage = lazy(() =>
+  import('./pages/CheckoutStartPage').then((module) => ({ default: module.CheckoutStartPage })),
+)
+const CheckoutSuccessPage = lazy(() =>
+  import('./pages/CheckoutSuccessPage').then((module) => ({ default: module.CheckoutSuccessPage })),
+)
+const CalzonesPage = lazy(() => import('./pages/CalzonesPage').then((module) => ({ default: module.CalzonesPage })))
+const CollectionCatalogPage = lazy(() =>
+  import('./pages/CollectionCatalogPage').then((module) => ({ default: module.CollectionCatalogPage })),
+)
+const EncuentrosPage = lazy(() => import('./pages/EncuentrosPage').then((module) => ({ default: module.EncuentrosPage })))
+const EncuentrosCitasPage = lazy(() =>
+  import('./pages/EncuentrosCitasPage').then((module) => ({ default: module.EncuentrosCitasPage })),
+)
+const PackDetailPage = lazy(() =>
+  import('./pages/PackDetailPage').then((module) => ({ default: module.PackDetailPage })),
+)
+const FreeContentPage = lazy(() => import('./pages/FreeContentPage').then((module) => ({ default: module.FreeContentPage })))
+const MemberLibraryPage = lazy(() =>
+  import('./pages/MemberLibraryPage').then((module) => ({ default: module.MemberLibraryPage })),
+)
+const ProfilePage = lazy(() =>
+  import('./pages/ProfilePage').then((module) => ({ default: module.ProfilePage })),
+)
+const VideoCatalogPage = lazy(() => import('./pages/VideoCatalogPage').then((module) => ({ default: module.VideoCatalogPage })))
+const VideoDetailPage = lazy(() => import('./pages/VideoDetailPage').then((module) => ({ default: module.VideoDetailPage })))
+const PhysicalCheckoutPage = lazy(() =>
+  import('./pages/PhysicalCheckoutPage').then((module) => ({ default: module.PhysicalCheckoutPage })),
+)
+const PhysicalProductPage = lazy(() =>
+  import('./pages/PhysicalProductPage').then((module) => ({ default: module.PhysicalProductPage })),
+)
 
 const AdminDashboardPage = lazy(() =>
   import('./pages/AdminDashboardPage').then((module) => ({
@@ -30,9 +60,10 @@ const AdminLoginPage = lazy(() =>
 
 function ProtectedAdminRoute() {
   const { isBootstrapping, session } = useAppState()
+  const { t } = useTranslation()
 
   if (isBootstrapping) {
-    return <main className="admin-shell">Cargando panel...</main>
+    return <AppLoader title={t('loading.panel')} subtitle={t('loading.subtitle')} />
   }
 
   if (session?.role !== 'admin') {
@@ -44,9 +75,10 @@ function ProtectedAdminRoute() {
 
 function ProtectedMemberRoute() {
   const { isBootstrapping, session } = useAppState()
+  const { t } = useTranslation()
 
   if (isBootstrapping) {
-    return <main className="admin-shell">Cargando biblioteca...</main>
+    return <AppLoader title={t('loading.library')} subtitle={t('loading.subtitle')} />
   }
 
   if (!session) {
@@ -58,9 +90,10 @@ function ProtectedMemberRoute() {
 
 function ProtectedRegisteredRoute({ children, redirectTo = '/access' }) {
   const { isBootstrapping, session } = useAppState()
+  const { t } = useTranslation()
 
   if (isBootstrapping) {
-    return <main className="admin-shell">Cargando contenido...</main>
+    return <AppLoader title={t('loading.content')} subtitle={t('loading.subtitle')} />
   }
 
   if (!session) {
@@ -71,19 +104,32 @@ function ProtectedRegisteredRoute({ children, redirectTo = '/access' }) {
 }
 
 function AppRoutes() {
-  const { session } = useAppState()
+  const { isBootstrapping, session } = useAppState()
+  const { t } = useTranslation()
+
+  if (isBootstrapping) {
+    return <AppLoader title={t('loading.home')} subtitle={t('loading.subtitle')} />
+  }
 
   return (
-    <Suspense fallback={<main className="admin-shell">Cargando...</main>}>
+    <Suspense fallback={<AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/encuentros" element={<EncuentrosPage />} />
+        <Route path="/encuentros/citas" element={<EncuentrosCitasPage />} />
+        <Route path="/encuentros/encuentros" element={<Navigate to="/encuentros" replace />} />
+        <Route path="/encuentros/citas/encuentros" element={<Navigate to="/encuentros/citas" replace />} />
+        <Route path="/encuentros/citas/citas" element={<Navigate to="/encuentros/citas" replace />} />
+        <Route path="/encuentross" element={<Navigate to="/encuentros" replace />} />
+        <Route path="/encuentross/citas" element={<Navigate to="/encuentros/citas" replace />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/videos" element={<VideoCatalogPage />} />
         <Route path="/videos/:slug" element={<VideoDetailPage />} />
         <Route path="/packs" element={<CollectionCatalogPage />} />
+        <Route path="/packs/:slug" element={<PackDetailPage />} />
         <Route path="/calzones" element={<CalzonesPage />} />
+        <Route path="/calzones/:slug" element={<PhysicalProductPage />} />
         <Route
           path="/calzones/checkout/:slug"
           element={
@@ -94,6 +140,14 @@ function AppRoutes() {
         />
         <Route path="/access" element={<AccessPage />} />
         <Route path="/library" element={<ProtectedMemberRoute />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRegisteredRoute redirectTo="/access?redirect=/profile">
+              <ProfilePage />
+            </ProtectedRegisteredRoute>
+          }
+        />
         <Route
           path="/free-content"
           element={
@@ -122,11 +176,37 @@ function AppRoutes() {
   )
 }
 
+function AppChrome() {
+  const { pathname } = useLocation()
+
+  if (pathname.startsWith('/encuentros') || pathname.startsWith('/admin') || pathname.startsWith('/access')) {
+    return <MobileBottomNav />
+  }
+
+  const topbarLayoutClass =
+    pathname === '/'
+      ? 'site-topbar-shell is-home-layout'
+      : 'site-topbar-shell is-sidebar-layout'
+
+  return (
+    <>
+      <div className={topbarLayoutClass}>
+        <HomePreviewTopBar />
+      </div>
+      <MobileBottomNav />
+    </>
+  )
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <AppProvider>
-        <AppRoutes />
+        <AgeVerificationGate>
+          <LanguageSync />
+          <AppChrome />
+          <AppRoutes />
+        </AgeVerificationGate>
       </AppProvider>
     </BrowserRouter>
   )

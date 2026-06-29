@@ -1,22 +1,58 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SubscriptionPlanSelector } from './SubscriptionPlanSelector'
+import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
+import { resolveLocalizedSection } from '../utils/localizedContent'
+
+function formatPlanPeriod(plan) {
+  const durationValue = Number(plan.durationValue || plan.durationMonths || 1)
+  const durationUnit = plan.durationUnit || 'months'
+
+  if (durationUnit === 'days') {
+    return durationValue === 1 ? '1 day' : `${durationValue} days`
+  }
+
+  if (durationValue === 1) {
+    return 'Mensual'
+  }
+
+  if (durationValue === 3) {
+    return 'Trimestral'
+  }
+
+  if (durationValue === 6) {
+    return 'Semestral'
+  }
+
+  if (durationValue === 12) {
+    return 'Anual'
+  }
+
+  return plan.period || `${durationValue} meses`
+}
+
+function getCardLabel(index, plan) {
+  return plan.discountLabel || plan.label || (index === 0 ? 'Plan' : '')
+}
 
 export function MembershipSection({ content }) {
   const navigate = useNavigate()
   const { session, subscriptionProducts } = useAppState()
-  const [error, setError] = useState('')
-  const defaultSubscriptionProduct = subscriptionProducts[0] || null
+  const { i18n, t } = useTranslation()
+  const accessTotal = resolveLocalizedSection(
+    content?.accessTotal ? content : { accessTotal: content },
+    'accessTotal',
+    i18n.resolvedLanguage,
+  )
 
-  async function handleSubscribe(selectedPlanProduct) {
-    const targetProduct = selectedPlanProduct || defaultSubscriptionProduct
+  const rows = Array.isArray(accessTotal.rows) ? accessTotal.rows.slice(0, 3) : []
+  const tiers = Array.isArray(accessTotal.tiers) ? accessTotal.tiers.slice(0, 4) : []
+
+  function handleSubscribe(selectedPlanProduct) {
+    const targetProduct = selectedPlanProduct || subscriptionProducts[0] || null
 
     if (!targetProduct) {
       return
     }
-
-    setError('')
 
     if (!session || !session.accessToken) {
       navigate(`/access?redirect=/checkout/start/${targetProduct.slug}`)
@@ -29,39 +65,55 @@ export function MembershipSection({ content }) {
   return (
     <section className="membership-section" id="membership">
       <div className="section-heading">
-        <p className="section-kicker">Acceso y beneficios</p>
-        <h2>{content.membership.title}</h2>
-        <p>{content.membership.description}</p>
+        <p className="section-kicker">{accessTotal.eyebrow || t('content.accessBenefits')}</p>
+        <h2>{accessTotal.title || t('content.subscriptionPremium')}</h2>
+        <p>{accessTotal.description}</p>
       </div>
 
-      <div className="membership-layout">
-        <article className="membership-card primary">
-          <span className="membership-card-label">{content.membership.planLabel}</span>
-          <h3>{content.membership.planTitle}</h3>
-          <p>{content.membership.planDescription}</p>
-          <SubscriptionPlanSelector
-            subscriptionProducts={subscriptionProducts}
-            subscriptionTable={content.accessTotal}
-            onPurchase={handleSubscribe}
-            context="membership"
-          />
-          <ul>
-            {content.membership.planItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          {error ? <p className="admin-error">{error}</p> : null}
-        </article>
+      <div className="membership-plans-grid">
+        {tiers.map((tier, index) => {
+          const product =
+            subscriptionProducts.find(
+              (item) =>
+                item.slug === `membership-${tier.slug}` &&
+                item.accessScope === `tier:${tier.slug}`,
+            ) ||
+            subscriptionProducts[index] ||
+            null
+          const periodLabel = formatPlanPeriod(tier)
+          const isFeatured = index === 1
 
-        <div className="membership-side-stack">
-          {content.membership.sideCards.map((card) => (
-            <article className="membership-card secondary" key={card.title}>
-              <span className="membership-card-label">{card.label}</span>
-              <h3>{card.title}</h3>
-              <p>{card.description}</p>
+          return (
+            <article
+              className={
+                isFeatured ? 'membership-card membership-plan is-featured' : 'membership-card membership-plan'
+              }
+              key={tier.slug || index}
+            >
+              <span className="membership-card-label">{getCardLabel(index, tier)}</span>
+              <h3>{tier.label || product?.metadata?.planLabel || product?.title || 'Plan de suscripcion'}</h3>
+              <div className="membership-price">
+                <strong>{product?.priceLabel || tier.price || '$0'}</strong>
+                <span>/ {periodLabel}</span>
+              </div>
+              <ul>
+                {rows.map((row) => (
+                  <li key={`${tier.slug || index}-${row.label}`}>
+                    {row.label}
+                    {row.value ? ` ${row.value}` : ''}
+                  </li>
+                ))}
+              </ul>
+              <button
+                className={isFeatured ? 'hero-primary-cta' : 'hero-secondary-cta'}
+                type="button"
+                onClick={() => handleSubscribe(product)}
+              >
+                {accessTotal.ctaLabel || t('content.subscribeAndUnlock')}
+              </button>
             </article>
-          ))}
-        </div>
+          )
+        })}
       </div>
     </section>
   )

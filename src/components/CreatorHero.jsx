@@ -1,39 +1,16 @@
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
-
-function getHeroViewportMode() {
-  if (typeof window === 'undefined') {
-    return 'desktop'
-  }
-
-  if (window.innerWidth > 900) {
-    return 'desktop'
-  }
-
-  if (window.innerWidth <= 375 || window.innerHeight <= 740) {
-    return 'compact'
-  }
-
-  return 'regular'
-}
+import { resolveLocalizedSection } from '../utils/localizedContent'
+import { useViewportState } from '../hooks/useViewportState'
 
 export function CreatorHero({ content }) {
   const navigate = useNavigate()
+  const { i18n } = useTranslation()
   const { session, subscriptionProducts } = useAppState()
   const defaultSubscriptionProduct = subscriptionProducts[0] || null
-  const [heroViewportMode, setHeroViewportMode] = useState(() => getHeroViewportMode())
-
-  useEffect(() => {
-    function handleViewportChange() {
-      setHeroViewportMode(getHeroViewportMode())
-    }
-
-    handleViewportChange()
-    window.addEventListener('resize', handleViewportChange)
-
-    return () => window.removeEventListener('resize', handleViewportChange)
-  }, [])
+  const { mode: heroViewportMode } = useViewportState()
+  const creatorHome = resolveLocalizedSection(content, 'creatorHome', i18n.resolvedLanguage)
 
   function handleMembershipRoute(selectedPlanProduct) {
     const targetProduct = selectedPlanProduct || defaultSubscriptionProduct
@@ -51,36 +28,43 @@ export function CreatorHero({ content }) {
   }
 
   return (
-    <section className={`creator-hero-section is-hero-${heroViewportMode}`}>
-      <div className={`creator-hero-copy is-hero-${heroViewportMode}`} id="home-top">
-        <p className="creator-kicker">{content.creatorHome.kicker}</p>
-        <h1>{content.creatorHome.title}</h1>
-        <p className="creator-lead">{content.creatorHome.description}</p>
+    <section className={`creator-hero-section is-hero-${heroViewportMode}`} id="home-top">
+      <div className="creator-hero-shell">
+        <div className="creator-hero-avatar" aria-hidden="true" />
 
-        <div className="creator-badges">
-          {content.creatorHome.badges.map((badge) => (
-            <span className="creator-badge" key={badge}>
-              {badge}
-            </span>
-          ))}
-        </div>
+        <div className="creator-hero-copy">
+          <p className="creator-kicker">{creatorHome.kicker}</p>
+          <h1>
+            {creatorHome.title}
+            <span className="creator-verified-badge">Verificado</span>
+          </h1>
+          <p className="creator-lead">{creatorHome.description}</p>
 
-        <div className="creator-hero-actions">
-          <button className="hero-primary-cta" type="button" onClick={() => handleMembershipRoute()}>
-            {content.creatorHome.primaryCtaLabel}
-          </button>
-          <a className="hero-secondary-cta" href="#videos">
-            {content.creatorHome.secondaryCtaLabel}
-          </a>
-        </div>
+          <div className="creator-badges">
+            {creatorHome.badges.map((badge) => (
+              <span className="creator-badge" key={badge}>
+                {badge}
+              </span>
+            ))}
+          </div>
 
-        <div className="creator-stats">
-          {content.creatorHome.stats.map((stat) => (
-            <article className="creator-stat-card" key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-            </article>
-          ))}
+          <div className="creator-stats">
+            {creatorHome.stats.map((stat) => (
+              <article className="creator-stat-card" key={stat.label}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </article>
+            ))}
+          </div>
+
+          <div className="creator-hero-actions">
+            <button className="hero-primary-cta" type="button" onClick={() => handleMembershipRoute()}>
+              {creatorHome.primaryCtaLabel}
+            </button>
+            <a className="hero-secondary-cta" href="#videos">
+              {creatorHome.secondaryCtaLabel}
+            </a>
+          </div>
         </div>
       </div>
     </section>

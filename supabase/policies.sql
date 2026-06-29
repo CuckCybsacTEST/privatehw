@@ -1,16 +1,54 @@
 create or replace function public.is_admin()
 returns boolean
-language sql
+language plpgsql
 stable
-as $$
+security definer
+set search_path = public
+as $is_admin$
+declare
+  admin_match boolean;
+begin
   select exists (
     select 1
     from public.profiles
     where id = auth.uid()
       and role = 'admin'
       and status = 'active'
-  );
-$$;
+  )
+  into admin_match;
+
+  return coalesce(admin_match, false);
+end;
+$is_admin$;
+
+create or replace function public.get_my_profile()
+returns table (
+  id uuid,
+  email text,
+  display_name text,
+  stripe_customer_id text,
+  role text,
+  status text
+)
+language sql
+stable
+security definer
+set search_path = public
+as $profile$
+  select
+    p.id,
+    p.email,
+    p.display_name,
+    p.stripe_customer_id,
+    p.role,
+    p.status
+  from public.profiles p
+  where p.id = auth.uid()
+  limit 1;
+$profile$;
+
+grant execute on function public.is_admin() to anon, authenticated;
+grant execute on function public.get_my_profile() to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.site_content enable row level security;

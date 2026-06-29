@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
+import { resolveLocalizedSection } from '../utils/localizedContent'
 
 function FreeMediaCard({ item }) {
+  const { t } = useTranslation()
   const isVideo = item.mediaType === 'video'
   const hasVideo = Boolean(item.mediaUrl)
 
@@ -25,13 +28,13 @@ function FreeMediaCard({ item }) {
           />
         )}
         <span className="free-content-badge">
-          {isVideo ? 'Video gratis' : 'Foto gratis'}
+          {isVideo ? t('content.freeVideo') : t('content.freePhoto')}
         </span>
       </div>
       <div className="free-content-copy">
         <div className="free-content-meta">
-          <span>{item.category || 'Contenido gratis'}</span>
-          <strong>Solo para usuarios registrados</strong>
+          <span>{item.category || t('content.freeContent')}</span>
+          <strong>{t('content.registeredOnly')}</strong>
         </div>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
@@ -42,7 +45,8 @@ function FreeMediaCard({ item }) {
 
 export function FreeContentPage() {
   const { session, siteContent } = useAppState()
-  const content = siteContent.freeContent
+  const { i18n } = useTranslation()
+  const content = resolveLocalizedSection(siteContent, 'freeContent', i18n.resolvedLanguage)
   const items = (content.items || []).filter((item) => item.isPublished !== false)
 
   return (

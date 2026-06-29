@@ -20,6 +20,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ_service_role_key
 3. No hace falta crear productos manualmente para empezar:
    - pagos unicos se generan dinamicamente desde la base
    - la suscripcion tambien se crea dinamicamente con intervalo mensual
+4. El checkout esta restringido a `card` por ahora.
 
 ## Webhook local
 
@@ -50,14 +51,26 @@ stripe listen --forward-to localhost:4242/api/stripe/webhook
 4242 4242 4242 4242
 ```
 
-5. Al completar el checkout, el webhook debe crear:
+5. Al completar el checkout con tarjeta, el webhook debe crear:
    - `orders`
    - `order_items`
    - `entitlements`
 
 ## Regla actual
 
-- `membership-total` desbloquea `all_digital`
+- el sistema ya usa `tiers` configurables desde admin
+- `tier:starter` desbloquea solo videos premium
+- `tier:plus` desbloquea videos premium y packs
+- `tier:pro` desbloquea videos premium, packs y blog privado
+- `tier:elite` desbloquea todo el contenido digital y los beneficios extendidos
 - `video-*` desbloquea solo ese video
 - `pack-*` desbloquea solo ese pack
 - `physical-*` no desbloquea contenido digital
+
+## Migracion de datos legado
+
+Si tu base de datos aun tenia suscripciones viejas, ejecuta la migracion SQL en Supabase:
+
+- [`supabase/migrations/20260604195500_migrate_legacy_all_digital_entitlements_to_tier_elite.sql`](/D:/PROJECTS/supabase/migrations/20260604195500_migrate_legacy_all_digital_entitlements_to_tier_elite.sql)
+
+Esa migracion convierte `all_digital` a `tier:elite` y normaliza `membership-total` a `membership-elite` cuando sigue existiendo.

@@ -1,69 +1,109 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { normalizeSubscriptionTiers } from '../data/defaultCommerce'
 
-function getCompactPlanLabel(plan) {
+function getCompactPlanLabel(plan, t) {
   if (plan.durationUnit === 'days') {
-    return `${plan.durationValue} dias`
+    return `${plan.durationValue} ${t('content.days')}`
   }
 
   if (plan.durationValue === 1) {
-    return 'Mensual'
+    return t('content.monthly')
   }
 
   if (plan.durationValue === 3) {
-    return 'Trimestral'
+    return t('content.quarterly')
   }
 
   if (plan.durationValue === 6) {
-    return 'Semestral'
+    return t('content.semiannual')
   }
 
   if (plan.durationValue === 12) {
-    return 'Anual'
+    return t('content.annual')
   }
 
   return plan.label
 }
 
 function buildPlans(subscriptionProducts = [], fallbackTable = {}) {
-  if (subscriptionProducts.length) {
-    return subscriptionProducts
-      .map((product) => ({
-        slug: product.slug,
-        label: product.metadata?.planLabel || product.title,
-        period: product.metadata?.planPeriod || '',
-        durationValue: Number(product.metadata?.durationValue || product.metadata?.durationMonths || 1),
-        durationUnit: product.metadata?.durationUnit || 'months',
-        priceLabel: product.priceLabel,
-        hasDiscount: Boolean(product.metadata?.hasDiscount),
-        originalPriceLabel: product.metadata?.originalPriceLabel || '',
-        discountPercent: product.metadata?.discountPercent || 0,
-        discountLabel: product.metadata?.discountLabel || 'Oferta activa',
-        savingsLabel: product.metadata?.savingsLabel || '',
-        promoNote: product.metadata?.promoNote || '',
+  const fallbackPlans = normalizeSubscriptionTiers(fallbackTable)
+
+  if (fallbackPlans.length) {
+    return fallbackPlans.map((plan, index) => {
+      const product =
+        subscriptionProducts.find(
+          (item) =>
+            item.slug === `membership-${plan.slug}` &&
+            item.accessScope === `tier:${plan.slug}`,
+        ) ||
+        subscriptionProducts[index] ||
+        null
+      const durationValue = Number(
+        plan.durationValue || plan.durationMonths || product?.metadata?.durationValue || 1,
+      )
+      const durationUnit = plan.durationUnit || product?.metadata?.durationUnit || 'months'
+      const safeDurationValue = Number.isFinite(durationValue) ? durationValue : 1
+      const period =
+        plan.period ||
+        product?.metadata?.planPeriod ||
+        (durationUnit === 'days' ? `${safeDurationValue} dias` : `${safeDurationValue} meses`)
+      const priceLabel = product?.priceLabel || plan.price || '$0'
+
+      return {
+        slug: plan.slug || `fallback-${index}`,
+        label: plan.label || product?.metadata?.planLabel || product?.title || `Plan ${index + 1}`,
+        period,
+        durationValue: safeDurationValue,
+        durationUnit,
+        priceLabel,
+        hasDiscount:
+          Boolean(plan.discountPercent && Number(plan.discountPercent) > 0) ||
+          Boolean(product?.metadata?.hasDiscount),
+        originalPriceLabel: product?.metadata?.originalPriceLabel || '',
+        discountPercent: Number(plan.discountPercent || product?.metadata?.discountPercent || 0),
+        discountLabel: plan.discountLabel || product?.metadata?.discountLabel || 'Oferta activa',
+        savingsLabel: product?.metadata?.savingsLabel || '',
+        promoNote: plan.promoNote || product?.metadata?.promoNote || '',
         product,
-      }))
-      .filter((plan) => plan.durationUnit !== 'days')
+      }
+    })
   }
 
-  const plans = fallbackTable.plans || []
+  return subscriptionProducts.map((product) => ({
+    slug: product.slug,
+    label: product.metadata?.planLabel || product.title,
+    period: product.metadata?.planPeriod || '',
+    durationValue: Number(product.metadata?.durationValue || product.metadata?.durationMonths || 1),
+    durationUnit: product.metadata?.durationUnit || 'months',
+    priceLabel: product.priceLabel,
+    hasDiscount: Boolean(product.metadata?.hasDiscount),
+    originalPriceLabel: product.metadata?.originalPriceLabel || '',
+    discountPercent: product.metadata?.discountPercent || 0,
+    discountLabel: product.metadata?.discountLabel || 'Oferta activa',
+    savingsLabel: product.metadata?.savingsLabel || '',
+    promoNote: product.metadata?.promoNote || '',
+    product,
+  }))
+}
 
-  return plans
-    .map((plan, index) => ({
-      slug: `fallback-${plan.slug || index}`,
-      label: plan.label || `Plan ${index + 1}`,
-      period: plan.period || '',
-      durationValue: Number(plan.durationValue || plan.durationMonths || 1),
-      durationUnit: plan.durationUnit || 'months',
-      priceLabel: plan.price || 'S/0',
-      hasDiscount: false,
-      originalPriceLabel: '',
-      discountPercent: 0,
-      discountLabel: plan.discountLabel || 'Oferta activa',
-      savingsLabel: '',
-      promoNote: plan.promoNote || '',
-      product: null,
-    }))
-    .filter((plan) => plan.durationUnit !== 'days')
+function getDefaultPlanIndex(plans = []) {
+  if (!plans.length) {
+    return 0
+  }
+
+  let bestIndex = 0
+  let bestDuration = 0
+
+  plans.forEach((plan, index) => {
+    const duration = plan.durationUnit === 'months' ? plan.durationValue : 0
+    if (duration >= bestDuration) {
+      bestDuration = duration
+      bestIndex = index
+    }
+  })
+
+  return bestIndex
 }
 
 export function SubscriptionPlanSelector({
@@ -72,6 +112,7 @@ export function SubscriptionPlanSelector({
   onPurchase,
   context = 'hero',
 }) {
+  const { t } = useTranslation()
   const plans = useMemo(
     () => buildPlans(subscriptionProducts, subscriptionTable),
     [subscriptionProducts, subscriptionTable],
@@ -134,7 +175,7 @@ export function SubscriptionPlanSelector({
               }}
               title={plan.label}
             >
-              {getCompactPlanLabel(plan)}
+              {getCompactPlanLabel(plan, t)}
             </button>
           ))}
         </div>
@@ -149,9 +190,7 @@ export function SubscriptionPlanSelector({
 
         <div className="creator-subscription-price">
           {selectedPlan.hasDiscount ? (
-            <span className="creator-subscription-price-old">
-              {selectedPlan.originalPriceLabel}
-            </span>
+            <span className="creator-subscription-price-old">{selectedPlan.originalPriceLabel}</span>
           ) : null}
           <strong>{selectedPlan.priceLabel}</strong>
           <span>{selectedPlan.period}</span>
@@ -159,13 +198,11 @@ export function SubscriptionPlanSelector({
 
         {selectedPlan.hasDiscount ? (
           <p className="creator-subscription-savings">
-            Ahorras {selectedPlan.savingsLabel} con esta oferta.
+            {t('content.saveWithOffer', { amount: selectedPlan.savingsLabel })}
           </p>
         ) : null}
 
-        {selectedPlan.promoNote ? (
-          <p className="subscription-plan-note">{selectedPlan.promoNote}</p>
-        ) : null}
+        {selectedPlan.promoNote ? <p className="subscription-plan-note">{selectedPlan.promoNote}</p> : null}
 
         <button
           className="hero-primary-cta creator-subscription-cta"
@@ -173,7 +210,7 @@ export function SubscriptionPlanSelector({
           onClick={() => onPurchase(selectedPlan.product)}
           disabled={!selectedPlan.product}
         >
-          {subscriptionTable.ctaLabel}
+          {subscriptionTable.ctaLabel || t('checkout.continue')}
         </button>
       </div>
     </div>
