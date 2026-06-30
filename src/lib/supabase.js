@@ -523,9 +523,37 @@ export async function fetchSiteContent() {
   return data?.content ? mergeSiteContent(data.content) : defaultSiteContent
 }
 
-export async function fetchEncuentrosBookingPricing(recordingChoice = 'standard') {
+export async function fetchEncuentrosModels() {
+  const response = await fetch('/api/encuentros/models')
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'No se pudieron cargar los modelos de encuentros.')
+  }
+
+  return Array.isArray(payload.models) ? payload.models : []
+}
+
+export async function fetchEncuentrosModel(slug = '') {
+  const normalizedSlug = String(slug || '').trim()
+  const response = await fetch(`/api/encuentros/models/${encodeURIComponent(normalizedSlug)}`)
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'No se pudo cargar el modelo solicitado.')
+  }
+
+  return payload.model || null
+}
+
+export async function fetchEncuentrosBookingPricing(recordingChoice = 'standard', modelSlug = '') {
   const choice = normalizeRecordingChoice(recordingChoice)
-  const response = await fetch(`/api/encuentros/booking/pricing?recording=${encodeURIComponent(choice)}`)
+  const normalizedSlug = String(modelSlug || '').trim()
+  const response = await fetch(
+    `/api/encuentros/booking/pricing?recording=${encodeURIComponent(choice)}${
+      normalizedSlug ? `&model=${encodeURIComponent(normalizedSlug)}` : ''
+    }`,
+  )
 
   const payload = await response.json().catch(() => ({}))
 

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { EncuentrosBookingWizardModal } from '../components/EncuentrosBookingWizardModal'
-import { fetchEncuentrosBookingPricing } from '../lib/supabase'
+import { fetchEncuentrosBookingPricing, fetchEncuentrosModel } from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 import {
   buildBookingDays,
@@ -14,29 +15,71 @@ import {
 
 export function EncuentrosCitasPage() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { slug } = useParams()
   const { siteContent, createEncounterReservationRequest } = useAppState()
   const { i18n, t } = useTranslation()
-  const booking = siteContent.encuentrosBooking || {}
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
-  const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
-  const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
+  const [model, setModel] = useState(null)
+  const [modelLoading, setModelLoading] = useState(Boolean(slug))
+  const [modelError, setModelError] = useState('')
   const [isBookingWizardOpen, setIsBookingWizardOpen] = useState(false)
   const [recordingChoice, setRecordingChoice] = useState(() =>
     normalizeRecordingChoice(searchParams.get('recording') || 'standard'),
   )
   const [error, setError] = useState('')
+  const pageContent = model?.content || siteContent
+  const booking = pageContent.encuentrosBooking || {}
+  const modelSlug = model?.slug || slug || 'sindy-mireya'
+  const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
+  const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
   const fallbackPricing = useMemo(
-    () => buildEncuentrosBookingPricing(siteContent, recordingChoice, dateLocale),
-    [dateLocale, recordingChoice, siteContent],
+    () => buildEncuentrosBookingPricing(pageContent, recordingChoice, dateLocale),
+    [dateLocale, pageContent, recordingChoice],
   )
   const [pricing, setPricing] = useState(() => fallbackPricing)
+
+  useEffect(() => {
+    let cancelled = false
+
+    if (!slug) {
+      setModel(null)
+      setModelLoading(false)
+      setModelError('')
+      return undefined
+    }
+
+    setModelLoading(true)
+    setModelError('')
+
+    fetchEncuentrosModel(slug)
+      .then((nextModel) => {
+        if (!cancelled) {
+          setModel(nextModel)
+        }
+      })
+      .catch((nextError) => {
+        if (!cancelled) {
+          setModel(null)
+          setModelError(nextError?.message || t('encuentros.bookingError'))
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setModelLoading(false)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [slug, t])
 
   useEffect(() => {
     let isCancelled = false
 
     setPricing(fallbackPricing)
 
-    fetchEncuentrosBookingPricing(recordingChoice)
+    fetchEncuentrosBookingPricing(recordingChoice, modelSlug)
       .then((nextPricing) => {
         if (!isCancelled && nextPricing) {
           setPricing(nextPricing)
@@ -51,7 +94,7 @@ export function EncuentrosCitasPage() {
     return () => {
       isCancelled = true
     }
-  }, [fallbackPricing, recordingChoice])
+  }, [fallbackPricing, modelSlug, recordingChoice])
 
   useEffect(() => {
     const queryRecordingChoice = normalizeRecordingChoice(searchParams.get('recording') || 'standard')
@@ -103,12 +146,13 @@ export function EncuentrosCitasPage() {
           selectedTime,
           recordingChoice: choice,
           pricing,
+          modelSlug,
         })
       } catch (nextError) {
         setError(nextError.message || t('encuentros.bookingError'))
       }
     },
-    [createEncounterReservationRequest, pricing, t],
+    [createEncounterReservationRequest, modelSlug, pricing, t],
   )
 
   return (
@@ -167,6 +211,25 @@ export function EncuentrosCitasPage() {
           </aside>
         </section>
       </div>
+
+      {modelLoading ? (
+        <div className="encuentros-citas-shell encuentros-citas-shell-single">
+          <section className="encuentros-citas-form encuentros-citas-form-single">
+            <p>{t('loading.general')}</p>
+          </section>
+        </div>
+      ) : null}
+
+      {slug && modelError && !model ? (
+        <div className="encuentros-citas-shell encuentros-citas-shell-single">
+          <section className="encuentros-citas-form encuentros-citas-form-single">
+            <p>{modelError}</p>
+            <Link to="/encuentros" className="hero-secondary-cta">
+              Volver al catalogo
+            </Link>
+          </section>
+        </div>
+      ) : null}
 
       <EncuentrosBookingWizardModal
         open={isBookingWizardOpen}

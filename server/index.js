@@ -38,6 +38,7 @@ const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
 const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
 const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
+const FALLBACK_ENCOUNTERS_MODEL_SLUG = 'sindy-mireya'
 let homeContentCache = {
   value: null,
   loadedAt: 0,
@@ -742,12 +743,17 @@ async function createManualReservationOrder({
   selectedTime = '',
   recordingChoice = 'standard',
   pricing = null,
+  modelSlug = '',
 }) {
+  const normalizedModelSlug = String(modelSlug || '').trim() || FALLBACK_ENCOUNTERS_MODEL_SLUG
+  const resolvedModel =
+    (await loadEncounterModelBySlug(normalizedModelSlug)) ||
+    buildFallbackEncounterModel(await loadHomeContent())
   const resolvedPricing =
     pricing && typeof pricing === 'object' && Number.isFinite(pricing.advanceAmount)
       ? pricing
-      : await getEncuentrosBookingPricing(recordingChoice)
-  const reservationRequestId = `reservation-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
+      : await getEncuentrosBookingPricing(recordingChoice, resolvedModel.slug)
+  const reservationRequestId = `reservation-${normalizedModelSlug}-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
   const now = new Date().toISOString()
   const advanceAmount = resolvedPricing.advanceAmount || 0
   const effectiveAmount = resolvedPricing.effectiveAmount || 0
@@ -764,7 +770,9 @@ async function createManualReservationOrder({
     metadata: {
       checkoutType: 'reservation',
       productType: 'reservation',
-      productSlug: 'reservation-encuentros',
+      productSlug: `reservation-${normalizedModelSlug}`,
+      modelSlug: normalizedModelSlug,
+      modelName: resolvedModel.displayName,
       reservationRequestId,
       reservationGuestName: String(guestName || '').trim(),
       reservationName: String(guestName || '').trim(),
@@ -788,12 +796,13 @@ async function createManualReservationOrder({
     items: [
       {
         id: crypto.randomUUID(),
-        productSlug: 'reservation-encuentros',
+        productSlug: `reservation-${normalizedModelSlug}`,
         quantity: 1,
         unitAmount: advanceAmount,
         totalAmount: advanceAmount,
         metadata: {
           reservationRequestId,
+          modelSlug: normalizedModelSlug,
           reservationGuestName: String(guestName || '').trim(),
           reservationDate: selectedDate,
           reservationTime: selectedTime,
@@ -831,13 +840,13 @@ async function createManualReservationOrder({
     .from('order_items')
     .select('id')
     .eq('order_id', savedOrder.id)
-    .eq('product_slug', 'reservation-encuentros')
+    .eq('product_slug', `reservation-${normalizedModelSlug}`)
     .maybeSingle()
 
   if (!existingItem) {
     const { error: itemError } = await supabaseAdmin.from('order_items').insert({
       order_id: savedOrder.id,
-      product_slug: 'reservation-encuentros',
+      product_slug: `reservation-${normalizedModelSlug}`,
       quantity: 1,
       unit_amount: order.items[0].unitAmount,
       total_amount: order.items[0].totalAmount,
@@ -1034,9 +1043,12 @@ async function resolveProductBySlug(productSlug) {
   throw productError
 }
 
-async function getEncuentrosBookingPricing(recordingChoice = 'standard') {
-  const mergedContent = await loadHomeContent()
-  return buildEncuentrosBookingPricing(mergedContent, normalizeRecordingChoice(recordingChoice))
+async function getEncuentrosBookingPricing(recordingChoice = 'standard', modelSlug = '') {
+  const normalizedSlug = String(modelSlug || '').trim()
+  const model =
+    (normalizedSlug ? await loadEncounterModelBySlug(normalizedSlug) : null) ||
+    buildFallbackEncounterModel(await loadHomeContent())
+  return buildEncuentrosBookingPricing(model.content, normalizeRecordingChoice(recordingChoice))
 }
 
 async function syncRowsToTable(tableName, rows, stalePrefixes) {
@@ -1505,6 +1517,141 @@ async function loadHomeContent() {
   }
 }
 
+function buildFallbackEncounterModel(content = mergeSiteContent(defaultSiteContent)) {
+  const mergedContent = mergeSiteContent(content)
+  const displayName =
+    mergedContent.encuentrosBooking?.galleryTitle ||
+    mergedContent.heroTitle ||
+    'Modelo'
+
+  return {
+    id: 'legacy-encuentros-model',
+    slug: FALLBACK_ENCOUNTERS_MODEL_SLUG,
+    displayName,
+    status: 'published',
+    sortOrder: 0,
+    content: mergedContent,
+    publishedAt: new Date().toISOString(),
+    deletedAt: null,
+    createdAt: null,
+    updatedAt: null,
+    isFallback: true,
+  }
+}
+
+function normalizeEncounterModelRow(row = {}, fallbackIndex = 0) {
+  return {
+    id: row.id || `encuentros-model-${fallbackIndex}`,
+    slug: row.slug || `${FALLBACK_ENCOUNTERS_MODEL_SLUG}-${fallbackIndex + 1}`,
+    displayName: row.display_name || row.slug || `Modelo ${fallbackIndex + 1}`,
+    status: row.status || 'draft',
+    sortOrder: Number.isFinite(row.sort_order) ? row.sort_order : fallbackIndex,
+    content: mergeSiteContent(row.content || {}),
+    publishedAt: row.published_at || null,
+    deletedAt: row.deleted_at || null,
+    createdAt: row.created_at || null,
+    updatedAt: row.updated_at || null,
+  }
+}
+
+function isMissingEncounterModelsTableError(error) {
+  const message = String(error?.message || error || '')
+
+  return (
+    message.includes('encuentros_models') ||
+    message.includes('schema cache') ||
+    message.includes('does not exist') ||
+    message.includes('relation "public.encuentros_models"')
+  )
+}
+
+async function loadEncounterModels({ includeHidden = false } = {}) {
+  if (!supabaseAdmin) {
+    return [buildFallbackEncounterModel()]
+  }
+
+  try {
+    let query = supabaseAdmin
+      .from('encuentros_models')
+      .select(
+        'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at',
+      )
+      .order('sort_order', { ascending: true, nullsFirst: false })
+      .order('published_at', { ascending: false, nullsFirst: false })
+
+    if (!includeHidden) {
+      query = query.eq('status', 'published').is('deleted_at', null)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      throw error
+    }
+
+    const models = (data || []).map((row, index) => normalizeEncounterModelRow(row, index))
+
+    if (!models.length) {
+      return [buildFallbackEncounterModel(await loadHomeContent())]
+    }
+
+    return models
+  } catch (error) {
+    if (!isMissingEncounterModelsTableError(error)) {
+      throw new Error(error.message || 'No se pudieron cargar los modelos de encuentros.')
+    }
+
+    console.warn('encuentros_models table not available; using fallback encounter model.')
+    return [buildFallbackEncounterModel(await loadHomeContent())]
+  }
+}
+
+async function loadEncounterModelBySlug(slug = '', { includeHidden = false } = {}) {
+  const normalizedSlug = String(slug || '').trim()
+
+  if (!normalizedSlug) {
+    return null
+  }
+
+  if (!supabaseAdmin) {
+    const fallbackModel = buildFallbackEncounterModel()
+    return fallbackModel.slug === normalizedSlug ? fallbackModel : null
+  }
+
+  let query = supabaseAdmin
+    .from('encuentros_models')
+    .select(
+      'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at',
+    )
+    .eq('slug', normalizedSlug)
+
+  if (!includeHidden) {
+    query = query.eq('status', 'published').is('deleted_at', null)
+  }
+
+  try {
+    const { data, error } = await query.maybeSingle()
+
+    if (error) {
+      throw error
+    }
+
+    if (data) {
+      return normalizeEncounterModelRow(data)
+    }
+
+    const fallbackModel = buildFallbackEncounterModel()
+    return fallbackModel.slug === normalizedSlug ? fallbackModel : null
+  } catch (error) {
+    if (!isMissingEncounterModelsTableError(error)) {
+      throw new Error(error.message || 'No se pudo cargar el modelo solicitado.')
+    }
+
+    const fallbackModel = buildFallbackEncounterModel()
+    return fallbackModel.slug === normalizedSlug ? fallbackModel : null
+  }
+}
+
 function normalizeBlogPostRow(row, fallbackIndex = 0) {
   const body = row.body && typeof row.body === 'object' && !Array.isArray(row.body) ? row.body : {}
 
@@ -1914,6 +2061,43 @@ app.get('/api/health', (_req, res) => {
   res.json({ ok: true })
 })
 
+app.get('/api/encuentros/models', async (_req, res) => {
+  try {
+    const models = await loadEncounterModels()
+
+    res.json({
+      ok: true,
+      models,
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || 'No se pudieron cargar los modelos de encuentros.',
+    })
+  }
+})
+
+app.get('/api/encuentros/models/:slug', async (req, res) => {
+  try {
+    const model = await loadEncounterModelBySlug(req.params.slug)
+
+    if (!model) {
+      res.status(404).json({
+        error: 'No se encontro el modelo solicitado.',
+      })
+      return
+    }
+
+    res.json({
+      ok: true,
+      model,
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || 'No se pudo cargar el modelo solicitado.',
+    })
+  }
+})
+
 app.get('/api/encuentros/gallery/reactions', async (req, res) => {
   try {
     const photoIds = String(req.query.photoIds || '')
@@ -1935,7 +2119,8 @@ app.get('/api/encuentros/gallery/reactions', async (req, res) => {
 app.get('/api/encuentros/booking/pricing', async (req, res) => {
   try {
     const recordingChoice = String(req.query.recording || 'standard')
-    const pricing = await getEncuentrosBookingPricing(recordingChoice)
+    const modelSlug = String(req.query.model || req.query.modelSlug || '').trim()
+    const pricing = await getEncuentrosBookingPricing(recordingChoice, modelSlug)
 
     res.json({
       ok: true,
@@ -1953,6 +2138,7 @@ app.post('/api/encuentros/reservations', async (req, res) => {
     const guestName = String(req.body?.guestName || req.body?.reservationGuestName || '').trim()
     const selectedDate = String(req.body?.selectedDate || req.body?.reservationDate || '').trim()
     const selectedTime = String(req.body?.selectedTime || req.body?.reservationTime || '').trim()
+    const modelSlug = String(req.body?.modelSlug || req.body?.encuentrosModelSlug || '').trim()
     const recordingChoice = normalizeRecordingChoice(
       req.body?.recordingChoice || req.body?.reservationRecordingChoice || 'standard',
     )
@@ -1988,6 +2174,7 @@ app.post('/api/encuentros/reservations', async (req, res) => {
       selectedTime,
       recordingChoice,
       pricing,
+      modelSlug,
     })
 
     res.json({

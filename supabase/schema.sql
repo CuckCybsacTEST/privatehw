@@ -31,6 +31,21 @@ create table if not exists public.site_content (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+create table if not exists public.encuentros_models (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  display_name text not null,
+  status text not null default 'draft' check (status in ('draft', 'published', 'suspended')),
+  sort_order integer not null default 0,
+  content jsonb not null default '{}'::jsonb,
+  published_at timestamptz,
+  deleted_at timestamptz,
+  created_by uuid references public.profiles(id) on delete set null,
+  updated_by uuid references public.profiles(id) on delete set null,
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now())
+);
+
 create table if not exists public.media_assets (
   id uuid primary key default gen_random_uuid(),
   bucket text not null,
@@ -125,6 +140,12 @@ create unique index if not exists profiles_stripe_customer_id_idx
 on public.profiles (stripe_customer_id)
 where stripe_customer_id is not null;
 
+create index if not exists encuentros_models_status_sort_order_idx
+  on public.encuentros_models (status, sort_order asc, published_at desc);
+
+create index if not exists encuentros_models_deleted_at_idx
+  on public.encuentros_models (deleted_at);
+
 create unique index if not exists entitlements_user_key_idx
 on public.entitlements (user_id, entitlement_key);
 
@@ -210,6 +231,11 @@ for each row execute procedure public.handle_updated_at();
 drop trigger if exists site_content_set_updated_at on public.site_content;
 create trigger site_content_set_updated_at
 before update on public.site_content
+for each row execute procedure public.handle_updated_at();
+
+drop trigger if exists encuentros_models_set_updated_at on public.encuentros_models;
+create trigger encuentros_models_set_updated_at
+before update on public.encuentros_models
 for each row execute procedure public.handle_updated_at();
 
 drop trigger if exists media_assets_set_updated_at on public.media_assets;

@@ -1,7 +1,7 @@
 {
   "package.json": {
-    "mtime": 1776472218.0220556,
-    "ast_hash": "3cb9e35bb181f088de964ed6b3317702",
+    "mtime": 1782776179.488159,
+    "ast_hash": "928488530e7e286e4cbfbd749be34627",
     "semantic_hash": ""
   },
   "server/contentTranslation.js": {
@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "server/data/encuentros-gallery-votes.json": {
-    "mtime": 1782595768.455288,
-    "ast_hash": "0f77e50bd032b23a981da0a6cb9cf397",
+    "mtime": 1782775867.651554,
+    "ast_hash": "21ffa3019cbeca32c9ec2079c2239648",
     "semantic_hash": ""
   },
   "server/googleDrive.js": {
@@ -20,13 +20,13 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1782686466.6822205,
-    "ast_hash": "5cc730e13d681c5487c113966b161eb6",
+    "mtime": 1782863350.6459224,
+    "ast_hash": "f0064fb8ff91c7569847743c02c1af75",
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1782767991.8883,
-    "ast_hash": "a5cb2404402deb8ea6f191217b1987d9",
+    "mtime": 1782863227.6422467,
+    "ast_hash": "20d4388d337d86df0c525e0a664be559",
     "semantic_hash": ""
   },
   "src/components/AccessPricingCard.jsx": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "src/data/defaultSiteContent.js": {
-    "mtime": 1782689926.5310988,
-    "ast_hash": "836d83eae4da6916b0c0a863e04844cf",
+    "mtime": 1782785207.257184,
+    "ast_hash": "28a3274709ee53545672673ea13ed1e2",
     "semantic_hash": ""
   },
   "src/data/defaultUsers.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/lib/supabase.js": {
-    "mtime": 1782682500.7731483,
-    "ast_hash": "94a2c58621107f17b2b91c2f1da35616",
+    "mtime": 1782862998.0804403,
+    "ast_hash": "0339441d30ce5681a2d2e8cdc465967e",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1777573698.7528212,
-    "ast_hash": "8522386a38d9b81caf124b07100cab3e",
+    "mtime": 1782856821.100026,
+    "ast_hash": "f23fdb5264107ffddd531e59cd965f33",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
@@ -300,13 +300,13 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosCitasPage.jsx": {
-    "mtime": 1782688108.112107,
-    "ast_hash": "cd065f0c82b9939a85c5051ae16e6b2d",
+    "mtime": 1782863189.5320363,
+    "ast_hash": "17d399d8bfb28e8fe99c6c04c0ce7c7b",
     "semantic_hash": ""
   },
   "src/pages/EncuentrosPage.jsx": {
-    "mtime": 1782688103.6358926,
-    "ast_hash": "01624b084086ed545057281e6a316c0d",
+    "mtime": 1782863133.1912854,
+    "ast_hash": "8661c9d64eaa0f3ccc19c50ab771c9c2",
     "semantic_hash": ""
   },
   "src/pages/FreeContentPage.jsx": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/state/AppState.jsx": {
-    "mtime": 1782686437.3496847,
-    "ast_hash": "7ad37d5d19a7dea415ad920c945c6f2e",
+    "mtime": 1782863016.9315298,
+    "ast_hash": "085c4a612abadbffe4c8b8d722a44598",
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
@@ -425,13 +425,13 @@
     "semantic_hash": ""
   },
   "supabase/policies.sql": {
-    "mtime": 1777567612.7285426,
-    "ast_hash": "2b97373c08e401d0cdd6e741af873b91",
+    "mtime": 1782862566.2411058,
+    "ast_hash": "766a376733c9c1c31114dfb0b0f1e16a",
     "semantic_hash": ""
   },
   "supabase/schema.sql": {
-    "mtime": 1777567566.8075185,
-    "ast_hash": "69a2e19fae2a519b594fb28bdaeef9e3",
+    "mtime": 1782862557.83806,
+    "ast_hash": "f43f3126a99fd5c054e5f3185d59da92",
     "semantic_hash": ""
   },
   "vite.config.js": {
@@ -552,6 +552,21 @@
   "img/teaser9.jpg": {
     "mtime": 1773077894.9330552,
     "ast_hash": "9910bd213f9a50da5a070103c397c390",
+    "semantic_hash": ""
+  },
+  "src/lib/runtimeEnv.js": {
+    "mtime": 1782856821.0846791,
+    "ast_hash": "b0c8d5a47a300f013d1c14f33c8fc1ea",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260630000000_create_encuentros_models.sql": {
+    "mtime": 1782862580.0261054,
+    "ast_hash": "c38f683d8e1de166d3b45b5b73398edc",
+    "semantic_hash": ""
+  },
+  "src/pages/EncuentrosCatalogPage.jsx": {
+    "mtime": 1782863246.4060314,
+    "ast_hash": "4e96550a2f67fa81199baa09f79dc9e2",
     "semantic_hash": ""
   }
 }

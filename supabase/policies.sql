@@ -52,6 +52,7 @@ grant execute on function public.get_my_profile() to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.site_content enable row level security;
+alter table public.encuentros_models enable row level security;
 alter table public.media_assets enable row level security;
 alter table public.blog_posts enable row level security;
 alter table public.products enable row level security;
@@ -84,6 +85,21 @@ using (true);
 drop policy if exists "site content admin write" on public.site_content;
 create policy "site content admin write"
 on public.site_content
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros models public read published" on public.encuentros_models;
+create policy "encuentros models public read published"
+on public.encuentros_models
+for select
+to anon, authenticated
+using ((status = 'published' and deleted_at is null) or public.is_admin());
+
+drop policy if exists "encuentros models admin write" on public.encuentros_models;
+create policy "encuentros models admin write"
+on public.encuentros_models
 for all
 to authenticated
 using (public.is_admin())

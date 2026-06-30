@@ -24,6 +24,9 @@ const CalzonesPage = lazy(() => import('./pages/CalzonesPage').then((module) => 
 const CollectionCatalogPage = lazy(() =>
   import('./pages/CollectionCatalogPage').then((module) => ({ default: module.CollectionCatalogPage })),
 )
+const EncuentrosCatalogPage = lazy(() =>
+  import('./pages/EncuentrosCatalogPage').then((module) => ({ default: module.EncuentrosCatalogPage })),
+)
 const EncuentrosPage = lazy(() => import('./pages/EncuentrosPage').then((module) => ({ default: module.EncuentrosPage })))
 const EncuentrosCitasPage = lazy(() =>
   import('./pages/EncuentrosCitasPage').then((module) => ({ default: module.EncuentrosCitasPage })),
@@ -115,13 +118,15 @@ function AppRoutes() {
     <Suspense fallback={<AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/encuentros" element={<EncuentrosPage />} />
-        <Route path="/encuentros/citas" element={<EncuentrosCitasPage />} />
+        <Route path="/encuentros" element={<EncuentrosCatalogPage />} />
+        <Route path="/encuentros/:slug" element={<EncuentrosPage />} />
+        <Route path="/encuentros/:slug/citas" element={<EncuentrosCitasPage />} />
+        <Route path="/encuentros/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
         <Route path="/encuentros/encuentros" element={<Navigate to="/encuentros" replace />} />
-        <Route path="/encuentros/citas/encuentros" element={<Navigate to="/encuentros/citas" replace />} />
-        <Route path="/encuentros/citas/citas" element={<Navigate to="/encuentros/citas" replace />} />
+        <Route path="/encuentros/citas/encuentros" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
+        <Route path="/encuentros/citas/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
         <Route path="/encuentross" element={<Navigate to="/encuentros" replace />} />
-        <Route path="/encuentross/citas" element={<Navigate to="/encuentros/citas" replace />} />
+        <Route path="/encuentross/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/videos" element={<VideoCatalogPage />} />

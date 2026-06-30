@@ -161,9 +161,11 @@ function buildManualReservationOrder({
   selectedDate = '',
   selectedTime = '',
   pricing = {},
+  modelSlug = '',
   session = null,
 }) {
-  const reservationRequestId = `reservation-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
+  const normalizedModelSlug = String(modelSlug || '').trim() || 'sindy-mireya'
+  const reservationRequestId = `reservation-${normalizedModelSlug}-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
   const createdAt = new Date().toISOString()
   const advanceAmount = Number.isFinite(pricing.advanceAmount) ? pricing.advanceAmount : 0
   const effectiveAmount = Number.isFinite(pricing.effectiveAmount) ? pricing.effectiveAmount : 0
@@ -183,7 +185,8 @@ function buildManualReservationOrder({
     metadata: {
       checkoutType: 'reservation',
       productType: 'reservation',
-      productSlug: 'reservation-encuentros',
+      productSlug: `reservation-${normalizedModelSlug}`,
+      modelSlug: normalizedModelSlug,
       reservationRequestId,
       reservationGuestName: normalizedGuestName,
       reservationName: normalizedGuestName,
@@ -208,12 +211,13 @@ function buildManualReservationOrder({
     items: [
       {
         id: `manual-order-item-${Date.now()}`,
-        productSlug: 'reservation-encuentros',
+        productSlug: `reservation-${normalizedModelSlug}`,
         quantity: 1,
         unitAmount: advanceAmount,
         totalAmount: advanceAmount,
         metadata: {
           reservationRequestId,
+          modelSlug: normalizedModelSlug,
           reservationGuestName: normalizedGuestName,
           reservationDate: selectedDate,
           reservationTime: selectedTime,
@@ -1262,6 +1266,7 @@ export function AppProvider({ children }) {
       selectedDate: payload.selectedDate || '',
       selectedTime: payload.selectedTime || '',
       pricing: payload.pricing || {},
+      modelSlug: payload.modelSlug || '',
       session,
     })
 
@@ -1273,6 +1278,7 @@ export function AppProvider({ children }) {
           selectedDate: payload.selectedDate || '',
           selectedTime: payload.selectedTime || '',
           pricing: payload.pricing || {},
+          modelSlug: payload.modelSlug || '',
         },
         session?.accessToken || '',
       )

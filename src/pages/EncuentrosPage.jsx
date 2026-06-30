@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   AiOutlineCalendar,
@@ -17,7 +18,7 @@ import { defaultSiteContent } from '../data/defaultSiteContent'
 import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { EncuentrosBookingWizardModal } from '../components/EncuentrosBookingWizardModal'
 import { EncuentrosGalleryModal } from '../components/EncuentrosGalleryModal'
-import { fetchEncuentrosBookingPricing } from '../lib/supabase'
+import { fetchEncuentrosBookingPricing, fetchEncuentrosModel } from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 import {
   buildBookingDays,
@@ -180,33 +181,44 @@ function getEncounterNavToneStyles(tone) {
 
 export function EncuentrosPage() {
   const { siteContent, createEncounterReservationRequest } = useAppState()
+  const { slug } = useParams()
   const { i18n, t } = useTranslation()
-  const booking = siteContent.encuentrosBooking || {}
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
-  const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
-  const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
+  const [model, setModel] = useState(null)
+  const [modelLoading, setModelLoading] = useState(Boolean(slug))
+  const [modelError, setModelError] = useState('')
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const [isBookingWizardOpen, setIsBookingWizardOpen] = useState(false)
   const [activeBottomNavKey, setActiveBottomNavKey] = useState('home')
   const [recordingChoice, setRecordingChoice] = useState('standard')
   const [error, setError] = useState('')
+  const pageContent = model?.content || siteContent
+  const booking = pageContent.encuentrosBooking || {}
+  const modelSlug = model?.slug || slug || 'sindy-mireya'
+  const modelDisplayName =
+    model?.displayName ||
+    booking.galleryTitle ||
+    pageContent.heroTitle ||
+    t('encuentros.bookingPageTitle')
+  const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
+  const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
   const fallbackPricing = useMemo(
-    () => buildEncuentrosBookingPricing(siteContent, recordingChoice, dateLocale),
-    [dateLocale, recordingChoice, siteContent],
+    () => buildEncuentrosBookingPricing(pageContent, recordingChoice, dateLocale),
+    [dateLocale, pageContent, recordingChoice],
   )
   const [pricing, setPricing] = useState(() => fallbackPricing)
-  const presencialBasePrice = parsePriceValue(siteContent.presencialPrice)
+  const presencialBasePrice = parsePriceValue(pageContent.presencialPrice)
   const recordingDiscountPercent =
     Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0
   const recordingPrice =
     presencialBasePrice > 0 && recordingDiscountPercent > 0
       ? Math.max(0, presencialBasePrice - presencialBasePrice * (recordingDiscountPercent / 100))
       : 0
-  const topCarouselImages = Array.isArray(siteContent.topCarouselImages) ? siteContent.topCarouselImages : []
+  const topCarouselImages = Array.isArray(pageContent.topCarouselImages) ? pageContent.topCarouselImages : []
   const availableDates = Array.isArray(booking.availableDates) ? booking.availableDates.filter(Boolean) : []
-  const extraServices = Array.isArray(siteContent.extraItems) ? siteContent.extraItems.filter(Boolean) : []
-  const presencialFeatures = Array.isArray(siteContent.presencialFeatures)
-    ? siteContent.presencialFeatures.filter(Boolean).slice(0, 6)
+  const extraServices = Array.isArray(pageContent.extraItems) ? pageContent.extraItems.filter(Boolean) : []
+  const presencialFeatures = Array.isArray(pageContent.presencialFeatures)
+    ? pageContent.presencialFeatures.filter(Boolean).slice(0, 6)
     : []
   const heroAvailableDates = useMemo(
     () =>
@@ -223,17 +235,17 @@ export function EncuentrosPage() {
       ? `${recordingDiscountPercent.toFixed(0)}% OFF`
       : `${recordingDiscountPercent.toFixed(1)}% OFF`
   const normalizedTopCarouselImages = useMemo(
-    () => normalizeEncounterGallerySlides(siteContent.topCarouselImages || []),
-    [siteContent.topCarouselImages],
+    () => normalizeEncounterGallerySlides(pageContent.topCarouselImages || []),
+    [pageContent.topCarouselImages],
   )
   const galleryPhotoIds = useMemo(
     () => normalizedTopCarouselImages.map((slide) => slide.id).filter(Boolean),
     [normalizedTopCarouselImages],
   )
   const heroTopBar =
-    (siteContent.topBarDesktopHighlight || siteContent.topBarDesktop || t('nav.encuentros')).length > 42
+    (pageContent.topBarDesktopHighlight || pageContent.topBarDesktop || t('nav.encuentros')).length > 42
       ? defaultSiteContent.topBarDesktopHighlight
-      : siteContent.topBarDesktopHighlight || siteContent.topBarDesktop || t('nav.encuentros')
+      : pageContent.topBarDesktopHighlight || pageContent.topBarDesktop || t('nav.encuentros')
   const [galleryReactionCounts, setGalleryReactionCounts] = useState({})
   const [galleryReactionVotes, setGalleryReactionVotes] = useState(() => readGalleryReactionState())
   const galleryVisitorKey = useMemo(() => getOrCreateGalleryVisitorKey(), [])
@@ -241,9 +253,45 @@ export function EncuentrosPage() {
   useEffect(() => {
     let isCancelled = false
 
+    if (!slug) {
+      setModel(null)
+      setModelLoading(false)
+      setModelError('')
+      return undefined
+    }
+
+    setModelLoading(true)
+    setModelError('')
+
+    fetchEncuentrosModel(slug)
+      .then((nextModel) => {
+        if (!isCancelled) {
+          setModel(nextModel)
+        }
+      })
+      .catch((nextError) => {
+        if (!isCancelled) {
+          setModel(null)
+          setModelError(nextError?.message || t('encuentros.bookingError'))
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setModelLoading(false)
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [slug, t])
+
+  useEffect(() => {
+    let isCancelled = false
+
     setPricing(fallbackPricing)
 
-    fetchEncuentrosBookingPricing(recordingChoice)
+    fetchEncuentrosBookingPricing(recordingChoice, modelSlug)
       .then((nextPricing) => {
         if (!isCancelled && nextPricing) {
           setPricing(nextPricing)
@@ -258,7 +306,7 @@ export function EncuentrosPage() {
     return () => {
       isCancelled = true
     }
-  }, [fallbackPricing, recordingChoice])
+  }, [fallbackPricing, modelSlug, recordingChoice])
 
   const openGallery = useCallback(() => {
     if (!hasGalleryImages) {
@@ -319,13 +367,14 @@ export function EncuentrosPage() {
           selectedTime,
           recordingChoice: choice,
           pricing,
+          modelSlug,
         })
         setActiveBottomNavKey('home')
       } catch (nextError) {
         setError(nextError.message || t('encuentros.bookingError'))
       }
     },
-    [createEncounterReservationRequest, pricing, t],
+    [createEncounterReservationRequest, modelSlug, pricing, t],
   )
 
   useEffect(() => {
@@ -436,6 +485,55 @@ export function EncuentrosPage() {
     [galleryReactionCounts, galleryReactionVotes, galleryVisitorKey],
   )
 
+  if (modelLoading) {
+    return (
+      <main className="creator-home encuentros-page encuentros-page-loading">
+        <AtmosphericBackdrop
+          variant="premium"
+          intensity="soft"
+          glowPosition="center-right"
+          grain={false}
+          withVignette={false}
+          className="encuentros-page-backdrop"
+        />
+        <div className="encuentros-screen-shell">
+          <ScreenCard className="encuentros-screen-price-card" as="article">
+            <p className="section-kicker">{t('encuentros.bookingPageEyebrow')}</p>
+            <h1>{t('loading.general')}</h1>
+            <p className="encuentros-screen-lead">{t('loading.subtitle')}</p>
+          </ScreenCard>
+        </div>
+      </main>
+    )
+  }
+
+  if (slug && modelError && !model) {
+    return (
+      <main className="creator-home encuentros-page encuentros-page-loading">
+        <AtmosphericBackdrop
+          variant="premium"
+          intensity="soft"
+          glowPosition="center-right"
+          grain={false}
+          withVignette={false}
+          className="encuentros-page-backdrop"
+        />
+        <div className="encuentros-screen-shell">
+          <ScreenCard className="encuentros-screen-price-card" as="article">
+            <p className="section-kicker">{t('encuentros.bookingPageEyebrow')}</p>
+            <h1>{t('encuentros.bookingError')}</h1>
+            <p className="encuentros-screen-lead">{modelError}</p>
+            <div className="encuentros-screen-actions">
+              <Link className="encuentros-screen-action encuentros-screen-action-primary" to="/encuentros">
+                <span>Volver al catalogo</span>
+              </Link>
+            </div>
+          </ScreenCard>
+        </div>
+      </main>
+    )
+  }
+
   return (
     <main className="encuentros-page-modern encuentros-screen">
       <AtmosphericBackdrop
@@ -457,10 +555,10 @@ export function EncuentrosPage() {
           </div>
 
           <div className="encuentros-screen-title-row">
-            <h1 id="encuentros-screen-title">{siteContent.heroTitle || t('encuentros.bookingPageTitle')}</h1>
+            <h1 id="encuentros-screen-title">{pageContent.heroTitle || modelDisplayName || t('encuentros.bookingPageTitle')}</h1>
           </div>
 
-          <p className="encuentros-screen-lead">{siteContent.heroDescription}</p>
+          <p className="encuentros-screen-lead">{pageContent.heroDescription}</p>
           <div className="encuentros-screen-trust-row" aria-label={t('encuentros.bookingAvailability')}>
             {heroAvailableDates.map((day) => (
               <span className="encuentros-screen-trust-chip encuentros-screen-trust-chip-date" key={day.value}>
@@ -480,30 +578,30 @@ export function EncuentrosPage() {
           <div className="encuentros-screen-price-copy">
             <div className="encuentros-screen-price-topline">
               <div className="encuentros-screen-price-kicker">
-                <span>{siteContent.presencialTitle || t('encuentros.dashboardConfigPrice')}</span>
+                <span>{pageContent.presencialTitle || t('encuentros.dashboardConfigPrice')}</span>
               </div>
 
               <div className="encuentros-screen-price-value-row">
                 <strong className="encuentros-screen-price-value">
-                  <PriceText value={siteContent.presencialPrice || presencialBasePrice || '150'} />
+                  <PriceText value={pageContent.presencialPrice || presencialBasePrice || '150'} />
                 </strong>
                 <span className="encuentros-screen-price-unit">
-                  {siteContent.presencialUnit || t('encuentros.dashboardConfigWindow')}
+                  {pageContent.presencialUnit || t('encuentros.dashboardConfigWindow')}
                 </span>
               </div>
             </div>
 
-            {siteContent.presencialDescription ? (
-              <p className="encuentros-screen-presencial-copy">{siteContent.presencialDescription}</p>
+            {pageContent.presencialDescription ? (
+              <p className="encuentros-screen-presencial-copy">{pageContent.presencialDescription}</p>
             ) : null}
 
-            {siteContent.presencialBenefitTitle || siteContent.presencialBenefitText ? (
+            {pageContent.presencialBenefitTitle || pageContent.presencialBenefitText ? (
               <div className="encuentros-screen-inline-discount">
                 <span className="encuentros-screen-inline-discount-label">
-                  Suscriptores Loverfans
+                  {pageContent.presencialBenefitTitle || 'Suscriptores Loverfans'}
                 </span>
                 <span className="encuentros-screen-inline-discount-value">
-                  20% OFF
+                  {pageContent.presencialBenefitText || '20% OFF'}
                 </span>
               </div>
             ) : null}
@@ -541,13 +639,13 @@ export function EncuentrosPage() {
             <div className="encuentros-screen-services-copy">
               <div className="encuentros-screen-services-topline">
                 <div className="encuentros-screen-services-kicker">
-                  <span>{siteContent.extraTitle || t('admin.content.extraList')}</span>
+                  <span>{pageContent.extraTitle || t('admin.content.extraList')}</span>
                 </div>
               </div>
 
               <ul
                 className="encuentros-screen-services-list"
-                aria-label={siteContent.extraTitle || t('admin.content.extraList')}
+                aria-label={pageContent.extraTitle || t('admin.content.extraList')}
               >
                 {extraServices.map((item) => (
                   <li key={item}>
@@ -557,11 +655,11 @@ export function EncuentrosPage() {
                 ))}
               </ul>
 
-              {siteContent.extraFromLabel ? (
+              {pageContent.extraFromLabel ? (
                 <div className="encuentros-screen-services-footer">
-                  <span>{siteContent.extraFromLabel}</span>
+                  <span>{pageContent.extraFromLabel}</span>
                   <strong>
-                    <PriceText value={siteContent.extraPrice} className="encuentros-screen-services-price" />
+                    <PriceText value={pageContent.extraPrice} className="encuentros-screen-services-price" />
                   </strong>
                 </div>
               ) : null}
@@ -603,11 +701,11 @@ export function EncuentrosPage() {
       <EncuentrosGalleryModal
         open={isGalleryOpen}
         images={normalizedTopCarouselImages}
-        title={siteContent.encuentrosBooking?.galleryTitle || siteContent.heroTitle || t('encuentros.galleryTitle')}
-        subtitle={siteContent.encuentrosBooking?.gallerySubtitle || t('encuentros.gallerySubtitle')}
-        exclusiveTitle={siteContent.encuentrosBooking?.galleryExclusiveTitle || t('encuentros.galleryExclusiveTitle')}
+        title={booking.galleryTitle || pageContent.heroTitle || t('encuentros.galleryTitle')}
+        subtitle={booking.gallerySubtitle || t('encuentros.gallerySubtitle')}
+        exclusiveTitle={booking.galleryExclusiveTitle || t('encuentros.galleryExclusiveTitle')}
         exclusiveDescription={
-          siteContent.encuentrosBooking?.galleryExclusiveDescription || t('encuentros.galleryExclusiveDescription')
+          booking.galleryExclusiveDescription || t('encuentros.galleryExclusiveDescription')
         }
         reactionCounts={galleryReactionCounts}
         reactionVotes={galleryReactionVotes}
