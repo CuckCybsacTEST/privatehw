@@ -11,11 +11,12 @@ import {
   normalizeEntitlement,
 } from '../data/defaultCommerce'
 import { normalizeRecordingChoice } from '../utils/encuentrosBooking'
+import { readClientEnv } from './runtimeEnv'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseUrl = readClientEnv('VITE_SUPABASE_URL')
 const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  import.meta.env.VITE_SUPABASE_ANON_KEY
+  readClientEnv('VITE_SUPABASE_PUBLISHABLE_KEY') ||
+  readClientEnv('VITE_SUPABASE_ANON_KEY')
 
 function getDirectStorageEndpoint() {
   if (!supabaseUrl) {

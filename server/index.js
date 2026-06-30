@@ -37,11 +37,13 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
 const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
+const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
 let homeContentCache = {
   value: null,
   loadedAt: 0,
   pending: null,
 }
+let clientIndexTemplateCache = null
 
 if (!process.env.MEDIA_TOKEN_SECRET) {
   console.warn('MEDIA_TOKEN_SECRET no esta configurado. Se usara una clave de desarrollo.')
@@ -72,6 +74,44 @@ function assertServerConfig() {
       'Supabase service role no esta configurado. Define SUPABASE_SERVICE_ROLE_KEY.',
     )
   }
+}
+
+function buildRuntimeConfig() {
+  return {
+    VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL || '',
+    VITE_SUPABASE_PUBLISHABLE_KEY: process.env.VITE_SUPABASE_PUBLISHABLE_KEY || '',
+    VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY || '',
+    VITE_TELEGRAM_BOT_USERNAME: process.env.VITE_TELEGRAM_BOT_USERNAME || '',
+  }
+}
+
+function escapeJsonForInlineScript(value) {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
+}
+
+async function getClientIndexTemplate() {
+  if (clientIndexTemplateCache) {
+    return clientIndexTemplateCache
+  }
+
+  clientIndexTemplateCache = await readFile(CLIENT_INDEX_FILE, 'utf8')
+  return clientIndexTemplateCache
+}
+
+async function renderClientIndexHtml() {
+  const template = await getClientIndexTemplate()
+  const runtimeConfigScript = `<script>window.__privatehwRuntimeConfig=${escapeJsonForInlineScript(buildRuntimeConfig())};</script>`
+
+  if (template.includes('</head>')) {
+    return template.replace('</head>', `${runtimeConfigScript}</head>`)
+  }
+
+  return `${runtimeConfigScript}${template}`
 }
 
 function normalizeBearerToken(header = '') {
@@ -1850,7 +1890,15 @@ app.use(express.json())
 
 app.get('/', (_req, res) => {
   if (existsSync(CLIENT_DIST_DIR)) {
-    res.sendFile(`${CLIENT_DIST_DIR}/index.html`)
+    renderClientIndexHtml()
+      .then((html) => {
+        res.type('html').send(html)
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error: error.message || 'No se pudo cargar la aplicacion.',
+        })
+      })
     return
   }
 
@@ -2485,11 +2533,15 @@ app.post('/api/admin/translate', async (req, res) => {
 })
 
 if (existsSync(CLIENT_DIST_DIR)) {
-  app.use(express.static(CLIENT_DIST_DIR))
-
-  app.get(/^\/(?!api)(?!.*\.[^/]+$).*/, (_req, res) => {
-    res.sendFile(`${CLIENT_DIST_DIR}/index.html`)
+  app.get(/^\/(?!api)(?!.*\.[^/]+$).*/, async (_req, res, next) => {
+    try {
+      res.type('html').send(await renderClientIndexHtml())
+    } catch (error) {
+      next(error)
+    }
   })
+
+  app.use(express.static(CLIENT_DIST_DIR, { index: false }))
 }
 
 app.listen(port, () => {

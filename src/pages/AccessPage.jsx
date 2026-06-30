@@ -7,6 +7,7 @@ import { useAppState } from '../state/AppState'
 import { AiFillX } from 'react-icons/ai'
 import { BiLogoTelegram } from 'react-icons/bi'
 import { FcGoogle } from 'react-icons/fc'
+import { readClientEnv } from '../lib/runtimeEnv'
 
 export function AccessPage() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export function AccessPage() {
   const [activeOAuthProvider, setActiveOAuthProvider] = useState('')
   const [telegramOpen, setTelegramOpen] = useState(false)
   const { t } = useTranslation()
-  const telegramBotUsername = import.meta.env.VITE_TELEGRAM_BOT_USERNAME || ''
+  const telegramBotUsername = readClientEnv('VITE_TELEGRAM_BOT_USERNAME')
   const postAuthTarget = isOAuthCallback ? '/' : redirectTo && redirectTo !== '/access' ? redirectTo : '/'
 
   if (session) {
