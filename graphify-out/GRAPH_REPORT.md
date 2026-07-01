@@ -1,16 +1,16 @@
 # Graph Report - PROJECTS  (2026-06-30)
 
 ## Corpus Check
-- 102 files · ~125,599 words
+- 103 files · ~125,697 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 726 nodes · 1552 edges · 32 communities
+- 729 nodes · 1564 edges · 32 communities
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f0cab411`
+- Built from commit: `75f6932b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -59,14 +59,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `createManualReservationOrder()` --calls--> `normalizeRecordingChoice()`  [EXTRACTED]
   server/index.js → src/utils/encuentrosBooking.js
+- `createManualReservationOrder()` --calls--> `resolveEncounterFallbackSlug()`  [EXTRACTED]
+  server/index.js → src/utils/encuentrosModels.js
 - `resolveProductBySlug()` --calls--> `buildDerivedProducts()`  [EXTRACTED]
   server/index.js → src/data/defaultCommerce.js
 - `getEncuentrosBookingPricing()` --calls--> `buildEncuentrosBookingPricing()`  [EXTRACTED]
   server/index.js → src/utils/encuentrosBooking.js
 - `getEncuentrosBookingPricing()` --calls--> `normalizeRecordingChoice()`  [EXTRACTED]
   server/index.js → src/utils/encuentrosBooking.js
-- `syncProductsFromSiteContent()` --calls--> `buildDefaultProducts()`  [EXTRACTED]
-  server/index.js → src/data/defaultCommerce.js
 
 ## Import Cycles
 - None detected.
@@ -74,8 +74,8 @@
 ## Communities (32 total, 0 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.17
-Nodes (12): deepClone(), formatStatusLabel(), ModelCard(), normalizeLines(), parsePaymentMethods(), parseSlides(), setByPath(), defaultSiteContent (+4 more)
+Cohesion: 0.14
+Nodes (15): createDraftFromModel(), deepClone(), EncuentrosModelsManager(), formatStatusLabel(), ModelCard(), normalizeLines(), parsePaymentMethods(), parseSlides() (+7 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.07
@@ -90,12 +90,12 @@ Cohesion: 0.06
 Nodes (42): AgeVerificationGate(), AtmosphericBackdrop(), EncuentrosBookingWizardModal(), formatShortDateLabel(), EncuentrosGalleryModal(), fetchEncuentrosBookingPricing(), fetchEncuentrosModel(), EncuentrosCitasPage() (+34 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.06
-Nodes (34): BlogManager(), buildTaxonomyOptions(), emptyPost(), getAccessLabel(), getStatusLabel(), isEmptyHtml(), pruneLocalizedDraft(), uniqueValues() (+26 more)
+Cohesion: 0.07
+Nodes (27): BlogManager(), buildTaxonomyOptions(), emptyPost(), getAccessLabel(), getStatusLabel(), isEmptyHtml(), pruneLocalizedDraft(), uniqueValues() (+19 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.05
-Nodes (32): AppLoader(), HomePreviewTopBar(), LanguageSync(), MobileBottomNav(), fetchEncuentrosModels(), AccessPage, AdminDashboardPage, AdminLoginPage (+24 more)
+Nodes (35): AppLoader(), HomePreviewTopBar(), LanguageSync(), MobileBottomNav(), fetchEncuentrosModels(), HomePage(), AccessPage, AdminDashboardPage (+27 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.07
@@ -106,12 +106,12 @@ Cohesion: 0.06
 Nodes (30): dependencies, cors, dotenv, express, i18next, i18next-browser-languagedetector, i18next-localstorage-backend, react (+22 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.14
-Nodes (21): assertSupabase(), deleteBlogPost(), fetchBlogPosts(), fetchCurrentEntitlements(), fetchCurrentOrders(), getCustomerAdminSnapshot(), getProfiles(), listenToAuthChanges() (+13 more)
+Cohesion: 0.12
+Nodes (25): assertSupabase(), deleteAdminEncuentrosModel(), deleteBlogPost(), fetchAdminEncuentrosModels(), fetchBlogPosts(), fetchCurrentEntitlements(), fetchCurrentOrders(), getAdminAuditEvents() (+17 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.09
-Nodes (15): mergeBlogPosts(), isDerivedProductType(), defaultUsers, uploadGoogleDriveVideoAsset(), createManagedUser(), createManualEncuentrosReservation(), getAdminAuditEvents(), isSupabaseConfigured (+7 more)
+Nodes (14): mergeBlogPosts(), isDerivedProductType(), defaultUsers, uploadGoogleDriveVideoAsset(), createManagedUser(), createManualEncuentrosReservation(), isSupabaseConfigured, updateManagedSubscription() (+6 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.10
@@ -131,7 +131,7 @@ Nodes (12): Breakpoints, Dashboard layout, Form layout, Layouts, Media and conte
 
 ### Community 14 - "Community 14"
 Cohesion: 0.06
-Nodes (64): AccessTotalSection(), BlogTeaserSection(), CollectionCard(), CreatorHero(), HomePreviewRail(), resolveSectionHref(), LanguageSwitcher(), MembershipSection() (+56 more)
+Nodes (63): AccessTotalSection(), BlogTeaserSection(), CollectionCard(), CreatorHero(), HomePreviewRail(), resolveSectionHref(), LanguageSwitcher(), MembershipSection() (+55 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.18
@@ -150,8 +150,8 @@ Cohesion: 0.18
 Nodes (10): Follow-up options, Migration Plan, Phase 1, Phase 2, Phase 3, Recommendation, Risks detected, Safe implementation order (+2 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.29
-Nodes (10): delay(), fetchCurrentProfile(), getCurrentSession(), normalizeSession(), retrySupabaseOperation(), signInWithPassword(), signInWithTelegram(), signOut() (+2 more)
+Cohesion: 0.25
+Nodes (11): delay(), fetchCurrentProfile(), getCurrentSession(), normalizeSession(), retrySupabaseOperation(), signInWithOAuth(), signInWithPassword(), signInWithTelegram() (+3 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.32
@@ -178,8 +178,8 @@ Cohesion: 0.27
 Nodes (9): translateAdminContent(), ContentEditor(), hasSeedEnglishCatalogTitles(), normalizeVideoTags(), uniqueValues(), VideoLibraryItemEditor(), loadImage(), optimizeImageFile() (+1 more)
 
 ### Community 30 - "Community 30"
-Cohesion: 0.29
-Nodes (7): createDraftFromModel(), EncuentrosModelsManager(), mergeItemsBySlug(), mergeSiteContent(), normalizeCarouselSlides(), normalizeEncounterPriceLabel(), fetchSiteContent()
+Cohesion: 0.36
+Nodes (7): defaultBlogPosts, getBlogPostTimestamp(), isNewerBlogPost(), normalizeBlogPost(), normalizeMediaItems(), parseBlogPriceAmount(), normalizeBlogPostRow()
 
 ### Community 32 - "Community 32"
 Cohesion: 0.48
@@ -192,17 +192,17 @@ Nodes (4): TelegramLoginWidget(), getRuntimeConfig(), readClientEnv(), AccessPag
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useAppState()` connect `Community 14` to `Community 0`, `Community 32`, `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 9`, `Community 20`, `Community 25`, `Community 30`?**
-  _High betweenness centrality (0.084) - this node is a cross-community bridge._
-- **Why does `mergeSiteContent()` connect `Community 30` to `Community 0`, `Community 1`, `Community 2`, `Community 8`, `Community 9`, `Community 12`, `Community 16`, `Community 25`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
-- **Why does `normalizeRecordingChoice()` connect `Community 3` to `Community 8`, `Community 9`, `Community 2`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `useAppState()` connect `Community 14` to `Community 0`, `Community 1`, `Community 32`, `Community 3`, `Community 4`, `Community 5`, `Community 9`, `Community 20`, `Community 25`?**
+  _High betweenness centrality (0.082) - this node is a cross-community bridge._
+- **Why does `mergeSiteContent()` connect `Community 0` to `Community 1`, `Community 2`, `Community 8`, `Community 9`, `Community 12`, `Community 16`, `Community 25`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `resolveEncounterFallbackSlug()` connect `Community 5` to `Community 9`, `Community 2`?**
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _172 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 0` be split into smaller, more focused modules?**
+  _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.0746031746031746 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.05220883534136546 - nodes in this community are weakly interconnected._
-- **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.06187202538339503 - nodes in this community are weakly interconnected._

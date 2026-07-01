@@ -20,6 +20,7 @@ import {
   deleteBlogPost,
   fetchBlogPosts,
   createManualEncuentrosReservation as createManualEncuentrosReservationRequest,
+  fetchEncuentrosModels,
   fetchCurrentEntitlements,
   fetchCurrentOrders,
   fetchProducts,
@@ -56,6 +57,10 @@ import {
   writeStorageValue,
 } from '../utils/storage'
 import { normalizeRecordingChoice } from '../utils/encuentrosBooking'
+import {
+  DEFAULT_ENCUENTROS_MODEL_SLUG,
+  resolveEncounterFallbackSlug,
+} from '../utils/encuentrosModels'
 
 const SITE_CONTENT_KEY = 'privatehw.site-content.v2'
 const BLOG_POSTS_KEY = 'privatehw.blog-posts.v1'
@@ -164,7 +169,7 @@ function buildManualReservationOrder({
   modelSlug = '',
   session = null,
 }) {
-  const normalizedModelSlug = String(modelSlug || '').trim() || 'sindy-mireya'
+  const normalizedModelSlug = String(modelSlug || '').trim() || DEFAULT_ENCUENTROS_MODEL_SLUG
   const reservationRequestId = `reservation-${normalizedModelSlug}-${selectedDate}-${selectedTime.replace(':', '')}-${Date.now()}`
   const createdAt = new Date().toISOString()
   const advanceAmount = Number.isFinite(pricing.advanceAmount) ? pricing.advanceAmount : 0
@@ -1260,13 +1265,14 @@ export function AppProvider({ children }) {
   }
 
   async function createEncounterReservationRequest(payload = {}) {
+    const resolvedModelSlug = String(payload.modelSlug || '').trim() || (await resolveEncounterFallbackSlug(fetchEncuentrosModels))
     const nextOrder = buildManualReservationOrder({
       guestName: payload.guestName || '',
       recordingChoice: normalizeRecordingChoice(payload.recordingChoice || 'standard'),
       selectedDate: payload.selectedDate || '',
       selectedTime: payload.selectedTime || '',
       pricing: payload.pricing || {},
-      modelSlug: payload.modelSlug || '',
+      modelSlug: resolvedModelSlug,
       session,
     })
 
@@ -1278,7 +1284,7 @@ export function AppProvider({ children }) {
           selectedDate: payload.selectedDate || '',
           selectedTime: payload.selectedTime || '',
           pricing: payload.pricing || {},
-          modelSlug: payload.modelSlug || '',
+          modelSlug: resolvedModelSlug,
         },
         session?.accessToken || '',
       )

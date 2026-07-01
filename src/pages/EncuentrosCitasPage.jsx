@@ -29,7 +29,7 @@ export function EncuentrosCitasPage() {
   const [error, setError] = useState('')
   const pageContent = model?.content || siteContent
   const booking = pageContent.encuentrosBooking || {}
-  const modelSlug = model?.slug || slug || 'sindy-mireya'
+  const modelSlug = model?.slug || slug || ''
   const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
   const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
   const fallbackPricing = useMemo(

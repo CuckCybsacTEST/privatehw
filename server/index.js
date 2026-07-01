@@ -15,6 +15,10 @@ import {
 import { defaultBlogPosts, normalizeBlogPost } from '../src/data/defaultBlogPosts.js'
 import { defaultSiteContent, mergeSiteContent } from '../src/data/defaultSiteContent.js'
 import { buildEncuentrosBookingPricing, normalizeRecordingChoice } from '../src/utils/encuentrosBooking.js'
+import {
+  DEFAULT_ENCUENTROS_MODEL_SLUG,
+  resolveEncounterFallbackSlug,
+} from '../src/utils/encuentrosModels.js'
 import { extractGoogleDriveFileId } from '../src/utils/videoMedia.js'
 import { isPersistentProductType } from '../src/data/defaultCommerce.js'
 import {
@@ -38,7 +42,6 @@ const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
 const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
 const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
-const FALLBACK_ENCOUNTERS_MODEL_SLUG = 'sindy-mireya'
 let homeContentCache = {
   value: null,
   loadedAt: 0,
@@ -745,7 +748,9 @@ async function createManualReservationOrder({
   pricing = null,
   modelSlug = '',
 }) {
-  const normalizedModelSlug = String(modelSlug || '').trim() || FALLBACK_ENCOUNTERS_MODEL_SLUG
+  const normalizedModelSlug =
+    String(modelSlug || '').trim() ||
+    (await resolveEncounterFallbackSlug(async () => loadEncounterModels({ includeHidden: false })))
   const resolvedModel =
     (await loadEncounterModelBySlug(normalizedModelSlug)) ||
     buildFallbackEncounterModel(await loadHomeContent())
@@ -1526,7 +1531,7 @@ function buildFallbackEncounterModel(content = mergeSiteContent(defaultSiteConte
 
   return {
     id: 'legacy-encuentros-model',
-    slug: FALLBACK_ENCOUNTERS_MODEL_SLUG,
+    slug: DEFAULT_ENCUENTROS_MODEL_SLUG,
     displayName,
     status: 'published',
     sortOrder: 0,
@@ -1542,7 +1547,7 @@ function buildFallbackEncounterModel(content = mergeSiteContent(defaultSiteConte
 function normalizeEncounterModelRow(row = {}, fallbackIndex = 0) {
   return {
     id: row.id || `encuentros-model-${fallbackIndex}`,
-    slug: row.slug || `${FALLBACK_ENCOUNTERS_MODEL_SLUG}-${fallbackIndex + 1}`,
+    slug: row.slug || `${DEFAULT_ENCUENTROS_MODEL_SLUG}-${fallbackIndex + 1}`,
     displayName: row.display_name || row.slug || `Modelo ${fallbackIndex + 1}`,
     status: row.status || 'draft',
     sortOrder: Number.isFinite(row.sort_order) ? row.sort_order : fallbackIndex,

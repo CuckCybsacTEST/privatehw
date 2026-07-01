@@ -11,6 +11,7 @@ import { MobileBottomNav } from './components/MobileBottomNav'
 import { HomePage } from './pages/HomePage'
 import { BlogIndexPage } from './pages/BlogIndexPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { resolveEncounterFallbackSlug } from './utils/encuentrosModels'
 const AccessPage = lazy(() => import('./pages/AccessPage').then((module) => ({ default: module.AccessPage })))
 const CheckoutCancelPage = lazy(() =>
   import('./pages/CheckoutCancelPage').then((module) => ({ default: module.CheckoutCancelPage })),
@@ -75,7 +76,7 @@ function EncuentrosLegacyBookingRedirect() {
           return
         }
 
-        const firstPublishedSlug = Array.isArray(models) ? models[0]?.slug : ''
+        const firstPublishedSlug = resolveEncounterFallbackSlug(() => Promise.resolve(models))
         setTargetPath(
           firstPublishedSlug ? `/encuentros/${encodeURIComponent(firstPublishedSlug)}/citas` : '/encuentros',
         )
