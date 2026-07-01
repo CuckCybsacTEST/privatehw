@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1782863350.6459224,
-    "ast_hash": "f0064fb8ff91c7569847743c02c1af75",
+    "mtime": 1782864435.2647555,
+    "ast_hash": "a59f890e3b0f8f5d08a1f8e5d0b57ee7",
     "semantic_hash": ""
   },
   "src/App.jsx": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/lib/supabase.js": {
-    "mtime": 1782862998.0804403,
-    "ast_hash": "0339441d30ce5681a2d2e8cdc465967e",
+    "mtime": 1782864093.3257656,
+    "ast_hash": "bc90f91ac449d357888c04c0d40f633d",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
-    "mtime": 1782686473.8212123,
-    "ast_hash": "32649f8a378cb9556311e7284bb104c7",
+    "mtime": 1782864182.2468991,
+    "ast_hash": "42c8f9b0836fad75d946e11a24e95208",
     "semantic_hash": ""
   },
   "src/pages/AdminLoginPage.jsx": {
@@ -567,6 +567,11 @@
   "src/pages/EncuentrosCatalogPage.jsx": {
     "mtime": 1782863246.4060314,
     "ast_hash": "4e96550a2f67fa81199baa09f79dc9e2",
+    "semantic_hash": ""
+  },
+  "src/components/admin/EncuentrosModelsManager.jsx": {
+    "mtime": 1782864927.7052057,
+    "ast_hash": "fd9620b36ffc89aa23a6fa0baf98113c",
     "semantic_hash": ""
   }
 }

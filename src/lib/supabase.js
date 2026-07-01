@@ -583,6 +583,71 @@ export async function createManualEncuentrosReservation(payload = {}, authToken 
   return data?.order || data || null
 }
 
+async function parseApiJson(response, fallbackMessage) {
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || fallbackMessage)
+  }
+
+  return payload
+}
+
+export async function fetchAdminEncuentrosModels(authToken = '') {
+  const response = await fetch('/api/admin/encuentros/models', {
+    headers: {
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const payload = await parseApiJson(response, 'No se pudieron cargar los modelos de encuentros.')
+
+  return Array.isArray(payload.models) ? payload.models : []
+}
+
+export async function saveAdminEncuentrosModel(model = {}, authToken = '') {
+  const normalizedSlug = String(model.slug || '').trim()
+  const hasExistingSlug = Boolean(model.existingSlug)
+  const method = hasExistingSlug ? 'PATCH' : 'POST'
+  const endpoint = hasExistingSlug
+    ? `/api/admin/encuentros/models/${encodeURIComponent(String(model.existingSlug || '').trim())}`
+    : '/api/admin/encuentros/models'
+
+  const response = await fetch(endpoint, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify({
+      slug: normalizedSlug,
+      displayName: model.displayName || '',
+      status: model.status || 'draft',
+      sortOrder: model.sortOrder || 0,
+      content: model.content && typeof model.content === 'object' ? model.content : {},
+      publishedAt: model.publishedAt || null,
+    }),
+  })
+
+  const payload = await parseApiJson(response, 'No se pudo guardar el modelo de encuentros.')
+
+  return payload.model || null
+}
+
+export async function deleteAdminEncuentrosModel(slug = '', authToken = '') {
+  const normalizedSlug = String(slug || '').trim()
+  const response = await fetch(`/api/admin/encuentros/models/${encodeURIComponent(normalizedSlug)}`, {
+    method: 'DELETE',
+    headers: {
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const payload = await parseApiJson(response, 'No se pudo eliminar el modelo de encuentros.')
+
+  return payload
+}
+
 function normalizeBlogPostRow(row, fallbackIndex = 0) {
   const body = row.body && typeof row.body === 'object' && !Array.isArray(row.body) ? row.body : {}
   const localized = body.localized && typeof body.localized === 'object' ? body.localized : {}

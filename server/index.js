@@ -1565,6 +1565,16 @@ function isMissingEncounterModelsTableError(error) {
   )
 }
 
+function isAuthRequiredError(error) {
+  const message = String(error?.message || '').toLowerCase()
+
+  return (
+    error?.code === 'AUTH_REQUIRED' ||
+    message.includes('iniciar sesion') ||
+    message.includes('sesion actual ya no es valida')
+  )
+}
+
 async function loadEncounterModels({ includeHidden = false } = {}) {
   if (!supabaseAdmin) {
     return [buildFallbackEncounterModel()]
@@ -1650,6 +1660,269 @@ async function loadEncounterModelBySlug(slug = '', { includeHidden = false } = {
     const fallbackModel = buildFallbackEncounterModel()
     return fallbackModel.slug === normalizedSlug ? fallbackModel : null
   }
+}
+
+function slugifyEncounterModelSlug(value = '', fallback = 'encuentros-modelo') {
+  const normalized = String(value || '')
+    .normalize('NFD')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+  return normalized || fallback
+}
+
+function getEncounterModelDisplayName(slug = '') {
+  return String(slug || '')
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+}
+
+function normalizeEncounterModelPayload(payload = {}, existingRow = null, adminProfile = null) {
+  const existingContent = existingRow?.content && typeof existingRow.content === 'object' ? existingRow.content : {}
+  const incomingContent = payload.content && typeof payload.content === 'object' ? payload.content : {}
+  const slug = slugifyEncounterModelSlug(payload.slug || existingRow?.slug || '')
+  const displayName =
+    String(payload.displayName || payload.display_name || existingRow?.display_name || '').trim() ||
+    getEncounterModelDisplayName(slug)
+  const status = ['draft', 'published', 'suspended'].includes(payload.status)
+    ? payload.status
+    : existingRow?.status || 'draft'
+  const sortOrderValue = Number.parseInt(
+    String(payload.sortOrder ?? payload.sort_order ?? existingRow?.sort_order ?? '0'),
+    10,
+  )
+  const sortOrder = Number.isFinite(sortOrderValue) ? sortOrderValue : 0
+  const publishedAt =
+    status === 'published'
+      ? payload.publishedAt || existingRow?.published_at || new Date().toISOString()
+      : payload.publishedAt !== undefined
+        ? payload.publishedAt || null
+        : existingRow?.published_at || null
+
+  return {
+    slug,
+    display_name: displayName,
+    status,
+    sort_order: sortOrder,
+    content: mergeSiteContent({
+      ...existingContent,
+      ...incomingContent,
+    }),
+    published_at: publishedAt,
+    deleted_at: null,
+    created_by: existingRow?.created_by || adminProfile?.id || null,
+    updated_by: adminProfile?.id || existingRow?.updated_by || null,
+  }
+}
+
+async function deleteEncounterReservationHistoryByModelSlug(slug = '') {
+  const normalizedSlug = String(slug || '').trim()
+
+  if (!normalizedSlug || !supabaseAdmin) {
+    return { ordersDeleted: 0, orderItemsDeleted: 0, entitlementsDeleted: 0 }
+  }
+
+  const reservationProductSlug = `reservation-${normalizedSlug}`
+  const reservationRequestPrefix = `manual-reservation-${normalizedSlug}-`
+
+  const { data: orders, error: ordersError } = await supabaseAdmin
+    .from('orders')
+    .select('id, provider_order_id, metadata')
+    .eq('provider', 'manual')
+
+  if (ordersError) {
+    throw new Error(ordersError.message || 'No se pudo limpiar el historial de reservas.')
+  }
+
+  const reservationOrders = (orders || []).filter((order) => {
+    const metadata = order.metadata || {}
+    const providerOrderId = String(order.provider_order_id || '')
+
+    return (
+      providerOrderId.startsWith(reservationRequestPrefix) ||
+      metadata.modelSlug === normalizedSlug ||
+      metadata.productSlug === reservationProductSlug ||
+      metadata.checkoutType === 'reservation'
+    )
+  })
+
+  const reservationOrderIds = reservationOrders.map((order) => order.id).filter(Boolean)
+
+  if (!reservationOrderIds.length) {
+    return { ordersDeleted: 0, orderItemsDeleted: 0, entitlementsDeleted: 0 }
+  }
+
+  const [orderItemsResult, entitlementsResult, ordersResult] = await Promise.all([
+    supabaseAdmin.from('order_items').delete().in('order_id', reservationOrderIds),
+    supabaseAdmin.from('entitlements').delete().in('source_order_id', reservationOrderIds),
+    supabaseAdmin.from('orders').delete().in('id', reservationOrderIds),
+  ])
+
+  const firstError =
+    orderItemsResult.error || entitlementsResult.error || ordersResult.error || null
+
+  if (firstError) {
+    throw new Error(firstError.message || 'No se pudo limpiar el historial de reservas.')
+  }
+
+  return {
+    ordersDeleted: reservationOrderIds.length,
+    orderItemsDeleted: reservationOrderIds.length,
+    entitlementsDeleted: reservationOrderIds.length,
+  }
+}
+
+async function createEncounterModel(payload = {}, adminProfile) {
+  assertServerConfig()
+
+  const normalizedSlug = slugifyEncounterModelSlug(payload.slug || '')
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from('encuentros_models')
+    .select('id')
+    .eq('slug', normalizedSlug)
+    .maybeSingle()
+
+  if (existingError) {
+    throw new Error(existingError.message || 'No se pudo verificar el slug del modelo.')
+  }
+
+  if (existing) {
+    const error = new Error('Ya existe un modelo con ese slug.')
+    error.code = 'MODEL_EXISTS'
+    throw error
+  }
+
+  const record = normalizeEncounterModelPayload(
+    {
+      ...payload,
+      slug: normalizedSlug,
+    },
+    null,
+    adminProfile,
+  )
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_models')
+    .insert(record)
+    .select(
+      'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at',
+    )
+    .single()
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo crear el modelo de encuentros.')
+  }
+
+  return normalizeEncounterModelRow(data)
+}
+
+async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
+  assertServerConfig()
+
+  const normalizedSlug = slugifyEncounterModelSlug(slug)
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from('encuentros_models')
+    .select(
+      'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at, created_by, updated_by',
+    )
+    .eq('slug', normalizedSlug)
+    .maybeSingle()
+
+  if (existingError) {
+    throw new Error(existingError.message || 'No se pudo leer el modelo a actualizar.')
+  }
+
+  if (!existing) {
+    const error = new Error('El modelo solicitado no existe.')
+    error.code = 'MODEL_NOT_FOUND'
+    throw error
+  }
+
+  const nextRecord = normalizeEncounterModelPayload(payload, existing, adminProfile)
+
+  if (nextRecord.slug !== existing.slug) {
+    const { data: slugConflict, error: slugConflictError } = await supabaseAdmin
+      .from('encuentros_models')
+      .select('id')
+      .eq('slug', nextRecord.slug)
+      .maybeSingle()
+
+    if (slugConflictError) {
+      throw new Error(slugConflictError.message || 'No se pudo verificar el nuevo slug.')
+    }
+
+    if (slugConflict && slugConflict.id !== existing.id) {
+      const error = new Error('Ya existe otro modelo con el nuevo slug.')
+      error.code = 'MODEL_EXISTS'
+      throw error
+    }
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_models')
+    .update(nextRecord)
+    .eq('id', existing.id)
+    .select(
+      'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at',
+    )
+    .single()
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo actualizar el modelo de encuentros.')
+  }
+
+  return normalizeEncounterModelRow(data)
+}
+
+async function deleteEncounterModel(slug = '', adminProfile) {
+  assertServerConfig()
+
+  const normalizedSlug = slugifyEncounterModelSlug(slug)
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from('encuentros_models')
+    .select('id, slug')
+    .eq('slug', normalizedSlug)
+    .maybeSingle()
+
+  if (existingError) {
+    throw new Error(existingError.message || 'No se pudo verificar el modelo a eliminar.')
+  }
+
+  if (!existing) {
+    const error = new Error('El modelo solicitado no existe.')
+    error.code = 'MODEL_NOT_FOUND'
+    throw error
+  }
+
+  const cleanupResult = await deleteEncounterReservationHistoryByModelSlug(normalizedSlug)
+
+  const { error } = await supabaseAdmin.from('encuentros_models').delete().eq('id', existing.id)
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo eliminar el modelo de encuentros.')
+  }
+
+  await logAdminAuditEvent({
+    eventType: 'encuentros_model_deleted',
+    actorProfile: adminProfile,
+    targetUserId: null,
+    entityType: 'encuentros_model',
+    entityId: existing.id,
+    payload: {
+      slug: normalizedSlug,
+      cleanupResult,
+    },
+  })
+
+  return { deleted: true, cleanupResult }
 }
 
 function normalizeBlogPostRow(row, fallbackIndex = 0) {
@@ -2070,7 +2343,8 @@ app.get('/api/encuentros/models', async (_req, res) => {
       models,
     })
   } catch (error) {
-    res.status(500).json({
+    const status = isAuthRequiredError(error) ? 401 : 500
+    res.status(status).json({
       error: error.message || 'No se pudieron cargar los modelos de encuentros.',
     })
   }
@@ -2575,6 +2849,170 @@ app.post('/api/admin/users/:userId/subscription', async (req, res) => {
   } catch (error) {
     const status = error.code === 'PLAN_NOT_FOUND' ? 404 : error.code === 'BAD_REQUEST' ? 400 : 500
     res.status(status).json({ error: error.message || 'No se pudo actualizar la suscripcion.' })
+  }
+})
+
+app.get('/api/admin/encuentros/models', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const authHeader = req.headers.authorization || ''
+    if (!authHeader) {
+      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+      return
+    }
+
+    const { profile } = await getAuthenticatedUser(authHeader, {
+      requireStripe: false,
+    })
+
+    if (profile.role !== 'admin') {
+      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+      return
+    }
+
+    const models = await loadEncounterModels({ includeHidden: true })
+
+    res.json({
+      ok: true,
+      models,
+      fallback: Boolean(models?.[0]?.isFallback),
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || 'No se pudieron cargar los modelos de encuentros.',
+    })
+  }
+})
+
+app.post('/api/admin/encuentros/models', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const authHeader = req.headers.authorization || ''
+    if (!authHeader) {
+      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+      return
+    }
+
+    const { profile } = await getAuthenticatedUser(authHeader, {
+      requireStripe: false,
+    })
+
+    if (profile.role !== 'admin') {
+      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+      return
+    }
+
+    const model = await createEncounterModel(req.body || {}, profile)
+
+    res.json({
+      ok: true,
+      model,
+    })
+  } catch (error) {
+    const status =
+      isAuthRequiredError(error)
+        ? 401
+        : error.code === 'BAD_REQUEST'
+        ? 400
+        : error.code === 'MODEL_EXISTS'
+          ? 409
+          : isMissingEncounterModelsTableError(error)
+            ? 503
+            : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo crear el modelo de encuentros.',
+      code: error.code || 'MODEL_ERROR',
+    })
+  }
+})
+
+app.patch('/api/admin/encuentros/models/:slug', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const authHeader = req.headers.authorization || ''
+    if (!authHeader) {
+      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+      return
+    }
+
+    const { profile } = await getAuthenticatedUser(authHeader, {
+      requireStripe: false,
+    })
+
+    if (profile.role !== 'admin') {
+      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+      return
+    }
+
+    const model = await updateEncounterModel(req.params.slug, req.body || {}, profile)
+
+    res.json({
+      ok: true,
+      model,
+    })
+  } catch (error) {
+    const status =
+      isAuthRequiredError(error)
+        ? 401
+        : error.code === 'BAD_REQUEST'
+        ? 400
+        : error.code === 'MODEL_NOT_FOUND'
+          ? 404
+          : error.code === 'MODEL_EXISTS'
+            ? 409
+            : isMissingEncounterModelsTableError(error)
+              ? 503
+              : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo actualizar el modelo de encuentros.',
+      code: error.code || 'MODEL_ERROR',
+    })
+  }
+})
+
+app.delete('/api/admin/encuentros/models/:slug', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const authHeader = req.headers.authorization || ''
+    if (!authHeader) {
+      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+      return
+    }
+
+    const { profile } = await getAuthenticatedUser(authHeader, {
+      requireStripe: false,
+    })
+
+    if (profile.role !== 'admin') {
+      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+      return
+    }
+
+    const result = await deleteEncounterModel(req.params.slug, profile)
+
+    res.json({
+      ok: true,
+      ...result,
+    })
+  } catch (error) {
+    const status =
+      isAuthRequiredError(error)
+        ? 401
+        : error.code === 'BAD_REQUEST'
+        ? 400
+        : error.code === 'MODEL_NOT_FOUND'
+          ? 404
+          : isMissingEncounterModelsTableError(error)
+            ? 503
+            : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo eliminar el modelo de encuentros.',
+      code: error.code || 'MODEL_ERROR',
+    })
   }
 })
 

@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BlogManager } from '../components/admin/BlogManager'
+import { EncuentrosModelsManager } from '../components/admin/EncuentrosModelsManager'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { defaultSiteContent, mergeSiteContent } from '../data/defaultSiteContent'
 import { translateAdminContent } from '../lib/supabase'
@@ -1648,6 +1649,7 @@ function ContentEditor() {
     ['overview', t('admin.content.encuentrosOverviewTab')],
     ['booking', t('admin.content.encuentrosBookingTab')],
     ['media', t('admin.content.encuentrosMediaTab')],
+    ['models', 'Modelos'],
   ]
 
   const globalSubtabs = [
@@ -2912,6 +2914,8 @@ function ContentEditor() {
                 </div>
               </div>
             ) : null}
+
+            {activeEncuentrosSection === 'models' ? <EncuentrosModelsManager /> : null}
           </SectionPanel>
         ) : null}
 
