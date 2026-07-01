@@ -43,8 +43,11 @@ If your dashboard still shows legacy keys, `VITE_SUPABASE_ANON_KEY` also works, 
 5. In Supabase SQL Editor, run [`supabase/schema.sql`](/D:/PROJECTS/supabase/schema.sql).
 6. Then run [`supabase/policies.sql`](/D:/PROJECTS/supabase/policies.sql).
 7. In `Authentication -> Sign In / Providers`, enable Email provider.
-8. Create your first admin user from `Authentication -> Users`.
-9. In SQL Editor, promote that user to admin:
+8. In `Authentication -> URL Configuration`, make sure:
+   - `Site URL` points to your production domain, not `localhost:3000`
+   - `Redirect URLs` includes your production domain and `http://localhost:5173/access`
+9. Create your first admin user from `Authentication -> Users`.
+10. In SQL Editor, promote that user to admin:
 
 ```sql
 update public.profiles
@@ -52,7 +55,7 @@ set role = 'admin'
 where email = 'YOUR_ADMIN_EMAIL';
 ```
 
-10. Restart dev server:
+11. Restart dev server:
 
 ```powershell
 npm run dev

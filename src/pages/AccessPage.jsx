@@ -13,7 +13,6 @@ export function AccessPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/'
-  const isOAuthCallback = searchParams.get('oauth') === '1'
   const {
     isSupabaseConfigured,
     session,
@@ -27,7 +26,7 @@ export function AccessPage() {
   const [telegramOpen, setTelegramOpen] = useState(false)
   const { t } = useTranslation()
   const telegramBotUsername = readClientEnv('VITE_TELEGRAM_BOT_USERNAME')
-  const postAuthTarget = isOAuthCallback ? '/' : redirectTo && redirectTo !== '/access' ? redirectTo : '/'
+  const postAuthTarget = redirectTo && redirectTo !== '/access' ? redirectTo : '/'
 
   if (session) {
     return <Navigate to={postAuthTarget} replace />
@@ -40,7 +39,7 @@ export function AccessPage() {
     setActiveOAuthProvider(provider)
 
     try {
-      await loginMemberWithOAuth(provider, '/')
+      await loginMemberWithOAuth(provider, redirectTo || '/')
     } catch (nextError) {
       setError(nextError.message || t('access.oauthError'))
     } finally {
