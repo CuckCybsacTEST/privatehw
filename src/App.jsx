@@ -1,10 +1,11 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AppProvider, useAppState } from './state/AppState'
 import { AgeVerificationGate } from './components/AgeVerificationGate'
 import { LanguageSync } from './components/LanguageSync'
 import { AppLoader } from './components/AppLoader'
+import { fetchEncuentrosModels } from './lib/supabase'
 import { HomePreviewTopBar } from './components/HomePreviewTopBar'
 import { MobileBottomNav } from './components/MobileBottomNav'
 import { HomePage } from './pages/HomePage'
@@ -60,6 +61,42 @@ const AdminLoginPage = lazy(() =>
     default: module.AdminLoginPage,
   })),
 )
+
+function EncuentrosLegacyBookingRedirect() {
+  const { t } = useTranslation()
+  const [targetPath, setTargetPath] = useState('')
+
+  useEffect(() => {
+    let isCancelled = false
+
+    fetchEncuentrosModels()
+      .then((models) => {
+        if (isCancelled) {
+          return
+        }
+
+        const firstPublishedSlug = Array.isArray(models) ? models[0]?.slug : ''
+        setTargetPath(
+          firstPublishedSlug ? `/encuentros/${encodeURIComponent(firstPublishedSlug)}/citas` : '/encuentros',
+        )
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setTargetPath('/encuentros')
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [])
+
+  if (targetPath) {
+    return <Navigate to={targetPath} replace />
+  }
+
+  return <AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />
+}
 
 function ProtectedAdminRoute() {
   const { isBootstrapping, session } = useAppState()
@@ -121,12 +158,12 @@ function AppRoutes() {
         <Route path="/encuentros" element={<EncuentrosCatalogPage />} />
         <Route path="/encuentros/:slug" element={<EncuentrosPage />} />
         <Route path="/encuentros/:slug/citas" element={<EncuentrosCitasPage />} />
-        <Route path="/encuentros/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
+        <Route path="/encuentros/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/encuentros/encuentros" element={<Navigate to="/encuentros" replace />} />
-        <Route path="/encuentros/citas/encuentros" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
-        <Route path="/encuentros/citas/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
+        <Route path="/encuentros/citas/encuentros" element={<EncuentrosLegacyBookingRedirect />} />
+        <Route path="/encuentros/citas/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/encuentross" element={<Navigate to="/encuentros" replace />} />
-        <Route path="/encuentross/citas" element={<Navigate to="/encuentros/sindy-mireya/citas" replace />} />
+        <Route path="/encuentross/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/videos" element={<VideoCatalogPage />} />
