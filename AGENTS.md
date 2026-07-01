@@ -77,3 +77,25 @@ Rules:
 - Read `graphify-out/GRAPH_REPORT.md` only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `python -m graphify update .` to keep the graph current when the command is available in this environment.
 - On this machine, prefer `python -m graphify ...` if the `graphify` console script is not available on `PATH`.
+
+## Ponytail
+
+This repo also follows a repo-local Ponytail rule set for coding tasks.
+
+Before writing code, stop at the first rung that holds:
+
+1. Does this need to exist at all? If not, skip it.
+2. Does this already exist in the codebase? Reuse it.
+3. Does the standard library already do it? Use it.
+4. Does a native platform feature cover it? Use it.
+5. Does an already-installed dependency solve it? Use it.
+6. Can it be one line? Make it one line.
+7. Only then write the minimum code that works.
+
+Working rules:
+
+- Prefer deletion over addition.
+- Avoid new abstractions, scaffolding, and dependencies unless they are explicitly needed.
+- Fix the shared root cause, not a single caller.
+- Mark deliberate simplifications with a short `ponytail:` comment when the ceiling matters.
+- Keep the smallest runnable check for non-trivial logic.
