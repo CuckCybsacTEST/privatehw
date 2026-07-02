@@ -1647,9 +1647,9 @@ function ContentEditor() {
 
   const encuentrosSubtabs = [
     ['overview', t('admin.content.encuentrosOverviewTab')],
+    ['models', 'Modelos'],
     ['booking', t('admin.content.encuentrosBookingTab')],
     ['media', t('admin.content.encuentrosMediaTab')],
-    ['models', 'Modelos'],
   ]
 
   const globalSubtabs = [
@@ -2745,6 +2745,12 @@ function ContentEditor() {
             {activeEncuentrosSection === 'booking' ? (
               <div className="admin-encuentros-layout">
                 <div className="admin-encuentros-main">
+                  <div className="admin-hint">
+                    <p>
+                      Este bloque queda como respaldo global. La agenda, el precio, el adelanto y la
+                      grabacion se configuran por modelo en la pestaña Modelos.
+                    </p>
+                  </div>
                   <DateRepeaterField
                     label={t('admin.content.bookingDates')}
                     hint={t('admin.content.bookingDatesHint')}
@@ -3694,6 +3700,10 @@ function ReservationOrdersEditor() {
                 <div className="admin-user-copy">
                   <h3>{guestName}</h3>
                   <p>{reservationDate || t('encuentros.noDateSelected')} · {reservationTime || t('encuentros.noTimeSelected')}</p>
+                  <p className="admin-note">
+                    Modelo <strong>{metadata.modelName || metadata.modelSlug || 'Modelo sin nombre'}</strong>
+                    {metadata.modelSlug ? ` · /encuentros/${metadata.modelSlug}` : ''}
+                  </p>
                   <p className="admin-note">
                     {t('admin.encounters.manualPayment')} <strong>{paymentMethod}</strong>
                     {' · '}

@@ -14233,3 +14233,412 @@ button {
     display: none;
   }
 }
+
+.encuentros-catalog-page {
+  min-height: 100vh;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  padding-bottom: calc(var(--mobile-bottom-nav-offset, 112px) + 1.5rem);
+  background:
+    radial-gradient(circle at top left, rgba(138, 0, 34, 0.28), transparent 30%),
+    radial-gradient(circle at top right, rgba(255, 138, 42, 0.12), transparent 26%),
+    linear-gradient(180deg, #090607 0%, #12080b 50%, #070506 100%);
+  color: var(--color-text-primary);
+}
+
+.encuentros-catalog-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.encuentros-catalog-header {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.25rem 0 0.1rem;
+}
+
+.encuentros-catalog-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  min-height: 28px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(28, 13, 18, 0.78);
+  border: 1px solid rgba(209, 31, 66, 0.2);
+  color: var(--color-warning);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+}
+
+.encuentros-catalog-kicker svg {
+  flex: 0 0 auto;
+}
+
+.encuentros-catalog-header h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.encuentros-catalog-header p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.encuentros-catalog-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.encuentros-catalog-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(66, 33, 45, 0.72);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(209, 31, 66, 0.16), transparent 22%),
+    radial-gradient(circle at 92% 0%, rgba(255, 138, 42, 0.08), transparent 20%),
+    linear-gradient(180deg, rgba(18, 10, 14, 0.98), rgba(8, 5, 8, 0.96));
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px);
+}
+
+.encuentros-catalog-card-media {
+  position: relative;
+  flex: 0 0 230px;
+  width: 38%;
+  min-width: 230px;
+  min-height: 220px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(42, 24, 30, 0.92), rgba(18, 10, 14, 0.92));
+}
+
+.encuentros-catalog-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.encuentros-catalog-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.26)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 35%, transparent 70%, rgba(209, 31, 66, 0.14));
+  pointer-events: none;
+}
+
+.encuentros-catalog-card-empty {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 138, 42, 0.75);
+  font-size: 2rem;
+}
+
+.encuentros-catalog-card-photo-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  min-height: 26px;
+  padding: 0.26rem 0.56rem;
+  border-radius: 999px;
+  background: rgba(11, 7, 9, 0.82);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.encuentros-catalog-card-photo-badge svg {
+  font-size: 0.9rem;
+}
+
+.encuentros-catalog-card-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 16px;
+  padding-right: 3.15rem;
+  color: var(--color-text-primary);
+}
+
+.encuentros-catalog-card-top-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  min-height: 26px;
+  padding: 0.24rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(194, 24, 91, 0.14);
+  border: 1px solid rgba(242, 180, 106, 0.2);
+  color: var(--color-warning);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.encuentros-catalog-card-top-badge svg {
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+}
+
+.encuentros-catalog-card-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.encuentros-catalog-card-title {
+  margin: 0;
+  padding-right: 1rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-primary-hover);
+}
+
+.encuentros-catalog-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.encuentros-catalog-card-title a:hover {
+  text-decoration: underline;
+}
+
+.encuentros-catalog-card-description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.encuentros-catalog-card-facts {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.encuentros-catalog-card-meta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46rem;
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.encuentros-catalog-card-meta-row svg {
+  flex: 0 0 auto;
+  color: var(--color-accent-fire);
+  font-size: 0.95rem;
+}
+
+.encuentros-catalog-card-meta-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.encuentros-catalog-card-actions {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+}
+
+.encuentros-catalog-card-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  min-height: 40px;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary-hover), #a2133e);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(194, 24, 91, 0.28);
+}
+
+.encuentros-catalog-card-button:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+}
+
+.encuentros-catalog-card-button svg {
+  font-size: 0.95rem;
+}
+
+.encuentros-catalog-card,
+.encuentros-catalog-card-media,
+.encuentros-catalog-card-button {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    filter 160ms ease;
+}
+
+.encuentros-catalog-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.38);
+}
+
+.encuentros-catalog-card:focus-within {
+  border-color: rgba(242, 180, 106, 0.28);
+  box-shadow: 0 18px 38px rgba(194, 24, 91, 0.18);
+}
+
+.encuentros-catalog-card:focus-within .encuentros-catalog-card-button {
+  box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.18), 0 10px 20px rgba(194, 24, 91, 0.18);
+}
+
+.encuentros-catalog-state {
+  display: grid;
+}
+
+.encuentros-catalog-state-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(209, 31, 66, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(18, 10, 14, 0.98), rgba(8, 5, 8, 0.96));
+  border: 1px solid rgba(66, 33, 45, 0.72);
+  box-shadow: var(--shadow-lg);
+}
+
+.encuentros-catalog-state-card.is-loading {
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.encuentros-catalog-state-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.encuentros-catalog-state-copy {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.encuentros-catalog-state-button {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary-hover), #a2133e);
+  color: #fff;
+  font-weight: 700;
+}
+
+.encuentros-catalog-skeleton-media {
+  width: 100%;
+  min-height: 220px;
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(235, 229, 232, 0.9), rgba(248, 244, 246, 0.95), rgba(235, 229, 232, 0.9));
+  background-size: 200% 100%;
+  animation: encuentros-catalog-skeleton 1.35s ease-in-out infinite;
+}
+
+.encuentros-catalog-skeleton-copy {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.encuentros-catalog-skeleton-line {
+  height: 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(235, 229, 232, 0.9), rgba(248, 244, 246, 0.95), rgba(235, 229, 232, 0.9));
+  background-size: 200% 100%;
+  animation: encuentros-catalog-skeleton 1.35s ease-in-out infinite;
+}
+
+.encuentros-catalog-skeleton-line.is-title {
+  width: min(72%, 320px);
+  height: 20px;
+}
+
+.encuentros-catalog-skeleton-line.is-short {
+  width: min(48%, 220px);
+}
+
+@keyframes encuentros-catalog-skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .encuentros-catalog-card {
+    flex-direction: row;
+    min-height: 184px;
+  }
+
+  .encuentros-catalog-card-media {
+    flex: 0 0 38%;
+    width: 38%;
+    min-width: 132px;
+    min-height: 184px;
+  }
+
+  .encuentros-catalog-card-body {
+    padding: 14px 14px 14px 12px;
+    padding-right: 2.5rem;
+    gap: 0.6rem;
+  }
+
+  .encuentros-catalog-card-top-badge {
+    top: 10px;
+    right: 10px;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .encuentros-catalog-state-card.is-loading {
+    grid-template-columns: 132px 1fr;
+  }
+}

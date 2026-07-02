@@ -35,9 +35,23 @@ export function buildFutureBookingDays(totalDays = 14) {
 }
 
 export function buildBookingDays(booking = {}) {
+  const availabilityMode = String(
+    booking.availabilityMode || booking.bookingAvailabilityMode || '',
+  )
+    .trim()
+    .toLowerCase()
   const configuredDates = Array.isArray(booking.availableDates)
     ? booking.availableDates.map(normalizeDateValue).filter(Boolean)
     : []
+
+  if (availabilityMode === 'manual' || availabilityMode === 'custom') {
+    return configuredDates
+      .sort((left, right) => left.localeCompare(right))
+      .map((value) => ({
+        value,
+        date: new Date(`${value}T00:00:00`),
+      }))
+  }
 
   if (configuredDates.length > 0) {
     return configuredDates

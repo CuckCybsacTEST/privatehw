@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "src/data/defaultSiteContent.js": {
-    "mtime": 1782785207.257184,
-    "ast_hash": "28a3274709ee53545672673ea13ed1e2",
+    "mtime": 1782952810.3048701,
+    "ast_hash": "2beab7dda916760d65266f3f070ac498",
     "semantic_hash": ""
   },
   "src/data/defaultUsers.js": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
-    "mtime": 1782864182.2468991,
-    "ast_hash": "42c8f9b0836fad75d946e11a24e95208",
+    "mtime": 1782953642.6085067,
+    "ast_hash": "41fc9c2bc094a57cc0ec606fa785fb3f",
     "semantic_hash": ""
   },
   "src/pages/AdminLoginPage.jsx": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosPage.jsx": {
-    "mtime": 1782865525.855088,
-    "ast_hash": "c1af5e712684ea155e484cfb5ddefd4e",
+    "mtime": 1782949522.523131,
+    "ast_hash": "af418bbb6bdad5b688a004e8c51b1237",
     "semantic_hash": ""
   },
   "src/pages/FreeContentPage.jsx": {
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
-    "mtime": 1782686390.57814,
-    "ast_hash": "3e0f0e826b0d0fd9ae8164f11635b69d",
+    "mtime": 1782952819.6805062,
+    "ast_hash": "7c1e3d8f8f240065a666f18459522120",
     "semantic_hash": ""
   },
   "src/utils/encuentrosGallery.js": {
-    "mtime": 1782595369.47433,
-    "ast_hash": "a0c1b55e32207e2e1b9afb3c27177dce",
+    "mtime": 1782949522.5271306,
+    "ast_hash": "95a4aedd92663327c477a435b04dfbae",
     "semantic_hash": ""
   },
   "src/utils/encuentrosGalleryReactions.js": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1781129055.4078727,
-    "ast_hash": "c2e75f710f420e1cacb1255734ada21c",
+    "mtime": 1782946943.2978997,
+    "ast_hash": "150b849dbd2e6a9f7064bd5bee6b4a3b",
     "semantic_hash": ""
   },
   "DESIGN.md": {
@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "docs/supabase-setup.md": {
-    "mtime": 1773079887.9429488,
-    "ast_hash": "40147c4a73fa96c5bb769aa201806964",
+    "mtime": 1782872365.802224,
+    "ast_hash": "a3ca447f020fdeced5eca88815f77d28",
     "semantic_hash": ""
   },
   "index.html": {
@@ -565,18 +565,98 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosCatalogPage.jsx": {
-    "mtime": 1782863246.4060314,
-    "ast_hash": "4e96550a2f67fa81199baa09f79dc9e2",
+    "mtime": 1782950129.6581204,
+    "ast_hash": "7dbf83a57b5078abc0cde346dddabe06",
     "semantic_hash": ""
   },
   "src/components/admin/EncuentrosModelsManager.jsx": {
-    "mtime": 1782864927.7052057,
-    "ast_hash": "fd9620b36ffc89aa23a6fa0baf98113c",
+    "mtime": 1782953575.7577226,
+    "ast_hash": "0f24720be8e79afbb13f808414dc5198",
     "semantic_hash": ""
   },
   "src/utils/encuentrosModels.js": {
     "mtime": 1782865488.6243193,
     "ast_hash": "a232431fe098644bbfd6e20fce8815a3",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/claude-codex-hooks.json": {
+    "mtime": 1782947004.5494268,
+    "ast_hash": "65f30af93bee8135dbd6a8d345860d9d",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-activate.js": {
+    "mtime": 1782947004.5494268,
+    "ast_hash": "7c238772e8f8fbf4176fd8e2e1c4a526",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-config.js": {
+    "mtime": 1782947004.551432,
+    "ast_hash": "4dd63aa07c39321692720321acc58d7d",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-instructions.js": {
+    "mtime": 1782947004.551432,
+    "ast_hash": "6eb8365a31cc1aaba94656026ef0efda",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-mode-tracker.js": {
+    "mtime": 1782947004.551432,
+    "ast_hash": "2bddd73932cd0b5024de4a4a719a7747",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-runtime.js": {
+    "mtime": 1782947004.551432,
+    "ast_hash": "5981148fe768449516487e0b660fa0a1",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/hooks/ponytail-subagent.js": {
+    "mtime": 1782947004.552937,
+    "ast_hash": "b86bae190f0723782fa17cb6df04d1b3",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/package.json": {
+    "mtime": 1782949733.370229,
+    "ast_hash": "df9ffc6aa3f78a5491736d441c4258a8",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/plugin.json": {
+    "mtime": 1782947004.516244,
+    "ast_hash": "91ef88d2bbc3774e26c8742c7296d152",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail-audit/SKILL.md": {
+    "mtime": 1782947004.5571027,
+    "ast_hash": "741076540e91247a0bace7b89c27ac6b",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail-debt/SKILL.md": {
+    "mtime": 1782947004.5571027,
+    "ast_hash": "19c1eef33c9b109abb5805a762a545c8",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail-gain/SKILL.md": {
+    "mtime": 1782947004.5571027,
+    "ast_hash": "8f9cd980326238785d2fc23a9cfddc96",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail-help/SKILL.md": {
+    "mtime": 1782947004.5571027,
+    "ast_hash": "1249040527776216867a9f422d9f51e4",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail-review/SKILL.md": {
+    "mtime": 1782947004.5591078,
+    "ast_hash": "52f93e973047baa9a906c6dc5879a4a6",
+    "semantic_hash": ""
+  },
+  ".codex-plugin/skills/ponytail/SKILL.md": {
+    "mtime": 1782947004.5591078,
+    "ast_hash": "da30dbd1685331ca3501e38f68942dba",
+    "semantic_hash": ""
+  },
+  ".tmp-encuentros-dark-mobile.png": {
+    "mtime": 1782950520.2938585,
+    "ast_hash": "7f748361abfc91aa3f0cee50b1a7d1f5",
     "semantic_hash": ""
   }
 }

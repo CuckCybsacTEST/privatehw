@@ -4,6 +4,566 @@
   "graph": {},
   "nodes": [
     {
+      "label": "ponytail-activate.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate",
+      "community": 30,
+      "norm_label": "ponytail-activate.js"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_fs",
+      "community": 30,
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_path",
+      "community": 30,
+      "norm_label": "path"
+    },
+    {
+      "label": "{ getDefaultMode, getClaudeDir, isShellSafe }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_getdefaultmode_getclaudedir_isshellsafe",
+      "community": 30,
+      "norm_label": "{ getdefaultmode, getclaudedir, isshellsafe }"
+    },
+    {
+      "label": "{ getPonytailInstructions }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_getponytailinstructions",
+      "community": 30,
+      "norm_label": "{ getponytailinstructions }"
+    },
+    {
+      "label": "{\r\n  clearMode,\r\n  isCodex,\r\n  isCopilot,\r\n  setMode,\r\n  writeHookOutput,\r\n}",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_clearmode_iscodex_iscopilot_setmode_writehookoutput",
+      "community": 30,
+      "norm_label": "{\r\n  clearmode,\r\n  iscodex,\r\n  iscopilot,\r\n  setmode,\r\n  writehookoutput,\r\n}"
+    },
+    {
+      "label": "claudeDir",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_claudedir",
+      "community": 30,
+      "norm_label": "claudedir"
+    },
+    {
+      "label": "settingsPath",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_settingspath",
+      "community": 30,
+      "norm_label": "settingspath"
+    },
+    {
+      "label": "mode",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_mode",
+      "community": 30,
+      "norm_label": "mode"
+    },
+    {
+      "label": "output",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "hooks_ponytail_activate_output",
+      "community": 30,
+      "norm_label": "output"
+    },
+    {
+      "label": "ponytail-config.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config",
+      "community": 30,
+      "norm_label": "ponytail-config.js"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_fs",
+      "community": 30,
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_path",
+      "community": 30,
+      "norm_label": "path"
+    },
+    {
+      "label": "os",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_os",
+      "community": 30,
+      "norm_label": "os"
+    },
+    {
+      "label": "VALID_MODES",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_valid_modes",
+      "community": 30,
+      "norm_label": "valid_modes"
+    },
+    {
+      "label": "RUNTIME_MODES",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_runtime_modes",
+      "community": 30,
+      "norm_label": "runtime_modes"
+    },
+    {
+      "label": "normalizeMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_normalizemode",
+      "community": 30,
+      "norm_label": "normalizemode()"
+    },
+    {
+      "label": "normalizeConfigMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_normalizeconfigmode",
+      "community": 30,
+      "norm_label": "normalizeconfigmode()"
+    },
+    {
+      "label": "normalizePersistedMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_normalizepersistedmode",
+      "community": 30,
+      "norm_label": "normalizepersistedmode()"
+    },
+    {
+      "label": "isDeactivationCommand()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_isdeactivationcommand",
+      "community": 30,
+      "norm_label": "isdeactivationcommand()"
+    },
+    {
+      "label": "isShellSafe()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_isshellsafe",
+      "community": 30,
+      "norm_label": "isshellsafe()"
+    },
+    {
+      "label": "getConfigDir()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_getconfigdir",
+      "community": 30,
+      "norm_label": "getconfigdir()"
+    },
+    {
+      "label": "getConfigPath()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_getconfigpath",
+      "community": 30,
+      "norm_label": "getconfigpath()"
+    },
+    {
+      "label": "getClaudeDir()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_getclaudedir",
+      "community": 30,
+      "norm_label": "getclaudedir()"
+    },
+    {
+      "label": "getDefaultMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L76",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_getdefaultmode",
+      "community": 30,
+      "norm_label": "getdefaultmode()"
+    },
+    {
+      "label": "writeDefaultMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "hooks_ponytail_config_writedefaultmode",
+      "community": 30,
+      "norm_label": "writedefaultmode()"
+    },
+    {
+      "label": "ponytail-instructions.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions",
+      "community": 30,
+      "norm_label": "ponytail-instructions.js"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_fs",
+      "community": 30,
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_path",
+      "community": 30,
+      "norm_label": "path"
+    },
+    {
+      "label": "{ DEFAULT_MODE, normalizeMode, normalizePersistedMode }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_default_mode_normalizemode_normalizepersistedmode",
+      "community": 30,
+      "norm_label": "{ default_mode, normalizemode, normalizepersistedmode }"
+    },
+    {
+      "label": "INDEPENDENT_MODES",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_independent_modes",
+      "community": 30,
+      "norm_label": "independent_modes"
+    },
+    {
+      "label": "SKILL_PATH",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_skill_path",
+      "community": 30,
+      "norm_label": "skill_path"
+    },
+    {
+      "label": "filterSkillBodyForMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_filterskillbodyformode",
+      "community": 30,
+      "norm_label": "filterskillbodyformode()"
+    },
+    {
+      "label": "getFallbackInstructions()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_getfallbackinstructions",
+      "community": 30,
+      "norm_label": "getfallbackinstructions()"
+    },
+    {
+      "label": "getPonytailInstructions()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "hooks_ponytail_instructions_getponytailinstructions",
+      "community": 30,
+      "norm_label": "getponytailinstructions()"
+    },
+    {
+      "label": "ponytail-mode-tracker.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_mode_tracker",
+      "community": 30,
+      "norm_label": "ponytail-mode-tracker.js"
+    },
+    {
+      "label": "{ getDefaultMode, isDeactivationCommand }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "hooks_ponytail_mode_tracker_getdefaultmode_isdeactivationcommand",
+      "community": 30,
+      "norm_label": "{ getdefaultmode, isdeactivationcommand }"
+    },
+    {
+      "label": "{ clearMode, setMode, writeHookOutput }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "hooks_ponytail_mode_tracker_clearmode_setmode_writehookoutput",
+      "community": 30,
+      "norm_label": "{ clearmode, setmode, writehookoutput }"
+    },
+    {
+      "label": "finish()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "hooks_ponytail_mode_tracker_finish",
+      "community": 30,
+      "norm_label": "finish()"
+    },
+    {
+      "label": "ponytail-runtime.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime",
+      "community": 30,
+      "norm_label": "ponytail-runtime.js"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_fs",
+      "community": 30,
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_path",
+      "community": 30,
+      "norm_label": "path"
+    },
+    {
+      "label": "{ getClaudeDir }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_getclaudedir",
+      "community": 30,
+      "norm_label": "{ getclaudedir }"
+    },
+    {
+      "label": "isCopilot",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_iscopilot",
+      "community": 30,
+      "norm_label": "iscopilot"
+    },
+    {
+      "label": "stateDir",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_statedir",
+      "community": 30,
+      "norm_label": "statedir"
+    },
+    {
+      "label": "statePath",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_statepath",
+      "community": 30,
+      "norm_label": "statepath"
+    },
+    {
+      "label": "setMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_setmode",
+      "community": 30,
+      "norm_label": "setmode()"
+    },
+    {
+      "label": "clearMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_clearmode",
+      "community": 30,
+      "norm_label": "clearmode()"
+    },
+    {
+      "label": "readMode()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_readmode",
+      "community": 30,
+      "norm_label": "readmode()"
+    },
+    {
+      "label": "writeHookOutput()",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "hooks_ponytail_runtime_writehookoutput",
+      "community": 30,
+      "norm_label": "writehookoutput()"
+    },
+    {
+      "label": "ponytail-subagent.js",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "hooks_ponytail_subagent",
+      "community": 30,
+      "norm_label": "ponytail-subagent.js"
+    },
+    {
+      "label": "{ getPonytailInstructions }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "hooks_ponytail_subagent_getponytailinstructions",
+      "community": 30,
+      "norm_label": "{ getponytailinstructions }"
+    },
+    {
+      "label": "{ readMode, writeHookOutput }",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "hooks_ponytail_subagent_readmode_writehookoutput",
+      "community": 30,
+      "norm_label": "{ readmode, writehookoutput }"
+    },
+    {
+      "label": "mode",
+      "file_type": "code",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "hooks_ponytail_subagent_mode",
+      "community": 30,
+      "norm_label": "mode"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": ".codex-plugin/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "codex_plugin_package",
+      "community": 39,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": ".codex-plugin/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "codex_plugin_package_type",
+      "community": 39,
+      "norm_label": "type"
+    },
+    {
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
@@ -1150,7 +1710,7 @@
       "source_location": "L1933",
       "_origin": "ast",
       "id": "server_index_normalizeblogpostrow",
-      "community": 30,
+      "community": 4,
       "norm_label": "normalizeblogpostrow()"
     },
     {
@@ -1190,7 +1750,7 @@
       "source_location": "L2020",
       "_origin": "ast",
       "id": "server_index_getvideosource",
-      "community": 12,
+      "community": 40,
       "norm_label": "getvideosource()"
     },
     {
@@ -1200,7 +1760,7 @@
       "source_location": "L2051",
       "_origin": "ast",
       "id": "server_index_getcollectionsource",
-      "community": 12,
+      "community": 40,
       "norm_label": "getcollectionsource()"
     },
     {
@@ -1210,7 +1770,7 @@
       "source_location": "L2076",
       "_origin": "ast",
       "id": "server_index_getfreecontentsource",
-      "community": 12,
+      "community": 40,
       "norm_label": "getfreecontentsource()"
     },
     {
@@ -1890,7 +2450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_homepreviewtopbar",
-      "community": 5,
+      "community": 14,
       "norm_label": "homepreviewtopbar.jsx"
     },
     {
@@ -1900,7 +2460,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_homepreviewtopbar_homepreviewtopbar",
-      "community": 5,
+      "community": 14,
       "norm_label": "homepreviewtopbar()"
     },
     {
@@ -1990,7 +2550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_mobilebottomnav",
-      "community": 5,
+      "community": 14,
       "norm_label": "mobilebottomnav.jsx"
     },
     {
@@ -2000,7 +2560,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_mobilebottomnav_getnavtonestyles",
-      "community": 5,
+      "community": 14,
       "norm_label": "getnavtonestyles()"
     },
     {
@@ -2010,7 +2570,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "components_mobilebottomnav_isrouteactive",
-      "community": 5,
+      "community": 14,
       "norm_label": "isrouteactive()"
     },
     {
@@ -2020,7 +2580,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "components_mobilebottomnav_mobilebottomnav",
-      "community": 5,
+      "community": 14,
       "norm_label": "mobilebottomnav()"
     },
     {
@@ -2657,7 +3217,7 @@
       "label": "formatStatusLabel()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_formatstatuslabel",
       "community": 0,
@@ -2667,7 +3227,7 @@
       "label": "deepClone()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_deepclone",
       "community": 0,
@@ -2677,7 +3237,7 @@
       "label": "setByPath()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_setbypath",
       "community": 0,
@@ -2687,7 +3247,7 @@
       "label": "normalizeLines()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_normalizelines",
       "community": 0,
@@ -2697,7 +3257,7 @@
       "label": "serializeSlides()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L51",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_serializeslides",
       "community": 0,
@@ -2707,7 +3267,7 @@
       "label": "parseSlides()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L58",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_parseslides",
       "community": 0,
@@ -2717,7 +3277,7 @@
       "label": "serializePaymentMethods()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L62",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_serializepaymentmethods",
       "community": 0,
@@ -2727,27 +3287,67 @@
       "label": "parsePaymentMethods()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L69",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_parsepaymentmethods",
       "community": 0,
       "norm_label": "parsepaymentmethods()"
     },
     {
+      "label": "normalizeAvailabilityMode()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "community": 0,
+      "norm_label": "normalizeavailabilitymode()"
+    },
+    {
+      "label": "formatBookingModeLabel()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L84",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
+      "community": 0,
+      "norm_label": "formatbookingmodelabel()"
+    },
+    {
+      "label": "formatBookingSummary()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_formatbookingsummary",
+      "community": 0,
+      "norm_label": "formatbookingsummary()"
+    },
+    {
+      "label": "normalizeBookingForSave()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_normalizebookingforsave",
+      "community": 0,
+      "norm_label": "normalizebookingforsave()"
+    },
+    {
       "label": "createDraftFromModel()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L78",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_createdraftfrommodel",
-      "community": 0,
+      "community": 12,
       "norm_label": "createdraftfrommodel()"
     },
     {
       "label": "ModelCard()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L92",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_modelcard",
       "community": 0,
@@ -2757,7 +3357,7 @@
       "label": "SectionTitle()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L129",
+      "source_location": "L184",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_sectiontitle",
       "community": 0,
@@ -2767,7 +3367,7 @@
       "label": "EncuentrosModelsManager()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L141",
+      "source_location": "L196",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
       "community": 0,
@@ -2820,7 +3420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultblogposts",
-      "community": 30,
+      "community": 4,
       "norm_label": "defaultblogposts.js"
     },
     {
@@ -2830,7 +3430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultblogposts_defaultblogposts",
-      "community": 30,
+      "community": 8,
       "norm_label": "defaultblogposts"
     },
     {
@@ -2840,7 +3440,7 @@
       "source_location": "L537",
       "_origin": "ast",
       "id": "data_defaultblogposts_normalizemediaitems",
-      "community": 30,
+      "community": 4,
       "norm_label": "normalizemediaitems()"
     },
     {
@@ -2850,7 +3450,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "data_defaultblogposts_parseblogpriceamount",
-      "community": 30,
+      "community": 4,
       "norm_label": "parseblogpriceamount()"
     },
     {
@@ -2860,7 +3460,7 @@
       "source_location": "L572",
       "_origin": "ast",
       "id": "data_defaultblogposts_getblogposttimestamp",
-      "community": 30,
+      "community": 4,
       "norm_label": "getblogposttimestamp()"
     },
     {
@@ -2870,7 +3470,7 @@
       "source_location": "L578",
       "_origin": "ast",
       "id": "data_defaultblogposts_isnewerblogpost",
-      "community": 30,
+      "community": 4,
       "norm_label": "isnewerblogpost()"
     },
     {
@@ -2880,7 +3480,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "data_defaultblogposts_normalizeblogpost",
-      "community": 30,
+      "community": 4,
       "norm_label": "normalizeblogpost()"
     },
     {
@@ -2910,7 +3510,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "data_defaultcommerce_parsepriceamount",
-      "community": 11,
+      "community": 0,
       "norm_label": "parsepriceamount()"
     },
     {
@@ -2990,7 +3590,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "data_defaultcommerce_ispersistentproducttype",
-      "community": 2,
+      "community": 11,
       "norm_label": "ispersistentproducttype()"
     },
     {
@@ -3140,7 +3740,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslides",
-      "community": 0,
+      "community": 12,
       "norm_label": "normalizecarouselslides()"
     },
     {
@@ -3160,24 +3760,24 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "data_defaultsitecontent_defaultsitecontent",
-      "community": 0,
+      "community": 11,
       "norm_label": "defaultsitecontent"
     },
     {
       "label": "mergeItemsBySlug()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1516",
+      "source_location": "L1518",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergeitemsbyslug",
-      "community": 0,
+      "community": 12,
       "norm_label": "mergeitemsbyslug()"
     },
     {
       "label": "normalizePriceLabel()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1527",
+      "source_location": "L1529",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizepricelabel",
       "community": 12,
@@ -3187,27 +3787,27 @@
       "label": "normalizeEncounterPriceLabel()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1545",
+      "source_location": "L1547",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizeencounterpricelabel",
-      "community": 0,
+      "community": 12,
       "norm_label": "normalizeencounterpricelabel()"
     },
     {
       "label": "normalizeVideoLibraryItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1563",
+      "source_location": "L1565",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideolibraryitem",
-      "community": 12,
+      "community": 25,
       "norm_label": "normalizevideolibraryitem()"
     },
     {
       "label": "normalizeVideoCollectionItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1606",
+      "source_location": "L1608",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideocollectionitem",
       "community": 12,
@@ -3217,7 +3817,7 @@
       "label": "normalizePhysicalMerchItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1623",
+      "source_location": "L1625",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizephysicalmerchitem",
       "community": 12,
@@ -3227,20 +3827,20 @@
       "label": "normalizeFreeContentItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1630",
+      "source_location": "L1632",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizefreecontentitem",
-      "community": 12,
+      "community": 40,
       "norm_label": "normalizefreecontentitem()"
     },
     {
       "label": "mergeSiteContent()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1646",
+      "source_location": "L1648",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergesitecontent",
-      "community": 0,
+      "community": 12,
       "norm_label": "mergesitecontent()"
     },
     {
@@ -3420,7 +4020,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "lib_supabase_issupabaseconfigured",
-      "community": 9,
+      "community": 8,
       "norm_label": "issupabaseconfigured"
     },
     {
@@ -3570,7 +4170,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "lib_supabase_createmanageduser",
-      "community": 9,
+      "community": 8,
       "norm_label": "createmanageduser()"
     },
     {
@@ -3580,7 +4180,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "lib_supabase_updatemanagedsubscription",
-      "community": 9,
+      "community": 8,
       "norm_label": "updatemanagedsubscription()"
     },
     {
@@ -3610,7 +4210,7 @@
       "source_location": "L511",
       "_origin": "ast",
       "id": "lib_supabase_fetchsitecontent",
-      "community": 0,
+      "community": 8,
       "norm_label": "fetchsitecontent()"
     },
     {
@@ -3620,7 +4220,7 @@
       "source_location": "L526",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosmodels",
-      "community": 5,
+      "community": 9,
       "norm_label": "fetchencuentrosmodels()"
     },
     {
@@ -3650,7 +4250,7 @@
       "source_location": "L567",
       "_origin": "ast",
       "id": "lib_supabase_createmanualencuentrosreservation",
-      "community": 9,
+      "community": 8,
       "norm_label": "createmanualencuentrosreservation()"
     },
     {
@@ -3660,7 +4260,7 @@
       "source_location": "L586",
       "_origin": "ast",
       "id": "lib_supabase_parseapijson",
-      "community": 8,
+      "community": 0,
       "norm_label": "parseapijson()"
     },
     {
@@ -3670,7 +4270,7 @@
       "source_location": "L596",
       "_origin": "ast",
       "id": "lib_supabase_fetchadminencuentrosmodels",
-      "community": 8,
+      "community": 0,
       "norm_label": "fetchadminencuentrosmodels()"
     },
     {
@@ -3680,7 +4280,7 @@
       "source_location": "L608",
       "_origin": "ast",
       "id": "lib_supabase_saveadminencuentrosmodel",
-      "community": 8,
+      "community": 0,
       "norm_label": "saveadminencuentrosmodel()"
     },
     {
@@ -3690,7 +4290,7 @@
       "source_location": "L637",
       "_origin": "ast",
       "id": "lib_supabase_deleteadminencuentrosmodel",
-      "community": 8,
+      "community": 0,
       "norm_label": "deleteadminencuentrosmodel()"
     },
     {
@@ -3840,7 +4440,7 @@
       "source_location": "L1083",
       "_origin": "ast",
       "id": "lib_supabase_translateadmincontent",
-      "community": 25,
+      "community": 8,
       "norm_label": "translateadmincontent()"
     },
     {
@@ -4010,7 +4610,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "pages_admindashboardpage_uniquevalues",
-      "community": 25,
+      "community": 42,
       "norm_label": "uniquevalues()"
     },
     {
@@ -4020,7 +4620,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizevideotags",
-      "community": 25,
+      "community": 42,
       "norm_label": "normalizevideotags()"
     },
     {
@@ -4030,7 +4630,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizepackassets",
-      "community": 12,
+      "community": 40,
       "norm_label": "normalizepackassets()"
     },
     {
@@ -4220,7 +4820,7 @@
       "source_location": "L519",
       "_origin": "ast",
       "id": "pages_admindashboardpage_videolibraryitemeditor",
-      "community": 25,
+      "community": 42,
       "norm_label": "videolibraryitemeditor()"
     },
     {
@@ -4287,7 +4887,7 @@
       "label": "UsersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3026",
+      "source_location": "L3032",
       "_origin": "ast",
       "id": "pages_admindashboardpage_userseditor",
       "community": 1,
@@ -4297,7 +4897,7 @@
       "label": "PhysicalOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3575",
+      "source_location": "L3581",
       "_origin": "ast",
       "id": "pages_admindashboardpage_physicalorderseditor",
       "community": 1,
@@ -4307,7 +4907,7 @@
       "label": "ReservationOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3657",
+      "source_location": "L3663",
       "_origin": "ast",
       "id": "pages_admindashboardpage_reservationorderseditor",
       "community": 1,
@@ -4317,7 +4917,7 @@
       "label": "AdminDashboardPage()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3725",
+      "source_location": "L3735",
       "_origin": "ast",
       "id": "pages_admindashboardpage_admindashboardpage",
       "community": 1,
@@ -4584,40 +5184,70 @@
       "norm_label": "encuentroscatalogpage.jsx"
     },
     {
-      "label": "CatalogPrice()",
+      "label": "normalizeMediaUrl()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L9",
+      "source_location": "L8",
       "_origin": "ast",
-      "id": "pages_encuentroscatalogpage_catalogprice",
+      "id": "pages_encuentroscatalogpage_normalizemediaurl",
       "community": 3,
-      "norm_label": "catalogprice()"
+      "norm_label": "normalizemediaurl()"
     },
     {
-      "label": "countGalleryImages()",
+      "label": "collectModelImages()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L14",
+      "source_location": "L22",
       "_origin": "ast",
-      "id": "pages_encuentroscatalogpage_countgalleryimages",
+      "id": "pages_encuentroscatalogpage_collectmodelimages",
       "community": 3,
-      "norm_label": "countgalleryimages()"
+      "norm_label": "collectmodelimages()"
     },
     {
-      "label": "countServices()",
+      "label": "getFirstTextValue()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L18",
+      "source_location": "L51",
       "_origin": "ast",
-      "id": "pages_encuentroscatalogpage_countservices",
+      "id": "pages_encuentroscatalogpage_getfirsttextvalue",
       "community": 3,
-      "norm_label": "countservices()"
+      "norm_label": "getfirsttextvalue()"
+    },
+    {
+      "label": "getTopBadgeLabel()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "pages_encuentroscatalogpage_gettopbadgelabel",
+      "community": 3,
+      "norm_label": "gettopbadgelabel()"
+    },
+    {
+      "label": "ProfileMetaLine()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L83",
+      "_origin": "ast",
+      "id": "pages_encuentroscatalogpage_profilemetaline",
+      "community": 3,
+      "norm_label": "profilemetaline()"
+    },
+    {
+      "label": "CatalogCard()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L96",
+      "_origin": "ast",
+      "id": "pages_encuentroscatalogpage_catalogcard",
+      "community": 3,
+      "norm_label": "catalogcard()"
     },
     {
       "label": "EncuentrosCatalogPage()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L22",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_encuentroscatalogpage",
       "community": 3,
@@ -4780,7 +5410,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "pages_homepage_homepage",
-      "community": 5,
+      "community": 14,
       "norm_label": "homepage()"
     },
     {
@@ -5267,7 +5897,7 @@
       "label": "parseTimeToMinutes()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L54",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_parsetimetominutes",
       "community": 3,
@@ -5277,7 +5907,7 @@
       "label": "formatMinutesToTime()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L64",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_formatminutestotime",
       "community": 3,
@@ -5287,7 +5917,7 @@
       "label": "buildBookingTimes()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L71",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildbookingtimes",
       "community": 3,
@@ -5297,7 +5927,7 @@
       "label": "normalizeRecordingChoice()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L89",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_normalizerecordingchoice",
       "community": 3,
@@ -5307,7 +5937,7 @@
       "label": "clampPercent()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L94",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_clamppercent",
       "community": 3,
@@ -5317,7 +5947,7 @@
       "label": "parseMoneyAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L104",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_parsemoneyamount",
       "community": 3,
@@ -5327,17 +5957,17 @@
       "label": "normalizeCurrencyLabel()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L109",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_normalizecurrencylabel",
-      "community": 3,
+      "community": 25,
       "norm_label": "normalizecurrencylabel()"
     },
     {
       "label": "formatCurrencyAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L127",
+      "source_location": "L141",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_formatcurrencyamount",
       "community": 3,
@@ -5347,7 +5977,7 @@
       "label": "resolveEncounterPricingSource()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L141",
+      "source_location": "L155",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounterpricingsource",
       "community": 3,
@@ -5357,7 +5987,7 @@
       "label": "resolveEncounterBaseAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L155",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounterbaseamount",
       "community": 3,
@@ -5367,7 +5997,7 @@
       "label": "resolveEncounterAdvanceAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L171",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounteradvanceamount",
       "community": 3,
@@ -5377,7 +6007,7 @@
       "label": "buildEncuentrosBookingPricing()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L191",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildencuentrosbookingpricing",
       "community": 3,
@@ -5387,7 +6017,7 @@
       "label": "getRecordingPricingSummary()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L232",
+      "source_location": "L246",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_getrecordingpricingsummary",
       "community": 3,
@@ -5610,7 +6240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization",
-      "community": 25,
+      "community": 38,
       "norm_label": "imageoptimization.js"
     },
     {
@@ -5620,7 +6250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization_loadimage",
-      "community": 25,
+      "community": 38,
       "norm_label": "loadimage()"
     },
     {
@@ -5630,7 +6260,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "utils_imageoptimization_optimizeimagefile",
-      "community": 25,
+      "community": 38,
       "norm_label": "optimizeimagefile()"
     },
     {
@@ -5650,7 +6280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_localizedcontent_isplainobject",
-      "community": 14,
+      "community": 41,
       "norm_label": "isplainobject()"
     },
     {
@@ -5660,7 +6290,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_localizedcontent_getitemidentity",
-      "community": 14,
+      "community": 41,
       "norm_label": "getitemidentity()"
     },
     {
@@ -5670,7 +6300,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "utils_localizedcontent_getlocalekey",
-      "community": 14,
+      "community": 41,
       "norm_label": "getlocalekey()"
     },
     {
@@ -5680,7 +6310,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "utils_localizedcontent_resolvelocalizedvalue",
-      "community": 14,
+      "community": 41,
       "norm_label": "resolvelocalizedvalue()"
     },
     {
@@ -5690,7 +6320,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "utils_localizedcontent_mergelocalizedvalue",
-      "community": 14,
+      "community": 41,
       "norm_label": "mergelocalizedvalue()"
     },
     {
@@ -5920,7 +6550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia",
-      "community": 12,
+      "community": 25,
       "norm_label": "videomedia.js"
     },
     {
@@ -5930,7 +6560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia_extractgoogledrivefileid",
-      "community": 12,
+      "community": 40,
       "norm_label": "extractgoogledrivefileid()"
     },
     {
@@ -5950,7 +6580,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapreviewurl",
-      "community": 12,
+      "community": 25,
       "norm_label": "buildmediapreviewurl()"
     },
     {
@@ -5960,7 +6590,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediafullurl",
-      "community": 12,
+      "community": 25,
       "norm_label": "buildmediafullurl()"
     },
     {
@@ -5970,7 +6600,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapublicurl",
-      "community": 12,
+      "community": 25,
       "norm_label": "buildmediapublicurl()"
     },
     {
@@ -5980,7 +6610,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideopreviewurl",
-      "community": 12,
+      "community": 25,
       "norm_label": "buildvideopreviewurl()"
     },
     {
@@ -5990,7 +6620,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideofullurl",
-      "community": 12,
+      "community": 25,
       "norm_label": "buildvideofullurl()"
     },
     {
@@ -6012,6 +6642,366 @@
       "id": "vite_config_manualchunks",
       "community": 29,
       "norm_label": "manualchunks()"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_audit_skill",
+      "community": 34,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Tags",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "ponytail_audit_skill_tags",
+      "community": 34,
+      "norm_label": "tags"
+    },
+    {
+      "label": "Hunt",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "ponytail_audit_skill_hunt",
+      "community": 34,
+      "norm_label": "hunt"
+    },
+    {
+      "label": "Output",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "ponytail_audit_skill_output",
+      "community": 34,
+      "norm_label": "output"
+    },
+    {
+      "label": "Boundaries",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "ponytail_audit_skill_boundaries",
+      "community": 34,
+      "norm_label": "boundaries"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_debt_skill",
+      "community": 37,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Scan",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "ponytail_debt_skill_scan",
+      "community": 37,
+      "norm_label": "scan"
+    },
+    {
+      "label": "Output",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "ponytail_debt_skill_output",
+      "community": 37,
+      "norm_label": "output"
+    },
+    {
+      "label": "Boundaries",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "ponytail_debt_skill_boundaries",
+      "community": 37,
+      "norm_label": "boundaries"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_gain_skill",
+      "community": 35,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Ponytail Gain",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "ponytail_gain_skill_ponytail_gain",
+      "community": 35,
+      "norm_label": "ponytail gain"
+    },
+    {
+      "label": "Scoreboard",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "ponytail_gain_skill_scoreboard",
+      "community": 35,
+      "norm_label": "scoreboard"
+    },
+    {
+      "label": "Honesty boundary",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "ponytail_gain_skill_honesty_boundary",
+      "community": 35,
+      "norm_label": "honesty boundary"
+    },
+    {
+      "label": "Boundaries",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "ponytail_gain_skill_boundaries",
+      "community": 35,
+      "norm_label": "boundaries"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_help_skill",
+      "community": 33,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Ponytail Help",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_ponytail_help",
+      "community": 33,
+      "norm_label": "ponytail help"
+    },
+    {
+      "label": "Levels",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_levels",
+      "community": 33,
+      "norm_label": "levels"
+    },
+    {
+      "label": "Skills",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_skills",
+      "community": 33,
+      "norm_label": "skills"
+    },
+    {
+      "label": "Deactivate",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_deactivate",
+      "community": 33,
+      "norm_label": "deactivate"
+    },
+    {
+      "label": "Configure Default Mode",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_configure_default_mode",
+      "community": 33,
+      "norm_label": "configure default mode"
+    },
+    {
+      "label": "Update",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_update",
+      "community": 33,
+      "norm_label": "update"
+    },
+    {
+      "label": "More",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "ponytail_help_skill_more",
+      "community": 33,
+      "norm_label": "more"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_review_skill",
+      "community": 36,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Format",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "ponytail_review_skill_format",
+      "community": 36,
+      "norm_label": "format"
+    },
+    {
+      "label": "Examples",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "ponytail_review_skill_examples",
+      "community": 36,
+      "norm_label": "examples"
+    },
+    {
+      "label": "Scoring",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "ponytail_review_skill_scoring",
+      "community": 36,
+      "norm_label": "scoring"
+    },
+    {
+      "label": "Boundaries",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "ponytail_review_skill_boundaries",
+      "community": 36,
+      "norm_label": "boundaries"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ponytail_skill",
+      "community": 31,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Ponytail",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "ponytail_skill_ponytail",
+      "community": 31,
+      "norm_label": "ponytail"
+    },
+    {
+      "label": "Persistence",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "ponytail_skill_persistence",
+      "community": 31,
+      "norm_label": "persistence"
+    },
+    {
+      "label": "The ladder",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "ponytail_skill_the_ladder",
+      "community": 31,
+      "norm_label": "the ladder"
+    },
+    {
+      "label": "Rules",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "ponytail_skill_rules",
+      "community": 31,
+      "norm_label": "rules"
+    },
+    {
+      "label": "Output",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "ponytail_skill_output",
+      "community": 31,
+      "norm_label": "output"
+    },
+    {
+      "label": "Intensity",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "ponytail_skill_intensity",
+      "community": 31,
+      "norm_label": "intensity"
+    },
+    {
+      "label": "When NOT to be lazy",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L90",
+      "_origin": "ast",
+      "id": "ponytail_skill_when_not_to_be_lazy",
+      "community": 31,
+      "norm_label": "when not to be lazy"
+    },
+    {
+      "label": "Boundaries",
+      "file_type": "document",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "ponytail_skill_boundaries",
+      "community": 31,
+      "norm_label": "boundaries"
     },
     {
       "label": "AGENTS.md",
@@ -6122,6 +7112,16 @@
       "id": "agents_graphify",
       "community": 15,
       "norm_label": "graphify"
+    },
+    {
+      "label": "Ponytail",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "agents_ponytail",
+      "community": 15,
+      "norm_label": "ponytail"
     },
     {
       "label": "DESIGN.md",
@@ -7287,7 +8287,7 @@
       "label": "Current limits",
       "file_type": "document",
       "source_file": "docs/supabase-setup.md",
-      "source_location": "L61",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "docs_supabase_setup_current_limits",
       "community": 24,
@@ -7295,6 +8295,980 @@
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_claudedir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_clearmode_iscodex_iscopilot_setmode_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_getdefaultmode_getclaudedir_isshellsafe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_getponytailinstructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_mode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_output"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_activate_settingspath"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_config"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_config_getclaudedir"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_config_getdefaultmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_config_isshellsafe"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_instructions"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_instructions_getponytailinstructions"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_runtime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_runtime_clearmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_runtime_iscopilot"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_runtime_setmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-activate.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_activate",
+      "target": "hooks_ponytail_runtime_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_getclaudedir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_getconfigdir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_getconfigpath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_getdefaultmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_isdeactivationcommand"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_isshellsafe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_normalizeconfigmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_normalizemode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_normalizepersistedmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_os"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_runtime_modes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_valid_modes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config",
+      "target": "hooks_ponytail_config_writedefaultmode"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_config"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_config"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_config"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_normalizepersistedmode",
+      "target": "hooks_ponytail_config_normalizemode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_config_normalizemode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "hooks_ponytail_instructions_filterskillbodyformode",
+      "target": "hooks_ponytail_config_normalizemode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "hooks_ponytail_instructions_getponytailinstructions",
+      "target": "hooks_ponytail_config_normalizemode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_normalizepersistedmode",
+      "target": "hooks_ponytail_config_normalizeconfigmode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L100",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_writedefaultmode",
+      "target": "hooks_ponytail_config_normalizeconfigmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_config_normalizepersistedmode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "hooks_ponytail_instructions_getponytailinstructions",
+      "target": "hooks_ponytail_config_normalizepersistedmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_config_isdeactivationcommand"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "hooks_ponytail_mode_tracker_finish",
+      "target": "hooks_ponytail_config_isdeactivationcommand"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_getconfigpath",
+      "target": "hooks_ponytail_config_getconfigdir"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_getdefaultmode",
+      "target": "hooks_ponytail_config_getconfigpath"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-config.js",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_config_writedefaultmode",
+      "target": "hooks_ponytail_config_getconfigpath"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_config_getclaudedir"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_config_getdefaultmode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "hooks_ponytail_mode_tracker_finish",
+      "target": "hooks_ponytail_config_getdefaultmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_default_mode_normalizemode_normalizepersistedmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_filterskillbodyformode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_getfallbackinstructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_getponytailinstructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_independent_modes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions",
+      "target": "hooks_ponytail_instructions_skill_path"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_instructions"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions_getponytailinstructions",
+      "target": "hooks_ponytail_instructions_filterskillbodyformode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-instructions.js",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_instructions_getponytailinstructions",
+      "target": "hooks_ponytail_instructions_getfallbackinstructions"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_instructions_getponytailinstructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_mode_tracker_clearmode_setmode_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_mode_tracker_finish"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_mode_tracker_getdefaultmode_isdeactivationcommand"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_runtime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_runtime_clearmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_runtime_setmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_mode_tracker",
+      "target": "hooks_ponytail_runtime_writehookoutput"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "hooks_ponytail_mode_tracker_finish",
+      "target": "hooks_ponytail_runtime_clearmode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "hooks_ponytail_mode_tracker_finish",
+      "target": "hooks_ponytail_runtime_setmode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".codex-plugin/hooks/ponytail-mode-tracker.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "hooks_ponytail_mode_tracker_finish",
+      "target": "hooks_ponytail_runtime_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_clearmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_getclaudedir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_iscopilot"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_readmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_setmode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_statedir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_statepath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-runtime.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_runtime",
+      "target": "hooks_ponytail_runtime_writehookoutput"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_runtime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_runtime_readmode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_runtime_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_subagent_getponytailinstructions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_subagent_mode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/hooks/ponytail-subagent.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "hooks_ponytail_subagent",
+      "target": "hooks_ponytail_subagent_readmode_writehookoutput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "codex_plugin_package",
+      "target": "codex_plugin_package_type"
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -8907,9 +10881,9 @@
       "source_file": "server/index.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "utils_encuentrosmodels",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels"
     },
     {
       "relation": "imports",
@@ -8918,9 +10892,9 @@
       "source_file": "server/index.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "imports_from",
@@ -9567,9 +11541,9 @@
       "source_file": "server/index.js",
       "source_location": "L753",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index_createmanualreservationorder",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "calls",
@@ -10586,9 +12560,9 @@
       "source_file": "src/App.jsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "utils_encuentrosmodels",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels"
     },
     {
       "relation": "imports",
@@ -10597,9 +12571,9 @@
       "source_file": "src/App.jsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "imports_from",
@@ -10630,9 +12604,9 @@
       "source_file": "src/App.jsx",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_encuentroslegacybookingredirect",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "calls",
@@ -14595,6 +16569,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_formatbookingsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -14610,6 +16604,26 @@
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
       "target": "admin_encuentrosmodelsmanager_modelcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizebookingforsave",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -14680,6 +16694,28 @@
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
       "target": "admin_encuentrosmodelsmanager_setbypath"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "data_defaultcommerce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "data_defaultcommerce_parsepriceamount",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -14834,6 +16870,83 @@
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_parseslides",
       "target": "admin_encuentrosmodelsmanager_normalizelines"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_formatbookingsummary",
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_normalizebookingforsave",
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_modelcard",
+      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_modelcard",
+      "target": "admin_encuentrosmodelsmanager_formatbookingsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_normalizebookingforsave",
+      "target": "data_defaultcommerce_parsepriceamount",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -17547,9 +19660,9 @@
       "source_file": "src/state/AppState.jsx",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "state_appstate",
-      "target": "lib_supabase_fetchencuentrosmodels",
-      "confidence_score": 1.0
+      "target": "lib_supabase_fetchencuentrosmodels"
     },
     {
       "relation": "imports",
@@ -19773,31 +21886,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L9",
+      "source_location": "L96",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_encuentroscatalogpage",
-      "target": "pages_encuentroscatalogpage_catalogprice"
+      "target": "pages_encuentroscatalogpage_catalogcard"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L14",
+      "source_location": "L22",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_encuentroscatalogpage",
-      "target": "pages_encuentroscatalogpage_countgalleryimages"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_encuentroscatalogpage",
-      "target": "pages_encuentroscatalogpage_countservices"
+      "target": "pages_encuentroscatalogpage_collectmodelimages"
     },
     {
       "relation": "contains",
@@ -19808,6 +21911,79 @@
       "confidence_score": 1.0,
       "source": "pages_encuentroscatalogpage",
       "target": "pages_encuentroscatalogpage_encuentroscatalogpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage",
+      "target": "pages_encuentroscatalogpage_getfirsttextvalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage",
+      "target": "pages_encuentroscatalogpage_gettopbadgelabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage",
+      "target": "pages_encuentroscatalogpage_normalizemediaurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage",
+      "target": "pages_encuentroscatalogpage_profilemetaline"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage_catalogcard",
+      "target": "pages_encuentroscatalogpage_normalizemediaurl"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage_catalogcard",
+      "target": "pages_encuentroscatalogpage_getfirsttextvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosCatalogPage.jsx",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentroscatalogpage_catalogcard",
+      "target": "pages_encuentroscatalogpage_gettopbadgelabel"
     },
     {
       "relation": "contains",
@@ -21430,9 +23606,9 @@
       "source_file": "src/state/AppState.jsx",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "state_appstate",
-      "target": "utils_encuentrosmodels",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels"
     },
     {
       "relation": "imports",
@@ -21441,9 +23617,9 @@
       "source_file": "src/state/AppState.jsx",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "state_appstate",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "imports_from",
@@ -22095,9 +24271,9 @@
       "source_file": "src/utils/encuentrosModels.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_encuentrosmodels",
-      "target": "utils_encuentrosmodels_getencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_getencounterfallbackslug"
     },
     {
       "relation": "contains",
@@ -22105,9 +24281,9 @@
       "source_file": "src/utils/encuentrosModels.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_encuentrosmodels",
-      "target": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
     },
     {
       "relation": "calls",
@@ -22116,9 +24292,9 @@
       "source_file": "src/utils/encuentrosModels.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "target": "utils_encuentrosmodels_getencounterfallbackslug",
-      "confidence_score": 1.0
+      "target": "utils_encuentrosmodels_getencounterfallbackslug"
     },
     {
       "relation": "contains",
@@ -22691,6 +24867,306 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_audit_skill",
+      "target": "ponytail_audit_skill_boundaries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_audit_skill",
+      "target": "ponytail_audit_skill_hunt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_audit_skill",
+      "target": "ponytail_audit_skill_output"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-audit/SKILL.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_audit_skill",
+      "target": "ponytail_audit_skill_tags"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_debt_skill",
+      "target": "ponytail_debt_skill_boundaries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_debt_skill",
+      "target": "ponytail_debt_skill_output"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-debt/SKILL.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_debt_skill",
+      "target": "ponytail_debt_skill_scan"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_gain_skill",
+      "target": "ponytail_gain_skill_ponytail_gain"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_gain_skill_ponytail_gain",
+      "target": "ponytail_gain_skill_boundaries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_gain_skill_ponytail_gain",
+      "target": "ponytail_gain_skill_honesty_boundary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-gain/SKILL.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_gain_skill_ponytail_gain",
+      "target": "ponytail_gain_skill_scoreboard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill",
+      "target": "ponytail_help_skill_ponytail_help"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_configure_default_mode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_deactivate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_levels"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_more"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_skills"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-help/SKILL.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_help_skill_ponytail_help",
+      "target": "ponytail_help_skill_update"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_review_skill",
+      "target": "ponytail_review_skill_boundaries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_review_skill",
+      "target": "ponytail_review_skill_examples"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_review_skill",
+      "target": "ponytail_review_skill_format"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail-review/SKILL.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_review_skill",
+      "target": "ponytail_review_skill_scoring"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill",
+      "target": "ponytail_skill_ponytail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_boundaries"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_intensity"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_output"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_persistence"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_rules"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_the_ladder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".codex-plugin/skills/ponytail/SKILL.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ponytail_skill_ponytail",
+      "target": "ponytail_skill_when_not_to_be_lazy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -22727,6 +25203,16 @@
       "confidence_score": 1.0,
       "source": "agents_agents_md",
       "target": "agents_output_expectations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_agents_md",
+      "target": "agents_ponytail"
     },
     {
       "relation": "contains",
@@ -23870,5 +26356,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "75f6932b0ad225279bffdda7f51961b95023195e"
+  "built_at_commit": "a8018bd2bfcbaf8e3b3c1a5d17fe48ce06356451"
 }

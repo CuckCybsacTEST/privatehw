@@ -133,6 +133,8 @@ export const defaultSiteContent = {
     bookingEndTime: '18:00',
     slotIntervalMinutes: 60,
     timeSlots: ['15:00', '16:00', '17:00', '18:00'],
+    availabilityMode: 'everyday',
+    availableDays: 14,
     paymentMethods: [
       { value: 'plin', label: 'PLIN' },
       { value: 'yape', label: 'YAPE' },

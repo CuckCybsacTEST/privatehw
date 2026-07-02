@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { parsePriceAmount } from '../../data/defaultCommerce'
 import { defaultSiteContent, mergeSiteContent } from '../../data/defaultSiteContent'
 import {
   deleteAdminEncuentrosModel,
@@ -75,6 +76,46 @@ function parsePaymentMethods(text = '') {
     .filter(Boolean)
 }
 
+function normalizeAvailabilityMode(value = '') {
+  const mode = String(value || '').trim().toLowerCase()
+  return mode === 'manual' || mode === 'custom' ? 'manual' : 'everyday'
+}
+
+function formatBookingModeLabel(mode = '') {
+  return normalizeAvailabilityMode(mode) === 'manual' ? 'Fechas manuales' : 'Todos los dias'
+}
+
+function formatBookingSummary(booking = {}) {
+  const mode = normalizeAvailabilityMode(booking.availabilityMode)
+  const datesCount = Array.isArray(booking.availableDates) ? booking.availableDates.length : 0
+  const dailyDays = Number.parseInt(booking.availableDays || '14', 10) || 14
+  const priceLabel = booking.priceLabel || 'Sin precio'
+  const advanceLabel = booking.advanceLabel || 'Sin adelanto'
+  const discountValue = Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0
+  const discountLabel = discountValue > 0 ? `${discountValue}% grabacion` : 'Sin descuento'
+
+  return [mode === 'manual' ? `${datesCount} fechas` : `Proximos ${dailyDays} dias`, priceLabel, advanceLabel, discountLabel]
+}
+
+function normalizeBookingForSave(booking = {}) {
+  const availabilityMode = normalizeAvailabilityMode(booking.availabilityMode)
+  const priceAmount = parsePriceAmount(booking.priceLabel || '')
+  const fallbackPriceAmount = Number.parseInt(booking.priceAmount || '0', 10) || 0
+  const advanceAmount = parsePriceAmount(booking.advanceLabel || '')
+  const fallbackAdvanceAmount = Number.parseInt(booking.advanceAmount || '0', 10) || 0
+
+  return {
+    ...booking,
+    availabilityMode,
+    availableDays: Number.parseInt(booking.availableDays || '14', 10) || 14,
+    availableDates: Array.isArray(booking.availableDates) ? booking.availableDates : [],
+    priceAmount: Number.isFinite(priceAmount) && priceAmount > 0 ? priceAmount : fallbackPriceAmount,
+    advanceAmount: Number.isFinite(advanceAmount) && advanceAmount > 0 ? advanceAmount : fallbackAdvanceAmount,
+    recordingDiscountPercent:
+      Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0,
+  }
+}
+
 function createDraftFromModel(model = null, fallbackContent = null) {
   const content = mergeSiteContent(model?.content || fallbackContent || defaultSiteContent)
   const slug = model?.slug || `modelo-${Date.now()}`
@@ -92,6 +133,8 @@ function createDraftFromModel(model = null, fallbackContent = null) {
 function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, deletingSlug }) {
   const previewHref = `/encuentros/${encodeURIComponent(model.slug)}`
   const isPublished = model.status === 'published'
+  const booking = model?.content?.encuentrosBooking || {}
+  const bookingSummary = formatBookingSummary(booking)
 
   return (
     <article className="admin-user-card">
@@ -101,8 +144,15 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
           <strong>{model.slug}</strong> · {formatStatusLabel(model.status)} · orden {model.sortOrder ?? 0}
         </p>
         <p className="admin-note">
-          URL pública: <Link to={previewHref}>{previewHref}</Link>
+          URL publica: <Link to={previewHref}>{previewHref}</Link>
         </p>
+        <div className="admin-user-metrics">
+          <span>{formatBookingModeLabel(booking.availabilityMode)}</span>
+          <span>{bookingSummary[0]}</span>
+          <span>{bookingSummary[1]}</span>
+          <span>{bookingSummary[2]}</span>
+        </div>
+        <p className="admin-note">{bookingSummary[3]}</p>
       </div>
       <div className="admin-actions-row">
         <button type="button" className="admin-secondary-button" onClick={() => onEdit(model)}>
@@ -118,7 +168,12 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
         >
           {isPublished ? 'Suspender' : 'Publicar'}
         </button>
-        <button type="button" className="admin-danger-button" onClick={() => onDelete(model)} disabled={deletingSlug === model.slug}>
+        <button
+          type="button"
+          className="admin-danger-button"
+          onClick={() => onDelete(model)}
+          disabled={deletingSlug === model.slug}
+        >
           {deletingSlug === model.slug ? 'Eliminando...' : 'Eliminar'}
         </button>
       </div>
@@ -150,6 +205,7 @@ export function EncuentrosModelsManager() {
 
   const content = draft.content || mergeSiteContent(defaultSiteContent)
   const booking = content.encuentrosBooking || {}
+  const bookingAvailabilityMode = normalizeAvailabilityMode(booking.availabilityMode)
   const topSlidesText = useMemo(() => serializeSlides(content.topCarouselImages || []), [content.topCarouselImages])
   const bottomSlidesText = useMemo(() => serializeSlides(content.bottomCarouselImages || []), [content.bottomCarouselImages])
   const importantItemsText = useMemo(() => (content.importantItems || []).join('\n'), [content.importantItems])
@@ -223,6 +279,11 @@ export function EncuentrosModelsManager() {
     setSaving(true)
 
     try {
+      const nextContent = mergeSiteContent({
+        ...draft.content,
+        encuentrosBooking: normalizeBookingForSave(draft.content?.encuentrosBooking || {}),
+      })
+
       const savedModel = await saveAdminEncuentrosModel(
         {
           existingSlug: draft.existingSlug,
@@ -230,7 +291,7 @@ export function EncuentrosModelsManager() {
           displayName: draft.displayName,
           status: draft.status,
           sortOrder: Number.parseInt(draft.sortOrder || '0', 10) || 0,
-          content: mergeSiteContent(draft.content || {}),
+          content: nextContent,
         },
         session?.accessToken || '',
       )
@@ -250,6 +311,11 @@ export function EncuentrosModelsManager() {
     setMessage('')
 
     try {
+      const nextContent = mergeSiteContent({
+        ...model.content,
+        encuentrosBooking: normalizeBookingForSave(model.content?.encuentrosBooking || {}),
+      })
+
       const savedModel = await saveAdminEncuentrosModel(
         {
           existingSlug: model.slug,
@@ -257,7 +323,7 @@ export function EncuentrosModelsManager() {
           displayName: model.displayName,
           status: nextStatus,
           sortOrder: model.sortOrder || 0,
-          content: model.content || {},
+          content: nextContent,
         },
         session?.accessToken || '',
       )
@@ -351,7 +417,7 @@ export function EncuentrosModelsManager() {
           <SectionTitle
             eyebrow="Editor"
             title={draft.existingSlug ? 'Editar modelo' : 'Nuevo modelo'}
-            description="Ajusta ficha, booking, galeria y servicios sin tocar JSON."
+            description="Ajusta ficha, reserva, galeria y servicios sin tocar JSON."
           />
 
           <div className="admin-actions-row">
@@ -398,124 +464,40 @@ export function EncuentrosModelsManager() {
           </div>
 
           <article className="admin-hint">
-            <p>URL pública: <Link to={`/encuentros/${encodeURIComponent(draft.slug)}`}>/encuentros/{draft.slug}</Link></p>
-            <p>{counts.top} fotos arriba, {counts.bottom} fotos abajo, {counts.services} extras, {counts.dates} fechas.</p>
+            <p>
+              URL publica: <Link to={`/encuentros/${encodeURIComponent(draft.slug)}`}>/encuentros/{draft.slug}</Link>
+            </p>
+            <p>
+              {counts.top} fotos arriba, {counts.bottom} fotos abajo, {counts.services} extras, {counts.dates} fechas.
+            </p>
           </article>
 
-          <SectionTitle eyebrow="Portada" title="Hero y encabezado" />
+          <SectionTitle
+            eyebrow="Reserva por modelo"
+            title="Fechas, precio y adelanto"
+            description="Cada modelo maneja su propia agenda, su precio y su descuento por grabacion."
+          />
           <div className="admin-grid">
             <label className="admin-field">
-              <span>Top bar desktop</span>
-              <input
-                value={content.topBarDesktopHighlight || ''}
-                onChange={(event) => updateDraft(['topBarDesktopHighlight'], event.target.value)}
-              />
+              <span>Disponibilidad</span>
+              <select
+                value={bookingAvailabilityMode}
+                onChange={(event) => updateBooking(['availabilityMode'], event.target.value)}
+              >
+                <option value="everyday">Todos los dias</option>
+                <option value="manual">Fechas manuales</option>
+              </select>
             </label>
             <label className="admin-field">
-              <span>Top bar mobile</span>
-              <input
-                value={content.topBarMobile || ''}
-                onChange={(event) => updateDraft(['topBarMobile'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Título hero</span>
-              <input
-                value={content.heroTitle || ''}
-                onChange={(event) => updateDraft(['heroTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Subtítulo hero</span>
-              <input
-                value={content.heroSubtitle || ''}
-                onChange={(event) => updateDraft(['heroSubtitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Descripción hero</span>
-              <textarea
-                rows={4}
-                value={content.heroDescription || ''}
-                onChange={(event) => updateDraft(['heroDescription'], event.target.value)}
-              />
-            </label>
-          </div>
-
-          <SectionTitle eyebrow="Booking" title="Reserva y agenda" />
-          <div className="admin-grid">
-            <label className="admin-field">
-              <span>Eyebrow reserva</span>
-              <input
-                value={booking.eyebrow || ''}
-                onChange={(event) => updateBooking(['eyebrow'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Título reserva</span>
-              <input
-                value={booking.title || ''}
-                onChange={(event) => updateBooking(['title'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Descripción reserva</span>
-              <textarea
-                rows={4}
-                value={booking.description || ''}
-                onChange={(event) => updateBooking(['description'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Título galería</span>
-              <input
-                value={booking.galleryTitle || ''}
-                onChange={(event) => updateBooking(['galleryTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Subtítulo galería</span>
-              <input
-                value={booking.gallerySubtitle || ''}
-                onChange={(event) => updateBooking(['gallerySubtitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Precio presencial</span>
-              <input
-                value={content.presencialPrice || ''}
-                onChange={(event) => updateDraft(['presencialPrice'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Unidad presencial</span>
-              <input
-                value={content.presencialUnit || ''}
-                onChange={(event) => updateDraft(['presencialUnit'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Precio reserva</span>
-              <input
-                value={booking.priceLabel || ''}
-                onChange={(event) => updateBooking(['priceLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Adelanto</span>
-              <input
-                value={booking.advanceLabel || ''}
-                onChange={(event) => updateBooking(['advanceLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Descuento grabación %</span>
+              <span>Proximos dias</span>
               <input
                 type="number"
-                value={String(booking.recordingDiscountPercent || 0)}
+                min="1"
+                value={String(booking.availableDays || 14)}
                 onChange={(event) =>
-                  updateBooking(['recordingDiscountPercent'], Number.parseInt(event.target.value || '0', 10) || 0)
+                  updateBooking(['availableDays'], Number.parseInt(event.target.value || '0', 10) || 14)
                 }
+                disabled={bookingAvailabilityMode === 'manual'}
               />
             </label>
             <label className="admin-field">
@@ -542,12 +524,167 @@ export function EncuentrosModelsManager() {
                 }
               />
             </label>
+            <label className="admin-field">
+              <span>Precio presencial</span>
+              <input
+                value={content.presencialPrice || ''}
+                onChange={(event) => updateDraft(['presencialPrice'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Unidad presencial</span>
+              <input
+                value={content.presencialUnit || ''}
+                onChange={(event) => updateDraft(['presencialUnit'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Precio reserva</span>
+              <input
+                value={booking.priceLabel || ''}
+                onChange={(event) => updateBooking(['priceLabel'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Precio base</span>
+              <input
+                type="number"
+                value={String(booking.priceAmount || 0)}
+                onChange={(event) =>
+                  updateBooking(['priceAmount'], Number.parseInt(event.target.value || '0', 10) || 0)
+                }
+              />
+            </label>
+            <label className="admin-field">
+              <span>Adelanto</span>
+              <input
+                value={booking.advanceLabel || ''}
+                onChange={(event) => updateBooking(['advanceLabel'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Adelanto base</span>
+              <input
+                type="number"
+                value={String(booking.advanceAmount || 0)}
+                onChange={(event) =>
+                  updateBooking(['advanceAmount'], Number.parseInt(event.target.value || '0', 10) || 0)
+                }
+              />
+            </label>
+            <label className="admin-field">
+              <span>Descuento grabacion %</span>
+              <input
+                type="number"
+                value={String(booking.recordingDiscountPercent || 0)}
+                onChange={(event) =>
+                  updateBooking(
+                    ['recordingDiscountPercent'],
+                    Math.min(Math.max(Number.parseInt(event.target.value || '0', 10) || 0, 0), 100),
+                  )
+                }
+              />
+            </label>
             <label className="admin-field admin-field-full">
               <span>Fechas disponibles</span>
               <textarea
                 rows={4}
                 value={availableDatesText}
                 onChange={(event) => updateBooking(['availableDates'], normalizeLines(event.target.value))}
+                disabled={bookingAvailabilityMode === 'everyday'}
+                placeholder={
+                  bookingAvailabilityMode === 'manual'
+                    ? '2026-07-05\n2026-07-06\n2026-07-07'
+                    : 'Se usa el modo diario'
+                }
+              />
+            </label>
+            <label className="admin-field">
+              <span>Etiqueta descuento</span>
+              <input
+                value={booking.recordingDiscountLabel || ''}
+                onChange={(event) => updateBooking(['recordingDiscountLabel'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Titulo grabacion</span>
+              <input
+                value={booking.recordingPromptTitle || ''}
+                onChange={(event) => updateBooking(['recordingPromptTitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field admin-field-full">
+              <span>Descripcion grabacion</span>
+              <textarea
+                rows={3}
+                value={booking.recordingPromptDescription || ''}
+                onChange={(event) => updateBooking(['recordingPromptDescription'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Grabacion SI</span>
+              <input
+                value={booking.recordingYesLabel || ''}
+                onChange={(event) => updateBooking(['recordingYesLabel'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Grabacion NO</span>
+              <input
+                value={booking.recordingNoLabel || ''}
+                onChange={(event) => updateBooking(['recordingNoLabel'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Titulo reserva</span>
+              <input
+                value={booking.title || ''}
+                onChange={(event) => updateBooking(['title'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field admin-field-full">
+              <span>Descripcion reserva</span>
+              <textarea
+                rows={4}
+                value={booking.description || ''}
+                onChange={(event) => updateBooking(['description'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Titulo galeria</span>
+              <input
+                value={booking.galleryTitle || ''}
+                onChange={(event) => updateBooking(['galleryTitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Subtitulo galeria</span>
+              <input
+                value={booking.gallerySubtitle || ''}
+                onChange={(event) => updateBooking(['gallerySubtitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Titulo exclusivo</span>
+              <input
+                value={booking.galleryExclusiveTitle || ''}
+                onChange={(event) => updateBooking(['galleryExclusiveTitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field admin-field-full">
+              <span>Descripcion exclusivo</span>
+              <textarea
+                rows={3}
+                value={booking.galleryExclusiveDescription || ''}
+                onChange={(event) => updateBooking(['galleryExclusiveDescription'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field admin-field-full">
+              <span>Hint exclusivo</span>
+              <textarea
+                rows={3}
+                value={booking.galleryExclusiveHint || ''}
+                onChange={(event) => updateBooking(['galleryExclusiveHint'], event.target.value)}
               />
             </label>
             <label className="admin-field admin-field-full">
@@ -560,7 +697,47 @@ export function EncuentrosModelsManager() {
             </label>
           </div>
 
-          <SectionTitle eyebrow="Galería" title="Carousels" />
+          <SectionTitle eyebrow="Ficha" title="Hero y encabezado" />
+          <div className="admin-grid">
+            <label className="admin-field">
+              <span>Top bar desktop</span>
+              <input
+                value={content.topBarDesktopHighlight || ''}
+                onChange={(event) => updateDraft(['topBarDesktopHighlight'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Top bar mobile</span>
+              <input
+                value={content.topBarMobile || ''}
+                onChange={(event) => updateDraft(['topBarMobile'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Titulo hero</span>
+              <input
+                value={content.heroTitle || ''}
+                onChange={(event) => updateDraft(['heroTitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Subtitulo hero</span>
+              <input
+                value={content.heroSubtitle || ''}
+                onChange={(event) => updateDraft(['heroSubtitle'], event.target.value)}
+              />
+            </label>
+            <label className="admin-field admin-field-full">
+              <span>Descripcion hero</span>
+              <textarea
+                rows={4}
+                value={content.heroDescription || ''}
+                onChange={(event) => updateDraft(['heroDescription'], event.target.value)}
+              />
+            </label>
+          </div>
+
+          <SectionTitle eyebrow="Galeria" title="Carousels" />
           <div className="admin-grid">
             <label className="admin-field admin-field-full">
               <span>Fotos hero arriba</span>
@@ -583,7 +760,7 @@ export function EncuentrosModelsManager() {
           <SectionTitle eyebrow="Servicios" title="Extras y contacto" />
           <div className="admin-grid">
             <label className="admin-field">
-              <span>Título extras</span>
+              <span>Titulo extras</span>
               <input
                 value={content.extraTitle || ''}
                 onChange={(event) => updateDraft(['extraTitle'], event.target.value)}
@@ -675,7 +852,7 @@ export function EncuentrosModelsManager() {
 
           <div className="admin-hint">
             <p>
-              Esta vista ya deja el modelo listo para publicar, suspender, editar o borrar sin tocar JSON manual.
+              Esta vista deja el modelo listo para publicar, suspender, editar o borrar sin tocar JSON manual.
             </p>
           </div>
 
