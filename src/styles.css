@@ -5662,6 +5662,10 @@ button {
   padding-bottom: 4rem;
 }
 
+.profile-page-encuentros {
+  padding-bottom: calc(var(--encuentros-bottom-nav-offset, 128px) + 1.25rem);
+}
+
 .profile-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

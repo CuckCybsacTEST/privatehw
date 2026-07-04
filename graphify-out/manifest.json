@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1783207243.964203,
-    "ast_hash": "a154f5841b9d3b3cc6448015b7793fc7",
+    "mtime": 1783208526.5801892,
+    "ast_hash": "c876a040e225506b65386632bf47d55e",
     "semantic_hash": ""
   },
   "src/components/AccessPricingCard.jsx": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosPage.jsx": {
-    "mtime": 1783206550.2206821,
-    "ast_hash": "56c92db2178db2d8a6dd2ed75ef44666",
+    "mtime": 1783208574.754903,
+    "ast_hash": "fce41f5ab927f4e0d4ef0a826ca5bc67",
     "semantic_hash": ""
   },
   "src/pages/FreeContentPage.jsx": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "src/pages/ProfilePage.jsx": {
-    "mtime": 1777418198.3052297,
-    "ast_hash": "91146d13d81a7fea02f103c79222bf36",
+    "mtime": 1783208551.0394864,
+    "ast_hash": "c33597fbbe24ee8ae608767c56813f2d",
     "semantic_hash": ""
   },
   "src/pages/VideoCatalogPage.jsx": {
@@ -612,11 +612,6 @@
   ".codex-plugin/hooks/ponytail-subagent.js": {
     "mtime": 1782947004.552937,
     "ast_hash": "b86bae190f0723782fa17cb6df04d1b3",
-    "semantic_hash": ""
-  },
-  ".codex-plugin/package.json": {
-    "mtime": 1782949733.370229,
-    "ast_hash": "df9ffc6aa3f78a5491736d441c4258a8",
     "semantic_hash": ""
   },
   ".codex-plugin/plugin.json": {

@@ -220,9 +220,11 @@ function AppRoutes() {
 }
 
 function AppChrome() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
+  const isEncuentrosProfileContext =
+    pathname === '/profile' && new URLSearchParams(search).get('source') === 'encuentros'
 
-  if (pathname.startsWith('/access') || pathname.startsWith('/admin')) {
+  if (pathname.startsWith('/access') || pathname.startsWith('/admin') || isEncuentrosProfileContext) {
     return null
   }
 

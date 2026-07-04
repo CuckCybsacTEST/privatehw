@@ -546,26 +546,6 @@
     {
       "label": "package.json",
       "file_type": "code",
-      "source_file": ".codex-plugin/package.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "codex_plugin_package",
-      "community": 39,
-      "norm_label": "package.json"
-    },
-    {
-      "label": "type",
-      "file_type": "code",
-      "source_file": ".codex-plugin/package.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "id": "codex_plugin_package_type",
-      "community": 39,
-      "norm_label": "type"
-    },
-    {
-      "label": "package.json",
-      "file_type": "code",
       "source_file": "package.json",
       "source_location": "L1",
       "_origin": "ast",
@@ -1160,7 +1140,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "server_index_normalizebearertoken",
-      "community": 49,
+      "community": 2,
       "norm_label": "normalizebearertoken()"
     },
     {
@@ -1300,7 +1280,7 @@
       "source_location": "L448",
       "_origin": "ast",
       "id": "server_index_getauthenticateduser",
-      "community": 49,
+      "community": 2,
       "norm_label": "getauthenticateduser()"
     },
     {
@@ -1410,7 +1390,7 @@
       "source_location": "L649",
       "_origin": "ast",
       "id": "server_index_logadminauditevent",
-      "community": 42,
+      "community": 40,
       "norm_label": "logadminauditevent()"
     },
     {
@@ -1420,7 +1400,7 @@
       "source_location": "L676",
       "_origin": "ast",
       "id": "server_index_createorupdateorder",
-      "community": 42,
+      "community": 49,
       "norm_label": "createorupdateorder()"
     },
     {
@@ -1520,7 +1500,7 @@
       "source_location": "L1163",
       "_origin": "ast",
       "id": "server_index_handlecheckoutcompleted",
-      "community": 42,
+      "community": 49,
       "norm_label": "handlecheckoutcompleted()"
     },
     {
@@ -1690,7 +1670,7 @@
       "source_location": "L1712",
       "_origin": "ast",
       "id": "server_index_extractencountermodelsociallinks",
-      "community": 19,
+      "community": 38,
       "norm_label": "extractencountermodelsociallinks()"
     },
     {
@@ -1910,7 +1890,7 @@
       "source_location": "L2622",
       "_origin": "ast",
       "id": "server_index_getvideosource",
-      "community": 2,
+      "community": 55,
       "norm_label": "getvideosource()"
     },
     {
@@ -1920,7 +1900,7 @@
       "source_location": "L2653",
       "_origin": "ast",
       "id": "server_index_getcollectionsource",
-      "community": 1,
+      "community": 55,
       "norm_label": "getcollectionsource()"
     },
     {
@@ -1930,7 +1910,7 @@
       "source_location": "L2678",
       "_origin": "ast",
       "id": "server_index_getfreecontentsource",
-      "community": 1,
+      "community": 55,
       "norm_label": "getfreecontentsource()"
     },
     {
@@ -2247,10 +2227,10 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L248",
+      "source_location": "L250",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 55,
+      "community": 5,
       "norm_label": "app()"
     },
     {
@@ -2370,7 +2350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop",
-      "community": 48,
+      "community": 44,
       "norm_label": "atmosphericbackdrop.jsx"
     },
     {
@@ -2380,7 +2360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop_atmosphericbackdrop",
-      "community": 48,
+      "community": 44,
       "norm_label": "atmosphericbackdrop()"
     },
     {
@@ -2390,7 +2370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_blogteasersection",
-      "community": 51,
+      "community": 44,
       "norm_label": "blogteasersection.jsx"
     },
     {
@@ -2400,7 +2380,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_blogteasersection_blogtextcard",
-      "community": 51,
+      "community": 44,
       "norm_label": "blogtextcard()"
     },
     {
@@ -2410,7 +2390,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_blogteasersection_blogteasersection",
-      "community": 51,
+      "community": 44,
       "norm_label": "blogteasersection()"
     },
     {
@@ -2650,7 +2630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_homepreviewrail",
-      "community": 44,
+      "community": 32,
       "norm_label": "homepreviewrail.jsx"
     },
     {
@@ -2660,7 +2640,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_homepreviewrail_resolvesectionhref",
-      "community": 44,
+      "community": 32,
       "norm_label": "resolvesectionhref()"
     },
     {
@@ -2670,7 +2650,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "components_homepreviewrail_railitem",
-      "community": 44,
+      "community": 32,
       "norm_label": "railitem()"
     },
     {
@@ -2680,7 +2660,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "components_homepreviewrail_homepreviewrail",
-      "community": 44,
+      "community": 32,
       "norm_label": "homepreviewrail()"
     },
     {
@@ -2710,7 +2690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_languageswitcher",
-      "community": 44,
+      "community": 32,
       "norm_label": "languageswitcher.jsx"
     },
     {
@@ -2720,7 +2700,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_languageswitcher_languageswitcher",
-      "community": 44,
+      "community": 32,
       "norm_label": "languageswitcher()"
     },
     {
@@ -2850,7 +2830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_physicalmerchsection",
-      "community": 51,
+      "community": 44,
       "norm_label": "physicalmerchsection.jsx"
     },
     {
@@ -2860,7 +2840,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_physicalmerchsection_physicalmerchsection",
-      "community": 51,
+      "community": 44,
       "norm_label": "physicalmerchsection()"
     },
     {
@@ -3020,7 +3000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_spotlightgrid",
-      "community": 14,
+      "community": 44,
       "norm_label": "spotlightgrid.jsx"
     },
     {
@@ -3030,7 +3010,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_spotlightgrid_spotlightgrid",
-      "community": 14,
+      "community": 44,
       "norm_label": "spotlightgrid()"
     },
     {
@@ -3160,7 +3140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videocollectionssection",
-      "community": 51,
+      "community": 44,
       "norm_label": "videocollectionssection.jsx"
     },
     {
@@ -3170,7 +3150,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_videocollectionssection_videocollectionssection",
-      "community": 51,
+      "community": 44,
       "norm_label": "videocollectionssection()"
     },
     {
@@ -3210,7 +3190,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_videoshowcase_videoshowcase",
-      "community": 25,
+      "community": 44,
       "norm_label": "videoshowcase()"
     },
     {
@@ -3220,7 +3200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_viewallpackscard",
-      "community": 51,
+      "community": 44,
       "norm_label": "viewallpackscard.jsx"
     },
     {
@@ -3230,7 +3210,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_viewallpackscard_viewallpackscard",
-      "community": 51,
+      "community": 44,
       "norm_label": "viewallpackscard()"
     },
     {
@@ -3940,7 +3920,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "data_defaultcommerce_formatpriceamount",
-      "community": 0,
+      "community": 11,
       "norm_label": "formatpriceamount()"
     },
     {
@@ -3950,7 +3930,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "data_defaultcommerce_calculatesubscriptionpricing",
-      "community": 0,
+      "community": 11,
       "norm_label": "calculatesubscriptionpricing()"
     },
     {
@@ -4010,7 +3990,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "data_defaultcommerce_ispersistentproducttype",
-      "community": 11,
+      "community": 49,
       "norm_label": "ispersistentproducttype()"
     },
     {
@@ -4120,7 +4100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultsitecontent",
-      "community": 1,
+      "community": 39,
       "norm_label": "defaultsitecontent.js"
     },
     {
@@ -4130,7 +4110,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "data_defaultsitecontent_topcarouselimages",
-      "community": 1,
+      "community": 39,
       "norm_label": "topcarouselimages"
     },
     {
@@ -4140,7 +4120,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "data_defaultsitecontent_bottomcarouselimages",
-      "community": 1,
+      "community": 39,
       "norm_label": "bottomcarouselimages"
     },
     {
@@ -4150,7 +4130,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslide",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizecarouselslide()"
     },
     {
@@ -4160,7 +4140,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslides",
-      "community": 40,
+      "community": 39,
       "norm_label": "normalizecarouselslides()"
     },
     {
@@ -4170,7 +4150,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "data_defaultsitecontent_buildfuturedates",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildfuturedates()"
     },
     {
@@ -4190,7 +4170,7 @@
       "source_location": "L1530",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergeitemsbyslug",
-      "community": 40,
+      "community": 39,
       "norm_label": "mergeitemsbyslug()"
     },
     {
@@ -4200,7 +4180,7 @@
       "source_location": "L1541",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizepricelabel",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizepricelabel()"
     },
     {
@@ -4210,7 +4190,7 @@
       "source_location": "L1559",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizeencounterpricelabel",
-      "community": 40,
+      "community": 39,
       "norm_label": "normalizeencounterpricelabel()"
     },
     {
@@ -4220,7 +4200,7 @@
       "source_location": "L1577",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideolibraryitem",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizevideolibraryitem()"
     },
     {
@@ -4230,7 +4210,7 @@
       "source_location": "L1620",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideocollectionitem",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizevideocollectionitem()"
     },
     {
@@ -4240,7 +4220,7 @@
       "source_location": "L1637",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizephysicalmerchitem",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizephysicalmerchitem()"
     },
     {
@@ -4250,7 +4230,7 @@
       "source_location": "L1644",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizefreecontentitem",
-      "community": 1,
+      "community": 39,
       "norm_label": "normalizefreecontentitem()"
     },
     {
@@ -4290,7 +4270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useviewportstate",
-      "community": 51,
+      "community": 44,
       "norm_label": "useviewportstate.js"
     },
     {
@@ -4300,7 +4280,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "hooks_useviewportstate_computeviewportstate",
-      "community": 51,
+      "community": 44,
       "norm_label": "computeviewportstate()"
     },
     {
@@ -4310,7 +4290,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "hooks_useviewportstate_useviewportstate",
-      "community": 51,
+      "community": 44,
       "norm_label": "useviewportstate()"
     },
     {
@@ -4320,7 +4300,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_i18n",
-      "community": 55,
+      "community": 5,
       "norm_label": "i18n.js"
     },
     {
@@ -4330,7 +4310,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_i18n_supportedlanguages",
-      "community": 55,
+      "community": 5,
       "norm_label": "supportedlanguages"
     },
     {
@@ -4340,7 +4320,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_i18n_resources",
-      "community": 55,
+      "community": 5,
       "norm_label": "resources"
     },
     {
@@ -4900,7 +4880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 55,
+      "community": 5,
       "norm_label": "main.jsx"
     },
     {
@@ -4940,7 +4920,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "pages_admindashboardpage_deepclone",
-      "community": 1,
+      "community": 51,
       "norm_label": "deepclone()"
     },
     {
@@ -4950,7 +4930,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "pages_admindashboardpage_getbypath",
-      "community": 1,
+      "community": 51,
       "norm_label": "getbypath()"
     },
     {
@@ -4960,7 +4940,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "pages_admindashboardpage_updatebypath",
-      "community": 1,
+      "community": 51,
       "norm_label": "updatebypath()"
     },
     {
@@ -4970,7 +4950,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "pages_admindashboardpage_setbypath",
-      "community": 1,
+      "community": 51,
       "norm_label": "setbypath()"
     },
     {
@@ -4980,7 +4960,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "pages_admindashboardpage_appendbypath",
-      "community": 1,
+      "community": 51,
       "norm_label": "appendbypath()"
     },
     {
@@ -4990,7 +4970,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "pages_admindashboardpage_removebypath",
-      "community": 1,
+      "community": 51,
       "norm_label": "removebypath()"
     },
     {
@@ -5030,7 +5010,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "pages_admindashboardpage_uniquevalues",
-      "community": 1,
+      "community": 56,
       "norm_label": "uniquevalues()"
     },
     {
@@ -5040,7 +5020,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizevideotags",
-      "community": 1,
+      "community": 56,
       "norm_label": "normalizevideotags()"
     },
     {
@@ -5060,7 +5040,7 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizepackassets",
-      "community": 1,
+      "community": 55,
       "norm_label": "normalizepackassets()"
     },
     {
@@ -5260,7 +5240,7 @@
       "source_location": "L613",
       "_origin": "ast",
       "id": "pages_admindashboardpage_videolibraryitemeditor",
-      "community": 1,
+      "community": 56,
       "norm_label": "videolibraryitemeditor()"
     },
     {
@@ -5290,7 +5270,7 @@
       "source_location": "L888",
       "_origin": "ast",
       "id": "pages_admindashboardpage_ensurevideolibraryuiids",
-      "community": 1,
+      "community": 51,
       "norm_label": "ensurevideolibraryuiids()"
     },
     {
@@ -5300,7 +5280,7 @@
       "source_location": "L899",
       "_origin": "ast",
       "id": "pages_admindashboardpage_ensurepackuiids",
-      "community": 1,
+      "community": 51,
       "norm_label": "ensurepackuiids()"
     },
     {
@@ -5320,7 +5300,7 @@
       "source_location": "L955",
       "_origin": "ast",
       "id": "pages_admindashboardpage_contenteditor",
-      "community": 1,
+      "community": 46,
       "norm_label": "contenteditor()"
     },
     {
@@ -5370,7 +5350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_adminloginpage",
-      "community": 44,
+      "community": 32,
       "norm_label": "adminloginpage.jsx"
     },
     {
@@ -5380,7 +5360,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "pages_adminloginpage_adminloginpage",
-      "community": 44,
+      "community": 32,
       "norm_label": "adminloginpage()"
     },
     {
@@ -5390,7 +5370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_blogindexpage",
-      "community": 52,
+      "community": 44,
       "norm_label": "blogindexpage.jsx"
     },
     {
@@ -5400,7 +5380,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_blogindexpage_formatpostdate",
-      "community": 52,
+      "community": 44,
       "norm_label": "formatpostdate()"
     },
     {
@@ -5410,7 +5390,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_blogindexpage_formatbannerslot",
-      "community": 52,
+      "community": 44,
       "norm_label": "formatbannerslot()"
     },
     {
@@ -5420,7 +5400,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pages_blogindexpage_getaccessbadgemeta",
-      "community": 52,
+      "community": 44,
       "norm_label": "getaccessbadgemeta()"
     },
     {
@@ -5430,7 +5410,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "pages_blogindexpage_actionlink",
-      "community": 52,
+      "community": 44,
       "norm_label": "actionlink()"
     },
     {
@@ -5440,7 +5420,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "pages_blogindexpage_blogindexpage",
-      "community": 52,
+      "community": 44,
       "norm_label": "blogindexpage()"
     },
     {
@@ -5500,7 +5480,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "pages_calzonespage_calzonespage",
-      "community": 14,
+      "community": 44,
       "norm_label": "calzonespage()"
     },
     {
@@ -5530,7 +5510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_checkoutstartpage",
-      "community": 46,
+      "community": 14,
       "norm_label": "checkoutstartpage.jsx"
     },
     {
@@ -5540,7 +5520,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_resolveproductvisual",
-      "community": 46,
+      "community": 14,
       "norm_label": "resolveproductvisual()"
     },
     {
@@ -5550,7 +5530,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_buildproductsummary",
-      "community": 46,
+      "community": 14,
       "norm_label": "buildproductsummary()"
     },
     {
@@ -5560,7 +5540,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_checkoutstartpage",
-      "community": 46,
+      "community": 14,
       "norm_label": "checkoutstartpage()"
     },
     {
@@ -5570,7 +5550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage",
-      "community": 46,
+      "community": 14,
       "norm_label": "checkoutsuccesspage.jsx"
     },
     {
@@ -5580,7 +5560,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage_reservationconfirmationmodal",
-      "community": 46,
+      "community": 14,
       "norm_label": "reservationconfirmationmodal()"
     },
     {
@@ -5590,7 +5570,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage_checkoutsuccesspage",
-      "community": 46,
+      "community": 14,
       "norm_label": "checkoutsuccesspage()"
     },
     {
@@ -5620,7 +5600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage",
-      "community": 48,
+      "community": 52,
       "norm_label": "encuentroscatalogpage.jsx"
     },
     {
@@ -5630,7 +5610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_normalizemediaurl",
-      "community": 48,
+      "community": 52,
       "norm_label": "normalizemediaurl()"
     },
     {
@@ -5640,7 +5620,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_collectmodelimages",
-      "community": 48,
+      "community": 52,
       "norm_label": "collectmodelimages()"
     },
     {
@@ -5650,7 +5630,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_getfirsttextvalue",
-      "community": 48,
+      "community": 52,
       "norm_label": "getfirsttextvalue()"
     },
     {
@@ -5660,7 +5640,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_gettopbadgelabel",
-      "community": 48,
+      "community": 52,
       "norm_label": "gettopbadgelabel()"
     },
     {
@@ -5670,7 +5650,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_profilemetaline",
-      "community": 48,
+      "community": 52,
       "norm_label": "profilemetaline()"
     },
     {
@@ -5680,7 +5660,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_catalogcard",
-      "community": 48,
+      "community": 52,
       "norm_label": "catalogcard()"
     },
     {
@@ -5690,7 +5670,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_encuentroscatalogpage",
-      "community": 48,
+      "community": 52,
       "norm_label": "encuentroscatalogpage()"
     },
     {
@@ -5780,7 +5760,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "pages_encuentrospage_iscontactchannellink",
-      "community": 3,
+      "community": 19,
       "norm_label": "iscontactchannellink()"
     },
     {
@@ -5790,7 +5770,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_encuentrospage_getcontactchannelicon",
-      "community": 3,
+      "community": 19,
       "norm_label": "getcontactchannelicon()"
     },
     {
@@ -6087,17 +6067,27 @@
       "label": "summarizeProfileAccess()",
       "file_type": "code",
       "source_file": "src/pages/ProfilePage.jsx",
-      "source_location": "L12",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "pages_profilepage_summarizeprofileaccess",
       "community": 45,
       "norm_label": "summarizeprofileaccess()"
     },
     {
+      "label": "getEncounterNavToneStyles()",
+      "file_type": "code",
+      "source_file": "src/pages/ProfilePage.jsx",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "pages_profilepage_getencounternavtonestyles",
+      "community": 45,
+      "norm_label": "getencounternavtonestyles()"
+    },
+    {
       "label": "ProfilePage()",
       "file_type": "code",
       "source_file": "src/pages/ProfilePage.jsx",
-      "source_location": "L24",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "pages_profilepage_profilepage",
       "community": 45,
@@ -6350,7 +6340,7 @@
       "source_location": "L1952",
       "_origin": "ast",
       "id": "state_appstate_useappstate",
-      "community": 44,
+      "community": 14,
       "norm_label": "useappstate()"
     },
     {
@@ -6770,7 +6760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization",
-      "community": 1,
+      "community": 57,
       "norm_label": "imageoptimization.js"
     },
     {
@@ -6780,7 +6770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization_loadimage",
-      "community": 1,
+      "community": 57,
       "norm_label": "loadimage()"
     },
     {
@@ -6790,7 +6780,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "utils_imageoptimization_optimizeimagefile",
-      "community": 1,
+      "community": 57,
       "norm_label": "optimizeimagefile()"
     },
     {
@@ -6860,7 +6850,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "utils_localizedcontent_resolvelocalizedsection",
-      "community": 14,
+      "community": 44,
       "norm_label": "resolvelocalizedsection()"
     },
     {
@@ -6940,7 +6930,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "utils_socialnetworks_social_network_options",
-      "community": 0,
+      "community": 19,
       "norm_label": "social_network_options"
     },
     {
@@ -7190,7 +7180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia",
-      "community": 1,
+      "community": 39,
       "norm_label": "videomedia.js"
     },
     {
@@ -7200,7 +7190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia_extractgoogledrivefileid",
-      "community": 1,
+      "community": 55,
       "norm_label": "extractgoogledrivefileid()"
     },
     {
@@ -7210,7 +7200,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "utils_videomedia_isinternalmediaurl",
-      "community": 1,
+      "community": 56,
       "norm_label": "isinternalmediaurl()"
     },
     {
@@ -7220,7 +7210,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapreviewurl",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildmediapreviewurl()"
     },
     {
@@ -7230,7 +7220,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediafullurl",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildmediafullurl()"
     },
     {
@@ -7240,7 +7230,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapublicurl",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildmediapublicurl()"
     },
     {
@@ -7250,7 +7240,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideopreviewurl",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildvideopreviewurl()"
     },
     {
@@ -7260,7 +7250,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideofullurl",
-      "community": 1,
+      "community": 39,
       "norm_label": "buildvideofullurl()"
     },
     {
@@ -9898,16 +9888,6 @@
       "confidence_score": 1.0,
       "source": "hooks_ponytail_subagent",
       "target": "hooks_ponytail_subagent_readmode_writehookoutput"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": ".codex-plugin/package.json",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "codex_plugin_package",
-      "target": "codex_plugin_package_type"
     },
     {
       "relation": "contains",
@@ -25087,6 +25067,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/ProfilePage.jsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "pages_profilepage",
+      "target": "pages_profilepage_getencounternavtonestyles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ProfilePage.jsx",
       "source_location": "L24",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -25212,6 +25202,17 @@
       "confidence_score": 1.0,
       "source": "pages_profilepage_summarizeprofileaccess",
       "target": "utils_entitlements_getlatestdigitalentitlement"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ProfilePage.jsx",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "pages_profilepage_profilepage",
+      "target": "pages_profilepage_getencounternavtonestyles",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -28629,5 +28630,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4c432a6946bc4bd3721cc2c559d8a3877455cbd0"
+  "built_at_commit": "565db83940b6bb91741aebc15323efcb9e214edf"
 }

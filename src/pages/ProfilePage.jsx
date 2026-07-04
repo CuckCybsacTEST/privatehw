@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { AiFillFire, AiOutlineCalendar, AiOutlinePicture } from 'react-icons/ai'
+import { HiOutlineUser } from 'react-icons/hi'
 import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
@@ -21,9 +23,31 @@ function summarizeProfileAccess(entitlements = []) {
   }
 }
 
+function getEncounterNavToneStyles(tone) {
+  const tones = {
+    home: { color: 'var(--color-primary-hover)' },
+    gallery: { color: 'var(--color-warning)' },
+    booking: { color: 'var(--color-accent-fire)' },
+    profile: { color: 'var(--color-accent-fire)' },
+  }
+
+  const selectedTone = tones[tone] || tones.profile
+
+  return {
+    '--encuentros-nav-item-color': selectedTone.color,
+  }
+}
+
 export function ProfilePage() {
   const { session, entitlements, orders, siteContent, logout } = useAppState()
   const { i18n, t } = useTranslation()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const isEncuentrosContext = searchParams.get('source') === 'encuentros'
+  const modelPath = searchParams.get('model') || '/encuentros'
+  const encounterHomeHref = modelPath.startsWith('/encuentros/') ? modelPath : '/encuentros'
+  const encounterGalleryHref = `${encounterHomeHref}?tab=gallery`
+  const encounterBookingHref = `${encounterHomeHref}/citas`
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
   const accessSummary = summarizeProfileAccess(entitlements)
   const reservationOrders = orders.filter(
@@ -40,9 +64,9 @@ export function ProfilePage() {
     : ''
 
   return (
-    <main className="creator-home">
-      <PublicNav />
-      <section className="content-listing-page profile-page">
+    <main className={isEncuentrosContext ? 'creator-home profile-shell-encuentros' : 'creator-home'}>
+      {isEncuentrosContext ? null : <PublicNav />}
+      <section className={isEncuentrosContext ? 'content-listing-page profile-page profile-page-encuentros' : 'content-listing-page profile-page'}>
         <div className="section-heading">
           <p className="section-kicker">{t('profile.eyebrow')}</p>
           <h1>{t('profile.title')}</h1>
@@ -101,7 +125,55 @@ export function ProfilePage() {
           </article>
         </div>
       </section>
-      <SiteFooter content={siteContent} />
+      {isEncuentrosContext ? (
+        <div className="encuentros-screen-bottom-nav-shell">
+          <nav className="encuentros-screen-bottom-nav" aria-label="Navegacion de encuentros">
+            <Link
+              to={encounterHomeHref}
+              style={getEncounterNavToneStyles('home')}
+              className="encuentros-screen-bottom-nav-item"
+              aria-label="Inicio"
+              title="Inicio"
+            >
+              <AiFillFire aria-hidden="true" />
+              <span>Inicio</span>
+            </Link>
+            <Link
+              to={encounterGalleryHref}
+              style={getEncounterNavToneStyles('gallery')}
+              className="encuentros-screen-bottom-nav-item"
+              aria-label="Galeria"
+              title="Galeria"
+            >
+              <AiOutlinePicture aria-hidden="true" />
+              <span>Galeria</span>
+            </Link>
+            <Link
+              to={encounterBookingHref}
+              style={getEncounterNavToneStyles('booking')}
+              className="encuentros-screen-bottom-nav-item encuentros-screen-bottom-nav-item-primary"
+              aria-label="Reserva"
+              title="Reserva"
+            >
+              <AiOutlineCalendar aria-hidden="true" />
+              <span>Reserva</span>
+            </Link>
+            <Link
+              to={location.pathname + location.search}
+              style={getEncounterNavToneStyles('profile')}
+              className="encuentros-screen-bottom-nav-item is-active"
+              aria-current="page"
+              aria-label={t('profile.title')}
+              title={t('profile.title')}
+            >
+              <HiOutlineUser aria-hidden="true" />
+              <span>{t('profile.title')}</span>
+            </Link>
+          </nav>
+        </div>
+      ) : (
+        <SiteFooter content={siteContent} />
+      )}
     </main>
   )
 }

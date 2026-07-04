@@ -211,7 +211,7 @@ function EncuentrosBottomNav({
   const { session } = useAppState()
   const location = useLocation()
   const authHref = session?.accessToken
-    ? '/profile'
+    ? `/profile?source=encuentros&model=${encodeURIComponent(location.pathname)}`
     : `/access?redirect=${encodeURIComponent(`${location.pathname}${location.search || ''}`)}`
   const authLabel = session?.accessToken ? 'Perfil' : 'Acceder'
   const nav = (
@@ -463,6 +463,7 @@ export function EncuentrosPage() {
   const [galleryReactionCounts, setGalleryReactionCounts] = useState({})
   const [galleryReactionVotes, setGalleryReactionVotes] = useState(() => readGalleryReactionState())
   const galleryVisitorKey = useMemo(() => getOrCreateGalleryVisitorKey(), [])
+  const requestedTab = useMemo(() => new URLSearchParams(location.search).get('tab') || '', [location.search])
   const profileVoiceAudioRef = useRef(null)
   const [isProfileVoicePlaying, setIsProfileVoicePlaying] = useState(false)
   const unlockHref = `/access?redirect=${encodeURIComponent(`${location.pathname}${location.search || ''}`)}`
@@ -596,6 +597,15 @@ export function EncuentrosPage() {
     setActiveBottomNavKey('gallery')
     setIsGalleryOpen(true)
   }, [hasGalleryImages])
+
+  useEffect(() => {
+    if (requestedTab !== 'gallery' || !hasGalleryImages) {
+      return
+    }
+
+    setActiveBottomNavKey('gallery')
+    setIsGalleryOpen(true)
+  }, [hasGalleryImages, requestedTab])
 
   const closeGallery = useCallback(() => {
     setIsGalleryOpen(false)
