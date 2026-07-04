@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { parsePriceAmount } from '../../data/defaultCommerce'
 import { defaultSiteContent, mergeSiteContent } from '../../data/defaultSiteContent'
@@ -7,7 +7,349 @@ import {
   fetchAdminEncuentrosModels,
   saveAdminEncuentrosModel,
 } from '../../lib/supabase'
+import {
+  SOCIAL_NETWORK_OPTIONS,
+  buildWhatsAppChatUrl,
+  extractWhatsAppPhoneFromUrl,
+  getSocialNetworkOption,
+  normalizeSocialNetworkValue,
+} from '../../utils/socialNetworks'
 import { useAppState } from '../../state/AppState'
+
+const AGE_OPTIONS = Array.from({ length: 53 }, (_, index) => String(index + 18))
+const NATIONALITY_OPTIONS = [
+  'Peruana',
+  'Colombiana',
+  'Argentina',
+  'Chilena',
+  'Boliviana',
+  'Ecuatoriana',
+  'Venezolana',
+  'Mexicana',
+  'Brasilena',
+  'Otra',
+]
+const CITY_OPTIONS_BY_NATIONALITY = {
+  Peruana: [
+    'Lima',
+    'Callao',
+    'Cusco',
+    'Arequipa',
+    'Trujillo',
+    'Piura',
+    'Chiclayo',
+    'Ica',
+    'Huancayo',
+    'Puno',
+    'Tacna',
+    'Cajamarca',
+    'Tarapoto',
+    'Huanuco',
+    'Chimbote',
+    'Tumbes',
+    'Iquitos',
+    'Sullana',
+    'Sicuani',
+    'Otra',
+  ],
+  Colombiana: ['Bogota', 'Medellin', 'Cali', 'Barranquilla', 'Cartagena', 'Otra'],
+  Argentina: ['Buenos Aires', 'Cordoba', 'Rosario', 'Mendoza', 'Otra'],
+  Chilena: ['Santiago', 'Valparaiso', 'Concepcion', 'La Serena', 'Otra'],
+  Boliviana: ['La Paz', 'Santa Cruz', 'Cochabamba', 'Sucre', 'Otra'],
+  Ecuatoriana: ['Quito', 'Guayaquil', 'Cuenca', 'Ambato', 'Otra'],
+  Venezolana: ['Caracas', 'Maracaibo', 'Valencia', 'Barquisimeto', 'Otra'],
+  Mexicana: ['CDMX', 'Guadalajara', 'Monterrey', 'Puebla', 'Otra'],
+  Brasilena: ['Sao Paulo', 'Rio de Janeiro', 'Brasilia', 'Salvador', 'Otra'],
+  Otra: ['Otra'],
+}
+const PRESENCIAL_UNIT_OPTIONS = ['hora', 'noche', 'sesion']
+const ATTENDANCE_MODE_OPTIONS = ['Hoteles', 'A domicilio', 'Cuarto propio', 'Auto']
+const TIME_OPTIONS = Array.from({ length: 24 }, (_, index) => {
+  const hours = String(index).padStart(2, '0')
+  return [`${hours}:00`, `${hours}:30`]
+}).flat()
+const INTERVAL_OPTIONS = [15, 30, 45, 60, 90, 120]
+const EXTRA_OPTIONS_PLACEHOLDER = ['Extra 1', 'Extra 2', 'Extra 3', 'Extra 4', 'Extra 5']
+const PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER = [
+  'Feature presencial 1',
+  'Feature presencial 2',
+  'Feature presencial 3',
+  'Feature presencial 4',
+]
+const RELATIONSHIP_STATUS_OPTIONS = ['Soltera', 'Casada', 'Con novio', 'Con esposo', 'Divorciada', 'Otra']
+const MAX_VOICE_AUDIO_BYTES = 10 * 1024 * 1024
+const MAX_AVATAR_BYTES = 8 * 1024 * 1024
+const BLANK_MODEL_DEFAULTS = {
+  heroTitle: '',
+  heroSubtitle: '',
+  topBarDesktopHighlight: '',
+  topBarMobile: '',
+  fanCardDescription: '',
+  importantItems: [],
+  extraLead: '',
+  extraFromLabel: 'desde',
+  socialTitle: '',
+  socialUrl: '',
+  profileAvatarUrl: '',
+  profileAttendanceModes: [],
+  whatsappPhone: '',
+  whatsappUrl: '',
+}
+
+function formatFileSize(bytes = 0) {
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return '0 MB'
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(bytes >= 1024 * 1024 ? 1 : 2)} MB`
+}
+
+function normalizeBooleanValue(value) {
+  return value === true || value === 'true' || value === '1' || value === 1 || value === 'yes'
+}
+
+function getSelectableAge(value = '') {
+  const age = String(value || '').trim()
+  return age && AGE_OPTIONS.includes(age) ? age : ''
+}
+
+function getCityOptionsForNationality(nationality = '') {
+  return CITY_OPTIONS_BY_NATIONALITY[nationality] || CITY_OPTIONS_BY_NATIONALITY.Otra
+}
+
+function VoiceAudioField({
+  value,
+  onUrlChange,
+  uploadManagedMedia,
+  onNotice,
+  onError,
+}) {
+  const fileInputRef = useRef(null)
+  const streamRef = useRef(null)
+  const recorderRef = useRef(null)
+  const chunksRef = useRef([])
+  const [isRecording, setIsRecording] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [status, setStatus] = useState('')
+
+  useEffect(
+    () => () => {
+      recorderRef.current?.stop?.()
+      streamRef.current?.getTracks?.().forEach((track) => track.stop())
+    },
+    [],
+  )
+
+  async function uploadAudioFile(file) {
+    if (!file) return
+
+    if (!file.type.startsWith('audio/')) {
+      onError('Selecciona un archivo de audio valido.')
+      return
+    }
+
+    if (file.size > MAX_VOICE_AUDIO_BYTES) {
+      onError(`El audio supera el limite de ${formatFileSize(MAX_VOICE_AUDIO_BYTES)}.`)
+      return
+    }
+
+    if (!uploadManagedMedia) {
+      onError('No hay soporte de subida disponible en esta sesion.')
+      return
+    }
+
+    setIsUploading(true)
+    setStatus('Subiendo audio...')
+
+    try {
+      const uploaded = await uploadManagedMedia(file, 'site-images', 'encuentros/voice')
+
+      if (!uploaded?.publicUrl) {
+        throw new Error('No se pudo obtener la URL publica del audio.')
+      }
+
+      onUrlChange(uploaded.publicUrl)
+      onNotice('Audio actualizado con exito.')
+      setStatus('Audio cargado.')
+    } catch (error) {
+      onError(error?.message || 'No se pudo subir el audio.')
+      setStatus('')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  async function handleFileChange(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    await uploadAudioFile(file)
+  }
+
+  async function startRecording() {
+    if (!navigator?.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
+      onError('Este navegador no permite grabar audio.')
+      return
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+      chunksRef.current = []
+      streamRef.current = stream
+      recorderRef.current = recorder
+
+      recorder.ondataavailable = (event) => {
+        if (event.data && event.data.size > 0) {
+          chunksRef.current.push(event.data)
+        }
+      }
+
+      recorder.onstop = async () => {
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' })
+        const file = new File([blob], `encuentros-voice-${Date.now()}.webm`, {
+          type: blob.type || 'audio/webm',
+        })
+
+        stream.getTracks().forEach((track) => track.stop())
+        streamRef.current = null
+        recorderRef.current = null
+        setIsRecording(false)
+
+        await uploadAudioFile(file)
+      }
+
+      recorder.start()
+      setIsRecording(true)
+      setStatus('Grabando audio...')
+      onNotice('Grabacion iniciada.')
+    } catch (error) {
+      onError(error?.message || 'No se pudo iniciar la grabacion.')
+      setIsRecording(false)
+    }
+  }
+
+  function stopRecording() {
+    const recorder = recorderRef.current
+    if (recorder && recorder.state !== 'inactive') {
+      recorder.stop()
+      setStatus('Procesando grabacion...')
+    }
+  }
+
+  return (
+    <div className="admin-field admin-field-full">
+      <div className="admin-actions-row">
+        <button type="button" className="admin-secondary-button" onClick={() => fileInputRef.current?.click?.()} disabled={isUploading || isRecording}>
+          Subir audio
+        </button>
+        <button
+          type="button"
+          className="admin-secondary-button"
+          onClick={isRecording ? stopRecording : startRecording}
+          disabled={isUploading}
+        >
+          {isRecording ? 'Detener grabacion' : 'Grabar audio'}
+        </button>
+        <input ref={fileInputRef} type="file" accept="audio/*" hidden onChange={handleFileChange} />
+      </div>
+      <p className="admin-meta">Limite maximo: {formatFileSize(MAX_VOICE_AUDIO_BYTES)}.</p>
+      {value ? <audio controls preload="none" src={value} className="encuentros-admin-audio-preview" /> : null}
+      {status ? <p className="admin-meta">{status}</p> : null}
+    </div>
+  )
+}
+
+function ProfileAvatarField({
+  value,
+  uploadManagedMedia,
+  onUrlChange,
+  onNotice,
+  onError,
+}) {
+  const fileInputRef = useRef(null)
+  const [isUploading, setIsUploading] = useState(false)
+  const [status, setStatus] = useState('')
+
+  async function uploadAvatarFile(file) {
+    if (!file) {
+      return
+    }
+
+    if (!file.type.startsWith('image/')) {
+      onError('Selecciona una imagen valida.')
+      return
+    }
+
+    if (file.size > MAX_AVATAR_BYTES) {
+      onError(`La foto supera el limite de ${formatFileSize(MAX_AVATAR_BYTES)}.`)
+      return
+    }
+
+    if (!uploadManagedMedia) {
+      onError('No hay soporte de subida disponible en esta sesion.')
+      return
+    }
+
+    setIsUploading(true)
+    setStatus('Subiendo foto de perfil...')
+
+    try {
+      const uploaded = await uploadManagedMedia(file, 'site-images', 'encuentros/avatar')
+
+      if (!uploaded?.publicUrl) {
+        throw new Error('No se pudo obtener la URL publica de la foto.')
+      }
+
+      onUrlChange(uploaded.publicUrl)
+      onNotice('Foto de perfil actualizada con exito.')
+      setStatus('Foto cargada.')
+    } catch (error) {
+      onError(error?.message || 'No se pudo subir la foto.')
+      setStatus('')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  async function handleFileChange(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    await uploadAvatarFile(file)
+  }
+
+  return (
+    <div className="admin-field admin-field-full">
+      <span>Foto de perfil</span>
+      <p className="admin-meta">Se muestra centrada y recortada al medio en la UI publica.</p>
+      <div className="admin-avatar-upload-shell">
+        <div className="admin-avatar-preview-frame">
+          {value ? (
+            <img src={value} alt="Vista previa foto de perfil" className="admin-avatar-preview-image" />
+          ) : (
+            <div className="admin-avatar-preview-placeholder">Sin foto</div>
+          )}
+        </div>
+        <div className="admin-actions-row">
+          <button
+            type="button"
+            className="admin-secondary-button"
+            onClick={() => fileInputRef.current?.click?.()}
+            disabled={isUploading}
+          >
+            {isUploading ? 'Subiendo...' : 'Subir foto'}
+          </button>
+          {value ? (
+            <button type="button" className="admin-secondary-button" onClick={() => onUrlChange('')} disabled={isUploading}>
+              Quitar
+            </button>
+          ) : null}
+        </div>
+      </div>
+      <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={handleFileChange} />
+      {status ? <p className="admin-meta">{status}</p> : null}
+    </div>
+  )
+}
 
 function formatStatusLabel(status) {
   switch (status) {
@@ -49,29 +391,43 @@ function normalizeLines(text = '') {
     .filter(Boolean)
 }
 
-function serializeSlides(slides = []) {
+function normalizeGallerySlides(slides = []) {
   return (Array.isArray(slides) ? slides : [])
-    .map((slide) => String(slide?.src || slide?.image || slide || '').trim())
+    .map((slide) => {
+      const src = String(slide?.src || slide?.image || slide?.url || slide || '').trim()
+      const caption = String(slide?.caption || '').trim()
+
+      return src ? { src, caption } : null
+    })
     .filter(Boolean)
-    .join('\n')
 }
 
-function parseSlides(text = '') {
-  return normalizeLines(text).map((src) => ({ src, caption: '' }))
+function getModelGallerySlides(content = {}) {
+  const topSlides = normalizeGallerySlides(content.topCarouselImages || [])
+
+  if (topSlides.length) {
+    return topSlides
+  }
+
+  return normalizeGallerySlides(content.bottomCarouselImages || [])
 }
 
-function serializePaymentMethods(methods = []) {
-  return (Array.isArray(methods) ? methods : [])
-    .map((method) => `${String(method?.value || '').trim()} | ${String(method?.label || '').trim()}`)
+function normalizeStringList(values = []) {
+  return Array.from(new Set((Array.isArray(values) ? values : []).map((value) => String(value || '').trim()).filter(Boolean)))
+}
+
+function serializeSocialLinks(links = []) {
+  return (Array.isArray(links) ? links : [])
+    .map((link) => `${String(link?.network || '').trim()} | ${String(link?.url || '').trim()}`)
     .filter((line) => line.trim() !== ' |')
     .join('\n')
 }
 
-function parsePaymentMethods(text = '') {
+function parseSocialLinks(text = '') {
   return normalizeLines(text)
     .map((line) => {
-      const [value, label] = line.split('|').map((part) => part.trim())
-      return value ? { value, label: label || value } : null
+      const [network, url] = line.split('|').map((part) => part.trim())
+      return network && url ? { network, label: network, url } : null
     })
     .filter(Boolean)
 }
@@ -85,24 +441,47 @@ function formatBookingModeLabel(mode = '') {
   return normalizeAvailabilityMode(mode) === 'manual' ? 'Fechas manuales' : 'Todos los dias'
 }
 
-function formatBookingSummary(booking = {}) {
+function formatBookingSummary(booking = {}, recordsEncounters = false) {
   const mode = normalizeAvailabilityMode(booking.availabilityMode)
   const datesCount = Array.isArray(booking.availableDates) ? booking.availableDates.length : 0
   const dailyDays = Number.parseInt(booking.availableDays || '14', 10) || 14
-  const priceLabel = booking.priceLabel || 'Sin precio'
   const advanceLabel = booking.advanceLabel || 'Sin adelanto'
   const discountValue = Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0
-  const discountLabel = discountValue > 0 ? `${discountValue}% grabacion` : 'Sin descuento'
+  const membershipEnabled = Boolean(booking.membershipDiscountEnabled)
+  const membershipDiscountValue =
+    Number.parseFloat(String(booking.membershipDiscountPercent || '0').replace(',', '.')) || 0
+  const membershipNetwork = getSocialNetworkOption(booking.membershipDiscountNetwork || '').label
 
-  return [mode === 'manual' ? `${datesCount} fechas` : `Proximos ${dailyDays} dias`, priceLabel, advanceLabel, discountLabel]
+  const discountLabel =
+    recordsEncounters && discountValue > 0 ? `${discountValue}% grabacion` : 'Sin grabacion'
+  const membershipLabel =
+    membershipEnabled && membershipDiscountValue > 0
+      ? `${membershipDiscountValue}% ${membershipNetwork}`
+      : 'Sin membresia'
+
+  return [
+    mode === 'manual' ? `${datesCount} fechas` : `Proximos ${dailyDays} dias`,
+    advanceLabel,
+    discountLabel,
+    membershipLabel,
+  ]
 }
 
-function normalizeBookingForSave(booking = {}) {
+function normalizeBookingForSave(booking = {}, { recordsEncounters = false } = {}) {
   const availabilityMode = normalizeAvailabilityMode(booking.availabilityMode)
   const priceAmount = parsePriceAmount(booking.priceLabel || '')
   const fallbackPriceAmount = Number.parseInt(booking.priceAmount || '0', 10) || 0
   const advanceAmount = parsePriceAmount(booking.advanceLabel || '')
   const fallbackAdvanceAmount = Number.parseInt(booking.advanceAmount || '0', 10) || 0
+  const recordingDiscountPercent =
+    recordsEncounters
+      ? Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0
+      : 0
+  const membershipDiscountEnabled = Boolean(booking.membershipDiscountEnabled)
+  const membershipDiscountPercent =
+    membershipDiscountEnabled
+      ? Number.parseFloat(String(booking.membershipDiscountPercent || '0').replace(',', '.')) || 0
+      : 0
 
   return {
     ...booking,
@@ -111,14 +490,33 @@ function normalizeBookingForSave(booking = {}) {
     availableDates: Array.isArray(booking.availableDates) ? booking.availableDates : [],
     priceAmount: Number.isFinite(priceAmount) && priceAmount > 0 ? priceAmount : fallbackPriceAmount,
     advanceAmount: Number.isFinite(advanceAmount) && advanceAmount > 0 ? advanceAmount : fallbackAdvanceAmount,
-    recordingDiscountPercent:
-      Number.parseFloat(String(booking.recordingDiscountPercent || '0').replace(',', '.')) || 0,
+    recordingDiscountPercent,
+    membershipDiscountEnabled,
+    membershipDiscountNetwork: membershipDiscountEnabled
+      ? normalizeSocialNetworkValue(booking.membershipDiscountNetwork || '')
+      : '',
+    membershipDiscountPercent,
+    membershipDiscountLabel: membershipDiscountEnabled
+      ? String(booking.membershipDiscountLabel || '').trim()
+      : '',
   }
 }
 
 function createDraftFromModel(model = null, fallbackContent = null) {
   const content = mergeSiteContent(model?.content || fallbackContent || defaultSiteContent)
-  const slug = model?.slug || `modelo-${Date.now()}`
+  const slug = model?.slug || ''
+  const nextContent = !model
+    ? {
+        ...content,
+        ...BLANK_MODEL_DEFAULTS,
+      }
+    : {
+        ...content,
+        whatsappPhone:
+          content.whatsappPhone ||
+          extractWhatsAppPhoneFromUrl(content.whatsappUrl || '') ||
+          '',
+      }
 
   return {
     existingSlug: model?.slug || '',
@@ -126,33 +524,36 @@ function createDraftFromModel(model = null, fallbackContent = null) {
     displayName: model?.displayName || '',
     status: model?.status || 'draft',
     sortOrder: String(model?.sortOrder ?? 0),
-    content,
+    content: nextContent,
   }
 }
 
 function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, deletingSlug }) {
   const previewHref = `/encuentros/${encodeURIComponent(model.slug)}`
   const isPublished = model.status === 'published'
+  const recordsEncounters = normalizeBooleanValue(model?.content?.recordsEncounters)
+  const relationshipStatus = String(model?.content?.profileRelationshipStatus || '').trim()
   const booking = model?.content?.encuentrosBooking || {}
-  const bookingSummary = formatBookingSummary(booking)
+  const bookingSummary = formatBookingSummary(booking, recordsEncounters)
 
   return (
     <article className="admin-user-card">
       <div className="admin-user-copy">
         <h3>{model.displayName || model.slug}</h3>
         <p className="admin-note">
-          <strong>{model.slug}</strong> · {formatStatusLabel(model.status)} · orden {model.sortOrder ?? 0}
+          <strong>{model.slug}</strong> · {formatStatusLabel(model.status)}
         </p>
         <p className="admin-note">
           URL publica: <Link to={previewHref}>{previewHref}</Link>
         </p>
         <div className="admin-user-metrics">
           <span>{formatBookingModeLabel(booking.availabilityMode)}</span>
+          <span>{recordsEncounters ? 'Graba' : 'No graba'}</span>
+          <span>{relationshipStatus || 'Sin estado'}</span>
           <span>{bookingSummary[0]}</span>
           <span>{bookingSummary[1]}</span>
-          <span>{bookingSummary[2]}</span>
         </div>
-        <p className="admin-note">{bookingSummary[3]}</p>
+        <p className="admin-note">{bookingSummary[2]} · {bookingSummary[3]}</p>
       </div>
       <div className="admin-actions-row">
         <button type="button" className="admin-secondary-button" onClick={() => onEdit(model)}>
@@ -194,33 +595,63 @@ function SectionTitle({ eyebrow, title, description }) {
 }
 
 export function EncuentrosModelsManager() {
-  const { session, siteContent } = useAppState()
+  const { session, siteContent, uploadManagedMedia } = useAppState()
   const [models, setModels] = useState([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [deletingSlug, setDeletingSlug] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+  const [galleryUploading, setGalleryUploading] = useState(false)
   const [draft, setDraft] = useState(() => createDraftFromModel(null, mergeSiteContent(siteContent)))
 
   const content = draft.content || mergeSiteContent(defaultSiteContent)
   const booking = content.encuentrosBooking || {}
   const bookingAvailabilityMode = normalizeAvailabilityMode(booking.availabilityMode)
-  const topSlidesText = useMemo(() => serializeSlides(content.topCarouselImages || []), [content.topCarouselImages])
-  const bottomSlidesText = useMemo(() => serializeSlides(content.bottomCarouselImages || []), [content.bottomCarouselImages])
-  const importantItemsText = useMemo(() => (content.importantItems || []).join('\n'), [content.importantItems])
-  const presencialFeaturesText = useMemo(() => (content.presencialFeatures || []).join('\n'), [content.presencialFeatures])
-  const extraItemsText = useMemo(() => (content.extraItems || []).join('\n'), [content.extraItems])
-  const availableDatesText = useMemo(() => (booking.availableDates || []).join('\n'), [booking.availableDates])
-  const paymentMethodsText = useMemo(() => serializePaymentMethods(booking.paymentMethods || []), [booking.paymentMethods])
+  const availableDates = Array.isArray(booking.availableDates) ? booking.availableDates : []
+  const socialLinks = Array.isArray(content.socialLinks) ? content.socialLinks : []
+  const selectedCity = String(content.profileCity || '').trim()
+  const selectedNationality = String(content.profileNationality || '').trim()
+  const selectedAttendanceModes = useMemo(
+    () => normalizeStringList(content.profileAttendanceModes || []),
+    [content.profileAttendanceModes],
+  )
+  const gallerySlides = useMemo(
+    () => getModelGallerySlides(content),
+    [content.bottomCarouselImages, content.topCarouselImages],
+  )
+  const selectedPresencialFeatures = useMemo(
+    () => normalizeStringList(content.presencialFeatures || []),
+    [content.presencialFeatures],
+  )
+  const selectedExtraItems = useMemo(
+    () => normalizeStringList(content.extraItems || []),
+    [content.extraItems],
+  )
+  const extraOptions = useMemo(
+    () =>
+      normalizeStringList([
+        ...(content.encuentrosExtraOptions || EXTRA_OPTIONS_PLACEHOLDER),
+        ...selectedExtraItems,
+      ]),
+    [content.encuentrosExtraOptions, selectedExtraItems],
+  )
+  const presencialFeatureOptions = useMemo(
+    () =>
+      normalizeStringList([
+        ...(content.encuentrosPresencialFeatureOptions || PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER),
+        ...selectedPresencialFeatures,
+      ]),
+    [content.encuentrosPresencialFeatureOptions, selectedPresencialFeatures],
+  )
   const counts = useMemo(
     () => ({
-      top: Array.isArray(content.topCarouselImages) ? content.topCarouselImages.length : 0,
-      bottom: Array.isArray(content.bottomCarouselImages) ? content.bottomCarouselImages.length : 0,
-      services: Array.isArray(content.extraItems) ? content.extraItems.length : 0,
+      photos: gallerySlides.length,
+      services: selectedExtraItems.length,
       dates: Array.isArray(booking.availableDates) ? booking.availableDates.length : 0,
+      socials: socialLinks.length,
     }),
-    [booking.availableDates, content.bottomCarouselImages, content.extraItems, content.topCarouselImages],
+    [booking.availableDates, gallerySlides.length, selectedExtraItems.length, socialLinks.length],
   )
 
   async function refreshModels() {
@@ -273,15 +704,203 @@ export function EncuentrosModelsManager() {
     updateDraft(['encuentrosBooking', ...path], value)
   }
 
+  function toggleContentListItem(field, value) {
+    const normalizedValue = String(value || '').trim()
+
+    if (!normalizedValue) {
+      return
+    }
+
+    setDraft((current) => {
+      const currentList = normalizeStringList(current.content?.[field] || [])
+      const nextList = currentList.includes(normalizedValue)
+        ? currentList.filter((item) => item !== normalizedValue)
+        : [...currentList, normalizedValue]
+
+      return {
+        ...current,
+        content: setByPath(current.content, [field], nextList),
+      }
+    })
+  }
+
+  function setGallerySlides(nextSlides) {
+    const normalizedSlides = normalizeGallerySlides(nextSlides)
+
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(
+        setByPath(current.content, ['topCarouselImages'], normalizedSlides),
+        ['bottomCarouselImages'],
+        normalizedSlides,
+      ),
+    }))
+  }
+
+  function appendGallerySlides(nextSlides) {
+    setDraft((current) => {
+      const currentSlides = getModelGallerySlides(current.content)
+      const normalizedSlides = normalizeGallerySlides([...currentSlides, ...nextSlides])
+
+      return {
+        ...current,
+        content: setByPath(
+          setByPath(current.content, ['topCarouselImages'], normalizedSlides),
+          ['bottomCarouselImages'],
+          normalizedSlides,
+        ),
+      }
+    })
+  }
+
+  async function handleGalleryFiles(event) {
+    const files = Array.from(event.target.files || [])
+    event.target.value = ''
+
+    if (!files.length) {
+      return
+    }
+
+    if (!uploadManagedMedia) {
+      setError('No hay soporte para subir fotos en esta sesion.')
+      return
+    }
+
+    setError('')
+    setMessage('Subiendo fotos...')
+    setGalleryUploading(true)
+
+    try {
+      const uploadedSlides = []
+
+      for (const file of files) {
+        const uploaded = await uploadManagedMedia(file, 'site-images', 'encuentros-top')
+
+        if (uploaded?.publicUrl) {
+          uploadedSlides.push({ src: uploaded.publicUrl, caption: '' })
+        }
+      }
+
+      if (!uploadedSlides.length) {
+        throw new Error('No se pudo subir ninguna foto.')
+      }
+
+      appendGallerySlides(uploadedSlides)
+      setMessage(uploadedSlides.length === 1 ? 'Foto cargada.' : `${uploadedSlides.length} fotos cargadas.`)
+    } catch (uploadError) {
+      setError(uploadError?.message || 'No se pudo subir la foto.')
+    } finally {
+      setGalleryUploading(false)
+    }
+  }
+
+  function handleNationalityChange(value) {
+    const nextCities = getCityOptionsForNationality(value)
+    setDraft((current) => {
+      const nextContent = setByPath(current.content, ['profileNationality'], value)
+      const currentCity = String(current.content?.profileCity || '')
+
+      if (currentCity && !nextCities.includes(currentCity)) {
+        return {
+          ...current,
+          content: setByPath(nextContent, ['profileCity'], ''),
+        }
+      }
+
+      return {
+        ...current,
+        content: nextContent,
+      }
+    })
+  }
+
+  function updateSocialLink(index, patch) {
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(current.content, ['socialLinks', index], {
+        ...(Array.isArray(current.content?.socialLinks) ? current.content.socialLinks[index] || {} : {}),
+        ...patch,
+      }),
+    }))
+  }
+
+  function addSocialLink() {
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(current.content, ['socialLinks'], [
+        ...(Array.isArray(current.content?.socialLinks) ? current.content.socialLinks : []),
+        { network: '', label: '', url: '', active: true },
+      ]),
+    }))
+  }
+
+  function removeSocialLink(index) {
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(
+        current.content,
+        ['socialLinks'],
+        (Array.isArray(current.content?.socialLinks) ? current.content.socialLinks : []).filter(
+          (_, itemIndex) => itemIndex !== index,
+        ),
+      ),
+    }))
+  }
+
+  function updateAvailableDate(index, value) {
+    updateBooking(['availableDates', index], value)
+  }
+
+  function addAvailableDate() {
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(current.content, ['encuentrosBooking', 'availableDates'], [
+        ...(Array.isArray(current.content?.encuentrosBooking?.availableDates)
+          ? current.content.encuentrosBooking.availableDates
+          : []),
+        '',
+      ]),
+    }))
+  }
+
+  function removeAvailableDate(index) {
+    setDraft((current) => ({
+      ...current,
+      content: setByPath(
+        current.content,
+        ['encuentrosBooking', 'availableDates'],
+        (Array.isArray(current.content?.encuentrosBooking?.availableDates)
+          ? current.content.encuentrosBooking.availableDates
+          : []
+        ).filter((_, itemIndex) => itemIndex !== index),
+      ),
+    }))
+  }
+
   async function handleSave() {
     setError('')
     setMessage('')
     setSaving(true)
 
     try {
+      const nextGallerySlides = gallerySlides
+      const nextRecordsEncounters = normalizeBooleanValue(draft.content?.recordsEncounters)
+      const whatsappPhone = String(draft.content?.whatsappPhone || '').trim()
+      const whatsappUrl = whatsappPhone
+        ? buildWhatsAppChatUrl(whatsappPhone, draft.displayName || draft.slug || 'la modelo')
+        : String(draft.content?.whatsappUrl || '').trim()
       const nextContent = mergeSiteContent({
         ...draft.content,
-        encuentrosBooking: normalizeBookingForSave(draft.content?.encuentrosBooking || {}),
+        extraFromLabel: 'desde',
+        topCarouselImages: nextGallerySlides,
+        bottomCarouselImages: nextGallerySlides,
+        whatsappPhone,
+        whatsappUrl,
+        encuentrosBooking: normalizeBookingForSave(draft.content?.encuentrosBooking || {}, {
+          recordsEncounters: nextRecordsEncounters,
+        }),
+        recordsEncounters: nextRecordsEncounters,
+        recordingEnabled: nextRecordsEncounters,
       })
 
       const savedModel = await saveAdminEncuentrosModel(
@@ -311,9 +930,14 @@ export function EncuentrosModelsManager() {
     setMessage('')
 
     try {
+      const nextRecordsEncounters = normalizeBooleanValue(model.content?.recordsEncounters)
       const nextContent = mergeSiteContent({
         ...model.content,
-        encuentrosBooking: normalizeBookingForSave(model.content?.encuentrosBooking || {}),
+        encuentrosBooking: normalizeBookingForSave(model.content?.encuentrosBooking || {}, {
+          recordsEncounters: nextRecordsEncounters,
+        }),
+        recordsEncounters: nextRecordsEncounters,
+        recordingEnabled: nextRecordsEncounters,
       })
 
       const savedModel = await saveAdminEncuentrosModel(
@@ -407,38 +1031,12 @@ export function EncuentrosModelsManager() {
           )}
         </div>
 
-        <form
-          className="admin-form admin-form-card"
-          onSubmit={(event) => {
-            event.preventDefault()
-            void handleSave()
-          }}
-        >
+        <div className="admin-form admin-form-card">
           <SectionTitle
             eyebrow="Editor"
             title={draft.existingSlug ? 'Editar modelo' : 'Nuevo modelo'}
             description="Ajusta ficha, reserva, galeria y servicios sin tocar JSON."
           />
-
-          <div className="admin-actions-row">
-            <label className="admin-field">
-              <span>Slug publico</span>
-              <input
-                value={draft.slug}
-                onChange={(event) => setDraft((current) => ({ ...current, slug: event.target.value }))}
-                placeholder="modelo-publico"
-              />
-            </label>
-
-            <label className="admin-field">
-              <span>Nombre visible</span>
-              <input
-                value={draft.displayName}
-                onChange={(event) => setDraft((current) => ({ ...current, displayName: event.target.value }))}
-                placeholder="Modelo principal"
-              />
-            </label>
-          </div>
 
           <div className="admin-actions-row">
             <label className="admin-field">
@@ -452,15 +1050,6 @@ export function EncuentrosModelsManager() {
                 <option value="suspended">Suspendido</option>
               </select>
             </label>
-
-            <label className="admin-field">
-              <span>Orden</span>
-              <input
-                type="number"
-                value={draft.sortOrder}
-                onChange={(event) => setDraft((current) => ({ ...current, sortOrder: event.target.value }))}
-              />
-            </label>
           </div>
 
           <article className="admin-hint">
@@ -468,9 +1057,129 @@ export function EncuentrosModelsManager() {
               URL publica: <Link to={`/encuentros/${encodeURIComponent(draft.slug)}`}>/encuentros/{draft.slug}</Link>
             </p>
             <p>
-              {counts.top} fotos arriba, {counts.bottom} fotos abajo, {counts.services} extras, {counts.dates} fechas.
+              {counts.photos} fotos, {counts.services} extras, {counts.dates} fechas, {counts.socials} redes.
             </p>
           </article>
+
+          <SectionTitle
+            eyebrow="Perfil"
+            title="Datos publicos"
+            description="Edad, ubicacion, redes y audio corto se mueven por modelo."
+          />
+          <div className="admin-grid">
+            <label className="admin-field">
+              <span>Nombre de modelo</span>
+              <input
+                value={draft.displayName}
+                onChange={(event) => setDraft((current) => ({ ...current, displayName: event.target.value }))}
+                placeholder="Modelo principal"
+              />
+            </label>
+            <label className="admin-field">
+              <span>Edad</span>
+              <select
+                value={getSelectableAge(content.profileAge || '')}
+                onChange={(event) => updateDraft(['profileAge'], event.target.value)}
+              >
+                <option value="">Selecciona edad</option>
+                {AGE_OPTIONS.map((age) => (
+                  <option key={age} value={age}>
+                    {age}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Ciudad</span>
+              <select
+                value={content.profileCity || ''}
+                onChange={(event) => updateDraft(['profileCity'], event.target.value)}
+              >
+                <option value="">Selecciona ciudad</option>
+                {selectedCity && !getCityOptionsForNationality(selectedNationality).includes(selectedCity) ? (
+                  <option value={selectedCity}>{selectedCity}</option>
+                ) : null}
+                {getCityOptionsForNationality(selectedNationality).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Nacionalidad</span>
+              <select
+                value={content.profileNationality || ''}
+                onChange={(event) => handleNationalityChange(event.target.value)}
+              >
+                <option value="">Selecciona nacionalidad</option>
+                {selectedNationality && !NATIONALITY_OPTIONS.includes(selectedNationality) ? (
+                  <option value={selectedNationality}>{selectedNationality}</option>
+                ) : null}
+                {NATIONALITY_OPTIONS.map((nationality) => (
+                  <option key={nationality} value={nationality}>
+                    {nationality}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Estado sentimental</span>
+              <select
+                value={content.profileRelationshipStatus || ''}
+                onChange={(event) => updateDraft(['profileRelationshipStatus'], event.target.value)}
+              >
+                <option value="">Selecciona estado</option>
+                {RELATIONSHIP_STATUS_OPTIONS.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="admin-field admin-field-full">
+              <span>Donde atiende</span>
+              <p className="admin-meta">Selecciona uno o varios lugares. Se mostrara en los chips publicos del perfil y la galeria.</p>
+              <div className="admin-chip-selector">
+                {ATTENDANCE_MODE_OPTIONS.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    className={
+                      selectedAttendanceModes.includes(option) ? 'admin-chip-button is-active' : 'admin-chip-button'
+                    }
+                    onClick={() => toggleContentListItem('profileAttendanceModes', option)}
+                    aria-pressed={selectedAttendanceModes.includes(option)}
+                  >
+                    <span>{option}</span>
+                  </button>
+                ))}
+              </div>
+              {selectedAttendanceModes.length ? (
+                <p className="admin-chip-helper">
+                  Seleccionados: {selectedAttendanceModes.join(', ')}
+                </p>
+              ) : (
+                <p className="admin-chip-helper">Aun no hay lugares de atencion seleccionados.</p>
+              )}
+            </div>
+            <ProfileAvatarField
+              value={content.profileAvatarUrl || ''}
+              uploadManagedMedia={uploadManagedMedia}
+              onUrlChange={(value) => updateDraft(['profileAvatarUrl'], value)}
+              onNotice={setMessage}
+              onError={setError}
+            />
+            <label className="admin-field admin-field-full">
+              <VoiceAudioField
+                value={content.profileVoiceAudioUrl || ''}
+                uploadManagedMedia={uploadManagedMedia}
+                onUrlChange={(value) => updateDraft(['profileVoiceAudioUrl'], value)}
+                onNotice={setMessage}
+                onError={setError}
+              />
+            </label>
+          </div>
 
           <SectionTitle
             eyebrow="Reserva por modelo"
@@ -502,57 +1211,91 @@ export function EncuentrosModelsManager() {
             </label>
             <label className="admin-field">
               <span>Horario inicio</span>
-              <input
+              <select
                 value={booking.bookingStartTime || ''}
                 onChange={(event) => updateBooking(['bookingStartTime'], event.target.value)}
-              />
+              >
+                <option value="">Selecciona hora</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="admin-field">
               <span>Horario fin</span>
-              <input
+              <select
                 value={booking.bookingEndTime || ''}
                 onChange={(event) => updateBooking(['bookingEndTime'], event.target.value)}
-              />
+              >
+                <option value="">Selecciona hora</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="admin-field">
               <span>Intervalo minutos</span>
-              <input
-                type="number"
+              <select
                 value={String(booking.slotIntervalMinutes || 60)}
                 onChange={(event) =>
                   updateBooking(['slotIntervalMinutes'], Number.parseInt(event.target.value || '0', 10) || 60)
                 }
-              />
+              >
+                {INTERVAL_OPTIONS.map((interval) => (
+                  <option key={interval} value={interval}>
+                    {interval} minutos
+                  </option>
+                ))}
+              </select>
             </label>
+            <label className="admin-field">
+              <span>Unidad presencial</span>
+              <select
+                value={content.presencialUnit || ''}
+                onChange={(event) => updateDraft(['presencialUnit'], event.target.value)}
+              >
+                <option value="">Selecciona unidad</option>
+                {PRESENCIAL_UNIT_OPTIONS.map((unit) => (
+                  <option key={unit} value={unit}>
+                    {unit}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Graba encuentros</span>
+              <select
+                value={normalizeBooleanValue(content.recordsEncounters) ? 'yes' : 'no'}
+                onChange={(event) => updateDraft(['recordsEncounters'], event.target.value === 'yes')}
+              >
+                <option value="yes">Si</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            {normalizeBooleanValue(content.recordsEncounters) ? (
+              <label className="admin-field">
+                <span>Descuento grabacion %</span>
+                <input
+                  type="number"
+                  value={String(booking.recordingDiscountPercent || 0)}
+                  onChange={(event) =>
+                    updateBooking(
+                      ['recordingDiscountPercent'],
+                      Math.min(Math.max(Number.parseInt(event.target.value || '0', 10) || 0, 0), 100),
+                    )
+                  }
+                />
+              </label>
+            ) : null}
             <label className="admin-field">
               <span>Precio presencial</span>
               <input
                 value={content.presencialPrice || ''}
                 onChange={(event) => updateDraft(['presencialPrice'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Unidad presencial</span>
-              <input
-                value={content.presencialUnit || ''}
-                onChange={(event) => updateDraft(['presencialUnit'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Precio reserva</span>
-              <input
-                value={booking.priceLabel || ''}
-                onChange={(event) => updateBooking(['priceLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Precio base</span>
-              <input
-                type="number"
-                value={String(booking.priceAmount || 0)}
-                onChange={(event) =>
-                  updateBooking(['priceAmount'], Number.parseInt(event.target.value || '0', 10) || 0)
-                }
               />
             </label>
             <label className="admin-field">
@@ -562,171 +1305,102 @@ export function EncuentrosModelsManager() {
                 onChange={(event) => updateBooking(['advanceLabel'], event.target.value)}
               />
             </label>
-            <label className="admin-field">
-              <span>Adelanto base</span>
-              <input
-                type="number"
-                value={String(booking.advanceAmount || 0)}
-                onChange={(event) =>
-                  updateBooking(['advanceAmount'], Number.parseInt(event.target.value || '0', 10) || 0)
-                }
-              />
-            </label>
-            <label className="admin-field">
-              <span>Descuento grabacion %</span>
-              <input
-                type="number"
-                value={String(booking.recordingDiscountPercent || 0)}
-                onChange={(event) =>
-                  updateBooking(
-                    ['recordingDiscountPercent'],
-                    Math.min(Math.max(Number.parseInt(event.target.value || '0', 10) || 0, 0), 100),
-                  )
-                }
-              />
-            </label>
             <label className="admin-field admin-field-full">
+              <span>Descuento por membresia</span>
+              <select
+                value={booking.membershipDiscountEnabled ? 'yes' : 'no'}
+                onChange={(event) => updateBooking(['membershipDiscountEnabled'], event.target.value === 'yes')}
+              >
+                <option value="yes">Si</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            {booking.membershipDiscountEnabled ? (
+              <>
+                <label className="admin-field">
+                  <span>Red de membresia</span>
+                  <select
+                    value={booking.membershipDiscountNetwork ? normalizeSocialNetworkValue(booking.membershipDiscountNetwork) : ''}
+                    onChange={(event) =>
+                      updateBooking(['membershipDiscountNetwork'], normalizeSocialNetworkValue(event.target.value || ''))
+                    }
+                  >
+                    <option value="">Selecciona red</option>
+                    {SOCIAL_NETWORK_OPTIONS.filter((option) => option.value !== 'telegram' && option.value !== 'whatsapp').map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="admin-field">
+                  <span>Descuento membresia %</span>
+                  <input
+                    type="number"
+                    value={String(booking.membershipDiscountPercent || 0)}
+                    onChange={(event) =>
+                      updateBooking(
+                        ['membershipDiscountPercent'],
+                        Math.min(Math.max(Number.parseInt(event.target.value || '0', 10) || 0, 0), 100),
+                      )
+                    }
+                  />
+                </label>
+                <label className="admin-field admin-field-full">
+                  <span>Etiqueta membresia</span>
+                  <input
+                    value={booking.membershipDiscountLabel || ''}
+                    onChange={(event) => updateBooking(['membershipDiscountLabel'], event.target.value)}
+                    placeholder="Suscriptores OnlyFans"
+                  />
+                </label>
+              </>
+            ) : null}
+            <div className="admin-field admin-field-full">
               <span>Fechas disponibles</span>
-              <textarea
-                rows={4}
-                value={availableDatesText}
-                onChange={(event) => updateBooking(['availableDates'], normalizeLines(event.target.value))}
-                disabled={bookingAvailabilityMode === 'everyday'}
-                placeholder={
-                  bookingAvailabilityMode === 'manual'
-                    ? '2026-07-05\n2026-07-06\n2026-07-07'
-                    : 'Se usa el modo diario'
-                }
-              />
-            </label>
-            <label className="admin-field">
-              <span>Etiqueta descuento</span>
-              <input
-                value={booking.recordingDiscountLabel || ''}
-                onChange={(event) => updateBooking(['recordingDiscountLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Titulo grabacion</span>
-              <input
-                value={booking.recordingPromptTitle || ''}
-                onChange={(event) => updateBooking(['recordingPromptTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Descripcion grabacion</span>
-              <textarea
-                rows={3}
-                value={booking.recordingPromptDescription || ''}
-                onChange={(event) => updateBooking(['recordingPromptDescription'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Grabacion SI</span>
-              <input
-                value={booking.recordingYesLabel || ''}
-                onChange={(event) => updateBooking(['recordingYesLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Grabacion NO</span>
-              <input
-                value={booking.recordingNoLabel || ''}
-                onChange={(event) => updateBooking(['recordingNoLabel'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Titulo reserva</span>
-              <input
-                value={booking.title || ''}
-                onChange={(event) => updateBooking(['title'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Descripcion reserva</span>
-              <textarea
-                rows={4}
-                value={booking.description || ''}
-                onChange={(event) => updateBooking(['description'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Titulo galeria</span>
-              <input
-                value={booking.galleryTitle || ''}
-                onChange={(event) => updateBooking(['galleryTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Subtitulo galeria</span>
-              <input
-                value={booking.gallerySubtitle || ''}
-                onChange={(event) => updateBooking(['gallerySubtitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Titulo exclusivo</span>
-              <input
-                value={booking.galleryExclusiveTitle || ''}
-                onChange={(event) => updateBooking(['galleryExclusiveTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Descripcion exclusivo</span>
-              <textarea
-                rows={3}
-                value={booking.galleryExclusiveDescription || ''}
-                onChange={(event) => updateBooking(['galleryExclusiveDescription'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Hint exclusivo</span>
-              <textarea
-                rows={3}
-                value={booking.galleryExclusiveHint || ''}
-                onChange={(event) => updateBooking(['galleryExclusiveHint'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Payment methods</span>
-              <textarea
-                rows={4}
-                value={paymentMethodsText}
-                onChange={(event) => updateBooking(['paymentMethods'], parsePaymentMethods(event.target.value))}
-              />
-            </label>
+              <p className="admin-meta">
+                {bookingAvailabilityMode === 'manual'
+                  ? 'Selecciona cada fecha manualmente.'
+                  : 'En modo diario se generan dias proximos automaticamente.'}
+              </p>
+              {bookingAvailabilityMode === 'manual' ? (
+                availableDates.length ? (
+                  availableDates.map((value, index) => (
+                    <div className="admin-array-card" key={`available-date-${index}`}>
+                      <label className="admin-field">
+                        <span>Fecha</span>
+                        <input
+                          type="date"
+                          value={value || ''}
+                          onChange={(event) => updateAvailableDate(index, event.target.value)}
+                        />
+                      </label>
+                      <button type="button" className="admin-danger-button" onClick={() => removeAvailableDate(index)}>
+                        Eliminar
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="admin-hint">
+                    <p>No hay fechas manuales cargadas.</p>
+                  </div>
+                )
+              ) : null}
+              <div className="admin-actions-row">
+                <button
+                  type="button"
+                  className="admin-secondary-button"
+                  onClick={addAvailableDate}
+                  disabled={bookingAvailabilityMode !== 'manual'}
+                >
+                  Agregar fecha
+                </button>
+              </div>
+            </div>
           </div>
 
-          <SectionTitle eyebrow="Ficha" title="Hero y encabezado" />
+          <SectionTitle eyebrow="Ficha" title="Descripcion publica" />
           <div className="admin-grid">
-            <label className="admin-field">
-              <span>Top bar desktop</span>
-              <input
-                value={content.topBarDesktopHighlight || ''}
-                onChange={(event) => updateDraft(['topBarDesktopHighlight'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Top bar mobile</span>
-              <input
-                value={content.topBarMobile || ''}
-                onChange={(event) => updateDraft(['topBarMobile'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Titulo hero</span>
-              <input
-                value={content.heroTitle || ''}
-                onChange={(event) => updateDraft(['heroTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Subtitulo hero</span>
-              <input
-                value={content.heroSubtitle || ''}
-                onChange={(event) => updateDraft(['heroSubtitle'], event.target.value)}
-              />
-            </label>
             <label className="admin-field admin-field-full">
               <span>Descripcion hero</span>
               <textarea
@@ -737,49 +1411,51 @@ export function EncuentrosModelsManager() {
             </label>
           </div>
 
-          <SectionTitle eyebrow="Galeria" title="Carousels" />
+          <SectionTitle
+            eyebrow="Galeria"
+            title="Fotos del modelo"
+            description="Un solo carrusel alimenta el perfil y el catalogo. Solo se aceptan archivos cargados desde el equipo."
+          />
           <div className="admin-grid">
-            <label className="admin-field admin-field-full">
-              <span>Fotos hero arriba</span>
-              <textarea
-                rows={5}
-                value={topSlidesText}
-                onChange={(event) => updateDraft(['topCarouselImages'], parseSlides(event.target.value))}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Fotos hero abajo</span>
-              <textarea
-                rows={5}
-                value={bottomSlidesText}
-                onChange={(event) => updateDraft(['bottomCarouselImages'], parseSlides(event.target.value))}
-              />
-            </label>
+            <div className="admin-field admin-field-full">
+              <span>Subir fotos</span>
+              <p className="admin-meta">Se guarda en un solo carrusel. Lo que subas aqui tambien alimenta el catalogo.</p>
+              <label className="admin-secondary-button">
+                {galleryUploading ? 'Subiendo...' : 'Elegir fotos'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
+                  onChange={handleGalleryFiles}
+                  disabled={galleryUploading}
+                />
+              </label>
+            </div>
+            <div className="admin-field admin-field-full">
+              <span>Miniaturas</span>
+              {gallerySlides.length ? (
+                <div className="admin-gallery-preview-grid">
+                  {gallerySlides.map((slide, index) => (
+                    <figure className="admin-gallery-preview-item" key={`${slide.src}-${index}`}>
+                      <img src={slide.src} alt={slide.caption || `Foto ${index + 1}`} />
+                    </figure>
+                  ))}
+                </div>
+              ) : (
+                <div className="admin-hint">
+                  <p>Aun no hay fotos cargadas.</p>
+                </div>
+              )}
+            </div>
           </div>
 
           <SectionTitle eyebrow="Servicios" title="Extras y contacto" />
           <div className="admin-grid">
-            <label className="admin-field">
-              <span>Titulo extras</span>
-              <input
-                value={content.extraTitle || ''}
-                onChange={(event) => updateDraft(['extraTitle'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Lead extras</span>
-              <input
-                value={content.extraLead || ''}
-                onChange={(event) => updateDraft(['extraLead'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Desde label</span>
-              <input
-                value={content.extraFromLabel || ''}
-                onChange={(event) => updateDraft(['extraFromLabel'], event.target.value)}
-              />
-            </label>
+            <div className="admin-field admin-field-full">
+              <span>Servicios Adicionales</span>
+              <p className="admin-meta">Este titulo es fijo en la interfaz publica.</p>
+            </div>
             <label className="admin-field">
               <span>Precio extra</span>
               <input
@@ -787,45 +1463,129 @@ export function EncuentrosModelsManager() {
                 onChange={(event) => updateDraft(['extraPrice'], event.target.value)}
               />
             </label>
-            <label className="admin-field admin-field-full">
-              <span>Lista de extras</span>
-              <textarea
-                rows={4}
-                value={extraItemsText}
-                onChange={(event) => updateDraft(['extraItems'], normalizeLines(event.target.value))}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
+            <div className="admin-field admin-field-full">
+              <span>Extras seleccionables</span>
+              <p className="admin-meta">Selecciona los extras disponibles para este modelo. Placeholder temporal para probar.</p>
+              <div className="admin-chip-selector">
+                {extraOptions.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    className={selectedExtraItems.includes(option) ? 'admin-chip-button is-active' : 'admin-chip-button'}
+                    onClick={() => toggleContentListItem('extraItems', option)}
+                    aria-pressed={selectedExtraItems.includes(option)}
+                  >
+                    <span>{option}</span>
+                  </button>
+                ))}
+              </div>
+              {selectedExtraItems.length ? (
+                <p className="admin-chip-helper">Seleccionados: {selectedExtraItems.join(', ')}</p>
+              ) : (
+                <p className="admin-chip-helper">Aun no hay extras seleccionados.</p>
+              )}
+            </div>
+            <div className="admin-field admin-field-full">
               <span>Features presenciales</span>
-              <textarea
-                rows={4}
-                value={presencialFeaturesText}
-                onChange={(event) => updateDraft(['presencialFeatures'], normalizeLines(event.target.value))}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Items importantes</span>
-              <textarea
-                rows={5}
-                value={importantItemsText}
-                onChange={(event) => updateDraft(['importantItems'], normalizeLines(event.target.value))}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Fan card description</span>
-              <textarea
-                rows={4}
-                value={content.fanCardDescription || ''}
-                onChange={(event) => updateDraft(['fanCardDescription'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field">
-              <span>Telegram title</span>
-              <input
-                value={content.socialTitle || ''}
-                onChange={(event) => updateDraft(['socialTitle'], event.target.value)}
-              />
-            </label>
+              <p className="admin-meta">Selecciona las features que aplica este modelo. Placeholder temporal para probar.</p>
+              <div className="admin-chip-selector">
+                {presencialFeatureOptions.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    className={
+                      selectedPresencialFeatures.includes(option) ? 'admin-chip-button is-active' : 'admin-chip-button'
+                    }
+                    onClick={() => toggleContentListItem('presencialFeatures', option)}
+                    aria-pressed={selectedPresencialFeatures.includes(option)}
+                  >
+                    <span>{option}</span>
+                  </button>
+                ))}
+              </div>
+              {selectedPresencialFeatures.length ? (
+                <p className="admin-chip-helper">
+                  Seleccionadas: {selectedPresencialFeatures.join(', ')}
+                </p>
+              ) : (
+                <p className="admin-chip-helper">Aun no hay features seleccionadas.</p>
+              )}
+            </div>
+            <div className="admin-field admin-field-full">
+              <span>Redes del modelo</span>
+              <p className="admin-meta">Agrega cada red por separado. El sistema usa la red para elegir el icono en frontend.</p>
+              {socialLinks.length ? (
+                socialLinks.map((link, index) => (
+                  <div className="admin-array-card" key={`social-link-${index}`}>
+                    <label className="admin-field">
+                      <span>Red</span>
+                      <select
+                        value={link.network ? normalizeSocialNetworkValue(link.network) : ''}
+                        onChange={(event) => {
+                          const rawNetwork = String(event.target.value || '').trim()
+                          const nextNetwork = rawNetwork ? normalizeSocialNetworkValue(rawNetwork) : ''
+                          const currentLabel = String(link.label || '').trim()
+                          const previousLabel = getSocialNetworkOption(link.network || '').label
+                          const nextLabel = getSocialNetworkOption(nextNetwork).label
+                          const shouldSyncLabel =
+                            !currentLabel ||
+                            currentLabel === previousLabel ||
+                            currentLabel === String(link.network || '').trim()
+
+                          updateSocialLink(index, {
+                            network: nextNetwork,
+                            label: shouldSyncLabel ? nextLabel : currentLabel,
+                          })
+                        }}
+                      >
+                        <option value="">Selecciona red</option>
+                        {SOCIAL_NETWORK_OPTIONS.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="admin-field">
+                      <span>Etiqueta</span>
+                      <input
+                        value={link.label || ''}
+                        onChange={(event) => updateSocialLink(index, { label: event.target.value })}
+                        placeholder="LoverFans, Instagram..."
+                      />
+                    </label>
+                    <label className="admin-field">
+                      <span>URL</span>
+                      <input
+                        value={link.url || ''}
+                        onChange={(event) => updateSocialLink(index, { url: event.target.value })}
+                        placeholder="https://..."
+                      />
+                    </label>
+                    <label className="admin-field admin-field-checkbox">
+                      <span>Activa</span>
+                      <input
+                        type="checkbox"
+                        checked={link.active !== false}
+                        onChange={(event) => updateSocialLink(index, { active: event.target.checked })}
+                      />
+                    </label>
+                    <button type="button" className="admin-danger-button" onClick={() => removeSocialLink(index)}>
+                      Eliminar
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="admin-hint">
+                  <p>Aun no hay redes agregadas.</p>
+                </div>
+              )}
+              <div className="admin-actions-row">
+                <button type="button" className="admin-secondary-button" onClick={addSocialLink}>
+                  Agregar red
+                </button>
+              </div>
+            </div>
             <label className="admin-field">
               <span>Telegram URL</span>
               <input
@@ -834,18 +1594,11 @@ export function EncuentrosModelsManager() {
               />
             </label>
             <label className="admin-field">
-              <span>WhatsApp URL</span>
+              <span>WhatsApp numero</span>
               <input
-                value={content.whatsappUrl || ''}
-                onChange={(event) => updateDraft(['whatsappUrl'], event.target.value)}
-              />
-            </label>
-            <label className="admin-field admin-field-full">
-              <span>Footer</span>
-              <textarea
-                rows={3}
-                value={content.footerText || ''}
-                onChange={(event) => updateDraft(['footerText'], event.target.value)}
+                value={content.whatsappPhone || ''}
+                onChange={(event) => updateDraft(['whatsappPhone'], event.target.value)}
+                placeholder="51999999999"
               />
             </label>
           </div>
@@ -860,12 +1613,14 @@ export function EncuentrosModelsManager() {
             <button type="button" className="admin-secondary-button" onClick={handleNew}>
               Limpiar
             </button>
-            <button type="submit" className="admin-primary-button" disabled={saving}>
+            <button type="button" className="admin-primary-button" onClick={() => void handleSave()} disabled={saving}>
               {saving ? 'Guardando...' : 'Guardar modelo'}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </section>
   )
 }
+
+

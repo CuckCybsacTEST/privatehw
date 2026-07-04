@@ -110,6 +110,10 @@ function normalizeVideoTags(values = []) {
   return uniqueValues(values).slice(0, 5)
 }
 
+function normalizeChipValue(value = '') {
+  return String(value || '').trim()
+}
+
 function normalizePackAssets(assets = []) {
   return (assets || []).map((asset, index) => ({
     id: asset.id || generateStableItemId('pack-asset'),
@@ -259,6 +263,96 @@ function ArrayTextareaField({ label, values, onChange, rows = 5, className = '' 
         onBlur={(event) => commitValue(event.target.value)}
       />
     </label>
+  )
+}
+
+function ChipListField({ label, description, items, onChange, placeholder }) {
+  const { t } = useTranslation()
+  const normalizedItems = useMemo(() => uniqueValues(items || []), [items])
+  const [draft, setDraft] = useState('')
+  const [editingItem, setEditingItem] = useState('')
+
+  useEffect(() => {
+    if (editingItem && !normalizedItems.includes(editingItem)) {
+      setEditingItem('')
+      setDraft('')
+    }
+  }, [editingItem, normalizedItems])
+
+  function startEdit(item) {
+    setEditingItem(item)
+    setDraft(item)
+  }
+
+  function removeItem(item) {
+    onChange(normalizedItems.filter((currentItem) => currentItem !== item))
+    if (editingItem === item) {
+      setEditingItem('')
+      setDraft('')
+    }
+  }
+
+  function commitValue() {
+    const nextValue = normalizeChipValue(draft)
+
+    if (!nextValue) {
+      return
+    }
+
+    const nextItems = editingItem
+      ? normalizedItems.map((item) => (item === editingItem ? nextValue : item))
+      : uniqueValues([...normalizedItems, nextValue])
+
+    onChange(nextItems)
+    setEditingItem('')
+    setDraft('')
+  }
+
+  return (
+    <div className="admin-field admin-field-full">
+      <span>{label}</span>
+      {description ? <p className="admin-meta">{description}</p> : null}
+      <div className="admin-chip-row">
+        {normalizedItems.length ? (
+          normalizedItems.map((item) => (
+            <div className="admin-chip-item" key={item}>
+              <button type="button" className="admin-chip-button" onClick={() => startEdit(item)}>
+                <span>{item}</span>
+              </button>
+              <button
+                type="button"
+                className="admin-chip-remove"
+                onClick={() => removeItem(item)}
+                aria-label={`${t('admin.content.remove')} ${item}`}
+              >
+                ×
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className="admin-meta">{t('admin.blog.noItems')}</p>
+        )}
+      </div>
+      <div className="admin-chip-editor">
+        <input
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          placeholder={placeholder}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
+              commitValue()
+            }
+          }}
+        />
+        <button type="button" className="admin-secondary-button" onClick={commitValue}>
+          {editingItem ? t('admin.content.chipUpdate') : t('admin.content.chipAdd')}
+        </button>
+      </div>
+      <p className="admin-chip-helper">
+        {editingItem ? t('admin.content.chipEditHint') : t('admin.content.chipHint')}
+      </p>
+    </div>
   )
 }
 
@@ -1102,6 +1196,7 @@ function ContentEditor() {
           heroSubtitle: sourceContent.heroSubtitle,
           presencialDescription: sourceContent.presencialDescription,
           presencialFeatures: sourceContent.presencialFeatures,
+          encuentrosPresencialFeatureOptions: sourceContent.encuentrosPresencialFeatureOptions,
           presencialBenefitTitle: sourceContent.presencialBenefitTitle,
           presencialBenefitText: sourceContent.presencialBenefitText,
           fanCardDescription: sourceContent.fanCardDescription,
@@ -1112,6 +1207,7 @@ function ContentEditor() {
           extraFromLabel: sourceContent.extraFromLabel,
           extraPrice: sourceContent.extraPrice,
           extraItems: sourceContent.extraItems,
+          encuentrosExtraOptions: sourceContent.encuentrosExtraOptions,
           encuentrosBooking: {
             ...sourceContent.encuentrosBooking,
             description: sourceContent.encuentrosBooking?.description || '',
@@ -1641,13 +1737,14 @@ function ContentEditor() {
     ['free', t('admin.content.freeContent')],
     ['membership', t('admin.content.membership')],
     ['blog', t('admin.content.blog')],
+    ['models', 'Modelos'],
     ['encuentros', t('admin.content.encuentros')],
     ['global', t('admin.content.global')],
   ]
 
   const encuentrosSubtabs = [
     ['overview', t('admin.content.encuentrosOverviewTab')],
-    ['models', 'Modelos'],
+    ['chips', t('admin.content.encuentrosChipsTab')],
     ['booking', t('admin.content.encuentrosBookingTab')],
     ['media', t('admin.content.encuentrosMediaTab')],
   ]
@@ -1947,7 +2044,7 @@ function ContentEditor() {
                     </button>
                   </div>
                   {draft.accessTotal.tiers.map((tier, index) => (
-                    <div className="admin-array-card" key={tier.slug || `subscription-tier-${index}`}>
+                    <div className="admin-array-card" key={`subscription-tier-${index}`}>
                       <div className="admin-video-meta-grid">
                         <Field label={t('admin.content.slug')} value={tier.slug} onChange={(value) => setDraftValue(['accessTotal', 'tiers', index, 'slug'], value)} />
                         <Field label={t('admin.content.visibleLabel')} value={tier.label} onChange={(value) => setDraftValue(['accessTotal', 'tiers', index, 'label'], value)} />
@@ -2084,7 +2181,7 @@ function ContentEditor() {
 
                     return (
                       <button
-                        key={item.uiId || item.slug || `video-${index}`}
+                        key={item.uiId || `video-${index}`}
                         type="button"
                         className={isSelected ? 'admin-workspace-item active' : 'admin-workspace-item'}
                         onClick={() => setSelectedVideoIndex(index)}
@@ -2107,7 +2204,7 @@ function ContentEditor() {
 
                 {draft.videoLibrary.items[selectedVideoIndex] ? (
                   <VideoLibraryItemEditor
-                    key={draft.videoLibrary.items[selectedVideoIndex].uiId || draft.videoLibrary.items[selectedVideoIndex].slug || `video-${selectedVideoIndex}`}
+                    key={draft.videoLibrary.items[selectedVideoIndex].uiId || `video-${selectedVideoIndex}`}
                     item={draft.videoLibrary.items[selectedVideoIndex]}
                     index={selectedVideoIndex}
                     blogTags={blogTaxonomyTags}
@@ -2180,7 +2277,7 @@ function ContentEditor() {
 
                     return (
                       <button
-                        key={item.uiId || item.slug || `pack-${index}`}
+                        key={item.uiId || `pack-${index}`}
                         type="button"
                         className={isSelected ? 'admin-workspace-item active' : 'admin-workspace-item'}
                         onClick={() => setSelectedPackIndex(index)}
@@ -2335,7 +2432,7 @@ function ContentEditor() {
                           </div>
                           {(draft.videoCollections.items[selectedPackIndex].assets || []).map((asset, assetIndex) => (
                             <PackAssetEditor
-                              key={asset.id || `${draft.videoCollections.items[selectedPackIndex].uiId || draft.videoCollections.items[selectedPackIndex].slug || 'pack'}-asset-${assetIndex}`}
+                              key={asset.id || `${draft.videoCollections.items[selectedPackIndex].uiId || `pack-${selectedPackIndex}`}-asset-${assetIndex}`}
                               asset={asset}
                               index={assetIndex}
                               itemIndex={selectedPackIndex}
@@ -2399,7 +2496,7 @@ function ContentEditor() {
 
                     return (
                       <button
-                        key={item.slug || `physical-item-${index}`}
+                        key={`physical-item-${index}`}
                         type="button"
                         className={isSelected ? 'admin-workspace-item active' : 'admin-workspace-item'}
                         onClick={() => setSelectedPhysicalIndex(index)}
@@ -2570,7 +2667,7 @@ function ContentEditor() {
                 </button>
               </div>
               {draft.freeContent.items.map((item, index) => (
-                <div className="admin-array-card" key={item.slug || `free-item-${index}`}>
+                <div className="admin-array-card" key={`free-item-${index}`}>
                   <Field label={t('admin.content.slug')} value={item.slug} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'slug'], value)} />
                   <Field label={t('admin.content.title')} value={item.title} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'title'], value)} />
                   <TextareaField label={t('admin.content.description')} rows={3} value={item.description} onChange={(value) => setDraftValue(['freeContent', 'items', index, 'description'], value)} />
@@ -2689,8 +2786,15 @@ function ContentEditor() {
           </>
         ) : null}
 
+        {activeSection === 'models' ? <EncuentrosModelsManager /> : null}
+
         {activeSection === 'encuentros' ? (
           <SectionPanel title={t('admin.content.encuentrosTitle')} description={t('admin.content.encuentrosDescription')}>
+            <div className="admin-hint">
+              <p>
+                La gestion principal de modelos ya vive en <strong>Modelos</strong>. Aqui queda la base global y el fallback historico.
+              </p>
+            </div>
             <div className="admin-blog-subtabs">
               {encuentrosSubtabs.map(([key, label]) => (
                 <button
@@ -2738,6 +2842,32 @@ function ContentEditor() {
                   <Field label={t('admin.content.extraPrice')} value={draft.extraPrice} onChange={(value) => setDraftValue(['extraPrice'], value)} />
                   <ArrayTextareaField label={t('admin.content.extraList')} rows={4} values={draft.extraItems} onChange={(value) => setDraftValue(['extraItems'], value)} />
                   <Field label={t('admin.content.fanCardDescription')} value={draft.fanCardDescription} onChange={(value) => setDraftValue(['fanCardDescription'], value)} />
+                </div>
+              </div>
+            ) : null}
+
+            {activeEncuentrosSection === 'chips' ? (
+              <div className="admin-encuentros-layout">
+                <div className="admin-encuentros-main">
+                  <div className="admin-hint">
+                    <p>{t('admin.content.encuentrosChipsDescription')}</p>
+                  </div>
+                  <ChipListField
+                    label={t('admin.content.encuentrosExtraOptionsLabel')}
+                    description={t('admin.content.encuentrosChipsDescription')}
+                    items={draft.encuentrosExtraOptions}
+                    onChange={(value) => setDraftValue(['encuentrosExtraOptions'], value)}
+                    placeholder={t('admin.content.chipInputPlaceholder')}
+                  />
+                </div>
+                <div className="admin-encuentros-side">
+                  <ChipListField
+                    label={t('admin.content.encuentrosPresencialFeatureOptionsLabel')}
+                    description={t('admin.content.encuentrosChipsDescription')}
+                    items={draft.encuentrosPresencialFeatureOptions}
+                    onChange={(value) => setDraftValue(['encuentrosPresencialFeatureOptions'], value)}
+                    placeholder={t('admin.content.chipInputPlaceholder')}
+                  />
                 </div>
               </div>
             ) : null}
@@ -2921,7 +3051,6 @@ function ContentEditor() {
               </div>
             ) : null}
 
-            {activeEncuentrosSection === 'models' ? <EncuentrosModelsManager /> : null}
           </SectionPanel>
         ) : null}
 

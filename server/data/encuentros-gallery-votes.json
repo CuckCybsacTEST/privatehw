@@ -6,6 +6,41 @@
       "reaction": "like",
       "createdAt": "2026-06-29T23:31:07.650Z",
       "updatedAt": "2026-06-29T23:31:07.650Z"
+    },
+    {
+      "photoId": "https-ddluwydemxbsnhxgfebg-supabase-co-storage-v1-object-public-site-images-encuentros-top-1782595133917-fkc82p-jpg",
+      "visitorKey": "7d9dd992-f097-4259-a441-72cd9d4277a1",
+      "reaction": "like",
+      "createdAt": "2026-07-04T22:03:56.493Z",
+      "updatedAt": "2026-07-04T22:03:56.493Z"
+    },
+    {
+      "photoId": "https-ddluwydemxbsnhxgfebg-supabase-co-storage-v1-object-public-site-images-encuentros-top-1782595138249-uoc2qh-jpg",
+      "visitorKey": "7d9dd992-f097-4259-a441-72cd9d4277a1",
+      "reaction": "like",
+      "createdAt": "2026-07-04T22:03:59.612Z",
+      "updatedAt": "2026-07-04T22:03:59.612Z"
+    },
+    {
+      "photoId": "https-ddluwydemxbsnhxgfebg-supabase-co-storage-v1-object-public-site-images-encuentros-top-1782595141771-3whaus-jpg",
+      "visitorKey": "7d9dd992-f097-4259-a441-72cd9d4277a1",
+      "reaction": "like",
+      "createdAt": "2026-07-04T22:04:02.055Z",
+      "updatedAt": "2026-07-04T22:04:02.055Z"
+    },
+    {
+      "photoId": "https-ddluwydemxbsnhxgfebg-supabase-co-storage-v1-object-public-site-images-encuentros-top-1782595149954-2axtan-jpg",
+      "visitorKey": "7d9dd992-f097-4259-a441-72cd9d4277a1",
+      "reaction": "like",
+      "createdAt": "2026-07-04T22:04:02.848Z",
+      "updatedAt": "2026-07-04T22:04:02.848Z"
+    },
+    {
+      "photoId": "https-ddluwydemxbsnhxgfebg-supabase-co-storage-v1-object-public-site-images-encuentros-top-1782595145982-hkh6uv-jpg",
+      "visitorKey": "7d9dd992-f097-4259-a441-72cd9d4277a1",
+      "reaction": "like",
+      "createdAt": "2026-07-04T22:17:25.217Z",
+      "updatedAt": "2026-07-04T22:17:25.217Z"
     }
   ]
 }

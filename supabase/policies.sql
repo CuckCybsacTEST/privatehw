@@ -105,6 +105,126 @@ to authenticated
 using (public.is_admin())
 with check (public.is_admin());
 
+drop policy if exists "encuentros model profiles public read" on public.encuentros_model_profiles;
+create policy "encuentros model profiles public read"
+on public.encuentros_model_profiles
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.encuentros_models m
+    where m.id = model_id
+      and m.status = 'published'
+      and m.deleted_at is null
+  )
+  or public.is_admin()
+);
+
+drop policy if exists "encuentros model profiles admin write" on public.encuentros_model_profiles;
+create policy "encuentros model profiles admin write"
+on public.encuentros_model_profiles
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros model booking public read" on public.encuentros_model_booking;
+create policy "encuentros model booking public read"
+on public.encuentros_model_booking
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.encuentros_models m
+    where m.id = model_id
+      and m.status = 'published'
+      and m.deleted_at is null
+  )
+  or public.is_admin()
+);
+
+drop policy if exists "encuentros model booking admin write" on public.encuentros_model_booking;
+create policy "encuentros model booking admin write"
+on public.encuentros_model_booking
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros model recording public read" on public.encuentros_model_recording;
+create policy "encuentros model recording public read"
+on public.encuentros_model_recording
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.encuentros_models m
+    where m.id = model_id
+      and m.status = 'published'
+      and m.deleted_at is null
+  )
+  or public.is_admin()
+);
+
+drop policy if exists "encuentros model recording admin write" on public.encuentros_model_recording;
+create policy "encuentros model recording admin write"
+on public.encuentros_model_recording
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros model social links public read" on public.encuentros_model_social_links;
+create policy "encuentros model social links public read"
+on public.encuentros_model_social_links
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.encuentros_models m
+    where m.id = model_id
+      and m.status = 'published'
+      and m.deleted_at is null
+  )
+  or public.is_admin()
+);
+
+drop policy if exists "encuentros model social links admin write" on public.encuentros_model_social_links;
+create policy "encuentros model social links admin write"
+on public.encuentros_model_social_links
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros model media public read" on public.encuentros_model_media;
+create policy "encuentros model media public read"
+on public.encuentros_model_media
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.encuentros_models m
+    where m.id = model_id
+      and m.status = 'published'
+      and m.deleted_at is null
+  )
+  or public.is_admin()
+);
+
+drop policy if exists "encuentros model media admin write" on public.encuentros_model_media;
+create policy "encuentros model media admin write"
+on public.encuentros_model_media
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
 drop policy if exists "media public read" on public.media_assets;
 create policy "media public read"
 on public.media_assets

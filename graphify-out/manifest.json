@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "server/data/encuentros-gallery-votes.json": {
-    "mtime": 1782775867.651554,
-    "ast_hash": "21ffa3019cbeca32c9ec2079c2239648",
+    "mtime": 1783203445.2177415,
+    "ast_hash": "7e3fee1d48f554865f9c4debe131ae62",
     "semantic_hash": ""
   },
   "server/googleDrive.js": {
@@ -20,13 +20,13 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1782865579.8092794,
-    "ast_hash": "3bfe3a6bfbfa0b2dcf6ad142784703e5",
+    "mtime": 1783203991.013456,
+    "ast_hash": "f2cb03546f180821248a9cd0b2940cda",
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1782865503.2324228,
-    "ast_hash": "6491caa7db962fb7c801cf4d2ff73f99",
+    "mtime": 1783207243.964203,
+    "ast_hash": "a154f5841b9d3b3cc6448015b7793fc7",
     "semantic_hash": ""
   },
   "src/components/AccessPricingCard.jsx": {
@@ -75,13 +75,13 @@
     "semantic_hash": ""
   },
   "src/components/EncuentrosBookingWizardModal.jsx": {
-    "mtime": 1782689581.201161,
-    "ast_hash": "680590e410dee67d80918c6713462ed8",
+    "mtime": 1783206622.7013953,
+    "ast_hash": "05a4fa4dabda9af63b2d7741aad8a4f0",
     "semantic_hash": ""
   },
   "src/components/EncuentrosGalleryModal.jsx": {
-    "mtime": 1782596846.5498292,
-    "ast_hash": "b3f8eb20f1e53df87f6bf7da749bb304",
+    "mtime": 1783205705.1130798,
+    "ast_hash": "cb0dfb56b9b658a4a4fe9650d9ab3820",
     "semantic_hash": ""
   },
   "src/components/EncuentrosRecordingModal.jsx": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "src/data/defaultSiteContent.js": {
-    "mtime": 1782952810.3048701,
-    "ast_hash": "2beab7dda916760d65266f3f070ac498",
+    "mtime": 1783185476.9720478,
+    "ast_hash": "36dbf3a5d1629d6af81b1a7a663cd169",
     "semantic_hash": ""
   },
   "src/data/defaultUsers.js": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "src/i18n.js": {
-    "mtime": 1782686558.8936007,
-    "ast_hash": "adf2119a896377e7fe1f90b08119a303",
+    "mtime": 1783207271.5469382,
+    "ast_hash": "db4a43d087fbfaf3caa37e4b49bef998",
     "semantic_hash": ""
   },
   "src/lib/googleDrive.js": {
@@ -250,13 +250,13 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1782872329.568915,
-    "ast_hash": "b7de76db44b75b7f9b9a47d8b798b34b",
+    "mtime": 1783207389.37794,
+    "ast_hash": "3733c1509867b71a4152bf429a3e40cb",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
-    "mtime": 1782953642.6085067,
-    "ast_hash": "41fc9c2bc094a57cc0ec606fa785fb3f",
+    "mtime": 1783032347.1431997,
+    "ast_hash": "40f63d87a027bef51d858a4526c52913",
     "semantic_hash": ""
   },
   "src/pages/AdminLoginPage.jsx": {
@@ -300,13 +300,13 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosCitasPage.jsx": {
-    "mtime": 1782865528.6283782,
-    "ast_hash": "e5ed80457b248333154d68c441c60597",
+    "mtime": 1783206559.9821072,
+    "ast_hash": "3edff146929bd07f20fe1cfe75d741a9",
     "semantic_hash": ""
   },
   "src/pages/EncuentrosPage.jsx": {
-    "mtime": 1782949522.523131,
-    "ast_hash": "af418bbb6bdad5b688a004e8c51b1237",
+    "mtime": 1783206550.2206821,
+    "ast_hash": "56c92db2178db2d8a6dd2ed75ef44666",
     "semantic_hash": ""
   },
   "src/pages/FreeContentPage.jsx": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
-    "mtime": 1782952819.6805062,
-    "ast_hash": "7c1e3d8f8f240065a666f18459522120",
+    "mtime": 1783194635.257115,
+    "ast_hash": "68cb0754ac0c587583091a59742a57a2",
     "semantic_hash": ""
   },
   "src/utils/encuentrosGallery.js": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "supabase/policies.sql": {
-    "mtime": 1782862566.2411058,
-    "ast_hash": "766a376733c9c1c31114dfb0b0f1e16a",
+    "mtime": 1783007151.2070425,
+    "ast_hash": "ba6297ed9f1b585e85d14ff62f9f9303",
     "semantic_hash": ""
   },
   "supabase/schema.sql": {
@@ -565,13 +565,13 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosCatalogPage.jsx": {
-    "mtime": 1782950129.6581204,
-    "ast_hash": "7dbf83a57b5078abc0cde346dddabe06",
+    "mtime": 1783005784.9304197,
+    "ast_hash": "bd519a3d1a2d095ddd7ab46f80100843",
     "semantic_hash": ""
   },
   "src/components/admin/EncuentrosModelsManager.jsx": {
-    "mtime": 1782953575.7577226,
-    "ast_hash": "0f24720be8e79afbb13f808414dc5198",
+    "mtime": 1783203954.0990534,
+    "ast_hash": "21ec0f2c64ede0c4c8967331c884b377",
     "semantic_hash": ""
   },
   "src/utils/encuentrosModels.js": {
@@ -657,6 +657,51 @@
   ".tmp-encuentros-dark-mobile.png": {
     "mtime": 1782950520.2938585,
     "ast_hash": "7f748361abfc91aa3f0cee50b1a7d1f5",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260702000000_normalize_encuentros_model_schema.sql": {
+    "mtime": 1783204049.9282422,
+    "ast_hash": "d8fde7f8a1a1d2ce739173e873fb5fc2",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260702030000_add_encuentros_model_recording.sql": {
+    "mtime": 1783007141.890106,
+    "ast_hash": "03cbffc4e3543c713689cad9e20b5c92",
+    "semantic_hash": ""
+  },
+  "supabase/seed.sql": {
+    "mtime": 1783009478.7282522,
+    "ast_hash": "a0086a90c9fb37e7a1826ce0f8b6306e",
+    "semantic_hash": ""
+  },
+  ".codex-encuentros-page-unlocked.png": {
+    "mtime": 1783033934.0558968,
+    "ast_hash": "8ed0488e2895331ea73de06166402e94",
+    "semantic_hash": ""
+  },
+  ".codex-encuentros-page.png": {
+    "mtime": 1783033903.9808767,
+    "ast_hash": "36c0077af32784a99063fc576461fe4d",
+    "semantic_hash": ""
+  },
+  "src/components/EncounterSocialLinksSection.jsx": {
+    "mtime": 1783203150.1709573,
+    "ast_hash": "dc0de5522d420aa1bd86062c41d0998d",
+    "semantic_hash": ""
+  },
+  "src/utils/socialNetworks.js": {
+    "mtime": 1783187251.601048,
+    "ast_hash": "be512bb5ff849825f1c035c779e5612d",
+    "semantic_hash": ""
+  },
+  "src/components/EncounterGalleryStatsBar.jsx": {
+    "mtime": 1783193390.8235438,
+    "ast_hash": "dde31f3565698e90fbc1bed3a60d67ef",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260704000000_add_profile_attendance_modes.sql": {
+    "mtime": 1783204057.2611995,
+    "ast_hash": "7f62eb2c88637276329a8f7fbf2cf7bf",
     "semantic_hash": ""
   }
 }

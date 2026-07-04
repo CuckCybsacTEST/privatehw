@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
-import { TelegramLoginWidget } from '../components/TelegramLoginWidget'
 import { useAppState } from '../state/AppState'
 import { AiFillX } from 'react-icons/ai'
-import { BiLogoTelegram } from 'react-icons/bi'
 import { FcGoogle } from 'react-icons/fc'
-import { readClientEnv } from '../lib/runtimeEnv'
 
 export function AccessPage() {
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/'
   const {
     isSupabaseConfigured,
     session,
+    loginMemberWithEmail,
     loginMemberWithOAuth,
-    loginMemberWithTelegram,
+    signUpMemberWithEmail,
   } = useAppState()
+  const { t } = useTranslation()
+  const [activeTab, setActiveTab] = useState('login')
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' })
+  const [registerForm, setRegisterForm] = useState({ displayName: '', email: '', password: '' })
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [activeOAuthProvider, setActiveOAuthProvider] = useState('')
-  const [telegramOpen, setTelegramOpen] = useState(false)
-  const { t } = useTranslation()
-  const telegramBotUsername = readClientEnv('VITE_TELEGRAM_BOT_USERNAME')
   const postAuthTarget = redirectTo && redirectTo !== '/access' ? redirectTo : '/'
+
+  const authTitle = useMemo(
+    () => (activeTab === 'login' ? t('access.authTitle') : t('access.register')),
+    [activeTab, t],
+  )
 
   if (session) {
     return <Navigate to={postAuthTarget} replace />
+  }
+
+  function handleLoginChange(event) {
+    const { name, value } = event.target
+    setLoginForm((current) => ({ ...current, [name]: value }))
+  }
+
+  function handleRegisterChange(event) {
+    const { name, value } = event.target
+    setRegisterForm((current) => ({ ...current, [name]: value }))
+  }
+
+  function handleTabChange(nextTab) {
+    setActiveTab(nextTab)
+    setError('')
+    setNotice('')
   }
 
   async function handleOAuthLogin(provider) {
@@ -48,21 +67,38 @@ export function AccessPage() {
     }
   }
 
-  async function handleTelegramAuth(telegramUser) {
+  async function handleLoginSubmit(event) {
+    event.preventDefault()
     setError('')
     setNotice('')
     setIsSubmitting(true)
-    setActiveOAuthProvider('telegram')
 
     try {
-      await loginMemberWithTelegram(telegramUser)
-      setTelegramOpen(false)
-      navigate('/', { replace: true })
+      await loginMemberWithEmail(loginForm)
     } catch (nextError) {
-      setError(nextError.message || t('access.oauthError'))
+      setError(nextError.message || t('access.loginError'))
     } finally {
       setIsSubmitting(false)
-      setActiveOAuthProvider('')
+    }
+  }
+
+  async function handleRegisterSubmit(event) {
+    event.preventDefault()
+    setError('')
+    setNotice('')
+    setIsSubmitting(true)
+
+    try {
+      const result = await signUpMemberWithEmail(registerForm)
+
+      if (result?.requiresEmailConfirmation) {
+        setNotice(t('access.emailConfirmation'))
+        setActiveTab('login')
+      }
+    } catch (nextError) {
+      setError(nextError.message || t('access.registerError'))
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -71,7 +107,7 @@ export function AccessPage() {
       <section className="access-auth-shell">
         <div className="access-auth-card">
           <div className="access-auth-topbar">
-            <Link className="access-auth-home-link" to="/">
+            <Link className="access-auth-home-link" to={postAuthTarget}>
               {t('access.backHome')}
             </Link>
             <LanguageSwitcher className="access-auth-language" />
@@ -83,92 +119,153 @@ export function AccessPage() {
             </span>
           </div>
 
-          <div className="access-auth-copy">
-            <p className="access-auth-eyebrow">{t('access.eyebrow')}</p>
-            <h1>{t('access.authTitle')}</h1>
-            <p>{t('access.authSubtitle')}</p>
+          <div className="access-oauth-block">
+            <div className="access-oauth-actions">
+              <button
+                className="access-auth-button access-auth-button-google"
+                type="button"
+                onClick={() => handleOAuthLogin('google')}
+                disabled={isSubmitting || !isSupabaseConfigured}
+              >
+                <span className="access-auth-button-icon" aria-hidden="true">
+                  <FcGoogle />
+                </span>
+                <span>
+                  {isSubmitting && activeOAuthProvider === 'google'
+                    ? t('access.connecting')
+                    : t('access.googleLogin')}
+                </span>
+              </button>
+
+              <button
+                className="access-auth-button access-auth-button-x"
+                type="button"
+                onClick={() => handleOAuthLogin('twitter')}
+                disabled={isSubmitting || !isSupabaseConfigured}
+              >
+                <span className="access-auth-button-icon access-auth-button-icon-x" aria-hidden="true">
+                  <AiFillX />
+                </span>
+                <span>
+                  {isSubmitting && activeOAuthProvider === 'twitter'
+                    ? t('access.connecting')
+                    : t('access.xLogin')}
+                </span>
+              </button>
+            </div>
           </div>
 
-          <div className="access-auth-buttons">
-            <button
-              className="access-auth-button access-auth-button-google"
-              type="button"
-              onClick={() => handleOAuthLogin('google')}
-              disabled={isSubmitting || !isSupabaseConfigured}
-            >
-              <span className="access-auth-button-icon" aria-hidden="true">
-                <FcGoogle />
-              </span>
-              <span>
-                {isSubmitting && activeOAuthProvider === 'google'
-                  ? t('access.connecting')
-                  : t('access.googleLogin')}
-              </span>
-            </button>
+          <div className="access-auth-divider" aria-hidden="true">
+            <span>{t('access.oauthDivider')}</span>
+          </div>
 
+          <div className="access-tabs" role="tablist" aria-label={t('access.ariaLabel')}>
             <button
-              className="access-auth-button access-auth-button-x"
               type="button"
-              onClick={() => handleOAuthLogin('twitter')}
-              disabled={isSubmitting || !isSupabaseConfigured}
+              className={activeTab === 'login' ? 'is-active' : ''}
+              onClick={() => handleTabChange('login')}
             >
-              <span className="access-auth-button-icon access-auth-button-icon-x" aria-hidden="true">
-                <AiFillX />
-              </span>
-              <span>
-                {isSubmitting && activeOAuthProvider === 'twitter'
-                  ? t('access.connecting')
-                  : t('access.xLogin')}
-              </span>
+              {t('access.login')}
             </button>
+            <button
+              type="button"
+              className={activeTab === 'register' ? 'is-active' : ''}
+              onClick={() => handleTabChange('register')}
+            >
+              {t('access.register')}
+            </button>
+          </div>
 
-            <button
-              className="access-auth-button access-auth-button-telegram"
-              type="button"
-              onClick={() => {
-                setError('')
-                setNotice('')
-                setTelegramOpen((current) => !current)
-              }}
-              disabled={isSubmitting || !isSupabaseConfigured || !telegramBotUsername}
-            >
-              <span className="access-auth-button-icon access-auth-button-icon-telegram" aria-hidden="true">
-                <BiLogoTelegram />
-              </span>
-              <span>
-                {isSubmitting && activeOAuthProvider === 'telegram'
-                  ? t('access.telegramConnecting')
-                  : t('access.telegramLogin')}
-              </span>
-            </button>
+          <div className="access-card access-card-form">
+            <div className="access-card-copy">
+              <strong>{authTitle}</strong>
+              <span>{t('access.authSubtitle')}</span>
+            </div>
+
+            {activeTab === 'login' ? (
+              <form className="admin-form access-form" onSubmit={handleLoginSubmit}>
+                <label className="admin-field">
+                  <span>{t('access.email')}</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={loginForm.email}
+                    onChange={handleLoginChange}
+                    autoComplete="email"
+                    placeholder="cliente@email.com"
+                    required
+                  />
+                </label>
+
+                <label className="admin-field">
+                  <span>{t('access.password')}</span>
+                  <input
+                    type="password"
+                    name="password"
+                    value={loginForm.password}
+                    onChange={handleLoginChange}
+                    autoComplete="current-password"
+                    placeholder="********"
+                    required
+                  />
+                </label>
+
+                <button className="hero-primary-cta" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? t('access.loggingIn') : t('access.loginSubmit')}
+                </button>
+              </form>
+            ) : (
+              <form className="admin-form access-form" onSubmit={handleRegisterSubmit}>
+                <label className="admin-field">
+                  <span>{t('access.displayName')}</span>
+                  <input
+                    type="text"
+                    name="displayName"
+                    value={registerForm.displayName}
+                    onChange={handleRegisterChange}
+                    autoComplete="nickname"
+                    placeholder="Tu nombre"
+                    maxLength={80}
+                    required
+                  />
+                </label>
+
+                <label className="admin-field">
+                  <span>{t('access.email')}</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={registerForm.email}
+                    onChange={handleRegisterChange}
+                    autoComplete="email"
+                    placeholder="cliente@email.com"
+                    required
+                  />
+                </label>
+
+                <label className="admin-field">
+                  <span>{t('access.password')}</span>
+                  <input
+                    type="password"
+                    name="password"
+                    value={registerForm.password}
+                    onChange={handleRegisterChange}
+                    autoComplete="new-password"
+                    placeholder="Minimo 6 caracteres"
+                    minLength={6}
+                    required
+                  />
+                </label>
+
+                <button className="hero-primary-cta" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? t('access.creating') : t('access.registerSubmit')}
+                </button>
+              </form>
+            )}
           </div>
 
           {!isSupabaseConfigured ? (
             <p className="access-auth-note">{t('access.oauthUnavailable')}</p>
-          ) : !telegramBotUsername ? (
-            <p className="access-auth-note">{t('access.telegramUnavailable')}</p>
-          ) : null}
-
-          {telegramOpen && isSupabaseConfigured && telegramBotUsername ? (
-            <div className="access-auth-telegram-panel">
-              <p className="access-auth-note">{t('access.telegramLoginHint')}</p>
-              <TelegramLoginWidget
-                botUsername={telegramBotUsername}
-                onAuth={handleTelegramAuth}
-                onError={(nextError) => {
-                  setError(nextError?.message || t('access.oauthError'))
-                  setIsSubmitting(false)
-                  setActiveOAuthProvider('')
-                }}
-              />
-              <button
-                className="access-auth-link"
-                type="button"
-                onClick={() => setTelegramOpen(false)}
-              >
-                {t('access.telegramClose')}
-              </button>
-            </div>
           ) : null}
 
           {error ? <p className="access-auth-error">{error}</p> : null}

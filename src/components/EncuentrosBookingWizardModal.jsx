@@ -23,6 +23,10 @@ function formatShortDateLabel(dateValue, locale) {
 export function EncuentrosBookingWizardModal({
   open,
   booking,
+  modelProfile,
+  isAuthenticated = false,
+  currentUserName = '',
+  canRecordEncounters = false,
   pricing,
   bookingDays,
   bookingTimes,
@@ -44,25 +48,30 @@ export function EncuentrosBookingWizardModal({
   const [validationMessage, setValidationMessage] = useState('')
   const [isFinalModalOpen, setIsFinalModalOpen] = useState(false)
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
-  const safeRecordingChoice = normalizeRecordingChoice(recordingChoice)
+  const showIdentityStep = !isAuthenticated
+  const showRecordingStep = Boolean(canRecordEncounters)
+  const safeRecordingChoice = showRecordingStep ? normalizeRecordingChoice(recordingChoice) : 'standard'
+  const identityStepIndex = showIdentityStep ? 0 : -1
+  const recordingStepIndex = showRecordingStep ? (showIdentityStep ? 1 : 0) : -1
+  const dateStepIndex = (showIdentityStep ? 1 : 0) + (showRecordingStep ? 1 : 0)
+  const timeStepIndex = dateStepIndex + 1
+  const finalStepIndex = timeStepIndex + 1
 
   const steps = useMemo(
     () => [
-      t('encuentros.bookingWizardStepIdentity'),
-      t('encuentros.bookingWizardStepRecording'),
+      ...(showIdentityStep ? [t('encuentros.bookingWizardStepIdentity')] : []),
+      ...(showRecordingStep ? [t('encuentros.bookingWizardStepRecording')] : []),
       t('encuentros.bookingWizardStepDate'),
       t('encuentros.bookingWizardStepTime'),
       t('encuentros.bookingWizardStepSummary'),
     ],
-    [t],
+    [showIdentityStep, showRecordingStep, t],
   )
 
   const selectedDay = useMemo(
     () => bookingDays.find((day) => day.value === selectedDate) || bookingDays[0] || null,
     [bookingDays, selectedDate],
   )
-  const finalStepIndex = steps.length - 1
-
   useEffect(() => {
     onCloseRef.current = onClose
   }, [onClose])
@@ -78,14 +87,16 @@ export function EncuentrosBookingWizardModal({
 
     setCurrentStep(0)
     setMaxStepReached(0)
-    setSelectedGuestName('')
+    setSelectedGuestName(showIdentityStep ? '' : String(currentUserName || '').trim())
     setSelectedDate(bookingDays[0]?.value || '')
     setSelectedTime(bookingTimes[0] || '')
     setValidationMessage('')
     setIsFinalModalOpen(false)
 
     const focusTimer = window.setTimeout(() => {
-      const firstInput = document.querySelector('.encuentros-booking-guest-name')
+      const firstInput = showIdentityStep
+        ? document.querySelector('.encuentros-booking-guest-name')
+        : document.querySelector('.booking-calendar [type="button"]')
       firstInput?.focus?.()
     }, 0)
 
@@ -104,7 +115,7 @@ export function EncuentrosBookingWizardModal({
       document.body.style.overflow = previousOverflow
       previousActiveElementRef.current?.focus?.()
     }
-  }, [bookingDays, bookingTimes, open])
+  }, [bookingDays, bookingTimes, currentUserName, open, showIdentityStep])
 
   useEffect(() => {
     if (!open) return
@@ -148,6 +159,11 @@ export function EncuentrosBookingWizardModal({
   }
 
   function handleGuestNameContinue() {
+    if (!showIdentityStep) {
+      advanceFromStep(0)
+      return
+    }
+
     if (!selectedGuestName.trim()) {
       setValidationMessage(t('encuentros.bookingWizardGuestNameRequired'))
       return
@@ -158,41 +174,47 @@ export function EncuentrosBookingWizardModal({
 
   function handleRecordingSelection(choice) {
     onRecordingChoiceChange(choice)
-    advanceFromStep(1)
+    advanceFromStep(currentStep)
   }
 
   function handleDateSelection(value) {
     setSelectedDate(value)
-    advanceFromStep(2)
+    advanceFromStep(currentStep)
   }
 
   function handleTimeSelection(value) {
     setSelectedTime(value)
-    advanceFromStep(3)
+    advanceFromStep(currentStep)
   }
 
   async function handleSubmit(event) {
     event.preventDefault()
 
     if (currentStep !== finalStepIndex) {
-      if (currentStep === 0) {
+      if (showIdentityStep && currentStep === identityStepIndex) {
         handleGuestNameContinue()
+      } else if (!showIdentityStep && currentStep === 0) {
+        advanceFromStep(0)
       }
 
       return
     }
 
-    const safeGuestName = selectedGuestName.trim()
+    const safeGuestName = showIdentityStep
+      ? selectedGuestName.trim()
+      : String(currentUserName || selectedGuestName || '').trim()
 
     if (!safeGuestName) {
-      setCurrentStep(0)
-      unlockStep(0)
-      setValidationMessage(t('encuentros.bookingWizardGuestNameRequired'))
+      if (showIdentityStep) {
+        setCurrentStep(0)
+        unlockStep(0)
+        setValidationMessage(t('encuentros.bookingWizardGuestNameRequired'))
+      }
       return
     }
 
     if (!selectedDate || !selectedTime) {
-      const firstIncompleteStep = !selectedDate ? 2 : 3
+      const firstIncompleteStep = !selectedDate ? (showRecordingStep ? 2 : 1) : showRecordingStep ? 3 : 2
       setCurrentStep(firstIncompleteStep)
       unlockStep(firstIncompleteStep)
       return
@@ -242,7 +264,7 @@ export function EncuentrosBookingWizardModal({
     onCloseRef.current?.()
   }
 
-  const recordingChoiceLabel = safeRecordingChoice === 'recording' ? 'Sí' : 'No'
+  const recordingChoiceLabel = safeRecordingChoice === 'recording' ? 'Si' : 'No'
 
   return (
     <div className="encuentros-booking-modal" role="presentation">
@@ -263,8 +285,16 @@ export function EncuentrosBookingWizardModal({
           <div className="encuentros-booking-modal-copy">
             <p className="section-kicker">{booking?.bookingPageEyebrow || t('encuentros.bookingPageEyebrow')}</p>
             <h2 id="encuentros-booking-modal-title">
-              {booking?.bookingWizardTitle || t('encuentros.bookingWizardTitle')}
+              {booking?.bookingWizardTitle || 'Concreta el encuentro'}
             </h2>
+            {modelProfile?.displayName ? (
+              <p className="encuentros-booking-modal-model">
+                <strong>{modelProfile.displayName}</strong>
+                {[modelProfile.age ? `${modelProfile.age} años` : '', modelProfile.city, modelProfile.nationality]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            ) : null}
           </div>
         </div>
 
@@ -291,11 +321,10 @@ export function EncuentrosBookingWizardModal({
 
         <form className="encuentros-booking-modal-body" onSubmit={handleSubmit}>
           <div className="encuentros-booking-modal-main">
-            {currentStep === 0 ? (
+            {showIdentityStep && currentStep === identityStepIndex ? (
               <div className="booking-identity-block">
                 <div className="booking-choice-copy">
                   <h3>{t('encuentros.bookingWizardStepIdentityTitle')}</h3>
-                  <p>{t('encuentros.bookingWizardGuestNameHelp')}</p>
                 </div>
                 <label className="encuentros-booking-identity-field">
                   <span>{t('encuentros.bookingWizardGuestName')}</span>
@@ -313,7 +342,7 @@ export function EncuentrosBookingWizardModal({
               </div>
             ) : null}
 
-            {currentStep === 1 ? (
+            {showRecordingStep && currentStep === recordingStepIndex ? (
               <div className="booking-choice-block booking-choice-block-intro">
                 <div className="booking-choice-copy">
                   <h3>{booking?.recordingPromptTitle || t('encuentros.recordingPromptTitle')}</h3>
@@ -349,7 +378,7 @@ export function EncuentrosBookingWizardModal({
               </div>
             ) : null}
 
-            {currentStep === 2 ? (
+            {currentStep === dateStepIndex ? (
               <div className="booking-calendar-block">
                 <div className="booking-block-label">
                   <span>{t('encuentros.selectDate')}</span>
@@ -377,7 +406,7 @@ export function EncuentrosBookingWizardModal({
               </div>
             ) : null}
 
-            {currentStep === 3 ? (
+            {currentStep === timeStepIndex ? (
               <div className="booking-time-block">
                 <div className="booking-block-label">
                   <span>{t('encuentros.selectTime')}</span>
@@ -402,7 +431,7 @@ export function EncuentrosBookingWizardModal({
               </div>
             ) : null}
 
-            {currentStep === 4 ? (
+            {currentStep === finalStepIndex ? (
               <div className="encuentros-booking-summary-shell">
                 <div className="encuentros-booking-summary-head">
                   <p className="section-kicker">RESUMEN</p>
@@ -447,7 +476,7 @@ export function EncuentrosBookingWizardModal({
                   <div className="encuentros-booking-summary-details-grid encuentros-booking-summary-details-grid-compact">
                     <div className="encuentros-booking-summary-details-row encuentros-booking-summary-details-row-inline">
                       <span>Nombre</span>
-                      <strong>{selectedGuestName || 'Sin nombre'}</strong>
+                      <strong>{showIdentityStep ? selectedGuestName || 'Sin nombre' : currentUserName || 'Sin nombre'}</strong>
                       <span>Fecha</span>
                       <strong>{selectedDay ? formatShortDateLabel(selectedDay.value, dateLocale) : 'Sin fecha'}</strong>
                     </div>

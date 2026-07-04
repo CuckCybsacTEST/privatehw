@@ -960,7 +960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "server_googledrive",
-      "community": 2,
+      "community": 41,
       "norm_label": "googledrive.js"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "server_googledrive_serviceaccountprivatekey",
-      "community": 2,
+      "community": 41,
       "norm_label": "serviceaccountprivatekey"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "server_googledrive_base64urlencode",
-      "community": 2,
+      "community": 41,
       "norm_label": "base64urlencode()"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "server_googledrive_getserviceaccountaccesstoken",
-      "community": 2,
+      "community": 41,
       "norm_label": "getserviceaccountaccesstoken()"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "server_googledrive_isgoogledriveconfigured",
-      "community": 2,
+      "community": 41,
       "norm_label": "isgoogledriveconfigured()"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "server_googledrive_getgoogledrivefolderid",
-      "community": 2,
+      "community": 41,
       "norm_label": "getgoogledrivefolderid()"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "server_googledrive_buildgoogledrivedownloadurl",
-      "community": 2,
+      "community": 41,
       "norm_label": "buildgoogledrivedownloadurl()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "server_googledrive_uploadgoogledrivefile",
-      "community": 2,
+      "community": 41,
       "norm_label": "uploadgoogledrivefile()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "server_googledrive_fetchgoogledrivemedia",
-      "community": 2,
+      "community": 41,
       "norm_label": "fetchgoogledrivemedia()"
     },
     {
@@ -1057,7 +1057,7 @@
       "label": "app",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "server_index_app",
       "community": 2,
@@ -1067,7 +1067,7 @@
       "label": "port",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "server_index_port",
       "community": 2,
@@ -1077,7 +1077,7 @@
       "label": "GALLERY_REACTIONS_FILE",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "server_index_gallery_reactions_file",
       "community": 2,
@@ -1087,7 +1087,7 @@
       "label": "CLIENT_DIST_DIR",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "server_index_client_dist_dir",
       "community": 2,
@@ -1097,7 +1097,7 @@
       "label": "homeContentCache",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "server_index_homecontentcache",
       "community": 2,
@@ -1107,17 +1107,17 @@
       "label": "assertServerConfig()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L71",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "server_index_assertserverconfig",
-      "community": 2,
+      "community": 49,
       "norm_label": "assertserverconfig()"
     },
     {
       "label": "buildRuntimeConfig()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L83",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "server_index_buildruntimeconfig",
       "community": 2,
@@ -1127,7 +1127,7 @@
       "label": "escapeJsonForInlineScript()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L92",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "server_index_escapejsonforinlinescript",
       "community": 2,
@@ -1137,7 +1137,7 @@
       "label": "getClientIndexTemplate()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L101",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "server_index_getclientindextemplate",
       "community": 2,
@@ -1147,7 +1147,7 @@
       "label": "renderClientIndexHtml()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L110",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "server_index_renderclientindexhtml",
       "community": 2,
@@ -1157,17 +1157,17 @@
       "label": "normalizeBearerToken()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L121",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "server_index_normalizebearertoken",
-      "community": 2,
+      "community": 49,
       "norm_label": "normalizebearertoken()"
     },
     {
       "label": "normalizeGalleryReactionValue()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L129",
+      "source_location": "L130",
       "_origin": "ast",
       "id": "server_index_normalizegalleryreactionvalue",
       "community": 2,
@@ -1177,7 +1177,7 @@
       "label": "normalizeGalleryPhotoId()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L139",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "server_index_normalizegalleryphotoid",
       "community": 2,
@@ -1187,7 +1187,7 @@
       "label": "readGalleryReactionVotes()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L143",
+      "source_location": "L144",
       "_origin": "ast",
       "id": "server_index_readgalleryreactionvotes",
       "community": 2,
@@ -1197,7 +1197,7 @@
       "label": "writeGalleryReactionVotes()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L158",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "server_index_writegalleryreactionvotes",
       "community": 2,
@@ -1207,7 +1207,7 @@
       "label": "summarizeGalleryReactionVotes()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L167",
+      "source_location": "L168",
       "_origin": "ast",
       "id": "server_index_summarizegalleryreactionvotes",
       "community": 2,
@@ -1217,7 +1217,7 @@
       "label": "upsertGalleryReactionVote()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L209",
+      "source_location": "L210",
       "_origin": "ast",
       "id": "server_index_upsertgalleryreactionvote",
       "community": 2,
@@ -1227,7 +1227,7 @@
       "label": "normalizeTelegramPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L275",
+      "source_location": "L276",
       "_origin": "ast",
       "id": "server_index_normalizetelegrampayload",
       "community": 2,
@@ -1237,7 +1237,7 @@
       "label": "verifyTelegramLoginPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L287",
+      "source_location": "L288",
       "_origin": "ast",
       "id": "server_index_verifytelegramloginpayload",
       "community": 2,
@@ -1247,7 +1247,7 @@
       "label": "buildTelegramSyntheticEmail()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L330",
+      "source_location": "L331",
       "_origin": "ast",
       "id": "server_index_buildtelegramsyntheticemail",
       "community": 2,
@@ -1257,7 +1257,7 @@
       "label": "buildTelegramDisplayName()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L334",
+      "source_location": "L335",
       "_origin": "ast",
       "id": "server_index_buildtelegramdisplayname",
       "community": 2,
@@ -1267,7 +1267,7 @@
       "label": "provisionTelegramLoginUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L342",
+      "source_location": "L343",
       "_origin": "ast",
       "id": "server_index_provisiontelegramloginuser",
       "community": 2,
@@ -1277,47 +1277,47 @@
       "label": "assertSupabaseAuthConfig()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L429",
+      "source_location": "L430",
       "_origin": "ast",
       "id": "server_index_assertsupabaseauthconfig",
-      "community": 2,
+      "community": 40,
       "norm_label": "assertsupabaseauthconfig()"
     },
     {
       "label": "isConnectivityError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L435",
+      "source_location": "L436",
       "_origin": "ast",
       "id": "server_index_isconnectivityerror",
-      "community": 2,
+      "community": 49,
       "norm_label": "isconnectivityerror()"
     },
     {
       "label": "getAuthenticatedUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L447",
+      "source_location": "L448",
       "_origin": "ast",
       "id": "server_index_getauthenticateduser",
-      "community": 2,
+      "community": 49,
       "norm_label": "getauthenticateduser()"
     },
     {
       "label": "ensureStripeCustomer()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L490",
+      "source_location": "L491",
       "_origin": "ast",
       "id": "server_index_ensurestripecustomer",
-      "community": 2,
+      "community": 49,
       "norm_label": "ensurestripecustomer()"
     },
     {
       "label": "buildLineItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L517",
+      "source_location": "L518",
       "_origin": "ast",
       "id": "server_index_buildlineitem",
       "community": 2,
@@ -1327,47 +1327,47 @@
       "label": "addMonths()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L564",
+      "source_location": "L565",
       "_origin": "ast",
       "id": "server_index_addmonths",
-      "community": 2,
+      "community": 42,
       "norm_label": "addmonths()"
     },
     {
       "label": "addDays()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L570",
+      "source_location": "L571",
       "_origin": "ast",
       "id": "server_index_adddays",
-      "community": 2,
+      "community": 42,
       "norm_label": "adddays()"
     },
     {
       "label": "parseDateOrNull()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L576",
+      "source_location": "L577",
       "_origin": "ast",
       "id": "server_index_parsedateornull",
-      "community": 2,
+      "community": 42,
       "norm_label": "parsedateornull()"
     },
     {
       "label": "computeSubscriptionExpiry()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L585",
+      "source_location": "L586",
       "_origin": "ast",
       "id": "server_index_computesubscriptionexpiry",
-      "community": 2,
+      "community": 42,
       "norm_label": "computesubscriptionexpiry()"
     },
     {
       "label": "isSubscriptionEntitlementKey()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L594",
+      "source_location": "L595",
       "_origin": "ast",
       "id": "server_index_issubscriptionentitlementkey",
       "community": 2,
@@ -1377,27 +1377,27 @@
       "label": "isSubscriptionAccessScope()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L598",
+      "source_location": "L599",
       "_origin": "ast",
       "id": "server_index_issubscriptionaccessscope",
-      "community": 2,
+      "community": 42,
       "norm_label": "issubscriptionaccessscope()"
     },
     {
       "label": "revokeOtherSubscriptionEntitlements()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L602",
+      "source_location": "L603",
       "_origin": "ast",
       "id": "server_index_revokeothersubscriptionentitlements",
-      "community": 2,
+      "community": 42,
       "norm_label": "revokeothersubscriptionentitlements()"
     },
     {
       "label": "normalizeCheckoutMode()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L640",
+      "source_location": "L641",
       "_origin": "ast",
       "id": "server_index_normalizecheckoutmode",
       "community": 2,
@@ -1407,207 +1407,367 @@
       "label": "logAdminAuditEvent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L648",
+      "source_location": "L649",
       "_origin": "ast",
       "id": "server_index_logadminauditevent",
-      "community": 2,
+      "community": 42,
       "norm_label": "logadminauditevent()"
     },
     {
       "label": "createOrUpdateOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L675",
+      "source_location": "L676",
       "_origin": "ast",
       "id": "server_index_createorupdateorder",
-      "community": 2,
+      "community": 42,
       "norm_label": "createorupdateorder()"
     },
     {
       "label": "createManualReservationOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L742",
+      "source_location": "L743",
       "_origin": "ast",
       "id": "server_index_createmanualreservationorder",
-      "community": 2,
+      "community": 43,
       "norm_label": "createmanualreservationorder()"
     },
     {
       "label": "createOrUpdateInvoiceOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L878",
+      "source_location": "L879",
       "_origin": "ast",
       "id": "server_index_createorupdateinvoiceorder",
-      "community": 2,
+      "community": 49,
       "norm_label": "createorupdateinvoiceorder()"
     },
     {
       "label": "grantEntitlement()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L915",
+      "source_location": "L916",
       "_origin": "ast",
       "id": "server_index_grantentitlement",
-      "community": 2,
+      "community": 42,
       "norm_label": "grantentitlement()"
     },
     {
       "label": "shapeProductRecord()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L976",
+      "source_location": "L977",
       "_origin": "ast",
       "id": "server_index_shapeproductrecord",
-      "community": 2,
+      "community": 49,
       "norm_label": "shapeproductrecord()"
     },
     {
       "label": "fetchProductRowFromTable()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L991",
+      "source_location": "L992",
       "_origin": "ast",
       "id": "server_index_fetchproductrowfromtable",
-      "community": 2,
+      "community": 49,
       "norm_label": "fetchproductrowfromtable()"
     },
     {
       "label": "resolveProductBySlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1014",
+      "source_location": "L1015",
       "_origin": "ast",
       "id": "server_index_resolveproductbyslug",
-      "community": 2,
+      "community": 49,
       "norm_label": "resolveproductbyslug()"
     },
     {
       "label": "getEncuentrosBookingPricing()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1051",
+      "source_location": "L1052",
       "_origin": "ast",
       "id": "server_index_getencuentrosbookingpricing",
-      "community": 2,
+      "community": 43,
       "norm_label": "getencuentrosbookingpricing()"
     },
     {
       "label": "syncRowsToTable()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1059",
+      "source_location": "L1060",
       "_origin": "ast",
       "id": "server_index_syncrowstotable",
-      "community": 2,
+      "community": 49,
       "norm_label": "syncrowstotable()"
     },
     {
       "label": "syncProductsFromSiteContent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1119",
+      "source_location": "L1120",
       "_origin": "ast",
       "id": "server_index_syncproductsfromsitecontent",
-      "community": 2,
+      "community": 49,
       "norm_label": "syncproductsfromsitecontent()"
     },
     {
       "label": "handleCheckoutCompleted()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1162",
+      "source_location": "L1163",
       "_origin": "ast",
       "id": "server_index_handlecheckoutcompleted",
-      "community": 2,
+      "community": 42,
       "norm_label": "handlecheckoutcompleted()"
     },
     {
       "label": "handleSubscriptionDeleted()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1196",
+      "source_location": "L1197",
       "_origin": "ast",
       "id": "server_index_handlesubscriptiondeleted",
-      "community": 2,
+      "community": 42,
       "norm_label": "handlesubscriptiondeleted()"
     },
     {
       "label": "handleInvoicePaymentSucceeded()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1218",
+      "source_location": "L1219",
       "_origin": "ast",
       "id": "server_index_handleinvoicepaymentsucceeded",
-      "community": 2,
+      "community": 49,
       "norm_label": "handleinvoicepaymentsucceeded()"
     },
     {
       "label": "provisionManagedUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1245",
+      "source_location": "L1246",
       "_origin": "ast",
       "id": "server_index_provisionmanageduser",
-      "community": 2,
+      "community": 42,
       "norm_label": "provisionmanageduser()"
     },
     {
       "label": "upsertManagedSubscription()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1379",
+      "source_location": "L1380",
       "_origin": "ast",
       "id": "server_index_upsertmanagedsubscription",
-      "community": 2,
+      "community": 42,
       "norm_label": "upsertmanagedsubscription()"
     },
     {
       "label": "loadHomeContent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1482",
+      "source_location": "L1483",
       "_origin": "ast",
       "id": "server_index_loadhomecontent",
-      "community": 2,
+      "community": 43,
       "norm_label": "loadhomecontent()"
     },
     {
       "label": "buildFallbackEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1525",
+      "source_location": "L1526",
       "_origin": "ast",
       "id": "server_index_buildfallbackencountermodel",
-      "community": 2,
+      "community": 43,
       "norm_label": "buildfallbackencountermodel()"
     },
     {
       "label": "normalizeEncounterModelRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1547",
+      "source_location": "L1548",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelrow",
-      "community": 2,
+      "community": 40,
       "norm_label": "normalizeencountermodelrow()"
+    },
+    {
+      "label": "isMissingEncounterModelRelationTableError()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1568",
+      "_origin": "ast",
+      "id": "server_index_ismissingencountermodelrelationtableerror",
+      "community": 43,
+      "norm_label": "ismissingencountermodelrelationtableerror()"
+    },
+    {
+      "label": "normalizeEncounterModelAge()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1583",
+      "_origin": "ast",
+      "id": "server_index_normalizeencountermodelage",
+      "community": 38,
+      "norm_label": "normalizeencountermodelage()"
+    },
+    {
+      "label": "normalizeEncounterModelText()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1588",
+      "_origin": "ast",
+      "id": "server_index_normalizeencountermodeltext",
+      "community": 38,
+      "norm_label": "normalizeencountermodeltext()"
+    },
+    {
+      "label": "uniqueEncounterValues()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1592",
+      "_origin": "ast",
+      "id": "server_index_uniqueencountervalues",
+      "community": 38,
+      "norm_label": "uniqueencountervalues()"
+    },
+    {
+      "label": "normalizeEncounterModelTextList()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1596",
+      "_origin": "ast",
+      "id": "server_index_normalizeencountermodeltextlist",
+      "community": 38,
+      "norm_label": "normalizeencountermodeltextlist()"
+    },
+    {
+      "label": "normalizeEncounterMediaUrl()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1615",
+      "_origin": "ast",
+      "id": "server_index_normalizeencountermediaurl",
+      "community": 2,
+      "norm_label": "normalizeencountermediaurl()"
+    },
+    {
+      "label": "extractEncounterModelProfilePayload()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1621",
+      "_origin": "ast",
+      "id": "server_index_extractencountermodelprofilepayload",
+      "community": 38,
+      "norm_label": "extractencountermodelprofilepayload()"
+    },
+    {
+      "label": "extractEncounterModelBookingPayload()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1646",
+      "_origin": "ast",
+      "id": "server_index_extractencountermodelbookingpayload",
+      "community": 38,
+      "norm_label": "extractencountermodelbookingpayload()"
+    },
+    {
+      "label": "extractEncounterModelRecordingPayload()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1694",
+      "_origin": "ast",
+      "id": "server_index_extractencountermodelrecordingpayload",
+      "community": 38,
+      "norm_label": "extractencountermodelrecordingpayload()"
+    },
+    {
+      "label": "extractEncounterModelSocialLinks()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1712",
+      "_origin": "ast",
+      "id": "server_index_extractencountermodelsociallinks",
+      "community": 19,
+      "norm_label": "extractencountermodelsociallinks()"
+    },
+    {
+      "label": "extractEncounterModelMedia()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1730",
+      "_origin": "ast",
+      "id": "server_index_extractencountermodelmedia",
+      "community": 38,
+      "norm_label": "extractencountermodelmedia()"
+    },
+    {
+      "label": "hydrateEncounterModelContent()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1783",
+      "_origin": "ast",
+      "id": "server_index_hydrateencountermodelcontent",
+      "community": 40,
+      "norm_label": "hydrateencountermodelcontent()"
+    },
+    {
+      "label": "buildEncounterModelRecordPayload()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1891",
+      "_origin": "ast",
+      "id": "server_index_buildencountermodelrecordpayload",
+      "community": 38,
+      "norm_label": "buildencountermodelrecordpayload()"
+    },
+    {
+      "label": "fetchEncounterRelationRows()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1907",
+      "_origin": "ast",
+      "id": "server_index_fetchencounterrelationrows",
+      "community": 43,
+      "norm_label": "fetchencounterrelationrows()"
+    },
+    {
+      "label": "mergeEncounterModelsWithRelations()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L1967",
+      "_origin": "ast",
+      "id": "server_index_mergeencountermodelswithrelations",
+      "community": 43,
+      "norm_label": "mergeencountermodelswithrelations()"
+    },
+    {
+      "label": "persistEncounterModelRelations()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L2000",
+      "_origin": "ast",
+      "id": "server_index_persistencountermodelrelations",
+      "community": 40,
+      "norm_label": "persistencountermodelrelations()"
     },
     {
       "label": "isMissingEncounterModelsTableError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1562",
+      "source_location": "L2106",
       "_origin": "ast",
       "id": "server_index_ismissingencountermodelstableerror",
-      "community": 2,
+      "community": 43,
       "norm_label": "ismissingencountermodelstableerror()"
     },
     {
       "label": "isAuthRequiredError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1573",
+      "source_location": "L2117",
       "_origin": "ast",
       "id": "server_index_isauthrequirederror",
       "community": 2,
@@ -1617,97 +1777,97 @@
       "label": "loadEncounterModels()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1583",
+      "source_location": "L2127",
       "_origin": "ast",
       "id": "server_index_loadencountermodels",
-      "community": 2,
+      "community": 43,
       "norm_label": "loadencountermodels()"
     },
     {
       "label": "loadEncounterModelBySlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1624",
+      "source_location": "L2177",
       "_origin": "ast",
       "id": "server_index_loadencountermodelbyslug",
-      "community": 2,
+      "community": 43,
       "norm_label": "loadencountermodelbyslug()"
     },
     {
       "label": "slugifyEncounterModelSlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1670",
+      "source_location": "L2234",
       "_origin": "ast",
       "id": "server_index_slugifyencountermodelslug",
-      "community": 2,
+      "community": 40,
       "norm_label": "slugifyencountermodelslug()"
     },
     {
       "label": "getEncounterModelDisplayName()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1682",
+      "source_location": "L2246",
       "_origin": "ast",
       "id": "server_index_getencountermodeldisplayname",
-      "community": 2,
+      "community": 40,
       "norm_label": "getencountermodeldisplayname()"
     },
     {
       "label": "normalizeEncounterModelPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1690",
+      "source_location": "L2254",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelpayload",
-      "community": 2,
+      "community": 40,
       "norm_label": "normalizeencountermodelpayload()"
     },
     {
       "label": "deleteEncounterReservationHistoryByModelSlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1728",
+      "source_location": "L2292",
       "_origin": "ast",
       "id": "server_index_deleteencounterreservationhistorybymodelslug",
-      "community": 2,
+      "community": 40,
       "norm_label": "deleteencounterreservationhistorybymodelslug()"
     },
     {
       "label": "createEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1785",
+      "source_location": "L2349",
       "_origin": "ast",
       "id": "server_index_createencountermodel",
-      "community": 2,
+      "community": 40,
       "norm_label": "createencountermodel()"
     },
     {
       "label": "updateEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1830",
+      "source_location": "L2415",
       "_origin": "ast",
       "id": "server_index_updateencountermodel",
-      "community": 2,
+      "community": 40,
       "norm_label": "updateencountermodel()"
     },
     {
       "label": "deleteEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1889",
+      "source_location": "L2491",
       "_origin": "ast",
       "id": "server_index_deleteencountermodel",
-      "community": 2,
+      "community": 40,
       "norm_label": "deleteencountermodel()"
     },
     {
       "label": "normalizeBlogPostRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1933",
+      "source_location": "L2535",
       "_origin": "ast",
       "id": "server_index_normalizeblogpostrow",
       "community": 4,
@@ -1717,17 +1877,17 @@
       "label": "loadBlogPosts()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1968",
+      "source_location": "L2570",
       "_origin": "ast",
       "id": "server_index_loadblogposts",
-      "community": 2,
+      "community": 49,
       "norm_label": "loadblogposts()"
     },
     {
       "label": "getVideoLibraryItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2004",
+      "source_location": "L2606",
       "_origin": "ast",
       "id": "server_index_getvideolibraryitem",
       "community": 2,
@@ -1737,7 +1897,7 @@
       "label": "getMediaItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2008",
+      "source_location": "L2610",
       "_origin": "ast",
       "id": "server_index_getmediaitem",
       "community": 2,
@@ -1747,37 +1907,37 @@
       "label": "getVideoSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2020",
+      "source_location": "L2622",
       "_origin": "ast",
       "id": "server_index_getvideosource",
-      "community": 40,
+      "community": 2,
       "norm_label": "getvideosource()"
     },
     {
       "label": "getCollectionSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2051",
+      "source_location": "L2653",
       "_origin": "ast",
       "id": "server_index_getcollectionsource",
-      "community": 40,
+      "community": 1,
       "norm_label": "getcollectionsource()"
     },
     {
       "label": "getFreeContentSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2076",
+      "source_location": "L2678",
       "_origin": "ast",
       "id": "server_index_getfreecontentsource",
-      "community": 40,
+      "community": 1,
       "norm_label": "getfreecontentsource()"
     },
     {
       "label": "createPlaybackToken()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2100",
+      "source_location": "L2702",
       "_origin": "ast",
       "id": "server_index_createplaybacktoken",
       "community": 2,
@@ -1787,7 +1947,7 @@
       "label": "verifyPlaybackToken()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2106",
+      "source_location": "L2708",
       "_origin": "ast",
       "id": "server_index_verifyplaybacktoken",
       "community": 2,
@@ -1797,27 +1957,27 @@
       "label": "streamRemoteMedia()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2139",
+      "source_location": "L2741",
       "_origin": "ast",
       "id": "server_index_streamremotemedia",
-      "community": 2,
+      "community": 41,
       "norm_label": "streamremotemedia()"
     },
     {
       "label": "streamVideoSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2180",
+      "source_location": "L2782",
       "_origin": "ast",
       "id": "server_index_streamvideosource",
-      "community": 2,
+      "community": 41,
       "norm_label": "streamvideosource()"
     },
     {
       "label": "assertVideoAccess()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2202",
+      "source_location": "L2804",
       "_origin": "ast",
       "id": "server_index_assertvideoaccess",
       "community": 2,
@@ -2030,7 +2190,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "src_app_encuentroslegacybookingredirect",
-      "community": 5,
+      "community": 54,
       "norm_label": "encuentroslegacybookingredirect()"
     },
     {
@@ -2087,10 +2247,10 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L244",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 5,
+      "community": 55,
       "norm_label": "app()"
     },
     {
@@ -2150,7 +2310,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_accesstotalsection",
-      "community": 14,
+      "community": 44,
       "norm_label": "accesstotalsection.jsx"
     },
     {
@@ -2160,7 +2320,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_accesstotalsection_accesstotalsection",
-      "community": 14,
+      "community": 44,
       "norm_label": "accesstotalsection()"
     },
     {
@@ -2170,7 +2330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ageverificationgate",
-      "community": 3,
+      "community": 20,
       "norm_label": "ageverificationgate.jsx"
     },
     {
@@ -2180,7 +2340,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_ageverificationgate_ageverificationgate",
-      "community": 3,
+      "community": 20,
       "norm_label": "ageverificationgate()"
     },
     {
@@ -2210,7 +2370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop",
-      "community": 3,
+      "community": 48,
       "norm_label": "atmosphericbackdrop.jsx"
     },
     {
@@ -2220,7 +2380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop_atmosphericbackdrop",
-      "community": 3,
+      "community": 48,
       "norm_label": "atmosphericbackdrop()"
     },
     {
@@ -2230,7 +2390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_blogteasersection",
-      "community": 14,
+      "community": 51,
       "norm_label": "blogteasersection.jsx"
     },
     {
@@ -2240,7 +2400,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_blogteasersection_blogtextcard",
-      "community": 14,
+      "community": 51,
       "norm_label": "blogtextcard()"
     },
     {
@@ -2250,7 +2410,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_blogteasersection_blogteasersection",
-      "community": 14,
+      "community": 51,
       "norm_label": "blogteasersection()"
     },
     {
@@ -2290,7 +2450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_collectioncard",
-      "community": 14,
+      "community": 46,
       "norm_label": "collectioncard.jsx"
     },
     {
@@ -2300,7 +2460,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_collectioncard_collectioncard",
-      "community": 14,
+      "community": 46,
       "norm_label": "collectioncard()"
     },
     {
@@ -2310,7 +2470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_creatorhero",
-      "community": 14,
+      "community": 44,
       "norm_label": "creatorhero.jsx"
     },
     {
@@ -2320,8 +2480,88 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_creatorhero_creatorhero",
-      "community": 14,
+      "community": 44,
       "norm_label": "creatorhero()"
+    },
+    {
+      "label": "EncounterGalleryStatsBar.jsx",
+      "file_type": "code",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_encountergallerystatsbar",
+      "community": 12,
+      "norm_label": "encountergallerystatsbar.jsx"
+    },
+    {
+      "label": "formatCompactCount()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "components_encountergallerystatsbar_formatcompactcount",
+      "community": 12,
+      "norm_label": "formatcompactcount()"
+    },
+    {
+      "label": "GalleryStat()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "components_encountergallerystatsbar_gallerystat",
+      "community": 12,
+      "norm_label": "gallerystat()"
+    },
+    {
+      "label": "EncounterGalleryStatsBar()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "components_encountergallerystatsbar_encountergallerystatsbar",
+      "community": 12,
+      "norm_label": "encountergallerystatsbar()"
+    },
+    {
+      "label": "EncounterSocialLinksSection.jsx",
+      "file_type": "code",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_encountersociallinkssection",
+      "community": 19,
+      "norm_label": "encountersociallinkssection.jsx"
+    },
+    {
+      "label": "getSocialLinkIconComponent()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "components_encountersociallinkssection_getsociallinkiconcomponent",
+      "community": 19,
+      "norm_label": "getsociallinkiconcomponent()"
+    },
+    {
+      "label": "normalizeSocialLink()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "components_encountersociallinkssection_normalizesociallink",
+      "community": 19,
+      "norm_label": "normalizesociallink()"
+    },
+    {
+      "label": "EncounterSocialLinksSection()",
+      "file_type": "code",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "components_encountersociallinkssection_encountersociallinkssection",
+      "community": 12,
+      "norm_label": "encountersociallinkssection()"
     },
     {
       "label": "EncuentrosBookingWizardModal.jsx",
@@ -2330,7 +2570,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_encuentrosbookingwizardmodal",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentrosbookingwizardmodal.jsx"
     },
     {
@@ -2340,7 +2580,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "components_encuentrosbookingwizardmodal_formatshortdatelabel",
-      "community": 3,
+      "community": 48,
       "norm_label": "formatshortdatelabel()"
     },
     {
@@ -2350,7 +2590,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_encuentrosbookingwizardmodal_encuentrosbookingwizardmodal",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentrosbookingwizardmodal()"
     },
     {
@@ -2360,27 +2600,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_encuentrosgallerymodal",
-      "community": 3,
+      "community": 12,
       "norm_label": "encuentrosgallerymodal.jsx"
     },
     {
       "label": "GalleryReactionControls()",
       "file_type": "code",
       "source_file": "src/components/EncuentrosGalleryModal.jsx",
-      "source_location": "L6",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "components_encuentrosgallerymodal_galleryreactioncontrols",
-      "community": 3,
+      "community": 12,
       "norm_label": "galleryreactioncontrols()"
     },
     {
       "label": "EncuentrosGalleryModal()",
       "file_type": "code",
       "source_file": "src/components/EncuentrosGalleryModal.jsx",
-      "source_location": "L68",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "components_encuentrosgallerymodal_encuentrosgallerymodal",
-      "community": 3,
+      "community": 12,
       "norm_label": "encuentrosgallerymodal()"
     },
     {
@@ -2410,7 +2650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_homepreviewrail",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepreviewrail.jsx"
     },
     {
@@ -2420,7 +2660,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_homepreviewrail_resolvesectionhref",
-      "community": 14,
+      "community": 44,
       "norm_label": "resolvesectionhref()"
     },
     {
@@ -2430,7 +2670,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "components_homepreviewrail_railitem",
-      "community": 14,
+      "community": 44,
       "norm_label": "railitem()"
     },
     {
@@ -2440,7 +2680,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "components_homepreviewrail_homepreviewrail",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepreviewrail()"
     },
     {
@@ -2450,7 +2690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_homepreviewtopbar",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepreviewtopbar.jsx"
     },
     {
@@ -2460,7 +2700,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_homepreviewtopbar_homepreviewtopbar",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepreviewtopbar()"
     },
     {
@@ -2470,7 +2710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_languageswitcher",
-      "community": 14,
+      "community": 44,
       "norm_label": "languageswitcher.jsx"
     },
     {
@@ -2480,7 +2720,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_languageswitcher_languageswitcher",
-      "community": 14,
+      "community": 44,
       "norm_label": "languageswitcher()"
     },
     {
@@ -2510,7 +2750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_membershipsection",
-      "community": 14,
+      "community": 44,
       "norm_label": "membershipsection.jsx"
     },
     {
@@ -2520,7 +2760,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_membershipsection_formatplanperiod",
-      "community": 14,
+      "community": 44,
       "norm_label": "formatplanperiod()"
     },
     {
@@ -2530,7 +2770,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "components_membershipsection_getcardlabel",
-      "community": 14,
+      "community": 44,
       "norm_label": "getcardlabel()"
     },
     {
@@ -2540,7 +2780,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "components_membershipsection_membershipsection",
-      "community": 14,
+      "community": 44,
       "norm_label": "membershipsection()"
     },
     {
@@ -2550,7 +2790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_mobilebottomnav",
-      "community": 14,
+      "community": 5,
       "norm_label": "mobilebottomnav.jsx"
     },
     {
@@ -2560,7 +2800,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_mobilebottomnav_getnavtonestyles",
-      "community": 14,
+      "community": 5,
       "norm_label": "getnavtonestyles()"
     },
     {
@@ -2570,7 +2810,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "components_mobilebottomnav_isrouteactive",
-      "community": 14,
+      "community": 5,
       "norm_label": "isrouteactive()"
     },
     {
@@ -2580,7 +2820,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "components_mobilebottomnav_mobilebottomnav",
-      "community": 14,
+      "community": 5,
       "norm_label": "mobilebottomnav()"
     },
     {
@@ -2590,7 +2830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_packpreviewcard",
-      "community": 14,
+      "community": 46,
       "norm_label": "packpreviewcard.jsx"
     },
     {
@@ -2600,7 +2840,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_packpreviewcard_packpreviewcard",
-      "community": 14,
+      "community": 46,
       "norm_label": "packpreviewcard()"
     },
     {
@@ -2610,7 +2850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_physicalmerchsection",
-      "community": 14,
+      "community": 51,
       "norm_label": "physicalmerchsection.jsx"
     },
     {
@@ -2620,7 +2860,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_physicalmerchsection_physicalmerchsection",
-      "community": 14,
+      "community": 51,
       "norm_label": "physicalmerchsection()"
     },
     {
@@ -2720,7 +2960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_relatedvideossection",
-      "community": 14,
+      "community": 25,
       "norm_label": "relatedvideossection.jsx"
     },
     {
@@ -2730,7 +2970,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_relatedvideossection_shuffleitems",
-      "community": 14,
+      "community": 25,
       "norm_label": "shuffleitems()"
     },
     {
@@ -2740,7 +2980,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "components_relatedvideossection_pickrelatedvideos",
-      "community": 14,
+      "community": 25,
       "norm_label": "pickrelatedvideos()"
     },
     {
@@ -2750,7 +2990,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_relatedvideossection_relatedvideossection",
-      "community": 14,
+      "community": 25,
       "norm_label": "relatedvideossection()"
     },
     {
@@ -2870,7 +3110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videocard",
-      "community": 14,
+      "community": 25,
       "norm_label": "videocard.jsx"
     },
     {
@@ -2880,7 +3120,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_videocard_getvideoaccessnote",
-      "community": 14,
+      "community": 25,
       "norm_label": "getvideoaccessnote()"
     },
     {
@@ -2890,7 +3130,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "components_videocard_getvideotags",
-      "community": 14,
+      "community": 25,
       "norm_label": "getvideotags()"
     },
     {
@@ -2900,7 +3140,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_videocard_videopreview",
-      "community": 14,
+      "community": 25,
       "norm_label": "videopreview()"
     },
     {
@@ -2910,7 +3150,7 @@
       "source_location": "L171",
       "_origin": "ast",
       "id": "components_videocard_videocard",
-      "community": 14,
+      "community": 25,
       "norm_label": "videocard()"
     },
     {
@@ -2920,7 +3160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videocollectionssection",
-      "community": 14,
+      "community": 51,
       "norm_label": "videocollectionssection.jsx"
     },
     {
@@ -2930,7 +3170,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_videocollectionssection_videocollectionssection",
-      "community": 14,
+      "community": 51,
       "norm_label": "videocollectionssection()"
     },
     {
@@ -2940,7 +3180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videopricebadge",
-      "community": 14,
+      "community": 25,
       "norm_label": "videopricebadge.jsx"
     },
     {
@@ -2950,7 +3190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videopricebadge_videopricebadge",
-      "community": 14,
+      "community": 25,
       "norm_label": "videopricebadge()"
     },
     {
@@ -2960,7 +3200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_videoshowcase",
-      "community": 14,
+      "community": 25,
       "norm_label": "videoshowcase.jsx"
     },
     {
@@ -2970,7 +3210,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_videoshowcase_videoshowcase",
-      "community": 14,
+      "community": 25,
       "norm_label": "videoshowcase()"
     },
     {
@@ -2980,7 +3220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_viewallpackscard",
-      "community": 14,
+      "community": 51,
       "norm_label": "viewallpackscard.jsx"
     },
     {
@@ -2990,7 +3230,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_viewallpackscard_viewallpackscard",
-      "community": 14,
+      "community": 51,
       "norm_label": "viewallpackscard()"
     },
     {
@@ -3214,10 +3454,180 @@
       "norm_label": "encuentrosmodelsmanager.jsx"
     },
     {
+      "label": "AGE_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_age_options",
+      "community": 0,
+      "norm_label": "age_options"
+    },
+    {
+      "label": "NATIONALITY_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_nationality_options",
+      "community": 0,
+      "norm_label": "nationality_options"
+    },
+    {
+      "label": "CITY_OPTIONS_BY_NATIONALITY",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_city_options_by_nationality",
+      "community": 0,
+      "norm_label": "city_options_by_nationality"
+    },
+    {
+      "label": "PRESENCIAL_UNIT_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_presencial_unit_options",
+      "community": 0,
+      "norm_label": "presencial_unit_options"
+    },
+    {
+      "label": "ATTENDANCE_MODE_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_attendance_mode_options",
+      "community": 0,
+      "norm_label": "attendance_mode_options"
+    },
+    {
+      "label": "TIME_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_time_options",
+      "community": 0,
+      "norm_label": "time_options"
+    },
+    {
+      "label": "INTERVAL_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_interval_options",
+      "community": 0,
+      "norm_label": "interval_options"
+    },
+    {
+      "label": "EXTRA_OPTIONS_PLACEHOLDER",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_extra_options_placeholder",
+      "community": 0,
+      "norm_label": "extra_options_placeholder"
+    },
+    {
+      "label": "PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_presencial_feature_options_placeholder",
+      "community": 0,
+      "norm_label": "presencial_feature_options_placeholder"
+    },
+    {
+      "label": "RELATIONSHIP_STATUS_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_relationship_status_options",
+      "community": 0,
+      "norm_label": "relationship_status_options"
+    },
+    {
+      "label": "BLANK_MODEL_DEFAULTS",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_blank_model_defaults",
+      "community": 0,
+      "norm_label": "blank_model_defaults"
+    },
+    {
+      "label": "formatFileSize()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_formatfilesize",
+      "community": 0,
+      "norm_label": "formatfilesize()"
+    },
+    {
+      "label": "normalizeBooleanValue()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_normalizebooleanvalue",
+      "community": 0,
+      "norm_label": "normalizebooleanvalue()"
+    },
+    {
+      "label": "getSelectableAge()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L111",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_getselectableage",
+      "community": 0,
+      "norm_label": "getselectableage()"
+    },
+    {
+      "label": "getCityOptionsForNationality()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L116",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_getcityoptionsfornationality",
+      "community": 0,
+      "norm_label": "getcityoptionsfornationality()"
+    },
+    {
+      "label": "VoiceAudioField()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L120",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_voiceaudiofield",
+      "community": 0,
+      "norm_label": "voiceaudiofield()"
+    },
+    {
+      "label": "ProfileAvatarField()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L262",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_profileavatarfield",
+      "community": 0,
+      "norm_label": "profileavatarfield()"
+    },
+    {
       "label": "formatStatusLabel()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L12",
+      "source_location": "L354",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_formatstatuslabel",
       "community": 0,
@@ -3227,7 +3637,7 @@
       "label": "deepClone()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L23",
+      "source_location": "L365",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_deepclone",
       "community": 0,
@@ -3237,7 +3647,7 @@
       "label": "setByPath()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L27",
+      "source_location": "L369",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_setbypath",
       "community": 0,
@@ -3247,57 +3657,67 @@
       "label": "normalizeLines()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L45",
+      "source_location": "L387",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_normalizelines",
       "community": 0,
       "norm_label": "normalizelines()"
     },
     {
-      "label": "serializeSlides()",
+      "label": "normalizeGallerySlides()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L52",
+      "source_location": "L394",
       "_origin": "ast",
-      "id": "admin_encuentrosmodelsmanager_serializeslides",
+      "id": "admin_encuentrosmodelsmanager_normalizegalleryslides",
       "community": 0,
-      "norm_label": "serializeslides()"
+      "norm_label": "normalizegalleryslides()"
     },
     {
-      "label": "parseSlides()",
+      "label": "getModelGallerySlides()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L59",
+      "source_location": "L405",
       "_origin": "ast",
-      "id": "admin_encuentrosmodelsmanager_parseslides",
+      "id": "admin_encuentrosmodelsmanager_getmodelgalleryslides",
       "community": 0,
-      "norm_label": "parseslides()"
+      "norm_label": "getmodelgalleryslides()"
     },
     {
-      "label": "serializePaymentMethods()",
+      "label": "normalizeStringList()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L63",
+      "source_location": "L415",
       "_origin": "ast",
-      "id": "admin_encuentrosmodelsmanager_serializepaymentmethods",
+      "id": "admin_encuentrosmodelsmanager_normalizestringlist",
       "community": 0,
-      "norm_label": "serializepaymentmethods()"
+      "norm_label": "normalizestringlist()"
     },
     {
-      "label": "parsePaymentMethods()",
+      "label": "serializeSocialLinks()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L70",
+      "source_location": "L419",
       "_origin": "ast",
-      "id": "admin_encuentrosmodelsmanager_parsepaymentmethods",
+      "id": "admin_encuentrosmodelsmanager_serializesociallinks",
       "community": 0,
-      "norm_label": "parsepaymentmethods()"
+      "norm_label": "serializesociallinks()"
+    },
+    {
+      "label": "parseSocialLinks()",
+      "file_type": "code",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L426",
+      "_origin": "ast",
+      "id": "admin_encuentrosmodelsmanager_parsesociallinks",
+      "community": 0,
+      "norm_label": "parsesociallinks()"
     },
     {
       "label": "normalizeAvailabilityMode()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L79",
+      "source_location": "L435",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
       "community": 0,
@@ -3307,7 +3727,7 @@
       "label": "formatBookingModeLabel()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L84",
+      "source_location": "L440",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
       "community": 0,
@@ -3317,7 +3737,7 @@
       "label": "formatBookingSummary()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L88",
+      "source_location": "L444",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_formatbookingsummary",
       "community": 0,
@@ -3327,7 +3747,7 @@
       "label": "normalizeBookingForSave()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L100",
+      "source_location": "L470",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_normalizebookingforsave",
       "community": 0,
@@ -3337,17 +3757,17 @@
       "label": "createDraftFromModel()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L119",
+      "source_location": "L505",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_createdraftfrommodel",
-      "community": 12,
+      "community": 0,
       "norm_label": "createdraftfrommodel()"
     },
     {
       "label": "ModelCard()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L133",
+      "source_location": "L531",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_modelcard",
       "community": 0,
@@ -3357,7 +3777,7 @@
       "label": "SectionTitle()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L184",
+      "source_location": "L585",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_sectiontitle",
       "community": 0,
@@ -3367,7 +3787,7 @@
       "label": "EncuentrosModelsManager()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L196",
+      "source_location": "L597",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
       "community": 0,
@@ -3520,7 +3940,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "data_defaultcommerce_formatpriceamount",
-      "community": 11,
+      "community": 0,
       "norm_label": "formatpriceamount()"
     },
     {
@@ -3530,7 +3950,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "data_defaultcommerce_calculatesubscriptionpricing",
-      "community": 11,
+      "community": 0,
       "norm_label": "calculatesubscriptionpricing()"
     },
     {
@@ -3700,7 +4120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultsitecontent",
-      "community": 12,
+      "community": 1,
       "norm_label": "defaultsitecontent.js"
     },
     {
@@ -3710,7 +4130,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "data_defaultsitecontent_topcarouselimages",
-      "community": 12,
+      "community": 1,
       "norm_label": "topcarouselimages"
     },
     {
@@ -3720,7 +4140,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "data_defaultsitecontent_bottomcarouselimages",
-      "community": 12,
+      "community": 1,
       "norm_label": "bottomcarouselimages"
     },
     {
@@ -3730,7 +4150,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslide",
-      "community": 12,
+      "community": 1,
       "norm_label": "normalizecarouselslide()"
     },
     {
@@ -3740,7 +4160,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslides",
-      "community": 12,
+      "community": 40,
       "norm_label": "normalizecarouselslides()"
     },
     {
@@ -3750,7 +4170,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "data_defaultsitecontent_buildfuturedates",
-      "community": 12,
+      "community": 1,
       "norm_label": "buildfuturedates()"
     },
     {
@@ -3767,80 +4187,80 @@
       "label": "mergeItemsBySlug()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1518",
+      "source_location": "L1530",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergeitemsbyslug",
-      "community": 12,
+      "community": 40,
       "norm_label": "mergeitemsbyslug()"
     },
     {
       "label": "normalizePriceLabel()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1529",
+      "source_location": "L1541",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizepricelabel",
-      "community": 12,
+      "community": 1,
       "norm_label": "normalizepricelabel()"
     },
     {
       "label": "normalizeEncounterPriceLabel()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1547",
+      "source_location": "L1559",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizeencounterpricelabel",
-      "community": 12,
+      "community": 40,
       "norm_label": "normalizeencounterpricelabel()"
     },
     {
       "label": "normalizeVideoLibraryItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1565",
+      "source_location": "L1577",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideolibraryitem",
-      "community": 25,
+      "community": 1,
       "norm_label": "normalizevideolibraryitem()"
     },
     {
       "label": "normalizeVideoCollectionItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1608",
+      "source_location": "L1620",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizevideocollectionitem",
-      "community": 12,
+      "community": 1,
       "norm_label": "normalizevideocollectionitem()"
     },
     {
       "label": "normalizePhysicalMerchItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1625",
+      "source_location": "L1637",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizephysicalmerchitem",
-      "community": 12,
+      "community": 1,
       "norm_label": "normalizephysicalmerchitem()"
     },
     {
       "label": "normalizeFreeContentItem()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1632",
+      "source_location": "L1644",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizefreecontentitem",
-      "community": 40,
+      "community": 1,
       "norm_label": "normalizefreecontentitem()"
     },
     {
       "label": "mergeSiteContent()",
       "file_type": "code",
       "source_file": "src/data/defaultSiteContent.js",
-      "source_location": "L1648",
+      "source_location": "L1660",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergesitecontent",
-      "community": 12,
+      "community": 40,
       "norm_label": "mergesitecontent()"
     },
     {
@@ -3870,7 +4290,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useviewportstate",
-      "community": 14,
+      "community": 51,
       "norm_label": "useviewportstate.js"
     },
     {
@@ -3880,7 +4300,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "hooks_useviewportstate_computeviewportstate",
-      "community": 14,
+      "community": 51,
       "norm_label": "computeviewportstate()"
     },
     {
@@ -3890,7 +4310,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "hooks_useviewportstate_useviewportstate",
-      "community": 14,
+      "community": 51,
       "norm_label": "useviewportstate()"
     },
     {
@@ -3900,7 +4320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_i18n",
-      "community": 5,
+      "community": 55,
       "norm_label": "i18n.js"
     },
     {
@@ -3910,7 +4330,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_i18n_supportedlanguages",
-      "community": 5,
+      "community": 55,
       "norm_label": "supportedlanguages"
     },
     {
@@ -3920,7 +4340,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_i18n_resources",
-      "community": 5,
+      "community": 55,
       "norm_label": "resources"
     },
     {
@@ -4040,7 +4460,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "lib_supabase_withsupabasetimeout",
-      "community": 19,
+      "community": 47,
       "norm_label": "withsupabasetimeout()"
     },
     {
@@ -4050,7 +4470,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "lib_supabase_delay",
-      "community": 19,
+      "community": 47,
       "norm_label": "delay()"
     },
     {
@@ -4060,7 +4480,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "lib_supabase_retrysupabaseoperation",
-      "community": 19,
+      "community": 47,
       "norm_label": "retrysupabaseoperation()"
     },
     {
@@ -4100,7 +4520,7 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "lib_supabase_normalizesession",
-      "community": 19,
+      "community": 47,
       "norm_label": "normalizesession()"
     },
     {
@@ -4110,7 +4530,7 @@
       "source_location": "L243",
       "_origin": "ast",
       "id": "lib_supabase_fetchcurrentprofile",
-      "community": 19,
+      "community": 47,
       "norm_label": "fetchcurrentprofile()"
     },
     {
@@ -4120,7 +4540,7 @@
       "source_location": "L292",
       "_origin": "ast",
       "id": "lib_supabase_getcurrentsession",
-      "community": 19,
+      "community": 47,
       "norm_label": "getcurrentsession()"
     },
     {
@@ -4130,7 +4550,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "lib_supabase_signinwithpassword",
-      "community": 19,
+      "community": 47,
       "norm_label": "signinwithpassword()"
     },
     {
@@ -4140,7 +4560,7 @@
       "source_location": "L355",
       "_origin": "ast",
       "id": "lib_supabase_signinwithoauth",
-      "community": 19,
+      "community": 47,
       "norm_label": "signinwithoauth()"
     },
     {
@@ -4150,7 +4570,7 @@
       "source_location": "L386",
       "_origin": "ast",
       "id": "lib_supabase_signinwithtelegram",
-      "community": 19,
+      "community": 47,
       "norm_label": "signinwithtelegram()"
     },
     {
@@ -4160,7 +4580,7 @@
       "source_location": "L413",
       "_origin": "ast",
       "id": "lib_supabase_signupwithpassword",
-      "community": 19,
+      "community": 47,
       "norm_label": "signupwithpassword()"
     },
     {
@@ -4190,7 +4610,7 @@
       "source_location": "L480",
       "_origin": "ast",
       "id": "lib_supabase_signout",
-      "community": 19,
+      "community": 47,
       "norm_label": "signout()"
     },
     {
@@ -4220,7 +4640,7 @@
       "source_location": "L526",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosmodels",
-      "community": 9,
+      "community": 54,
       "norm_label": "fetchencuentrosmodels()"
     },
     {
@@ -4230,7 +4650,7 @@
       "source_location": "L537",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosmodel",
-      "community": 3,
+      "community": 48,
       "norm_label": "fetchencuentrosmodel()"
     },
     {
@@ -4240,7 +4660,7 @@
       "source_location": "L549",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosbookingpricing",
-      "community": 3,
+      "community": 48,
       "norm_label": "fetchencuentrosbookingpricing()"
     },
     {
@@ -4480,7 +4900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 5,
+      "community": 55,
       "norm_label": "main.jsx"
     },
     {
@@ -4497,7 +4917,7 @@
       "label": "AccessPage()",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L12",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "pages_accesspage_accesspage",
       "community": 32,
@@ -4610,7 +5030,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "pages_admindashboardpage_uniquevalues",
-      "community": 42,
+      "community": 1,
       "norm_label": "uniquevalues()"
     },
     {
@@ -4620,24 +5040,34 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizevideotags",
-      "community": 42,
+      "community": 1,
       "norm_label": "normalizevideotags()"
+    },
+    {
+      "label": "normalizeChipValue()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminDashboardPage.jsx",
+      "source_location": "L113",
+      "_origin": "ast",
+      "id": "pages_admindashboardpage_normalizechipvalue",
+      "community": 1,
+      "norm_label": "normalizechipvalue()"
     },
     {
       "label": "normalizePackAssets()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L113",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizepackassets",
-      "community": 40,
+      "community": 1,
       "norm_label": "normalizepackassets()"
     },
     {
       "label": "formatDateLabel()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L124",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "pages_admindashboardpage_formatdatelabel",
       "community": 1,
@@ -4647,7 +5077,7 @@
       "label": "toDatetimeLocalValue()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L135",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "pages_admindashboardpage_todatetimelocalvalue",
       "community": 1,
@@ -4657,7 +5087,7 @@
       "label": "getActiveDigitalSubscription()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L141",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "pages_admindashboardpage_getactivedigitalsubscription",
       "community": 1,
@@ -4667,7 +5097,7 @@
       "label": "getLatestDigitalSubscription()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L145",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "pages_admindashboardpage_getlatestdigitalsubscription",
       "community": 1,
@@ -4677,7 +5107,7 @@
       "label": "buildSubscriptionDraftForUser()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L157",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "pages_admindashboardpage_buildsubscriptiondraftforuser",
       "community": 1,
@@ -4687,7 +5117,7 @@
       "label": "formatAuditEventLabel()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L181",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "pages_admindashboardpage_formatauditeventlabel",
       "community": 1,
@@ -4697,7 +5127,7 @@
       "label": "isEncounterReservationOrder()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L194",
+      "source_location": "L198",
       "_origin": "ast",
       "id": "pages_admindashboardpage_isencounterreservationorder",
       "community": 1,
@@ -4707,7 +5137,7 @@
       "label": "SectionPanel()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L204",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "pages_admindashboardpage_sectionpanel",
       "community": 1,
@@ -4717,7 +5147,7 @@
       "label": "Field()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L218",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "pages_admindashboardpage_field",
       "community": 1,
@@ -4727,7 +5157,7 @@
       "label": "TextareaField()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L227",
+      "source_location": "L231",
       "_origin": "ast",
       "id": "pages_admindashboardpage_textareafield",
       "community": 1,
@@ -4737,17 +5167,27 @@
       "label": "ArrayTextareaField()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L236",
+      "source_location": "L240",
       "_origin": "ast",
       "id": "pages_admindashboardpage_arraytextareafield",
       "community": 1,
       "norm_label": "arraytextareafield()"
     },
     {
+      "label": "ChipListField()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminDashboardPage.jsx",
+      "source_location": "L269",
+      "_origin": "ast",
+      "id": "pages_admindashboardpage_chiplistfield",
+      "community": 1,
+      "norm_label": "chiplistfield()"
+    },
+    {
       "label": "normalizeDateInput()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L265",
+      "source_location": "L359",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizedateinput",
       "community": 1,
@@ -4757,7 +5197,7 @@
       "label": "createFutureDate()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L270",
+      "source_location": "L364",
       "_origin": "ast",
       "id": "pages_admindashboardpage_createfuturedate",
       "community": 1,
@@ -4767,7 +5207,7 @@
       "label": "DateRepeaterField()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L277",
+      "source_location": "L371",
       "_origin": "ast",
       "id": "pages_admindashboardpage_daterepeaterfield",
       "community": 1,
@@ -4777,7 +5217,7 @@
       "label": "getVideoAccessModeLabel()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L322",
+      "source_location": "L416",
       "_origin": "ast",
       "id": "pages_admindashboardpage_getvideoaccessmodelabel",
       "community": 1,
@@ -4787,7 +5227,7 @@
       "label": "MediaField()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L329",
+      "source_location": "L423",
       "_origin": "ast",
       "id": "pages_admindashboardpage_mediafield",
       "community": 1,
@@ -4797,7 +5237,7 @@
       "label": "normalizeCarouselSlide()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L393",
+      "source_location": "L487",
       "_origin": "ast",
       "id": "pages_admindashboardpage_normalizecarouselslide",
       "community": 1,
@@ -4807,7 +5247,7 @@
       "label": "CarouselSlidesEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L409",
+      "source_location": "L503",
       "_origin": "ast",
       "id": "pages_admindashboardpage_carouselslideseditor",
       "community": 1,
@@ -4817,17 +5257,17 @@
       "label": "VideoLibraryItemEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L519",
+      "source_location": "L613",
       "_origin": "ast",
       "id": "pages_admindashboardpage_videolibraryitemeditor",
-      "community": 42,
+      "community": 1,
       "norm_label": "videolibraryitemeditor()"
     },
     {
       "label": "PackAssetEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L687",
+      "source_location": "L781",
       "_origin": "ast",
       "id": "pages_admindashboardpage_packasseteditor",
       "community": 1,
@@ -4837,7 +5277,7 @@
       "label": "PackToolbar()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L775",
+      "source_location": "L869",
       "_origin": "ast",
       "id": "pages_admindashboardpage_packtoolbar",
       "community": 1,
@@ -4847,7 +5287,7 @@
       "label": "ensureVideoLibraryUiIds()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L794",
+      "source_location": "L888",
       "_origin": "ast",
       "id": "pages_admindashboardpage_ensurevideolibraryuiids",
       "community": 1,
@@ -4857,7 +5297,7 @@
       "label": "ensurePackUiIds()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L805",
+      "source_location": "L899",
       "_origin": "ast",
       "id": "pages_admindashboardpage_ensurepackuiids",
       "community": 1,
@@ -4867,27 +5307,27 @@
       "label": "hasSeedEnglishCatalogTitles()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L820",
+      "source_location": "L914",
       "_origin": "ast",
       "id": "pages_admindashboardpage_hasseedenglishcatalogtitles",
-      "community": 25,
+      "community": 1,
       "norm_label": "hasseedenglishcatalogtitles()"
     },
     {
       "label": "ContentEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L861",
+      "source_location": "L955",
       "_origin": "ast",
       "id": "pages_admindashboardpage_contenteditor",
-      "community": 25,
+      "community": 1,
       "norm_label": "contenteditor()"
     },
     {
       "label": "UsersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3032",
+      "source_location": "L3161",
       "_origin": "ast",
       "id": "pages_admindashboardpage_userseditor",
       "community": 1,
@@ -4897,7 +5337,7 @@
       "label": "PhysicalOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3581",
+      "source_location": "L3710",
       "_origin": "ast",
       "id": "pages_admindashboardpage_physicalorderseditor",
       "community": 1,
@@ -4907,7 +5347,7 @@
       "label": "ReservationOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3663",
+      "source_location": "L3792",
       "_origin": "ast",
       "id": "pages_admindashboardpage_reservationorderseditor",
       "community": 1,
@@ -4917,7 +5357,7 @@
       "label": "AdminDashboardPage()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3735",
+      "source_location": "L3864",
       "_origin": "ast",
       "id": "pages_admindashboardpage_admindashboardpage",
       "community": 1,
@@ -4930,7 +5370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_adminloginpage",
-      "community": 14,
+      "community": 44,
       "norm_label": "adminloginpage.jsx"
     },
     {
@@ -4940,7 +5380,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "pages_adminloginpage_adminloginpage",
-      "community": 14,
+      "community": 44,
       "norm_label": "adminloginpage()"
     },
     {
@@ -4950,7 +5390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_blogindexpage",
-      "community": 14,
+      "community": 52,
       "norm_label": "blogindexpage.jsx"
     },
     {
@@ -4960,7 +5400,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_blogindexpage_formatpostdate",
-      "community": 14,
+      "community": 52,
       "norm_label": "formatpostdate()"
     },
     {
@@ -4970,7 +5410,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_blogindexpage_formatbannerslot",
-      "community": 14,
+      "community": 52,
       "norm_label": "formatbannerslot()"
     },
     {
@@ -4980,7 +5420,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pages_blogindexpage_getaccessbadgemeta",
-      "community": 14,
+      "community": 52,
       "norm_label": "getaccessbadgemeta()"
     },
     {
@@ -4990,7 +5430,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "pages_blogindexpage_actionlink",
-      "community": 14,
+      "community": 52,
       "norm_label": "actionlink()"
     },
     {
@@ -5000,7 +5440,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "pages_blogindexpage_blogindexpage",
-      "community": 14,
+      "community": 52,
       "norm_label": "blogindexpage()"
     },
     {
@@ -5090,7 +5530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_checkoutstartpage",
-      "community": 14,
+      "community": 46,
       "norm_label": "checkoutstartpage.jsx"
     },
     {
@@ -5100,7 +5540,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_resolveproductvisual",
-      "community": 14,
+      "community": 46,
       "norm_label": "resolveproductvisual()"
     },
     {
@@ -5110,7 +5550,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_buildproductsummary",
-      "community": 14,
+      "community": 46,
       "norm_label": "buildproductsummary()"
     },
     {
@@ -5120,7 +5560,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "pages_checkoutstartpage_checkoutstartpage",
-      "community": 14,
+      "community": 46,
       "norm_label": "checkoutstartpage()"
     },
     {
@@ -5130,7 +5570,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage",
-      "community": 14,
+      "community": 46,
       "norm_label": "checkoutsuccesspage.jsx"
     },
     {
@@ -5140,7 +5580,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage_reservationconfirmationmodal",
-      "community": 14,
+      "community": 46,
       "norm_label": "reservationconfirmationmodal()"
     },
     {
@@ -5150,7 +5590,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "pages_checkoutsuccesspage_checkoutsuccesspage",
-      "community": 14,
+      "community": 46,
       "norm_label": "checkoutsuccesspage()"
     },
     {
@@ -5180,7 +5620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentroscatalogpage.jsx"
     },
     {
@@ -5190,7 +5630,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_normalizemediaurl",
-      "community": 3,
+      "community": 48,
       "norm_label": "normalizemediaurl()"
     },
     {
@@ -5200,7 +5640,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_collectmodelimages",
-      "community": 3,
+      "community": 48,
       "norm_label": "collectmodelimages()"
     },
     {
@@ -5210,7 +5650,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_getfirsttextvalue",
-      "community": 3,
+      "community": 48,
       "norm_label": "getfirsttextvalue()"
     },
     {
@@ -5220,7 +5660,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_gettopbadgelabel",
-      "community": 3,
+      "community": 48,
       "norm_label": "gettopbadgelabel()"
     },
     {
@@ -5230,7 +5670,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_profilemetaline",
-      "community": 3,
+      "community": 48,
       "norm_label": "profilemetaline()"
     },
     {
@@ -5240,7 +5680,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_catalogcard",
-      "community": 3,
+      "community": 48,
       "norm_label": "catalogcard()"
     },
     {
@@ -5250,7 +5690,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "pages_encuentroscatalogpage_encuentroscatalogpage",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentroscatalogpage()"
     },
     {
@@ -5260,7 +5700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_encuentroscitaspage",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentroscitaspage.jsx"
     },
     {
@@ -5270,7 +5710,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "pages_encuentroscitaspage_encuentroscitaspage",
-      "community": 3,
+      "community": 48,
       "norm_label": "encuentroscitaspage()"
     },
     {
@@ -5287,7 +5727,7 @@
       "label": "parsePriceValue()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L38",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "pages_encuentrospage_parsepricevalue",
       "community": 3,
@@ -5297,7 +5737,7 @@
       "label": "formatPriceValue()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L43",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "pages_encuentrospage_formatpricevalue",
       "community": 3,
@@ -5307,27 +5747,97 @@
       "label": "PriceText()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L51",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "pages_encuentrospage_pricetext",
       "community": 3,
       "norm_label": "pricetext()"
     },
     {
+      "label": "getProfileTextValue()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_getprofiletextvalue",
+      "community": 3,
+      "norm_label": "getprofiletextvalue()"
+    },
+    {
+      "label": "uniqueSocialLinks()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L90",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_uniquesociallinks",
+      "community": 3,
+      "norm_label": "uniquesociallinks()"
+    },
+    {
+      "label": "isContactChannelLink()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_iscontactchannellink",
+      "community": 3,
+      "norm_label": "iscontactchannellink()"
+    },
+    {
+      "label": "getContactChannelIcon()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_getcontactchannelicon",
+      "community": 3,
+      "norm_label": "getcontactchannelicon()"
+    },
+    {
+      "label": "buildEncounterContactChannels()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L119",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_buildencountercontactchannels",
+      "community": 3,
+      "norm_label": "buildencountercontactchannels()"
+    },
+    {
       "label": "formatShortDateLabel()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L64",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "pages_encuentrospage_formatshortdatelabel",
       "community": 3,
       "norm_label": "formatshortdatelabel()"
     },
     {
+      "label": "getInitialsFromName()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L172",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_getinitialsfromname",
+      "community": 3,
+      "norm_label": "getinitialsfromname()"
+    },
+    {
+      "label": "normalizeProfileAttendanceModes()",
+      "file_type": "code",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L183",
+      "_origin": "ast",
+      "id": "pages_encuentrospage_normalizeprofileattendancemodes",
+      "community": 3,
+      "norm_label": "normalizeprofileattendancemodes()"
+    },
+    {
       "label": "ScreenCard()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L82",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "pages_encuentrospage_screencard",
       "community": 3,
@@ -5337,7 +5847,7 @@
       "label": "EncuentrosBottomNav()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L90",
+      "source_location": "L202",
       "_origin": "ast",
       "id": "pages_encuentrospage_encuentrosbottomnav",
       "community": 3,
@@ -5347,7 +5857,7 @@
       "label": "getEncounterNavToneStyles()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L162",
+      "source_location": "L290",
       "_origin": "ast",
       "id": "pages_encuentrospage_getencounternavtonestyles",
       "community": 3,
@@ -5357,7 +5867,7 @@
       "label": "EncuentrosPage()",
       "file_type": "code",
       "source_file": "src/pages/EncuentrosPage.jsx",
-      "source_location": "L182",
+      "source_location": "L310",
       "_origin": "ast",
       "id": "pages_encuentrospage_encuentrospage",
       "community": 3,
@@ -5400,7 +5910,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_homepage",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepage.jsx"
     },
     {
@@ -5410,7 +5920,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "pages_homepage_homepage",
-      "community": 14,
+      "community": 44,
       "norm_label": "homepage()"
     },
     {
@@ -5420,7 +5930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_memberlibrarypage",
-      "community": 20,
+      "community": 45,
       "norm_label": "memberlibrarypage.jsx"
     },
     {
@@ -5430,7 +5940,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "pages_memberlibrarypage_summarizeaccess",
-      "community": 20,
+      "community": 45,
       "norm_label": "summarizeaccess()"
     },
     {
@@ -5440,7 +5950,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "pages_memberlibrarypage_isreservationorder",
-      "community": 20,
+      "community": 45,
       "norm_label": "isreservationorder()"
     },
     {
@@ -5450,7 +5960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "pages_memberlibrarypage_memberlibrarypage",
-      "community": 20,
+      "community": 45,
       "norm_label": "memberlibrarypage()"
     },
     {
@@ -5460,7 +5970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_packdetailpage",
-      "community": 14,
+      "community": 53,
       "norm_label": "packdetailpage.jsx"
     },
     {
@@ -5470,7 +5980,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "pages_packdetailpage_getpackassets",
-      "community": 14,
+      "community": 53,
       "norm_label": "getpackassets()"
     },
     {
@@ -5480,7 +5990,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "pages_packdetailpage_getpackphotos",
-      "community": 14,
+      "community": 53,
       "norm_label": "getpackphotos()"
     },
     {
@@ -5490,7 +6000,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "pages_packdetailpage_getpackgalleryclassname",
-      "community": 14,
+      "community": 53,
       "norm_label": "getpackgalleryclassname()"
     },
     {
@@ -5500,7 +6010,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "pages_packdetailpage_pickrandomrelatedpacks",
-      "community": 14,
+      "community": 53,
       "norm_label": "pickrandomrelatedpacks()"
     },
     {
@@ -5510,7 +6020,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "pages_packdetailpage_packdetailpage",
-      "community": 14,
+      "community": 53,
       "norm_label": "packdetailpage()"
     },
     {
@@ -5570,7 +6080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_profilepage",
-      "community": 20,
+      "community": 45,
       "norm_label": "profilepage.jsx"
     },
     {
@@ -5580,7 +6090,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "pages_profilepage_summarizeprofileaccess",
-      "community": 20,
+      "community": 45,
       "norm_label": "summarizeprofileaccess()"
     },
     {
@@ -5590,7 +6100,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pages_profilepage_profilepage",
-      "community": 20,
+      "community": 45,
       "norm_label": "profilepage()"
     },
     {
@@ -5600,7 +6110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_videocatalogpage",
-      "community": 14,
+      "community": 25,
       "norm_label": "videocatalogpage.jsx"
     },
     {
@@ -5610,7 +6120,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_videocatalogpage_videocatalogpage",
-      "community": 14,
+      "community": 25,
       "norm_label": "videocatalogpage()"
     },
     {
@@ -5620,7 +6130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_videodetailpage",
-      "community": 14,
+      "community": 25,
       "norm_label": "videodetailpage.jsx"
     },
     {
@@ -5630,7 +6140,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "pages_videodetailpage_getvideoaccessnote",
-      "community": 14,
+      "community": 25,
       "norm_label": "getvideoaccessnote()"
     },
     {
@@ -5640,7 +6150,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "pages_videodetailpage_getvideotags",
-      "community": 14,
+      "community": 25,
       "norm_label": "getvideotags()"
     },
     {
@@ -5650,7 +6160,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "pages_videodetailpage_videodetailpage",
-      "community": 14,
+      "community": 25,
       "norm_label": "videodetailpage()"
     },
     {
@@ -5780,7 +6290,7 @@
       "source_location": "L239",
       "_origin": "ast",
       "id": "state_appstate_buildsubscriptiongrantset",
-      "community": 20,
+      "community": 45,
       "norm_label": "buildsubscriptiongrantset()"
     },
     {
@@ -5840,7 +6350,7 @@
       "source_location": "L1952",
       "_origin": "ast",
       "id": "state_appstate_useappstate",
-      "community": 14,
+      "community": 44,
       "norm_label": "useappstate()"
     },
     {
@@ -5850,7 +6360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosbooking",
-      "community": 3,
+      "community": 50,
       "norm_label": "encuentrosbooking.js"
     },
     {
@@ -5860,7 +6370,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_parsedisplayedmoneyamount",
-      "community": 3,
+      "community": 50,
       "norm_label": "parsedisplayedmoneyamount()"
     },
     {
@@ -5870,7 +6380,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_normalizedatevalue",
-      "community": 3,
+      "community": 50,
       "norm_label": "normalizedatevalue()"
     },
     {
@@ -5880,147 +6390,167 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildfuturebookingdays",
-      "community": 3,
+      "community": 50,
       "norm_label": "buildfuturebookingdays()"
+    },
+    {
+      "label": "isTodayOrFutureDate()",
+      "file_type": "code",
+      "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "utils_encuentrosbooking_istodayorfuturedate",
+      "community": 50,
+      "norm_label": "istodayorfuturedate()"
     },
     {
       "label": "buildBookingDays()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L37",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildbookingdays",
-      "community": 3,
+      "community": 50,
       "norm_label": "buildbookingdays()"
     },
     {
       "label": "parseTimeToMinutes()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L68",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_parsetimetominutes",
-      "community": 3,
+      "community": 50,
       "norm_label": "parsetimetominutes()"
     },
     {
       "label": "formatMinutesToTime()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L78",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_formatminutestotime",
-      "community": 3,
+      "community": 50,
       "norm_label": "formatminutestotime()"
     },
     {
       "label": "buildBookingTimes()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L85",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildbookingtimes",
-      "community": 3,
+      "community": 50,
       "norm_label": "buildbookingtimes()"
     },
     {
       "label": "normalizeRecordingChoice()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L103",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_normalizerecordingchoice",
-      "community": 3,
+      "community": 48,
       "norm_label": "normalizerecordingchoice()"
     },
     {
       "label": "clampPercent()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L108",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_clamppercent",
-      "community": 3,
+      "community": 50,
       "norm_label": "clamppercent()"
     },
     {
       "label": "parseMoneyAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L118",
+      "source_location": "L135",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_parsemoneyamount",
-      "community": 3,
+      "community": 50,
       "norm_label": "parsemoneyamount()"
     },
     {
       "label": "normalizeCurrencyLabel()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L123",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_normalizecurrencylabel",
-      "community": 25,
+      "community": 50,
       "norm_label": "normalizecurrencylabel()"
     },
     {
       "label": "formatCurrencyAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L141",
+      "source_location": "L158",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_formatcurrencyamount",
-      "community": 3,
+      "community": 50,
       "norm_label": "formatcurrencyamount()"
     },
     {
       "label": "resolveEncounterPricingSource()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L155",
+      "source_location": "L172",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounterpricingsource",
-      "community": 3,
+      "community": 50,
       "norm_label": "resolveencounterpricingsource()"
+    },
+    {
+      "label": "isEncounterRecordingEnabled()",
+      "file_type": "code",
+      "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L186",
+      "_origin": "ast",
+      "id": "utils_encuentrosbooking_isencounterrecordingenabled",
+      "community": 50,
+      "norm_label": "isencounterrecordingenabled()"
     },
     {
       "label": "resolveEncounterBaseAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L169",
+      "source_location": "L197",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounterbaseamount",
-      "community": 3,
+      "community": 50,
       "norm_label": "resolveencounterbaseamount()"
     },
     {
       "label": "resolveEncounterAdvanceAmount()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L185",
+      "source_location": "L213",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_resolveencounteradvanceamount",
-      "community": 3,
+      "community": 50,
       "norm_label": "resolveencounteradvanceamount()"
     },
     {
       "label": "buildEncuentrosBookingPricing()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L205",
+      "source_location": "L233",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_buildencuentrosbookingpricing",
-      "community": 3,
+      "community": 50,
       "norm_label": "buildencuentrosbookingpricing()"
     },
     {
       "label": "getRecordingPricingSummary()",
       "file_type": "code",
       "source_file": "src/utils/encuentrosBooking.js",
-      "source_location": "L246",
+      "source_location": "L276",
       "_origin": "ast",
       "id": "utils_encuentrosbooking_getrecordingpricingsummary",
-      "community": 3,
+      "community": 50,
       "norm_label": "getrecordingpricingsummary()"
     },
     {
@@ -6030,7 +6560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosgallery",
-      "community": 3,
+      "community": 12,
       "norm_label": "encuentrosgallery.js"
     },
     {
@@ -6040,7 +6570,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosgallery_slugifygalleryvalue",
-      "community": 3,
+      "community": 12,
       "norm_label": "slugifygalleryvalue()"
     },
     {
@@ -6050,7 +6580,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "utils_encuentrosgallery_getslidesource",
-      "community": 3,
+      "community": 12,
       "norm_label": "getslidesource()"
     },
     {
@@ -6060,7 +6590,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "utils_encuentrosgallery_normalizeencountergalleryslide",
-      "community": 3,
+      "community": 12,
       "norm_label": "normalizeencountergalleryslide()"
     },
     {
@@ -6070,7 +6600,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "utils_encuentrosgallery_normalizeencountergalleryslides",
-      "community": 3,
+      "community": 12,
       "norm_label": "normalizeencountergalleryslides()"
     },
     {
@@ -6080,7 +6610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions",
-      "community": 3,
+      "community": 20,
       "norm_label": "encuentrosgalleryreactions.js"
     },
     {
@@ -6090,7 +6620,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_getrandomvisitorkey",
-      "community": 3,
+      "community": 20,
       "norm_label": "getrandomvisitorkey()"
     },
     {
@@ -6100,7 +6630,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_getorcreategalleryvisitorkey",
-      "community": 3,
+      "community": 20,
       "norm_label": "getorcreategalleryvisitorkey()"
     },
     {
@@ -6110,7 +6640,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_readgalleryreactionstate",
-      "community": 3,
+      "community": 20,
       "norm_label": "readgalleryreactionstate()"
     },
     {
@@ -6120,7 +6650,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_writegalleryreactionstate",
-      "community": 3,
+      "community": 20,
       "norm_label": "writegalleryreactionstate()"
     },
     {
@@ -6130,7 +6660,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_fetchgalleryreactioncounts",
-      "community": 3,
+      "community": 20,
       "norm_label": "fetchgalleryreactioncounts()"
     },
     {
@@ -6140,7 +6670,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "utils_encuentrosgalleryreactions_savegalleryreaction",
-      "community": 3,
+      "community": 20,
       "norm_label": "savegalleryreaction()"
     },
     {
@@ -6150,7 +6680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosmodels",
-      "community": 5,
+      "community": 54,
       "norm_label": "encuentrosmodels.js"
     },
     {
@@ -6160,7 +6690,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_encuentrosmodels_getencounterfallbackslug",
-      "community": 5,
+      "community": 54,
       "norm_label": "getencounterfallbackslug()"
     },
     {
@@ -6170,7 +6700,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "community": 5,
+      "community": 54,
       "norm_label": "resolveencounterfallbackslug()"
     },
     {
@@ -6180,7 +6710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_entitlements",
-      "community": 20,
+      "community": 45,
       "norm_label": "entitlements.js"
     },
     {
@@ -6190,7 +6720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_entitlements_parseentitlementdate",
-      "community": 20,
+      "community": 45,
       "norm_label": "parseentitlementdate()"
     },
     {
@@ -6200,7 +6730,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "utils_entitlements_isentitlementactive",
-      "community": 20,
+      "community": 45,
       "norm_label": "isentitlementactive()"
     },
     {
@@ -6210,7 +6740,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "utils_entitlements_getactiveentitlements",
-      "community": 20,
+      "community": 45,
       "norm_label": "getactiveentitlements()"
     },
     {
@@ -6220,7 +6750,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "utils_entitlements_getactivedigitalentitlement",
-      "community": 20,
+      "community": 45,
       "norm_label": "getactivedigitalentitlement()"
     },
     {
@@ -6230,7 +6760,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_entitlements_getlatestdigitalentitlement",
-      "community": 20,
+      "community": 45,
       "norm_label": "getlatestdigitalentitlement()"
     },
     {
@@ -6240,7 +6770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization",
-      "community": 38,
+      "community": 1,
       "norm_label": "imageoptimization.js"
     },
     {
@@ -6250,7 +6780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_imageoptimization_loadimage",
-      "community": 38,
+      "community": 1,
       "norm_label": "loadimage()"
     },
     {
@@ -6260,7 +6790,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "utils_imageoptimization_optimizeimagefile",
-      "community": 38,
+      "community": 1,
       "norm_label": "optimizeimagefile()"
     },
     {
@@ -6270,7 +6800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_localizedcontent",
-      "community": 14,
+      "community": 46,
       "norm_label": "localizedcontent.js"
     },
     {
@@ -6280,7 +6810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_localizedcontent_isplainobject",
-      "community": 41,
+      "community": 46,
       "norm_label": "isplainobject()"
     },
     {
@@ -6290,7 +6820,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "utils_localizedcontent_getitemidentity",
-      "community": 41,
+      "community": 46,
       "norm_label": "getitemidentity()"
     },
     {
@@ -6300,7 +6830,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "utils_localizedcontent_getlocalekey",
-      "community": 41,
+      "community": 46,
       "norm_label": "getlocalekey()"
     },
     {
@@ -6310,7 +6840,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "utils_localizedcontent_resolvelocalizedvalue",
-      "community": 41,
+      "community": 46,
       "norm_label": "resolvelocalizedvalue()"
     },
     {
@@ -6320,7 +6850,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "utils_localizedcontent_mergelocalizedvalue",
-      "community": 41,
+      "community": 46,
       "norm_label": "mergelocalizedvalue()"
     },
     {
@@ -6340,7 +6870,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "utils_localizedcontent_resolvelocalizedrecord",
-      "community": 14,
+      "community": 46,
       "norm_label": "resolvelocalizedrecord()"
     },
     {
@@ -6350,7 +6880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_packaccess",
-      "community": 14,
+      "community": 46,
       "norm_label": "packaccess.js"
     },
     {
@@ -6360,7 +6890,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_packaccess_buildpackaccessactions",
-      "community": 14,
+      "community": 46,
       "norm_label": "buildpackaccessactions()"
     },
     {
@@ -6370,7 +6900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_shuffleitems",
-      "community": 14,
+      "community": 25,
       "norm_label": "shuffleitems.js"
     },
     {
@@ -6380,8 +6910,118 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_shuffleitems_shuffleitems",
-      "community": 14,
+      "community": 25,
       "norm_label": "shuffleitems()"
+    },
+    {
+      "label": "socialNetworks.js",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "utils_socialnetworks",
+      "community": 19,
+      "norm_label": "socialnetworks.js"
+    },
+    {
+      "label": "SOCIAL_NETWORK_ALIASES",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_social_network_aliases",
+      "community": 19,
+      "norm_label": "social_network_aliases"
+    },
+    {
+      "label": "SOCIAL_NETWORK_OPTIONS",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_social_network_options",
+      "community": 0,
+      "norm_label": "social_network_options"
+    },
+    {
+      "label": "SOCIAL_NETWORK_MAP",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_social_network_map",
+      "community": 19,
+      "norm_label": "social_network_map"
+    },
+    {
+      "label": "normalizeSocialNetworkText()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_normalizesocialnetworktext",
+      "community": 19,
+      "norm_label": "normalizesocialnetworktext()"
+    },
+    {
+      "label": "normalizeSocialNetworkValue()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_normalizesocialnetworkvalue",
+      "community": 19,
+      "norm_label": "normalizesocialnetworkvalue()"
+    },
+    {
+      "label": "getSocialNetworkKey()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_getsocialnetworkkey",
+      "community": 19,
+      "norm_label": "getsocialnetworkkey()"
+    },
+    {
+      "label": "getSocialNetworkOption()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_getsocialnetworkoption",
+      "community": 19,
+      "norm_label": "getsocialnetworkoption()"
+    },
+    {
+      "label": "getSocialNetworkActionLabel()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_getsocialnetworkactionlabel",
+      "community": 19,
+      "norm_label": "getsocialnetworkactionlabel()"
+    },
+    {
+      "label": "buildWhatsAppChatUrl()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L128",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_buildwhatsappchaturl",
+      "community": 3,
+      "norm_label": "buildwhatsappchaturl()"
+    },
+    {
+      "label": "extractWhatsAppPhoneFromUrl()",
+      "file_type": "code",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L140",
+      "_origin": "ast",
+      "id": "utils_socialnetworks_extractwhatsappphonefromurl",
+      "community": 0,
+      "norm_label": "extractwhatsappphonefromurl()"
     },
     {
       "label": "storage.js",
@@ -6390,7 +7030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_storage",
-      "community": 3,
+      "community": 20,
       "norm_label": "storage.js"
     },
     {
@@ -6400,7 +7040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_storage_readstoragevalue",
-      "community": 3,
+      "community": 20,
       "norm_label": "readstoragevalue()"
     },
     {
@@ -6410,7 +7050,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "utils_storage_writestoragevalue",
-      "community": 3,
+      "community": 20,
       "norm_label": "writestoragevalue()"
     },
     {
@@ -6420,7 +7060,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_storage_removestoragevalue",
-      "community": 3,
+      "community": 20,
       "norm_label": "removestoragevalue()"
     },
     {
@@ -6530,7 +7170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videoaccess",
-      "community": 14,
+      "community": 25,
       "norm_label": "videoaccess.js"
     },
     {
@@ -6540,7 +7180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videoaccess_buildvideoaccessactions",
-      "community": 14,
+      "community": 25,
       "norm_label": "buildvideoaccessactions()"
     },
     {
@@ -6550,7 +7190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia",
-      "community": 25,
+      "community": 1,
       "norm_label": "videomedia.js"
     },
     {
@@ -6560,7 +7200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_videomedia_extractgoogledrivefileid",
-      "community": 40,
+      "community": 1,
       "norm_label": "extractgoogledrivefileid()"
     },
     {
@@ -6570,7 +7210,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "utils_videomedia_isinternalmediaurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "isinternalmediaurl()"
     },
     {
@@ -6580,7 +7220,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapreviewurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "buildmediapreviewurl()"
     },
     {
@@ -6590,7 +7230,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediafullurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "buildmediafullurl()"
     },
     {
@@ -6600,7 +7240,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "utils_videomedia_buildmediapublicurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "buildmediapublicurl()"
     },
     {
@@ -6610,7 +7250,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideopreviewurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "buildvideopreviewurl()"
     },
     {
@@ -6620,7 +7260,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "utils_videomedia_buildvideofullurl",
-      "community": 25,
+      "community": 1,
       "norm_label": "buildvideofullurl()"
     },
     {
@@ -10135,6 +10775,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L1826",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_buildencountermodelrecordpayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L1520",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -10290,6 +10940,66 @@
       "confidence_score": 1.0,
       "source": "server_index",
       "target": "server_index_escapejsonforinlinescript"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1614",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_extractencountermodelbookingpayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1680",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_extractencountermodelmedia"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1595",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_extractencountermodelprofilepayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1663",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_extractencountermodelrecordingpayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1662",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_extractencountermodelsociallinks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1841",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_fetchencounterrelationrows"
     },
     {
       "relation": "contains",
@@ -10455,6 +11165,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L1733",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_hydrateencountermodelcontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L1568",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -10470,6 +11190,16 @@
       "confidence_score": 1.0,
       "source": "server_index",
       "target": "server_index_isconnectivityerror"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1562",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
     },
     {
       "relation": "contains",
@@ -10555,6 +11285,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L1885",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_mergeencountermodelswithrelations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L74",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -10585,6 +11325,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L1589",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_normalizeencountermediaurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1576",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_normalizeencountermodelage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L1675",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -10600,6 +11360,26 @@
       "confidence_score": 1.0,
       "source": "server_index",
       "target": "server_index_normalizeencountermodelrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1581",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_normalizeencountermodeltext"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1596",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_normalizeencountermodeltextlist"
     },
     {
       "relation": "contains",
@@ -10640,6 +11420,16 @@
       "confidence_score": 1.0,
       "source": "server_index",
       "target": "server_index_parsedateornull"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1916",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_persistencountermodelrelations"
     },
     {
       "relation": "contains",
@@ -10785,6 +11575,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L1585",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_uniqueencountervalues"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L1815",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -10895,6 +11695,28 @@
       "confidence_score": 1.0,
       "source": "server_index",
       "target": "utils_encuentrosmodels_resolveencounterfallbackslug"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "utils_socialnetworks"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
     },
     {
       "relation": "imports_from",
@@ -11264,6 +12086,28 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L2314",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_createencountermodel",
+      "target": "server_index_assertsupabaseauthconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2456",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_deleteencountermodel",
+      "target": "server_index_assertsupabaseauthconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L404",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -11279,6 +12123,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "server_index_logadminauditevent",
+      "target": "server_index_assertsupabaseauthconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2380",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_updateencountermodel",
       "target": "server_index_assertsupabaseauthconfig"
     },
     {
@@ -11885,6 +12740,369 @@
       "confidence_score": 1.0,
       "source": "server_index_updateencountermodel",
       "target": "server_index_normalizeencountermodelrow"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2295",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_createencountermodel",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1860",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_fetchencounterrelationrows",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodelbyslug",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2061",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodels",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1943",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_persistencountermodelrelations",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2371",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_updateencountermodel",
+      "target": "server_index_ismissingencountermodelrelationtableerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1597",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelprofilepayload",
+      "target": "server_index_normalizeencountermodelage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1618",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelbookingpayload",
+      "target": "server_index_normalizeencountermodeltext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1716",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelmedia",
+      "target": "server_index_normalizeencountermodeltext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1598",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelprofilepayload",
+      "target": "server_index_normalizeencountermodeltext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1742",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_hydrateencountermodelcontent",
+      "target": "server_index_uniqueencountervalues"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1598",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_normalizeencountermodeltextlist",
+      "target": "server_index_uniqueencountervalues"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1634",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelprofilepayload",
+      "target": "server_index_normalizeencountermodeltextlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1834",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_extractencountermodelprofilepayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1835",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_extractencountermodelbookingpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1860",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_extractencountermodelrecordingpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1836",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_extractencountermodelsociallinks"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1696",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_extractencountermodelsociallinks",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1837",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_extractencountermodelmedia"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2302",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_createencountermodel",
+      "target": "server_index_hydrateencountermodelcontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1734",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_hydrateencountermodelcontent",
+      "target": "data_defaultsitecontent_mergesitecontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1814",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_hydrateencountermodelcontent",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2378",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_updateencountermodel",
+      "target": "server_index_hydrateencountermodelcontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1827",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "data_defaultsitecontent_mergesitecontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L1833",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildencountermodelrecordpayload",
+      "target": "server_index_normalizeencountermodelpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2278",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_createencountermodel",
+      "target": "server_index_buildencountermodelrecordpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2335",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_updateencountermodel",
+      "target": "server_index_buildencountermodelrecordpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2111",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodelbyslug",
+      "target": "server_index_fetchencounterrelationrows"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2058",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodels",
+      "target": "server_index_fetchencounterrelationrows"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodelbyslug",
+      "target": "server_index_mergeencountermodelswithrelations"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2059",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_loadencountermodels",
+      "target": "server_index_mergeencountermodelswithrelations"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2293",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_createencountermodel",
+      "target": "server_index_persistencountermodelrelations"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L2369",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_updateencountermodel",
+      "target": "server_index_persistencountermodelrelations"
     },
     {
       "relation": "calls",
@@ -13499,6 +14717,242 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountergallerystatsbar",
+      "target": "components_encountergallerystatsbar_encountergallerystatsbar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountergallerystatsbar",
+      "target": "components_encountergallerystatsbar_formatcompactcount"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountergallerystatsbar",
+      "target": "components_encountergallerystatsbar_gallerystat"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "components_encountergallerystatsbar"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterGalleryStatsBar.jsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountergallerystatsbar_gallerystat",
+      "target": "components_encountergallerystatsbar_formatcompactcount"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "components_encountergallerystatsbar_encountergallerystatsbar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "components_encountersociallinkssection_encountersociallinkssection"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "components_encountersociallinkssection_getsociallinkiconcomponent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "components_encountersociallinkssection_normalizesociallink"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "state_appstate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "state_appstate_useappstate"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "utils_socialnetworks"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "utils_socialnetworks_getsocialnetworkactionlabel"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "components_encountersociallinkssection"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "components_encountersociallinkssection"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection_normalizesociallink",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encountersociallinkssection_normalizesociallink",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/EncounterSocialLinksSection.jsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "components_encountersociallinkssection_encountersociallinkssection",
+      "target": "state_appstate_useappstate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "components_encountersociallinkssection_encountersociallinkssection"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "components_encountersociallinkssection_encountersociallinkssection"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/components/EncuentrosBookingWizardModal.jsx",
       "source_location": "L23",
       "weight": 1.0,
@@ -13629,6 +15083,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "state_appstate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_encuentrosgallerymodal",
+      "target": "state_appstate_useappstate"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13656,6 +15132,17 @@
       "confidence_score": 1.0,
       "source": "pages_encuentrospage",
       "target": "components_encuentrosgallerymodal"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/EncuentrosGalleryModal.jsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "components_encuentrosgallerymodal_encuentrosgallerymodal",
+      "target": "state_appstate_useappstate"
     },
     {
       "relation": "imports",
@@ -16539,6 +18026,46 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_age_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_attendance_mode_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_blank_model_defaults"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_city_options_by_nationality"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L23",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16569,11 +18096,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_extra_options_placeholder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel"
     },
     {
       "relation": "contains",
@@ -16581,9 +18118,19 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_formatbookingsummary",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_formatbookingsummary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_formatfilesize"
     },
     {
       "relation": "contains",
@@ -16599,6 +18146,46 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_getcityoptionsfornationality"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L291",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_getmodelgalleryslides"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_getselectableage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_interval_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L37",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16609,11 +18196,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_nationality_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode"
     },
     {
       "relation": "contains",
@@ -16621,9 +18218,29 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_normalizebookingforsave",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizebookingforsave"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L70",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizebooleanvalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L280",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizegalleryslides"
     },
     {
       "relation": "contains",
@@ -16639,11 +18256,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L69",
+      "source_location": "L308",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_parsepaymentmethods"
+      "target": "admin_encuentrosmodelsmanager_normalizestringlist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_parsesociallinks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_presencial_feature_options_placeholder"
     },
     {
       "relation": "contains",
@@ -16653,7 +18290,27 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_parseslides"
+      "target": "admin_encuentrosmodelsmanager_presencial_unit_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L260",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_profileavatarfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_relationship_status_options"
     },
     {
       "relation": "contains",
@@ -16669,21 +18326,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L62",
+      "source_location": "L79",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_serializepaymentmethods"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "admin_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_serializeslides"
+      "target": "admin_encuentrosmodelsmanager_serializesociallinks"
     },
     {
       "relation": "contains",
@@ -16696,15 +18343,35 @@
       "target": "admin_encuentrosmodelsmanager_setbypath"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_time_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_voiceaudiofield"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "data_defaultcommerce",
-      "confidence_score": 1.0
+      "target": "data_defaultcommerce"
     },
     {
       "relation": "imports",
@@ -16713,9 +18380,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager",
-      "target": "data_defaultcommerce_parsepriceamount",
-      "confidence_score": 1.0
+      "target": "data_defaultcommerce_parsepriceamount"
     },
     {
       "relation": "imports_from",
@@ -16820,12 +18487,133 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_buildwhatsappchaturl"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_extractwhatsappphonefromurl"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_social_network_options"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/pages/AdminDashboardPage.jsx",
       "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_admindashboardpage",
       "target": "admin_encuentrosmodelsmanager"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L226",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_voiceaudiofield",
+      "target": "admin_encuentrosmodelsmanager_formatfilesize"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L993",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_normalizebooleanvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L377",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_modelcard",
+      "target": "admin_encuentrosmodelsmanager_normalizebooleanvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L798",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_getselectableage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L827",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
+      "target": "admin_encuentrosmodelsmanager_getcityoptionsfornationality"
     },
     {
       "relation": "calls",
@@ -16854,10 +18642,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L70",
+      "source_location": "L87",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_encuentrosmodelsmanager_parsepaymentmethods",
+      "source": "admin_encuentrosmodelsmanager_parsesociallinks",
       "target": "admin_encuentrosmodelsmanager_normalizelines"
     },
     {
@@ -16865,11 +18653,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L59",
+      "source_location": "L292",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "admin_encuentrosmodelsmanager_parseslides",
-      "target": "admin_encuentrosmodelsmanager_normalizelines"
+      "source": "admin_encuentrosmodelsmanager_getmodelgalleryslides",
+      "target": "admin_encuentrosmodelsmanager_normalizegalleryslides"
     },
     {
       "relation": "calls",
@@ -16878,9 +18666,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L208",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
-      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode"
     },
     {
       "relation": "calls",
@@ -16889,9 +18677,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
-      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode"
     },
     {
       "relation": "calls",
@@ -16900,9 +18688,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_formatbookingsummary",
-      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode"
     },
     {
       "relation": "calls",
@@ -16911,9 +18699,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_normalizebookingforsave",
-      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_normalizeavailabilitymode"
     },
     {
       "relation": "calls",
@@ -16922,9 +18710,20 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_modelcard",
-      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_formatbookingmodelabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L368",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_formatbookingsummary",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
     },
     {
       "relation": "calls",
@@ -16933,9 +18732,9 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_modelcard",
-      "target": "admin_encuentrosmodelsmanager_formatbookingsummary",
-      "confidence_score": 1.0
+      "target": "admin_encuentrosmodelsmanager_formatbookingsummary"
     },
     {
       "relation": "calls",
@@ -16944,9 +18743,20 @@
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
       "source_location": "L102",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_normalizebookingforsave",
-      "target": "data_defaultcommerce_parsepriceamount",
-      "confidence_score": 1.0
+      "target": "data_defaultcommerce_parsepriceamount"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L411",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_normalizebookingforsave",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
     },
     {
       "relation": "calls",
@@ -16958,6 +18768,17 @@
       "confidence_score": 1.0,
       "source": "admin_encuentrosmodelsmanager_createdraftfrommodel",
       "target": "data_defaultsitecontent_mergesitecontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L437",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "admin_encuentrosmodelsmanager_createdraftfrommodel",
+      "target": "utils_socialnetworks_extractwhatsappphonefromurl"
     },
     {
       "relation": "calls",
@@ -16980,6 +18801,17 @@
       "weight": 1.0,
       "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
       "target": "state_appstate_useappstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
+      "source_location": "L1302",
+      "weight": 1.0,
+      "source": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
     },
     {
       "relation": "imports",
@@ -20069,6 +21901,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/AdminDashboardPage.jsx",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_admindashboardpage",
+      "target": "pages_admindashboardpage_chiplistfield"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminDashboardPage.jsx",
       "source_location": "L860",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -20244,6 +22086,16 @@
       "confidence_score": 1.0,
       "source": "pages_admindashboardpage",
       "target": "pages_admindashboardpage_normalizecarouselslide"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminDashboardPage.jsx",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_admindashboardpage",
+      "target": "pages_admindashboardpage_normalizechipvalue"
     },
     {
       "relation": "contains",
@@ -22087,6 +23939,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L171",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_buildencountercontactchannels"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
       "source_location": "L89",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -22127,11 +23989,61 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L105",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_getcontactchannelicon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
       "source_location": "L161",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_encuentrospage",
       "target": "pages_encuentrospage_getencounternavtonestyles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L171",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_getinitialsfromname"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_getprofiletextvalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L166",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_iscontactchannellink"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_normalizeprofileattendancemodes"
     },
     {
       "relation": "contains",
@@ -22162,6 +24074,16 @@
       "confidence_score": 1.0,
       "source": "pages_encuentrospage",
       "target": "pages_encuentrospage_screencard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "pages_encuentrospage_uniquesociallinks"
     },
     {
       "relation": "imports_from",
@@ -22329,6 +24251,61 @@
       "target": "utils_encuentrosgalleryreactions_writegalleryreactionstate"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "utils_socialnetworks"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "utils_socialnetworks_buildwhatsappchaturl"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -22366,11 +24343,99 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L119",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_buildencountercontactchannels",
+      "target": "pages_encuentrospage_getprofiletextvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L259",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_encuentrospage",
+      "target": "pages_encuentrospage_getprofiletextvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_buildencountercontactchannels",
+      "target": "pages_encuentrospage_uniquesociallinks"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L100",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_iscontactchannellink",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L106",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_getcontactchannelicon",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L121",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_buildencountercontactchannels",
+      "target": "utils_socialnetworks_buildwhatsappchaturl"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L349",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_encuentrospage",
+      "target": "pages_encuentrospage_getinitialsfromname"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
       "source_location": "L103",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_encuentrospage_encuentrosbottomnav",
       "target": "pages_encuentrospage_getencounternavtonestyles"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L200",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_encuentrospage_encuentrosbottomnav",
+      "target": "state_appstate_useappstate"
     },
     {
       "relation": "calls",
@@ -22382,6 +24447,28 @@
       "weight": 1.0,
       "source": "pages_encuentrospage_encuentrospage",
       "target": "state_appstate_useappstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "pages_encuentrospage_encuentrospage",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/EncuentrosPage.jsx",
+      "source_location": "L347",
+      "weight": 1.0,
+      "source": "pages_encuentrospage_encuentrospage",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
     },
     {
       "relation": "contains",
@@ -23859,6 +25946,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L169",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_encuentrosbooking",
+      "target": "utils_encuentrosbooking_isencounterrecordingenabled"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_encuentrosbooking",
+      "target": "utils_encuentrosbooking_istodayorfuturedate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/encuentrosBooking.js",
       "source_location": "L109",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23961,6 +26068,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_encuentrosbooking_istodayorfuturedate",
+      "target": "utils_encuentrosbooking_normalizedatevalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/encuentrosBooking.js",
       "source_location": "L51",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24054,6 +26172,17 @@
       "confidence_score": 1.0,
       "source": "utils_encuentrosbooking_buildencuentrosbookingpricing",
       "target": "utils_encuentrosbooking_resolveencounterpricingsource"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/encuentrosBooking.js",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_encuentrosbooking_buildencuentrosbookingpricing",
+      "target": "utils_encuentrosbooking_isencounterrecordingenabled"
     },
     {
       "relation": "calls",
@@ -24587,6 +26716,150 @@
       "confidence_score": 1.0,
       "source": "utils_shuffleitems",
       "target": "utils_shuffleitems_shuffleitems"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_buildwhatsappchaturl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L140",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_extractwhatsappphonefromurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L106",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_getsocialnetworkactionlabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L97",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_getsocialnetworkkey"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L102",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_getsocialnetworkoption"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_normalizesocialnetworktext"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L47",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_social_network_aliases"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_social_network_map"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks",
+      "target": "utils_socialnetworks_social_network_options"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks_normalizesocialnetworkvalue",
+      "target": "utils_socialnetworks_normalizesocialnetworktext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L107",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks_getsocialnetworkactionlabel",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks_getsocialnetworkkey",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/socialNetworks.js",
+      "source_location": "L103",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "utils_socialnetworks_getsocialnetworkoption",
+      "target": "utils_socialnetworks_normalizesocialnetworkvalue"
     },
     {
       "relation": "contains",
@@ -26356,5 +28629,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a8018bd2bfcbaf8e3b3c1a5d17fe48ce06356451"
+  "built_at_commit": "4c432a6946bc4bd3721cc2c559d8a3877455cbd0"
 }

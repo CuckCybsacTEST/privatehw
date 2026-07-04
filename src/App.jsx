@@ -222,7 +222,11 @@ function AppRoutes() {
 function AppChrome() {
   const { pathname } = useLocation()
 
-  if (pathname.startsWith('/encuentros') || pathname.startsWith('/admin') || pathname.startsWith('/access')) {
+  if (pathname.startsWith('/access') || pathname.startsWith('/admin')) {
+    return null
+  }
+
+  if (pathname.startsWith('/encuentros')) {
     return <MobileBottomNav />
   }
 

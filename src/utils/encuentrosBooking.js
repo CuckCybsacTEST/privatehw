@@ -34,6 +34,23 @@ export function buildFutureBookingDays(totalDays = 14) {
   })
 }
 
+function isTodayOrFutureDate(value = '') {
+  const normalizedDate = normalizeDateValue(value)
+
+  if (!normalizedDate) {
+    return false
+  }
+
+  const parsedDate = new Date(`${normalizedDate}T00:00:00`)
+  if (Number.isNaN(parsedDate.getTime())) {
+    return false
+  }
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return parsedDate.getTime() >= today.getTime()
+}
+
 export function buildBookingDays(booking = {}) {
   const availabilityMode = String(
     booking.availabilityMode || booking.bookingAvailabilityMode || '',
@@ -41,7 +58,7 @@ export function buildBookingDays(booking = {}) {
     .trim()
     .toLowerCase()
   const configuredDates = Array.isArray(booking.availableDates)
-    ? booking.availableDates.map(normalizeDateValue).filter(Boolean)
+    ? booking.availableDates.map(normalizeDateValue).filter(isTodayOrFutureDate)
     : []
 
   if (availabilityMode === 'manual' || availabilityMode === 'custom') {
@@ -166,6 +183,17 @@ function resolveEncounterPricingSource(source = {}) {
   }
 }
 
+function isEncounterRecordingEnabled(siteContent, booking) {
+  const rawValue =
+    siteContent?.recordingEnabled ??
+    siteContent?.recordsEncounters ??
+    booking?.recordingEnabled ??
+    booking?.recordsEncounters ??
+    false
+
+  return rawValue === true || rawValue === 'true' || rawValue === '1' || rawValue === 1 || rawValue === 'yes'
+}
+
 function resolveEncounterBaseAmount(siteContent, booking) {
   const displayedPrice = siteContent?.presencialPrice || booking?.presencialPrice || ''
   const displayedAmount = parseDisplayedMoneyAmount(displayedPrice, 0)
@@ -207,10 +235,11 @@ export function buildEncuentrosBookingPricing(source = {}, recordingChoice = 'st
   const currency = 'PEN'
   const baseAmount = resolveEncounterBaseAmount(siteContent, booking)
   const baseLabel = formatCurrencyAmount(baseAmount, currency, locale)
+  const recordingEnabled = isEncounterRecordingEnabled(siteContent, booking)
   const discountPercent = clampPercent(
     booking.recordingDiscountPercent ?? siteContent?.encuentrosBooking?.recordingDiscountPercent ?? 0,
   )
-  const normalizedChoice = normalizeRecordingChoice(recordingChoice)
+  const normalizedChoice = recordingEnabled ? normalizeRecordingChoice(recordingChoice) : 'standard'
   const discountAmount =
     normalizedChoice === 'recording' ? Math.round((baseAmount * discountPercent) / 100) : 0
   const effectiveAmount = Math.max(0, baseAmount - discountAmount)
@@ -235,7 +264,8 @@ export function buildEncuentrosBookingPricing(source = {}, recordingChoice = 'st
     chargeLabel,
     effectiveAmount,
     effectiveLabel,
-    hasRecordingDiscount: discountPercent > 0,
+    hasRecordingDiscount: recordingEnabled && discountPercent > 0,
+    recordingEnabled,
     remainingAmount,
     remainingLabel,
     originalLabel,

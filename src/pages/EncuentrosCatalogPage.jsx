@@ -107,7 +107,7 @@ function CatalogCard({ model }) {
     getFirstTextValue(booking, ['description']) ||
     'Perfil disponible en el catalogo.'
   const age = getFirstTextValue(content, ['profileAge', 'age', 'edad'])
-  const location = getFirstTextValue(content, ['profileLocation', 'location', 'ubicacion'])
+  const location = getFirstTextValue(content, ['profileCity', 'profileLocation', 'location', 'ubicacion'])
   const nationality = getFirstTextValue(content, ['profileNationality', 'nationality', 'pais'])
   const images = useMemo(() => collectModelImages(content), [content])
   const photoCount = images.length

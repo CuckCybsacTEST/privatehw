@@ -16,7 +16,7 @@ import {
 export function EncuentrosCitasPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { slug } = useParams()
-  const { siteContent, createEncounterReservationRequest } = useAppState()
+  const { siteContent, createEncounterReservationRequest, session } = useAppState()
   const { i18n, t } = useTranslation()
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
   const [model, setModel] = useState(null)
@@ -234,6 +234,8 @@ export function EncuentrosCitasPage() {
       <EncuentrosBookingWizardModal
         open={isBookingWizardOpen}
         booking={booking}
+        isAuthenticated={Boolean(session?.accessToken)}
+        currentUserName={session?.name || session?.email || ''}
         pricing={pricing}
         bookingDays={bookingDays}
         bookingTimes={bookingTimes}

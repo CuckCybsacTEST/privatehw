@@ -19,6 +19,7 @@ import {
   DEFAULT_ENCUENTROS_MODEL_SLUG,
   resolveEncounterFallbackSlug,
 } from '../src/utils/encuentrosModels.js'
+import { normalizeSocialNetworkValue } from '../src/utils/socialNetworks.js'
 import { extractGoogleDriveFileId } from '../src/utils/videoMedia.js'
 import { isPersistentProductType } from '../src/data/defaultCommerce.js'
 import {
@@ -1545,17 +1546,560 @@ function buildFallbackEncounterModel(content = mergeSiteContent(defaultSiteConte
 }
 
 function normalizeEncounterModelRow(row = {}, fallbackIndex = 0) {
+  const displayName =
+    row.display_name || row.displayName || row.slug || `Modelo ${fallbackIndex + 1}`
+  const sortOrderValue =
+    row.sort_order ?? row.sortOrder ?? row.sort_order_value ?? row.sortOrderValue
+
   return {
     id: row.id || `encuentros-model-${fallbackIndex}`,
     slug: row.slug || `${DEFAULT_ENCUENTROS_MODEL_SLUG}-${fallbackIndex + 1}`,
-    displayName: row.display_name || row.slug || `Modelo ${fallbackIndex + 1}`,
+    displayName,
     status: row.status || 'draft',
-    sortOrder: Number.isFinite(row.sort_order) ? row.sort_order : fallbackIndex,
+    sortOrder: Number.isFinite(sortOrderValue) ? sortOrderValue : fallbackIndex,
     content: mergeSiteContent(row.content || {}),
-    publishedAt: row.published_at || null,
-    deletedAt: row.deleted_at || null,
-    createdAt: row.created_at || null,
-    updatedAt: row.updated_at || null,
+    publishedAt: row.published_at || row.publishedAt || null,
+    deletedAt: row.deleted_at || row.deletedAt || null,
+    createdAt: row.created_at || row.createdAt || null,
+    updatedAt: row.updated_at || row.updatedAt || null,
+  }
+}
+
+function isMissingEncounterModelRelationTableError(error) {
+  const message = String(error?.message || error || '')
+
+  return (
+    message.includes('encuentros_model_profiles') ||
+    message.includes('encuentros_model_booking') ||
+    message.includes('encuentros_model_recording') ||
+    message.includes('encuentros_model_social_links') ||
+    message.includes('encuentros_model_media') ||
+    message.includes('schema cache') ||
+    message.includes('does not exist') ||
+    message.includes('relation "public.encuentros_model_')
+  )
+}
+
+function normalizeEncounterModelAge(value) {
+  const numeric = Number.parseInt(String(value ?? '').replace(/[^\d-]/g, ''), 10)
+  return Number.isFinite(numeric) && numeric > 0 ? numeric : null
+}
+
+function normalizeEncounterModelText(value) {
+  return String(value || '').trim()
+}
+
+function uniqueEncounterValues(values = []) {
+  return Array.from(new Set(values.map((value) => String(value || '').trim()).filter(Boolean)))
+}
+
+function normalizeEncounterModelTextList(value = []) {
+  if (Array.isArray(value)) {
+    return uniqueEncounterValues(value)
+  }
+
+  const text = String(value || '').trim()
+
+  if (!text) {
+    return []
+  }
+
+  return uniqueEncounterValues(
+    text
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+      .filter(Boolean),
+  )
+}
+
+function normalizeEncounterMediaUrl(value = '') {
+  const text = String(value || '').trim()
+  if (!text) return ''
+  return text
+}
+
+function extractEncounterModelProfilePayload(content = {}) {
+  return {
+    age: normalizeEncounterModelAge(content.profileAge ?? content.age),
+    city: normalizeEncounterModelText(content.profileCity ?? content.city ?? content.profileLocation),
+    nationality: normalizeEncounterModelText(
+      content.profileNationality ?? content.nationality ?? content.country,
+    ),
+    top_badge: normalizeEncounterModelText(
+      content.profileTopBadge ?? content.topBadge ?? content.badgeTop ?? content.featuredBadge,
+    ),
+    avatar_url: normalizeEncounterModelText(
+      content.profileAvatarUrl ?? content.avatarUrl ?? content.profilePhotoUrl ?? '',
+    ),
+    attendance_modes: normalizeEncounterModelTextList(
+      content.profileAttendanceModes ?? content.attendanceModes ?? content.attendanceMode ?? [],
+    ),
+    voice_audio_url: normalizeEncounterModelText(
+      content.profileVoiceAudioUrl ?? content.voiceAudioUrl ?? '',
+    ),
+    voice_audio_label: normalizeEncounterModelText(
+      content.profileVoiceAudioLabel ?? content.voiceAudioLabel ?? '',
+    ),
+  }
+}
+
+function extractEncounterModelBookingPayload(content = {}) {
+  const booking = content.encuentrosBooking || {}
+
+  return {
+    eyebrow: normalizeEncounterModelText(booking.eyebrow),
+    title: normalizeEncounterModelText(booking.title),
+    description: normalizeEncounterModelText(booking.description),
+    gallery_title: normalizeEncounterModelText(booking.galleryTitle),
+    gallery_subtitle: normalizeEncounterModelText(booking.gallerySubtitle),
+    gallery_exclusive_title: normalizeEncounterModelText(booking.galleryExclusiveTitle),
+    gallery_exclusive_description: normalizeEncounterModelText(booking.galleryExclusiveDescription),
+    gallery_exclusive_hint: normalizeEncounterModelText(booking.galleryExclusiveHint),
+    price_label: normalizeEncounterModelText(booking.priceLabel),
+    price_amount: Number.isFinite(Number(booking.priceAmount)) ? Number(booking.priceAmount) : null,
+    advance_label: normalizeEncounterModelText(booking.advanceLabel),
+    advance_amount: Number.isFinite(Number(booking.advanceAmount)) ? Number(booking.advanceAmount) : null,
+    recording_discount_percent: Number.isFinite(Number(booking.recordingDiscountPercent))
+      ? Number(booking.recordingDiscountPercent)
+      : 0,
+    recording_discount_label: normalizeEncounterModelText(booking.recordingDiscountLabel),
+    recording_prompt_title: normalizeEncounterModelText(booking.recordingPromptTitle),
+    recording_prompt_description: normalizeEncounterModelText(booking.recordingPromptDescription),
+    recording_yes_label: normalizeEncounterModelText(booking.recordingYesLabel),
+    recording_no_label: normalizeEncounterModelText(booking.recordingNoLabel),
+    currency: normalizeEncounterModelText(booking.currency),
+    duration_minutes: Number.isFinite(Number(booking.durationMinutes)) ? Number(booking.durationMinutes) : null,
+    available_dates: Array.isArray(booking.availableDates)
+      ? booking.availableDates.map((value) => normalizeEncounterModelText(value)).filter(Boolean)
+      : [],
+    booking_start_time: normalizeEncounterModelText(booking.bookingStartTime),
+    booking_end_time: normalizeEncounterModelText(booking.bookingEndTime),
+    slot_interval_minutes: Number.isFinite(Number(booking.slotIntervalMinutes))
+      ? Number(booking.slotIntervalMinutes)
+      : null,
+    availability_mode: normalizeEncounterModelText(booking.availabilityMode || 'everyday') || 'everyday',
+    available_days: Number.isFinite(Number(booking.availableDays)) ? Number(booking.availableDays) : null,
+    payment_methods: Array.isArray(booking.paymentMethods)
+      ? booking.paymentMethods
+          .map((method) => ({
+            value: normalizeEncounterModelText(method?.value),
+            label: normalizeEncounterModelText(method?.label || method?.value),
+          }))
+          .filter((method) => method.value)
+      : [],
+    login_note: normalizeEncounterModelText(booking.loginNote),
+  }
+}
+
+function extractEncounterModelRecordingPayload(content = {}) {
+  const rawValue =
+    content.recordsEncounters ??
+    content.recordingEnabled ??
+    content.encuentrosRecording?.enabled ??
+    content.encuentrosRecording?.recordsEncounters ??
+    false
+
+  return {
+    records_encounters:
+      rawValue === true ||
+      rawValue === 'true' ||
+      rawValue === '1' ||
+      rawValue === 1 ||
+      rawValue === 'yes',
+  }
+}
+
+function extractEncounterModelSocialLinks(content = {}) {
+  const rawLinks = Array.isArray(content.socialLinks)
+    ? content.socialLinks
+    : Array.isArray(content.profileSocialLinks)
+      ? content.profileSocialLinks
+      : []
+
+  return rawLinks
+    .map((link, index) => ({
+      network: normalizeSocialNetworkValue(link?.network || link?.value || link?.slug || link?.label || ''),
+      label: normalizeEncounterModelText(link?.label || link?.network || link?.value || link?.slug || ''),
+      url: normalizeEncounterModelText(link?.url || link?.href || ''),
+      sort_order: Number.isFinite(Number(link?.sortOrder)) ? Number(link.sortOrder) : index,
+      active: link?.active !== false,
+    }))
+    .filter((link) => link.network || link.url)
+}
+
+function extractEncounterModelMedia(content = {}) {
+  const galleryPools = [
+    { slot: 'gallery', kind: 'image', values: content.profileGalleryImages },
+    { slot: 'gallery', kind: 'image', values: content.galleryImages },
+    { slot: 'top', kind: 'image', values: content.topCarouselImages },
+    { slot: 'bottom', kind: 'image', values: content.bottomCarouselImages },
+  ]
+
+  const media = []
+
+  galleryPools.forEach((pool) => {
+    if (!Array.isArray(pool.values)) {
+      return
+    }
+
+    pool.values.forEach((item, index) => {
+      const url = normalizeEncounterMediaUrl(
+        typeof item === 'string' ? item : item?.src || item?.image || item?.url || '',
+      )
+
+      if (!url) {
+        return
+      }
+
+      media.push({
+        kind: pool.kind,
+        slot: pool.slot,
+        url,
+        alt_text: normalizeEncounterModelText(item?.alt || item?.caption || item?.title || ''),
+        caption: normalizeEncounterModelText(item?.caption || item?.title || ''),
+        sort_order: index,
+        active: true,
+      })
+    })
+  })
+
+  const voiceAudioUrl = normalizeEncounterModelText(content.profileVoiceAudioUrl || content.voiceAudioUrl || '')
+
+  if (voiceAudioUrl) {
+    media.push({
+      kind: 'audio',
+      slot: 'voice',
+      url: voiceAudioUrl,
+      alt_text: normalizeEncounterModelText(content.profileVoiceAudioLabel || content.voiceAudioLabel || ''),
+      caption: normalizeEncounterModelText(content.profileVoiceAudioLabel || content.voiceAudioLabel || ''),
+      sort_order: 0,
+      active: true,
+    })
+  }
+
+  return media
+}
+
+function hydrateEncounterModelContent(baseContent = {}, relationData = {}) {
+  const mergedContent = mergeSiteContent(baseContent || {})
+  const profile = relationData.profile || null
+  const booking = relationData.booking || null
+  const recording = relationData.recording || null
+  const fallbackSocialLinks = Array.isArray(mergedContent.socialLinks)
+    ? mergedContent.socialLinks
+    : Array.isArray(mergedContent.profileSocialLinks)
+      ? mergedContent.profileSocialLinks
+      : []
+  const socialLinks = Array.isArray(relationData.socialLinks) && relationData.socialLinks.length
+    ? relationData.socialLinks
+    : fallbackSocialLinks
+  const media = Array.isArray(relationData.media) ? relationData.media : []
+  const imageRows = media.filter((row) => row.kind === 'image' && row.active !== false)
+  const audioRow = media.find((row) => row.kind === 'audio' && row.slot === 'voice' && row.active !== false)
+
+  const profileGalleryImages = uniqueEncounterValues(
+    imageRows
+      .filter((row) => row.slot === 'gallery')
+      .sort((left, right) => (left.sort_order || 0) - (right.sort_order || 0))
+      .map((row) => row.url),
+  )
+
+  const topCarouselImages = uniqueEncounterValues(
+    imageRows
+      .filter((row) => row.slot === 'top')
+      .sort((left, right) => (left.sort_order || 0) - (right.sort_order || 0))
+      .map((row) => row.url),
+  )
+
+  const bottomCarouselImages = uniqueEncounterValues(
+    imageRows
+      .filter((row) => row.slot === 'bottom')
+      .sort((left, right) => (left.sort_order || 0) - (right.sort_order || 0))
+      .map((row) => row.url),
+  )
+
+  return mergeSiteContent({
+    ...mergedContent,
+    profileAge: profile?.age ?? mergedContent.profileAge ?? '',
+    profileCity: profile?.city ?? mergedContent.profileCity ?? '',
+    profileLocation: profile?.city ?? mergedContent.profileLocation ?? mergedContent.profileCity ?? '',
+    profileNationality: profile?.nationality ?? mergedContent.profileNationality ?? '',
+    profileTopBadge: profile?.top_badge ?? mergedContent.profileTopBadge ?? '',
+    profileAvatarUrl: profile?.avatar_url ?? mergedContent.profileAvatarUrl ?? mergedContent.avatarUrl ?? '',
+    profileAttendanceModes:
+      profile?.attendance_modes ?? mergedContent.profileAttendanceModes ?? mergedContent.attendanceModes ?? [],
+    profileVoiceAudioUrl: audioRow?.url || profile?.voice_audio_url || mergedContent.profileVoiceAudioUrl || '',
+    profileVoiceAudioLabel:
+      audioRow?.caption || profile?.voice_audio_label || mergedContent.profileVoiceAudioLabel || '',
+    recordsEncounters:
+      recording?.records_encounters ?? mergedContent.recordsEncounters ?? mergedContent.recordingEnabled ?? false,
+    recordingEnabled:
+      recording?.records_encounters ?? mergedContent.recordingEnabled ?? mergedContent.recordsEncounters ?? false,
+    socialLinks: socialLinks
+      .filter((link) => link.active !== false)
+      .sort((left, right) => (left.sort_order || 0) - (right.sort_order || 0))
+      .map((link) => ({
+        network: normalizeSocialNetworkValue(link.network || link.label || ''),
+        label: link.label || link.network || '',
+        url: link.url || '',
+      })),
+    profileGalleryImages: profileGalleryImages,
+    topCarouselImages: topCarouselImages.length ? topCarouselImages : mergedContent.topCarouselImages || [],
+    bottomCarouselImages: bottomCarouselImages.length
+      ? bottomCarouselImages
+      : mergedContent.bottomCarouselImages || [],
+    encuentrosBooking: mergeSiteContent({
+      ...mergedContent.encuentrosBooking,
+      ...(booking || {}),
+      ...(booking
+        ? {
+            eyebrow: booking.eyebrow,
+            title: booking.title,
+            description: booking.description,
+            galleryTitle: booking.gallery_title,
+            gallerySubtitle: booking.gallery_subtitle,
+            galleryExclusiveTitle: booking.gallery_exclusive_title,
+            galleryExclusiveDescription: booking.gallery_exclusive_description,
+            galleryExclusiveHint: booking.gallery_exclusive_hint,
+            priceLabel: booking.price_label,
+            priceAmount: booking.price_amount ?? mergedContent.encuentrosBooking?.priceAmount ?? 0,
+            advanceLabel: booking.advance_label,
+            advanceAmount: booking.advance_amount ?? mergedContent.encuentrosBooking?.advanceAmount ?? 0,
+            recordingDiscountPercent:
+              booking.recording_discount_percent ?? mergedContent.encuentrosBooking?.recordingDiscountPercent ?? 0,
+            recordingDiscountLabel: booking.recording_discount_label,
+            recordingPromptTitle: booking.recording_prompt_title,
+            recordingPromptDescription: booking.recording_prompt_description,
+            recordingYesLabel: booking.recording_yes_label,
+            recordingNoLabel: booking.recording_no_label,
+            currency: booking.currency,
+            durationMinutes: booking.duration_minutes,
+            availableDates: booking.available_dates || mergedContent.encuentrosBooking?.availableDates || [],
+            bookingStartTime: booking.booking_start_time,
+            bookingEndTime: booking.booking_end_time,
+            slotIntervalMinutes: booking.slot_interval_minutes,
+            availabilityMode: booking.availability_mode,
+            availableDays: booking.available_days,
+            paymentMethods: booking.payment_methods || mergedContent.encuentrosBooking?.paymentMethods || [],
+            loginNote: booking.login_note,
+          }
+        : {}),
+    }),
+  })
+}
+
+function buildEncounterModelRecordPayload(payload = {}, existingRow = null, adminProfile = null) {
+  const content = mergeSiteContent({
+    ...(existingRow?.content || {}),
+    ...(payload.content || {}),
+  })
+
+  return {
+    main: normalizeEncounterModelPayload(payload, existingRow, adminProfile),
+    profile: extractEncounterModelProfilePayload(content),
+    booking: extractEncounterModelBookingPayload(content),
+    recording: extractEncounterModelRecordingPayload(content),
+    socialLinks: extractEncounterModelSocialLinks(content),
+    media: extractEncounterModelMedia(content),
+  }
+}
+
+async function fetchEncounterRelationRows(modelIds = []) {
+  if (!supabaseAdmin || !modelIds.length) {
+    return {
+      profileRows: [],
+      bookingRows: [],
+      recordingRows: [],
+      socialRows: [],
+      mediaRows: [],
+    }
+  }
+
+  const [
+    profileRowsResult,
+    bookingRowsResult,
+    recordingRowsResult,
+    socialRowsResult,
+    mediaRowsResult,
+  ] = await Promise.all([
+    supabaseAdmin.from('encuentros_model_profiles').select('*').in('model_id', modelIds),
+    supabaseAdmin.from('encuentros_model_booking').select('*').in('model_id', modelIds),
+    supabaseAdmin.from('encuentros_model_recording').select('*').in('model_id', modelIds),
+    supabaseAdmin.from('encuentros_model_social_links').select('*').in('model_id', modelIds),
+    supabaseAdmin.from('encuentros_model_media').select('*').in('model_id', modelIds),
+  ])
+
+  if (
+    profileRowsResult.error &&
+    !isMissingEncounterModelRelationTableError(profileRowsResult.error)
+  ) {
+    throw profileRowsResult.error
+  }
+
+  if (bookingRowsResult.error && !isMissingEncounterModelRelationTableError(bookingRowsResult.error)) {
+    throw bookingRowsResult.error
+  }
+
+  if (
+    recordingRowsResult?.error &&
+    !isMissingEncounterModelRelationTableError(recordingRowsResult.error)
+  ) {
+    throw recordingRowsResult.error
+  }
+
+  if (socialRowsResult.error && !isMissingEncounterModelRelationTableError(socialRowsResult.error)) {
+    throw socialRowsResult.error
+  }
+
+  if (mediaRowsResult.error && !isMissingEncounterModelRelationTableError(mediaRowsResult.error)) {
+    throw mediaRowsResult.error
+  }
+
+  return {
+    profileRows: profileRowsResult.data || [],
+    bookingRows: bookingRowsResult.data || [],
+    recordingRows: recordingRowsResult.data || [],
+    socialRows: socialRowsResult.data || [],
+    mediaRows: mediaRowsResult.data || [],
+  }
+}
+
+function mergeEncounterModelsWithRelations(models = [], relations = {}) {
+  const profileByModelId = new Map((relations.profileRows || []).map((row) => [row.model_id, row]))
+  const bookingByModelId = new Map((relations.bookingRows || []).map((row) => [row.model_id, row]))
+  const recordingByModelId = new Map((relations.recordingRows || []).map((row) => [row.model_id, row]))
+  const socialByModelId = new Map()
+  const mediaByModelId = new Map()
+
+  ;(relations.socialRows || []).forEach((row) => {
+    const list = socialByModelId.get(row.model_id) || []
+    list.push(row)
+    socialByModelId.set(row.model_id, list)
+  })
+
+  ;(relations.mediaRows || []).forEach((row) => {
+    const list = mediaByModelId.get(row.model_id) || []
+    list.push(row)
+    mediaByModelId.set(row.model_id, list)
+  })
+
+  return models.map((model) =>
+    normalizeEncounterModelRow({
+      ...model,
+      content: hydrateEncounterModelContent(model.content || {}, {
+        profile: profileByModelId.get(model.id) || null,
+        booking: bookingByModelId.get(model.id) || null,
+        recording: recordingByModelId.get(model.id) || null,
+        socialLinks: socialByModelId.get(model.id) || [],
+        media: mediaByModelId.get(model.id) || [],
+      }),
+    }),
+  )
+}
+
+async function persistEncounterModelRelations(modelId, payload = {}) {
+  if (!supabaseAdmin || !modelId) {
+    return
+  }
+
+  const writes = [
+    supabaseAdmin.from('encuentros_model_profiles').upsert(
+      {
+        model_id: modelId,
+        ...payload.profile,
+      },
+      { onConflict: 'model_id' },
+    ),
+    supabaseAdmin.from('encuentros_model_booking').upsert(
+      {
+        model_id: modelId,
+        ...payload.booking,
+      },
+      { onConflict: 'model_id' },
+    ),
+    supabaseAdmin.from('encuentros_model_recording').upsert(
+      {
+        model_id: modelId,
+        ...payload.recording,
+      },
+      { onConflict: 'model_id' },
+    ),
+  ]
+
+  const [profileResult, bookingResult, recordingResult] = await Promise.all(writes)
+
+  const profileError = profileResult.error
+  const bookingError = bookingResult.error
+  const recordingError = recordingResult.error
+
+  if (profileError && !isMissingEncounterModelRelationTableError(profileError)) {
+    throw profileError
+  }
+
+  if (bookingError && !isMissingEncounterModelRelationTableError(bookingError)) {
+    throw bookingError
+  }
+
+  if (recordingError && !isMissingEncounterModelRelationTableError(recordingError)) {
+    throw recordingError
+  }
+
+  if (
+    !isMissingEncounterModelRelationTableError(profileError) &&
+    !isMissingEncounterModelRelationTableError(bookingError) &&
+    !isMissingEncounterModelRelationTableError(recordingError)
+  ) {
+    const socialRows = Array.isArray(payload.socialLinks) ? payload.socialLinks : []
+    const mediaRows = Array.isArray(payload.media) ? payload.media : []
+
+    const [{ error: socialDeleteError }, { error: mediaDeleteError }] = await Promise.all([
+      supabaseAdmin.from('encuentros_model_social_links').delete().eq('model_id', modelId),
+      supabaseAdmin.from('encuentros_model_media').delete().eq('model_id', modelId),
+    ])
+
+    if (socialDeleteError && !isMissingEncounterModelRelationTableError(socialDeleteError)) {
+      throw socialDeleteError
+    }
+
+    if (mediaDeleteError && !isMissingEncounterModelRelationTableError(mediaDeleteError)) {
+      throw mediaDeleteError
+    }
+
+    if (socialRows.length) {
+      const { error: socialInsertError } = await supabaseAdmin.from('encuentros_model_social_links').insert(
+        socialRows.map((row, index) => ({
+          model_id: modelId,
+          network: row.network || row.label || '',
+          label: row.label || row.network || '',
+          url: row.url || '',
+          sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index,
+          active: row.active !== false,
+        })),
+      )
+
+      if (socialInsertError && !isMissingEncounterModelRelationTableError(socialInsertError)) {
+        throw socialInsertError
+      }
+    }
+
+    if (mediaRows.length) {
+      const { error: mediaInsertError } = await supabaseAdmin.from('encuentros_model_media').insert(
+        mediaRows.map((row, index) => ({
+          model_id: modelId,
+          kind: row.kind || 'image',
+          slot: row.slot || 'gallery',
+          url: row.url || '',
+          alt_text: row.alt_text || '',
+          caption: row.caption || '',
+          sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index,
+          active: row.active !== false,
+        })),
+      )
+
+      if (mediaInsertError && !isMissingEncounterModelRelationTableError(mediaInsertError)) {
+        throw mediaInsertError
+      }
+    }
   }
 }
 
@@ -1610,7 +2154,16 @@ async function loadEncounterModels({ includeHidden = false } = {}) {
       return [buildFallbackEncounterModel(await loadHomeContent())]
     }
 
-    return models
+    try {
+      const relations = await fetchEncounterRelationRows(models.map((model) => model.id).filter(Boolean))
+      return mergeEncounterModelsWithRelations(models, relations)
+    } catch (relationError) {
+      if (!isMissingEncounterModelRelationTableError(relationError)) {
+        throw relationError
+      }
+
+      return models
+    }
   } catch (error) {
     if (!isMissingEncounterModelsTableError(error)) {
       throw new Error(error.message || 'No se pudieron cargar los modelos de encuentros.')
@@ -1652,7 +2205,18 @@ async function loadEncounterModelBySlug(slug = '', { includeHidden = false } = {
     }
 
     if (data) {
-      return normalizeEncounterModelRow(data)
+      const model = normalizeEncounterModelRow(data)
+
+      try {
+        const relations = await fetchEncounterRelationRows([model.id])
+        return mergeEncounterModelsWithRelations([model], relations)[0] || model
+      } catch (relationError) {
+        if (!isMissingEncounterModelRelationTableError(relationError)) {
+          throw relationError
+        }
+
+        return model
+      }
     }
 
     const fallbackModel = buildFallbackEncounterModel()
@@ -1783,14 +2347,18 @@ async function deleteEncounterReservationHistoryByModelSlug(slug = '') {
 }
 
 async function createEncounterModel(payload = {}, adminProfile) {
-  assertServerConfig()
+  assertSupabaseAuthConfig()
 
-  const normalizedSlug = slugifyEncounterModelSlug(payload.slug || '')
+  const slugSeed =
+    String(payload.slug || '').trim() ||
+    String(payload.displayName || payload.display_name || '').trim() ||
+    `modelo-${Date.now()}`
+  const resolvedSlug = slugifyEncounterModelSlug(slugSeed)
 
   const { data: existing, error: existingError } = await supabaseAdmin
     .from('encuentros_models')
     .select('id')
-    .eq('slug', normalizedSlug)
+    .eq('slug', resolvedSlug)
     .maybeSingle()
 
   if (existingError) {
@@ -1806,11 +2374,12 @@ async function createEncounterModel(payload = {}, adminProfile) {
   const record = normalizeEncounterModelPayload(
     {
       ...payload,
-      slug: normalizedSlug,
+      slug: resolvedSlug,
     },
     null,
     adminProfile,
   )
+  const relationPayload = buildEncounterModelRecordPayload(payload, null, adminProfile)
 
   const { data, error } = await supabaseAdmin
     .from('encuentros_models')
@@ -1824,11 +2393,27 @@ async function createEncounterModel(payload = {}, adminProfile) {
     throw new Error(error.message || 'No se pudo crear el modelo de encuentros.')
   }
 
-  return normalizeEncounterModelRow(data)
+  try {
+    await persistEncounterModelRelations(data.id, relationPayload)
+  } catch (relationError) {
+    if (!isMissingEncounterModelRelationTableError(relationError)) {
+      throw relationError
+    }
+  }
+
+  return normalizeEncounterModelRow({
+    ...data,
+    content: hydrateEncounterModelContent(data.content || {}, {
+      profile: relationPayload.profile,
+      booking: relationPayload.booking,
+      socialLinks: relationPayload.socialLinks,
+      media: relationPayload.media,
+    }),
+  })
 }
 
 async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
-  assertServerConfig()
+  assertSupabaseAuthConfig()
 
   const normalizedSlug = slugifyEncounterModelSlug(slug)
 
@@ -1851,6 +2436,7 @@ async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
   }
 
   const nextRecord = normalizeEncounterModelPayload(payload, existing, adminProfile)
+  const relationPayload = buildEncounterModelRecordPayload(payload, existing, adminProfile)
 
   if (nextRecord.slug !== existing.slug) {
     const { data: slugConflict, error: slugConflictError } = await supabaseAdmin
@@ -1883,11 +2469,27 @@ async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
     throw new Error(error.message || 'No se pudo actualizar el modelo de encuentros.')
   }
 
-  return normalizeEncounterModelRow(data)
+  try {
+    await persistEncounterModelRelations(existing.id, relationPayload)
+  } catch (relationError) {
+    if (!isMissingEncounterModelRelationTableError(relationError)) {
+      throw relationError
+    }
+  }
+
+  return normalizeEncounterModelRow({
+    ...data,
+    content: hydrateEncounterModelContent(data.content || {}, {
+      profile: relationPayload.profile,
+      booking: relationPayload.booking,
+      socialLinks: relationPayload.socialLinks,
+      media: relationPayload.media,
+    }),
+  })
 }
 
 async function deleteEncounterModel(slug = '', adminProfile) {
-  assertServerConfig()
+  assertSupabaseAuthConfig()
 
   const normalizedSlug = slugifyEncounterModelSlug(slug)
 
@@ -2311,7 +2913,8 @@ app.use(
     origin: [appUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'],
   }),
 )
-app.use(express.json())
+// Los modelos de encuentros envian un JSON amplio con galerias, reservas y metadatos.
+app.use(express.json({ limit: '10mb' }))
 
 app.get('/', (_req, res) => {
   if (existsSync(CLIENT_DIST_DIR)) {

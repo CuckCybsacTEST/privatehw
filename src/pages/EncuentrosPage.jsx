@@ -1,21 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   AiOutlineCalendar,
   AiOutlineCheckCircle,
   AiFillCrown,
-  AiOutlineHome,
+  AiFillFire,
   AiOutlinePicture,
+  AiOutlinePauseCircle,
+  AiOutlineSound,
   AiOutlineRight,
+  AiOutlineUser,
 } from 'react-icons/ai'
+import { BiLogoTelegram, BiLogoWhatsapp } from 'react-icons/bi'
 import {
   HiOutlineCalendar,
   HiOutlineShieldCheck,
 } from 'react-icons/hi'
-import { defaultSiteContent } from '../data/defaultSiteContent'
 import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
+import { EncounterSocialLinksSection } from '../components/EncounterSocialLinksSection'
 import { EncuentrosBookingWizardModal } from '../components/EncuentrosBookingWizardModal'
 import { EncuentrosGalleryModal } from '../components/EncuentrosGalleryModal'
 import { fetchEncuentrosBookingPricing, fetchEncuentrosModel } from '../lib/supabase'
@@ -34,6 +38,12 @@ import {
   writeGalleryReactionState,
 } from '../utils/encuentrosGalleryReactions'
 import { normalizeEncounterGallerySlides } from '../utils/encuentrosGallery'
+import {
+  getSocialNetworkKey,
+  getSocialNetworkOption,
+  normalizeSocialNetworkValue,
+  buildWhatsAppChatUrl,
+} from '../utils/socialNetworks'
 
 function parsePriceValue(value) {
   const parsed = Number.parseFloat(String(value || '').replace(/[^\d.,]/g, '').replace(',', '.'))
@@ -61,6 +71,86 @@ function PriceText({ value, className = '' }) {
   )
 }
 
+function getProfileTextValue(source = {}, keys = []) {
+  for (const key of keys) {
+    const value = source?.[key]
+
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim()
+    }
+
+    if (Number.isFinite(value) && value !== 0) {
+      return String(value)
+    }
+  }
+
+  return ''
+}
+
+function uniqueSocialLinks(links = []) {
+  const seen = new Set()
+  return (Array.isArray(links) ? links : []).filter((link) => {
+    const network = String(link?.network || '').trim().toLowerCase()
+    const url = String(link?.url || '').trim()
+    const key = `${network}|${url}`
+    if (!key || seen.has(key) || !url || link?.active === false) {
+      return false
+    }
+    seen.add(key)
+    return true
+  })
+}
+
+function isContactChannelLink(link = {}) {
+  const key = getSocialNetworkKey(link)
+  return key === 'telegram' || key === 'whatsapp'
+}
+
+function getContactChannelIcon(link = {}) {
+  const key = getSocialNetworkKey(link)
+
+  if (key === 'whatsapp') {
+    return BiLogoWhatsapp
+  }
+
+  return BiLogoTelegram
+}
+
+function buildEncounterContactChannels(pageContent = {}, socialLinks = [], t, modelDisplayName = '') {
+  const whatsappPhone = getProfileTextValue(pageContent, ['whatsappPhone', 'contactPhone'])
+  const whatsappUrl =
+    buildWhatsAppChatUrl(whatsappPhone, modelDisplayName) ||
+    getProfileTextValue(pageContent, ['whatsappUrl'])
+
+  const primaryLinks = [
+    pageContent.socialUrl
+      ? {
+          network: 'telegram',
+          label: pageContent.socialTitle || t('footer.telegram'),
+          url: pageContent.socialUrl,
+          active: true,
+        }
+      : null,
+    whatsappUrl
+      ? {
+          network: 'whatsapp',
+          label: 'WhatsApp',
+          url: whatsappUrl,
+          active: true,
+        }
+      : null,
+  ].filter(Boolean)
+
+  return uniqueSocialLinks(
+    [...primaryLinks, ...socialLinks.filter(isContactChannelLink)]
+      .map((link) => ({
+        ...link,
+        active: link?.active !== false,
+      }))
+      .filter((link) => link?.url),
+  )
+}
+
 function formatShortDateLabel(dateValue, locale) {
   if (!dateValue) {
     return ''
@@ -77,6 +167,28 @@ function formatShortDateLabel(dateValue, locale) {
     day: 'numeric',
     month: 'short',
   }).format(parsed)
+}
+
+function getInitialsFromName(name = '') {
+  return String(name || '')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0] || '')
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+function normalizeProfileAttendanceModes(values = []) {
+  return Array.from(
+    new Set(
+      (Array.isArray(values) ? values : [values])
+        .flatMap((value) => String(value || '').split(/\r?\n|,/))
+        .map((value) => value.trim())
+        .filter(Boolean),
+    ),
+  )
 }
 
 function ScreenCard({ className = '', children, as: Tag = 'section', ...props }) {
@@ -96,6 +208,12 @@ function EncuentrosBottomNav({
   galleryLabel,
   bookingLabel,
 }) {
+  const { session } = useAppState()
+  const location = useLocation()
+  const authHref = session?.accessToken
+    ? '/profile'
+    : `/access?redirect=${encodeURIComponent(`${location.pathname}${location.search || ''}`)}`
+  const authLabel = session?.accessToken ? 'Perfil' : 'Acceder'
   const nav = (
     <div className="encuentros-screen-bottom-nav-shell">
       <nav className="encuentros-screen-bottom-nav" aria-label={bookingLabel}>
@@ -111,7 +229,7 @@ function EncuentrosBottomNav({
           aria-label="Inicio"
           title="Inicio"
         >
-          <AiOutlineHome aria-hidden="true" />
+          <AiFillFire aria-hidden="true" />
           <span>Inicio</span>
         </button>
 
@@ -148,6 +266,16 @@ function EncuentrosBottomNav({
           <AiOutlineCalendar aria-hidden="true" />
           <span>{bookingLabel}</span>
         </button>
+
+        <Link
+          to={authHref}
+          className="encuentros-screen-bottom-nav-item encuentros-screen-bottom-nav-item-auth"
+          aria-label={authLabel}
+          title={authLabel}
+        >
+          <AiOutlineUser aria-hidden="true" />
+          <span>{authLabel}</span>
+        </Link>
       </nav>
     </div>
   )
@@ -180,7 +308,8 @@ function getEncounterNavToneStyles(tone) {
 }
 
 export function EncuentrosPage() {
-  const { siteContent, createEncounterReservationRequest } = useAppState()
+  const { siteContent, createEncounterReservationRequest, session } = useAppState()
+  const location = useLocation()
   const { slug } = useParams()
   const { i18n, t } = useTranslation()
   const dateLocale = i18n.resolvedLanguage === 'en' ? 'en-US' : 'es-PE'
@@ -192,14 +321,11 @@ export function EncuentrosPage() {
   const [activeBottomNavKey, setActiveBottomNavKey] = useState('home')
   const [recordingChoice, setRecordingChoice] = useState('standard')
   const [error, setError] = useState('')
+  const [isDatesModalOpen, setIsDatesModalOpen] = useState(false)
   const pageContent = model?.content || siteContent
   const booking = pageContent.encuentrosBooking || {}
   const modelSlug = model?.slug || slug || ''
-  const modelDisplayName =
-    model?.displayName ||
-    booking.galleryTitle ||
-    pageContent.heroTitle ||
-    t('encuentros.bookingPageTitle')
+  const modelDisplayName = model?.displayName || booking.galleryTitle || t('encuentros.bookingPageTitle')
   const bookingDays = useMemo(() => buildBookingDays(booking), [booking])
   const bookingTimes = useMemo(() => buildBookingTimes(booking), [booking])
   const fallbackPricing = useMemo(
@@ -215,21 +341,96 @@ export function EncuentrosPage() {
       ? Math.max(0, presencialBasePrice - presencialBasePrice * (recordingDiscountPercent / 100))
       : 0
   const topCarouselImages = Array.isArray(pageContent.topCarouselImages) ? pageContent.topCarouselImages : []
-  const availableDates = Array.isArray(booking.availableDates) ? booking.availableDates.filter(Boolean) : []
   const extraServices = Array.isArray(pageContent.extraItems) ? pageContent.extraItems.filter(Boolean) : []
   const presencialFeatures = Array.isArray(pageContent.presencialFeatures)
     ? pageContent.presencialFeatures.filter(Boolean).slice(0, 6)
     : []
+  const profileAge = getProfileTextValue(pageContent, ['profileAge', 'age'])
+  const profileCity = getProfileTextValue(pageContent, ['profileCity', 'profileLocation', 'city', 'location'])
+  const profileNationality = getProfileTextValue(pageContent, [
+    'profileNationality',
+    'nationality',
+    'country',
+  ])
+  const profileRelationshipStatus = getProfileTextValue(pageContent, [
+    'profileRelationshipStatus',
+    'relationshipStatus',
+    'maritalStatus',
+  ])
+  const profileTopBadge = getProfileTextValue(pageContent, [
+    'profileTopBadge',
+    'topBadge',
+    'badgeTop',
+  ])
+  const profileAttendanceModes = useMemo(
+    () =>
+      normalizeProfileAttendanceModes(
+        pageContent.profileAttendanceModes ?? pageContent.attendanceModes ?? [],
+      ),
+    [pageContent.attendanceModes, pageContent.profileAttendanceModes],
+  )
+  const profileVoiceAudioUrl = getProfileTextValue(pageContent, [
+    'profileVoiceAudioUrl',
+    'voiceAudioUrl',
+  ])
+  const profileVoiceAudioLabel = getProfileTextValue(pageContent, [
+    'profileVoiceAudioLabel',
+    'voiceAudioLabel',
+  ])
+  const profileAvatarUrl = getProfileTextValue(pageContent, [
+    'profileAvatarUrl',
+    'avatarUrl',
+    'profilePhotoUrl',
+  ])
+  const profileAvatarInitials = getInitialsFromName(modelDisplayName || profileTopBadge || 'M')
+  const recordsEncounters = Boolean(
+    pageContent.recordsEncounters ?? pageContent.recordingEnabled ?? false,
+  )
+  const legacyMembershipDiscount = Boolean(pageContent.presencialBenefitText || pageContent.presencialBenefitTitle)
+  const membershipDiscountEnabled = Boolean(
+    booking.membershipDiscountEnabled ?? legacyMembershipDiscount,
+  )
+  const membershipDiscountPercent =
+    Number.parseFloat(String(booking.membershipDiscountPercent || '0').replace(',', '.')) || 0
+  const membershipDiscountNetworkKey = normalizeSocialNetworkValue(
+    booking.membershipDiscountNetwork ||
+      (pageContent.presencialBenefitTitle || '').replace(/^suscriptores\s+/i, '') ||
+      '',
+  )
+  const membershipDiscountNetworkLabel = getSocialNetworkOption(membershipDiscountNetworkKey).label
+  const membershipDiscountLabel =
+    booking.membershipDiscountLabel ||
+    pageContent.presencialBenefitTitle ||
+    `Suscriptores ${membershipDiscountNetworkLabel}`
+  const showMembershipDiscount =
+    membershipDiscountEnabled && membershipDiscountNetworkKey && membershipDiscountPercent > 0
+  const socialLinks = useMemo(
+    () =>
+      uniqueSocialLinks(
+        (Array.isArray(pageContent.socialLinks) ? pageContent.socialLinks : []).map((link) => ({
+          ...link,
+          network: normalizeSocialNetworkValue(link?.network || link?.label || ''),
+          label: String(link?.label || link?.network || '').trim(),
+          url: String(link?.url || link?.href || '').trim(),
+          active: link?.active !== false,
+        })),
+      ),
+    [pageContent.socialLinks],
+  )
+  const contactChannels = useMemo(
+    () => buildEncounterContactChannels(pageContent, socialLinks, t, modelDisplayName),
+    [modelDisplayName, pageContent, socialLinks, t],
+  )
   const heroAvailableDates = useMemo(
     () =>
-      availableDates.slice(0, 4).map((dateValue) => ({
-        value: dateValue,
-        label: formatShortDateLabel(dateValue, dateLocale),
+      bookingDays.map((day) => ({
+        value: day.value,
+        label: formatShortDateLabel(day.value, dateLocale),
       })),
-    [availableDates, dateLocale],
+    [bookingDays, dateLocale],
   )
   const hasGalleryImages = topCarouselImages.length > 0
-  const showRecordingDiscount = recordingDiscountPercent > 0 && recordingPrice > 0
+  const showRecordingDiscount = recordsEncounters && recordingDiscountPercent > 0 && recordingPrice > 0
   const recordingDiscountPercentValue =
     recordingDiscountPercent % 1 === 0
       ? `${recordingDiscountPercent.toFixed(0)}% OFF`
@@ -242,13 +443,30 @@ export function EncuentrosPage() {
     () => normalizedTopCarouselImages.map((slide) => slide.id).filter(Boolean),
     [normalizedTopCarouselImages],
   )
-  const heroTopBar =
-    (pageContent.topBarDesktopHighlight || pageContent.topBarDesktop || t('nav.encuentros')).length > 42
-      ? defaultSiteContent.topBarDesktopHighlight
-      : pageContent.topBarDesktopHighlight || pageContent.topBarDesktop || t('nav.encuentros')
+  const profileSummary = useMemo(
+    () =>
+      [
+        profileAge ? { key: 'age', label: `${profileAge} años` } : null,
+        profileCity ? { key: 'city', label: profileCity } : null,
+        !profileCity && profileNationality ? { key: 'nationality', label: profileNationality } : null,
+        profileRelationshipStatus
+          ? { key: 'relationship', label: profileRelationshipStatus, tone: 'relationship' }
+          : null,
+        ...profileAttendanceModes.map((item) => ({
+          key: `attendance-${item}`,
+          label: item,
+          tone: 'attendance',
+        })),
+      ].filter(Boolean),
+    [profileAge, profileAttendanceModes, profileCity, profileNationality, profileRelationshipStatus],
+  )
   const [galleryReactionCounts, setGalleryReactionCounts] = useState({})
   const [galleryReactionVotes, setGalleryReactionVotes] = useState(() => readGalleryReactionState())
   const galleryVisitorKey = useMemo(() => getOrCreateGalleryVisitorKey(), [])
+  const profileVoiceAudioRef = useRef(null)
+  const [isProfileVoicePlaying, setIsProfileVoicePlaying] = useState(false)
+  const unlockHref = `/access?redirect=${encodeURIComponent(`${location.pathname}${location.search || ''}`)}`
+  const isLoggedIn = Boolean(session?.accessToken)
 
   useEffect(() => {
     let isCancelled = false
@@ -307,6 +525,67 @@ export function EncuentrosPage() {
       isCancelled = true
     }
   }, [fallbackPricing, modelSlug, recordingChoice])
+
+  useEffect(() => {
+    const audio = profileVoiceAudioRef.current
+
+    if (!audio) {
+      return undefined
+    }
+
+    const handlePlay = () => setIsProfileVoicePlaying(true)
+    const handlePause = () => setIsProfileVoicePlaying(false)
+    const handleEnded = () => setIsProfileVoicePlaying(false)
+
+    audio.addEventListener('play', handlePlay)
+    audio.addEventListener('pause', handlePause)
+    audio.addEventListener('ended', handleEnded)
+
+    return () => {
+      audio.removeEventListener('play', handlePlay)
+      audio.removeEventListener('pause', handlePause)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [profileVoiceAudioUrl])
+
+  useEffect(() => {
+    setIsProfileVoicePlaying(false)
+    const audio = profileVoiceAudioRef.current
+    if (audio) {
+      audio.pause()
+      audio.currentTime = 0
+    }
+  }, [profileVoiceAudioUrl])
+
+  const handleToggleProfileVoice = useCallback(() => {
+    const audio = profileVoiceAudioRef.current
+
+    if (!audio) {
+      return
+    }
+
+    if (audio.paused) {
+      const playPromise = audio.play()
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          setIsProfileVoicePlaying(false)
+        })
+      }
+      return
+    }
+
+    audio.pause()
+  }, [])
+
+  const handleOpenDatesModal = useCallback(() => {
+    if (heroAvailableDates.length > 5) {
+      setIsDatesModalOpen(true)
+    }
+  }, [heroAvailableDates.length])
+
+  const handleCloseDatesModal = useCallback(() => {
+    setIsDatesModalOpen(false)
+  }, [])
 
   const openGallery = useCallback(() => {
     if (!hasGalleryImages) {
@@ -550,23 +829,121 @@ export function EncuentrosPage() {
           <div className="encuentros-screen-topline">
             <span className="encuentros-screen-status-pill">
               <HiOutlineShieldCheck aria-hidden="true" />
-              <span>{heroTopBar}</span>
+              <span>Modelo Verificada</span>
             </span>
           </div>
 
           <div className="encuentros-screen-title-row">
-            <h1 id="encuentros-screen-title">{pageContent.heroTitle || modelDisplayName || t('encuentros.bookingPageTitle')}</h1>
+            <span className="encuentros-screen-avatar" aria-hidden="true">
+              {profileAvatarUrl ? (
+                <img src={profileAvatarUrl} alt="" className="encuentros-screen-avatar-image" />
+              ) : (
+                <span className="encuentros-screen-avatar-fallback">{profileAvatarInitials || 'M'}</span>
+              )}
+            </span>
+
+            <h1 id="encuentros-screen-title">{modelDisplayName}</h1>
+
+            {profileVoiceAudioUrl ? (
+              <button
+                type="button"
+                className={
+                  isProfileVoicePlaying
+                    ? 'encuentros-screen-contact-icon-link encuentros-screen-contact-icon-link-voice is-playing'
+                    : 'encuentros-screen-contact-icon-link encuentros-screen-contact-icon-link-voice'
+                }
+                onClick={handleToggleProfileVoice}
+                aria-pressed={isProfileVoicePlaying}
+                aria-label={isProfileVoicePlaying ? 'Pausar voz de la modelo' : 'Reproducir voz de la modelo'}
+                title={isProfileVoicePlaying ? 'Pausar voz' : 'Escuchar voz'}
+              >
+                <span className="encuentros-screen-contact-icon" aria-hidden="true">
+                  {isProfileVoicePlaying ? <AiOutlinePauseCircle aria-hidden="true" /> : <AiOutlineSound aria-hidden="true" />}
+                </span>
+              </button>
+            ) : null}
+            {contactChannels.length ? (
+              <div
+                className="encuentros-screen-title-actions"
+                aria-label={t('encuentros.contactChannels', 'Canales de contacto')}
+              >
+                {contactChannels.map((link) => {
+                  const Icon = getContactChannelIcon(link)
+                  const channelIsLocked = !isLoggedIn
+                  const ChannelTag = channelIsLocked ? Link : 'a'
+
+                  return (
+                    <ChannelTag
+                      key={`${link.network}-${link.url}`}
+                      className={`encuentros-screen-contact-icon-link is-${getSocialNetworkKey(link)}${channelIsLocked ? ' is-locked' : ''}`}
+                      {...(channelIsLocked
+                        ? { to: unlockHref }
+                        : {
+                            href: link.url,
+                            target: '_blank',
+                            rel: 'noreferrer',
+                          })}
+                      aria-label={link.label || link.network}
+                      title={link.label || link.network}
+                    >
+                      <span className="encuentros-screen-contact-icon" aria-hidden="true">
+                        <Icon aria-hidden="true" />
+                      </span>
+                    </ChannelTag>
+                  )
+                })}
+              </div>
+            ) : null}
           </div>
 
+          {profileSummary.length ? (
+            <div className="encuentros-screen-profile-metadata" aria-label={t('encuentros.profileSummary', 'Perfil')}>
+              {profileSummary.map((item) => (
+                <span
+                  className={
+                    item.tone === 'relationship'
+                      ? 'encuentros-screen-profile-chip is-relationship'
+                      : item.tone === 'attendance'
+                        ? 'encuentros-screen-profile-chip is-attendance'
+                        : 'encuentros-screen-profile-chip'
+                  }
+                  key={item.key}
+                >
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
           <p className="encuentros-screen-lead">{pageContent.heroDescription}</p>
-          <div className="encuentros-screen-trust-row" aria-label={t('encuentros.bookingAvailability')}>
-            {heroAvailableDates.map((day) => (
-              <span className="encuentros-screen-trust-chip encuentros-screen-trust-chip-date" key={day.value}>
-                <HiOutlineCalendar aria-hidden="true" />
-                <span>{day.label}</span>
-              </span>
-            ))}
+          <div className="encuentros-screen-trust-row-shell">
+            <div className="encuentros-screen-trust-row" aria-label={t('encuentros.bookingAvailability')}>
+              {heroAvailableDates.slice(0, 3).map((day) => (
+                <span className="encuentros-screen-trust-chip encuentros-screen-trust-chip-date" key={day.value}>
+                  <HiOutlineCalendar aria-hidden="true" />
+                  <span>{day.label}</span>
+                </span>
+              ))}
+            </div>
+
+            {heroAvailableDates.length ? (
+              <button
+                type="button"
+                className="encuentros-screen-dates-chip"
+                onClick={handleOpenDatesModal}
+              >
+                Ver todas las fechas
+              </button>
+            ) : null}
           </div>
+          {profileVoiceAudioUrl ? (
+            <audio
+              ref={profileVoiceAudioRef}
+              className="encuentros-screen-voice-audio"
+              preload="metadata"
+              src={profileVoiceAudioUrl}
+            />
+          ) : null}
 
         </section>
 
@@ -595,13 +972,15 @@ export function EncuentrosPage() {
               <p className="encuentros-screen-presencial-copy">{pageContent.presencialDescription}</p>
             ) : null}
 
-            {pageContent.presencialBenefitTitle || pageContent.presencialBenefitText ? (
+            {showMembershipDiscount ? (
               <div className="encuentros-screen-inline-discount">
                 <span className="encuentros-screen-inline-discount-label">
-                  {pageContent.presencialBenefitTitle || 'Suscriptores Loverfans'}
+                  {membershipDiscountLabel}
                 </span>
                 <span className="encuentros-screen-inline-discount-value">
-                  {pageContent.presencialBenefitText || '20% OFF'}
+                  {Number.isInteger(membershipDiscountPercent)
+                    ? `${membershipDiscountPercent.toFixed(0)}% OFF`
+                    : `${membershipDiscountPercent.toFixed(1)}% OFF`}
                 </span>
               </div>
             ) : null}
@@ -639,13 +1018,13 @@ export function EncuentrosPage() {
             <div className="encuentros-screen-services-copy">
               <div className="encuentros-screen-services-topline">
                 <div className="encuentros-screen-services-kicker">
-                  <span>{pageContent.extraTitle || t('admin.content.extraList')}</span>
+                  <span>Servicios Adicionales</span>
                 </div>
               </div>
 
               <ul
                 className="encuentros-screen-services-list"
-                aria-label={pageContent.extraTitle || t('admin.content.extraList')}
+                aria-label="Servicios Adicionales"
               >
                 {extraServices.map((item) => (
                   <li key={item}>
@@ -666,6 +1045,14 @@ export function EncuentrosPage() {
             </div>
           </ScreenCard>
         ) : null}
+
+        <EncounterSocialLinksSection
+          title={t('encuentros.socialNetworks', 'Redes sociales')}
+          description={''}
+          links={socialLinks}
+          className="encuentros-screen-social-section"
+          showTitle={false}
+        />
 
         <div className="encuentros-screen-actions" aria-label={t('encuentros.bookingWizardTitle')}>
           {hasGalleryImages ? (
@@ -701,12 +1088,10 @@ export function EncuentrosPage() {
       <EncuentrosGalleryModal
         open={isGalleryOpen}
         images={normalizedTopCarouselImages}
-        title={booking.galleryTitle || pageContent.heroTitle || t('encuentros.galleryTitle')}
-        subtitle={booking.gallerySubtitle || t('encuentros.gallerySubtitle')}
-        exclusiveTitle={booking.galleryExclusiveTitle || t('encuentros.galleryExclusiveTitle')}
-        exclusiveDescription={
-          booking.galleryExclusiveDescription || t('encuentros.galleryExclusiveDescription')
-        }
+        title={booking.galleryTitle || modelDisplayName || t('encuentros.galleryTitle')}
+        topBadge={profileTopBadge || 'Modelo Verificada'}
+        profileChips={profileSummary}
+        socialLinks={socialLinks}
         reactionCounts={galleryReactionCounts}
         reactionVotes={galleryReactionVotes}
         onReact={handleGalleryReaction}
@@ -714,19 +1099,65 @@ export function EncuentrosPage() {
         onReserve={handleOpenWizard}
       />
 
+      {isDatesModalOpen && heroAvailableDates.length ? (
+        <div className="encuentros-screen-dates-modal" role="dialog" aria-modal="true" aria-label={t('encuentros.bookingAvailability')}>
+          <button
+            type="button"
+            className="encuentros-screen-dates-modal-backdrop"
+            aria-label="Cerrar fechas"
+            onClick={handleCloseDatesModal}
+          />
+          <article className="encuentros-screen-dates-modal-card">
+            <header className="encuentros-screen-dates-modal-head">
+              <div className="encuentros-screen-dates-modal-copy">
+                <p className="encuentros-screen-dates-modal-eyebrow">{t('encuentros.bookingAvailability')}</p>
+                <h2>Fechas disponibles</h2>
+              </div>
+              <button
+                type="button"
+                className="encuentros-screen-dates-modal-close"
+                onClick={handleCloseDatesModal}
+              >
+                Cerrar
+              </button>
+            </header>
+            <div className="encuentros-screen-dates-modal-grid">
+              {heroAvailableDates.map((day) => (
+                <span className="encuentros-screen-trust-chip encuentros-screen-trust-chip-date" key={day.value}>
+                  <HiOutlineCalendar aria-hidden="true" />
+                  <span>{day.label}</span>
+                </span>
+              ))}
+            </div>
+          </article>
+        </div>
+      ) : null}
+
       <EncuentrosBookingWizardModal
-        open={isBookingWizardOpen}
-        booking={booking}
-        pricing={pricing}
-        bookingDays={bookingDays}
-        bookingTimes={bookingTimes}
-        recordingChoice={recordingChoice}
-        onRecordingChoiceChange={handleRecordingChoiceChange}
-        onClose={handleCloseWizard}
-        onSubmit={handleReservationSubmit}
-        isSubmitting={false}
-        error={error}
-      />
+          open={isBookingWizardOpen}
+          booking={booking}
+          modelProfile={{
+            displayName: modelDisplayName,
+            age: profileAge,
+            city: profileCity,
+            nationality: profileNationality,
+            topBadge: profileTopBadge,
+            voiceAudioUrl: profileVoiceAudioUrl,
+            voiceAudioLabel: profileVoiceAudioLabel,
+          }}
+          isAuthenticated={Boolean(session?.accessToken)}
+          currentUserName={session?.name || session?.email || ''}
+          canRecordEncounters={recordsEncounters}
+          pricing={pricing}
+          bookingDays={bookingDays}
+          bookingTimes={bookingTimes}
+          recordingChoice={recordingChoice}
+          onRecordingChoiceChange={handleRecordingChoiceChange}
+          onClose={handleCloseWizard}
+          onSubmit={handleReservationSubmit}
+          isSubmitting={false}
+          error={error}
+        />
     </main>
   )
 }

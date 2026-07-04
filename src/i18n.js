@@ -159,8 +159,8 @@ const resources = {
         title: 'Entrar o crear cuenta para desbloquear contenido',
         description:
           'Usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear videos, packs y publicaciones premium.',
-        authTitle: 'Inicia sesiÃ³n',
-        authSubtitle: 'Elige uno de los mÃ©todos disponibles para continuar.',
+        authTitle: 'Iniciar sesion',
+        authSubtitle: 'Elige uno de los metodos disponibles para continuar.',
         planLabel: 'Acceso total desde {{plan}} para desbloquear todo el contenido digital.',
         sessionActive: 'Sesion activa como',
         adminAccess: 'Administrador con acceso total.',
@@ -171,11 +171,6 @@ const resources = {
         googleLogin: 'Continuar con Google',
         twitterLogin: 'Continuar con X',
         xLogin: 'Continuar con X',
-        telegramLogin: 'Continuar con Telegram',
-        telegramLoginHint: 'Usa el boton oficial de Telegram para validar tu acceso rapido.',
-        telegramUnavailable: 'Telegram requiere configurar el bot en el entorno.',
-        telegramConnecting: 'Verificando Telegram...',
-        telegramClose: 'Cerrar Telegram',
         oauthDivider: 'o sigue con correo',
         connecting: 'Conectando...',
         oauthError: 'No se pudo iniciar el acceso social.',
@@ -454,6 +449,8 @@ const resources = {
           galleryExclusiveDescription:
             'Por discrecion y privacidad, este material queda reservado para un acceso controlado y autorizado.',
           galleryEmpty: 'No hay imagenes disponibles por el momento.',
+          contactChannels: 'Canales de contacto',
+          socialNetworks: 'Redes sociales',
           recordingPromptTitle: 'Quieres grabar el encuentro?',
           recordingPromptDescription: 'Elige si aplicamos el descuento configurado por grabacion.',
           recordingYes: 'Si',
@@ -767,6 +764,17 @@ const resources = {
           encuentrosOverviewTab: 'Resumen',
           encuentrosBookingTab: 'Reserva',
           encuentrosMediaTab: 'Media',
+          encuentrosChipsTab: 'Chips',
+          encuentrosChipsTitle: 'Opciones de chips',
+          encuentrosChipsDescription:
+            'Gestiona las opciones globales que luego selecciona cada modelo.',
+          encuentrosExtraOptionsLabel: 'Extras disponibles',
+          encuentrosPresencialFeatureOptionsLabel: 'Features presenciales disponibles',
+          chipInputPlaceholder: 'Escribe una opcion',
+          chipAdd: 'Agregar',
+          chipUpdate: 'Actualizar',
+          chipHint: 'Haz clic en un chip para editarlo o usa el boton de borrar.',
+          chipEditHint: 'Editando un chip. Confirma con actualizar o presiona Enter.',
           presencialFeaturesKicker: 'Encuentros presenciales',
           presencialFeaturesTitle: 'Caracteristicas del servicio',
           topBarDesktop: 'Top bar desktop highlight',
@@ -1544,6 +1552,8 @@ const resources = {
           galleryExclusiveDescription:
             'For privacy and discretion, this material stays reserved for controlled and authorized access.',
           galleryEmpty: 'No images are available right now.',
+          contactChannels: 'Contact channels',
+          socialNetworks: 'Social networks',
           bookingAvailability: 'Configured availability',
           bookingDaysLabel: 'enabled days',
           bookingDatesLabel: 'enabled dates',
@@ -1857,6 +1867,16 @@ const resources = {
           encuentrosOverviewTab: 'Overview',
           encuentrosBookingTab: 'Booking',
           encuentrosMediaTab: 'Media',
+          encuentrosChipsTab: 'Chips',
+          encuentrosChipsTitle: 'Chip options',
+          encuentrosChipsDescription: 'Manage the global options that each model can select later.',
+          encuentrosExtraOptionsLabel: 'Available extras',
+          encuentrosPresencialFeatureOptionsLabel: 'Available in-person features',
+          chipInputPlaceholder: 'Type an option',
+          chipAdd: 'Add',
+          chipUpdate: 'Update',
+          chipHint: 'Click a chip to edit it or use the delete button.',
+          chipEditHint: 'Editing a chip. Confirm with update or press Enter.',
           presencialFeaturesKicker: 'In-person encounters',
           presencialFeaturesTitle: 'Service characteristics',
           topBarDesktop: 'Desktop top bar highlight',
@@ -2210,6 +2230,3 @@ i18n
   })
 
 export default i18n
-
-
-
