@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "src/i18n.js": {
-    "mtime": 1783207271.5469382,
-    "ast_hash": "db4a43d087fbfaf3caa37e4b49bef998",
+    "mtime": 1783207800.9180913,
+    "ast_hash": "39e7a6533d57dc28be17736359e9f082",
     "semantic_hash": ""
   },
   "src/lib/googleDrive.js": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1783207389.37794,
-    "ast_hash": "3733c1509867b71a4152bf429a3e40cb",
+    "mtime": 1783207731.7940037,
+    "ast_hash": "3a19c2b4e0759221a4cf321b3fed582d",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
@@ -654,11 +654,6 @@
     "ast_hash": "da30dbd1685331ca3501e38f68942dba",
     "semantic_hash": ""
   },
-  ".tmp-encuentros-dark-mobile.png": {
-    "mtime": 1782950520.2938585,
-    "ast_hash": "7f748361abfc91aa3f0cee50b1a7d1f5",
-    "semantic_hash": ""
-  },
   "supabase/migrations/20260702000000_normalize_encuentros_model_schema.sql": {
     "mtime": 1783204049.9282422,
     "ast_hash": "d8fde7f8a1a1d2ce739173e873fb5fc2",
@@ -672,16 +667,6 @@
   "supabase/seed.sql": {
     "mtime": 1783009478.7282522,
     "ast_hash": "a0086a90c9fb37e7a1826ce0f8b6306e",
-    "semantic_hash": ""
-  },
-  ".codex-encuentros-page-unlocked.png": {
-    "mtime": 1783033934.0558968,
-    "ast_hash": "8ed0488e2895331ea73de06166402e94",
-    "semantic_hash": ""
-  },
-  ".codex-encuentros-page.png": {
-    "mtime": 1783033903.9808767,
-    "ast_hash": "36c0077af32784a99063fc576461fe4d",
     "semantic_hash": ""
   },
   "src/components/EncounterSocialLinksSection.jsx": {

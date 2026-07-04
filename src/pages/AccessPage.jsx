@@ -30,6 +30,10 @@ export function AccessPage() {
     () => (activeTab === 'login' ? t('access.authTitle') : t('access.register')),
     [activeTab, t],
   )
+  const authSubtitle = useMemo(
+    () => (activeTab === 'login' ? t('access.loginUnlockCopy') : t('access.registerUnlockCopy')),
+    [activeTab, t],
+  )
 
   if (session) {
     return <Navigate to={postAuthTarget} replace />
@@ -113,12 +117,6 @@ export function AccessPage() {
             <LanguageSwitcher className="access-auth-language" />
           </div>
 
-          <div className="access-auth-brand" aria-hidden="true">
-            <span className="access-auth-brand-mark">
-              <AiFillX />
-            </span>
-          </div>
-
           <div className="access-oauth-block">
             <div className="access-oauth-actions">
               <button
@@ -179,7 +177,7 @@ export function AccessPage() {
           <div className="access-card access-card-form">
             <div className="access-card-copy">
               <strong>{authTitle}</strong>
-              <span>{t('access.authSubtitle')}</span>
+              <span>{authSubtitle}</span>
             </div>
 
             {activeTab === 'login' ? (

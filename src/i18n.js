@@ -160,7 +160,8 @@ const resources = {
         description:
           'Usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear videos, packs y publicaciones premium.',
         authTitle: 'Iniciar sesion',
-        authSubtitle: 'Elige uno de los metodos disponibles para continuar.',
+        loginUnlockCopy: 'Inicia sesion para desbloquear contenido y seguir con la modelo.',
+        registerUnlockCopy: 'Crea tu cuenta para desbloquear contenido y continuar al instante.',
         planLabel: 'Acceso total desde {{plan}} para desbloquear todo el contenido digital.',
         sessionActive: 'Sesion activa como',
         adminAccess: 'Administrador con acceso total.',
@@ -1259,7 +1260,8 @@ const resources = {
         description:
           'Use your account to manage purchases, review active access, and unlock premium videos, packs, and posts.',
         authTitle: 'Sign in',
-        authSubtitle: 'Choose one of the available methods to continue.',
+        loginUnlockCopy: 'Sign in to unlock content and continue with the model.',
+        registerUnlockCopy: 'Create your account to unlock content and continue instantly.',
         planLabel: 'Total access from {{plan}} to unlock all digital content.',
         sessionActive: 'Active session as',
         adminAccess: 'Administrator with full access.',
