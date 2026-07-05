@@ -1,7 +1,7 @@
 # Graph Report - PROJECTS  (2026-07-04)
 
 ## Corpus Check
-- 124 files · ~142,203 words
+- 124 files · ~142,339 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `565db839`
+- Built from commit: `6b17f59b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -109,7 +109,7 @@ Nodes (9): AdminDashboardPage(), buildSubscriptionDraftForUser(), getActiveDigit
 
 ### Community 2 - "Community 2"
 Cohesion: 0.09
-Nodes (22): app, buildRuntimeConfig(), buildTelegramDisplayName(), buildTelegramSyntheticEmail(), CLIENT_DIST_DIR, escapeJsonForInlineScript(), GALLERY_REACTIONS_FILE, getAuthenticatedUser() (+14 more)
+Nodes (20): app, buildRuntimeConfig(), buildTelegramDisplayName(), buildTelegramSyntheticEmail(), CLIENT_DIST_DIR, escapeJsonForInlineScript(), GALLERY_REACTIONS_FILE, getClientIndexTemplate() (+12 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.22
@@ -250,16 +250,16 @@ Cohesion: 0.18
 Nodes (15): bottomCarouselImages, mergeItemsBySlug(), normalizeCarouselSlides(), normalizeEncounterPriceLabel(), normalizeFreeContentItem(), normalizePhysicalMerchItem(), normalizePriceLabel(), normalizeVideoCollectionItem() (+7 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.28
-Nodes (13): mergeSiteContent(), assertSupabaseAuthConfig(), createEncounterModel(), deleteEncounterModel(), deleteEncounterReservationHistoryByModelSlug(), getEncounterModelDisplayName(), hydrateEncounterModelContent(), logAdminAuditEvent() (+5 more)
+Cohesion: 0.30
+Nodes (12): mergeSiteContent(), assertSupabaseAuthConfig(), createEncounterModel(), deleteEncounterModel(), deleteEncounterReservationHistoryByModelSlug(), getEncounterModelDisplayName(), hydrateEncounterModelContent(), normalizeEncounterModelPayload() (+4 more)
 
 ### Community 41 - "Community 41"
 Cohesion: 0.25
 Nodes (10): base64UrlEncode(), buildGoogleDriveDownloadUrl(), fetchGoogleDriveMedia(), getGoogleDriveFolderId(), getServiceAccountAccessToken(), isGoogleDriveConfigured(), serviceAccountPrivateKey, uploadGoogleDriveFile() (+2 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.29
-Nodes (10): addDays(), addMonths(), computeSubscriptionExpiry(), grantEntitlement(), handleSubscriptionDeleted(), isSubscriptionAccessScope(), parseDateOrNull(), provisionManagedUser() (+2 more)
+Cohesion: 0.23
+Nodes (13): addDays(), addMonths(), computeSubscriptionExpiry(), createOrUpdateOrder(), grantEntitlement(), handleCheckoutCompleted(), handleSubscriptionDeleted(), isSubscriptionAccessScope() (+5 more)
 
 ### Community 43 - "Community 43"
 Cohesion: 0.42
@@ -286,8 +286,8 @@ Cohesion: 0.43
 Nodes (6): EncuentrosBookingWizardModal(), formatShortDateLabel(), fetchEncuentrosBookingPricing(), fetchEncuentrosModel(), EncuentrosCitasPage(), normalizeRecordingChoice()
 
 ### Community 49 - "Community 49"
-Cohesion: 0.22
-Nodes (14): isPersistentProductType(), assertServerConfig(), createOrUpdateInvoiceOrder(), createOrUpdateOrder(), ensureStripeCustomer(), fetchProductRowFromTable(), handleCheckoutCompleted(), handleInvoicePaymentSucceeded() (+6 more)
+Cohesion: 0.20
+Nodes (14): isPersistentProductType(), assertServerConfig(), createOrUpdateInvoiceOrder(), ensureStripeCustomer(), fetchProductRowFromTable(), getAuthenticatedUser(), handleInvoicePaymentSucceeded(), isConnectivityError() (+6 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.18
@@ -344,4 +344,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.07311827956989247 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.08901515151515152 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09462365591397849 - nodes in this community are weakly interconnected._

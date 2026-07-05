@@ -9279,6 +9279,11 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
 
 .encuentros-gallery-modal-thumb-open.is-locked {
@@ -9446,6 +9451,15 @@ button {
   white-space: nowrap;
 }
 
+.encuentros-gallery-modal-preview-copy small {
+  display: inline-block;
+  margin-top: 0.24rem;
+  color: rgba(245, 238, 231, 0.7);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .encuentros-gallery-modal-bottom-nav,
 .encuentros-booking-modal-bottom-nav {
   display: grid;
@@ -9527,6 +9541,7 @@ button {
   background: rgba(10, 6, 9, 0.98);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  touch-action: pan-y;
 }
 
 .encuentros-gallery-modal-preview-frame img {
@@ -9535,6 +9550,22 @@ button {
   max-height: calc(100svh - 2rem);
   object-fit: contain;
   background: rgba(10, 6, 9, 0.96);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+.encuentros-gallery-modal-preview-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.85rem;
+  pointer-events: none;
 }
 
 @keyframes encuentros-modal-fade-in {
@@ -9572,18 +9603,86 @@ button {
 }
 
 .encuentros-gallery-modal-preview-close {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  width: 2.4rem;
-  height: 2.4rem;
+  pointer-events: auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(8, 5, 8, 0.75);
-  color: #fff;
-  font-size: 1.5rem;
+  border: 1px solid rgba(242, 180, 106, 0.16);
+  background: rgba(8, 5, 8, 0.82);
+  color: #fff6ec;
+  font-size: 1.7rem;
   line-height: 1;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(14px);
+}
+
+.encuentros-gallery-modal-preview-close:hover,
+.encuentros-gallery-modal-preview-close:focus-visible {
+  border-color: rgba(242, 180, 106, 0.34);
+  color: #ffffff;
+}
+
+.encuentros-gallery-modal-preview-stage-nav {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.85rem;
+  pointer-events: none;
+}
+
+.encuentros-gallery-modal-preview-nav {
+  position: relative;
+  pointer-events: auto;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(242, 180, 106, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 5, 8, 0.68);
+  color: #fff3e6;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+}
+
+.encuentros-gallery-modal-preview-nav:hover,
+.encuentros-gallery-modal-preview-nav:focus-visible {
+  border-color: rgba(242, 180, 106, 0.34);
+  color: #ffffff;
+}
+
+.encuentros-gallery-modal-preview-nav svg {
+  font-size: 1.16rem;
+}
+
+.encuentros-gallery-modal-preview-watermark {
+  position: absolute;
+  inset: 0;
   z-index: 1;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.encuentros-gallery-modal-preview-watermark span {
+  display: block;
+  width: 140%;
+  text-align: center;
+  transform: rotate(-22deg);
+  color: rgba(255, 243, 230, 0.08);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .encuentros-page-media-card {
@@ -9775,6 +9874,15 @@ button {
     align-items: stretch;
     flex-direction: column;
     padding: 0.7rem 0.75rem 0.8rem;
+  }
+
+  .encuentros-gallery-modal-preview-nav {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .encuentros-gallery-modal-preview-stage-nav {
+    padding: 0 0.45rem;
   }
 
   .encuentros-gallery-modal-preview-copy {

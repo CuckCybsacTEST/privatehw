@@ -980,6 +980,7 @@ function ContentEditor() {
   const [selectedPackIndex, setSelectedPackIndex] = useState(0)
   const [selectedPhysicalIndex, setSelectedPhysicalIndex] = useState(0)
   const autoRepairCatalogRef = useRef('')
+  const draftStateRef = useRef(draftState)
   const localeKey = getLocaleKey(i18n.resolvedLanguage)
   const draft = resolveLocalizedRecord(draftState, localeKey)
   const blogTaxonomyTags = uniqueValues(siteContent.blogPage?.taxonomy?.tags || [])
@@ -987,6 +988,10 @@ function ContentEditor() {
   useEffect(() => {
     setDraft(ensurePackUiIds(ensureVideoLibraryUiIds(mergeSiteContent(siteContent))))
   }, [siteContent])
+
+  useEffect(() => {
+    draftStateRef.current = draftState
+  }, [draftState])
 
   useEffect(() => {
     if (activeSection !== 'blog') {
@@ -1034,6 +1039,23 @@ function ContentEditor() {
   function setDraftValue(path, value) {
     const targetPath = localeKey === 'en' ? ['localized', 'en', ...path] : path
     setDraft((current) => setByPath(current, targetPath, value))
+  }
+
+  async function persistDraftValue(path, value, successMessage) {
+    const targetPath = localeKey === 'en' ? ['localized', 'en', ...path] : path
+    const nextDraftSnapshot = setByPath(draftStateRef.current, targetPath, value)
+    draftStateRef.current = nextDraftSnapshot
+    setDraft(nextDraftSnapshot)
+    setIsSaving(true)
+
+    try {
+      await saveSiteContent(nextDraftSnapshot)
+      setMessage(successMessage)
+    } catch (error) {
+      setMessage(error?.message || 'No se pudo guardar este cambio.')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   function addVideoItem() {
@@ -2856,18 +2878,32 @@ function ContentEditor() {
                     label={t('admin.content.encuentrosExtraOptionsLabel')}
                     description={t('admin.content.encuentrosChipsDescription')}
                     items={draft.encuentrosExtraOptions}
-                    onChange={(value) => setDraftValue(['encuentrosExtraOptions'], value)}
+                    onChange={(value) =>
+                      void persistDraftValue(
+                        ['encuentrosExtraOptions'],
+                        value,
+                        'Extras disponibles guardados.',
+                      )
+                    }
                     placeholder={t('admin.content.chipInputPlaceholder')}
                   />
+                  <p className="admin-meta">Se guarda automaticamente al agregar, editar o eliminar un chip.</p>
                 </div>
                 <div className="admin-encuentros-side">
                   <ChipListField
                     label={t('admin.content.encuentrosPresencialFeatureOptionsLabel')}
                     description={t('admin.content.encuentrosChipsDescription')}
                     items={draft.encuentrosPresencialFeatureOptions}
-                    onChange={(value) => setDraftValue(['encuentrosPresencialFeatureOptions'], value)}
+                    onChange={(value) =>
+                      void persistDraftValue(
+                        ['encuentrosPresencialFeatureOptions'],
+                        value,
+                        'Features presenciales guardadas.',
+                      )
+                    }
                     placeholder={t('admin.content.chipInputPlaceholder')}
                   />
+                  <p className="admin-meta">Se guarda automaticamente al agregar, editar o eliminar un chip.</p>
                 </div>
               </div>
             ) : null}

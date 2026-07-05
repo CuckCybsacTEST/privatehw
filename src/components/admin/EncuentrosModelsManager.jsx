@@ -512,6 +512,12 @@ function createDraftFromModel(model = null, fallbackContent = null) {
       }
     : {
         ...content,
+        encuentrosExtraOptions:
+          fallbackContent?.encuentrosExtraOptions || content.encuentrosExtraOptions || EXTRA_OPTIONS_PLACEHOLDER,
+        encuentrosPresencialFeatureOptions:
+          fallbackContent?.encuentrosPresencialFeatureOptions ||
+          content.encuentrosPresencialFeatureOptions ||
+          PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER,
         whatsappPhone:
           content.whatsappPhone ||
           extractWhatsAppPhoneFromUrl(content.whatsappUrl || '') ||
@@ -628,21 +634,32 @@ export function EncuentrosModelsManager() {
     () => normalizeStringList(content.extraItems || []),
     [content.extraItems],
   )
+  const globalExtraOptions = useMemo(
+    () => normalizeStringList(siteContent.encuentrosExtraOptions || EXTRA_OPTIONS_PLACEHOLDER),
+    [siteContent.encuentrosExtraOptions],
+  )
+  const globalPresencialFeatureOptions = useMemo(
+    () =>
+      normalizeStringList(
+        siteContent.encuentrosPresencialFeatureOptions || PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER,
+      ),
+    [siteContent.encuentrosPresencialFeatureOptions],
+  )
   const extraOptions = useMemo(
     () =>
       normalizeStringList([
-        ...(content.encuentrosExtraOptions || EXTRA_OPTIONS_PLACEHOLDER),
+        ...globalExtraOptions,
         ...selectedExtraItems,
       ]),
-    [content.encuentrosExtraOptions, selectedExtraItems],
+    [globalExtraOptions, selectedExtraItems],
   )
   const presencialFeatureOptions = useMemo(
     () =>
       normalizeStringList([
-        ...(content.encuentrosPresencialFeatureOptions || PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER),
+        ...globalPresencialFeatureOptions,
         ...selectedPresencialFeatures,
       ]),
-    [content.encuentrosPresencialFeatureOptions, selectedPresencialFeatures],
+    [globalPresencialFeatureOptions, selectedPresencialFeatures],
   )
   const counts = useMemo(
     () => ({
@@ -891,6 +908,8 @@ export function EncuentrosModelsManager() {
         : String(draft.content?.whatsappUrl || '').trim()
       const nextContent = mergeSiteContent({
         ...draft.content,
+        encuentrosExtraOptions: globalExtraOptions,
+        encuentrosPresencialFeatureOptions: globalPresencialFeatureOptions,
         extraFromLabel: 'desde',
         topCarouselImages: nextGallerySlides,
         bottomCarouselImages: nextGallerySlides,

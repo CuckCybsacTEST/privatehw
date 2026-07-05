@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai'
+import { AiOutlineDislike, AiOutlineLeft, AiOutlineLike, AiOutlineRight } from 'react-icons/ai'
 import { AiOutlineLock } from 'react-icons/ai'
 import { HiOutlineShieldCheck } from 'react-icons/hi'
 import { useTranslation } from 'react-i18next'
@@ -71,6 +71,10 @@ function GalleryReactionControls({
   )
 }
 
+function isGeneratedGalleryLabel(value = '') {
+  return /^galeria\s+\d+$/i.test(String(value || '').trim())
+}
+
 export function EncuentrosGalleryModal({
   open = false,
   images = [],
@@ -87,7 +91,10 @@ export function EncuentrosGalleryModal({
   const { session } = useAppState()
   const location = useLocation()
   const previousActiveElementRef = useRef(null)
-  const [previewSlide, setPreviewSlide] = useState(null)
+  const previewTouchStartXRef = useRef(0)
+  const previewTouchDeltaXRef = useRef(0)
+  const previewIndexRef = useRef(-1)
+  const [previewIndex, setPreviewIndex] = useState(-1)
 
   const slides = useMemo(
     () => normalizeEncounterGallerySlides(images),
@@ -95,6 +102,20 @@ export function EncuentrosGalleryModal({
   )
   const isViewerLocked = !session?.accessToken
   const unlockHref = `/access?redirect=${encodeURIComponent(`${location.pathname}${location.search || ''}`)}`
+  const previewSlide = previewIndex >= 0 ? slides[previewIndex] || null : null
+  const previewLabel = useMemo(() => {
+    if (!previewSlide) {
+      return ''
+    }
+
+    const caption = String(previewSlide.caption || '').trim()
+    if (caption) {
+      return caption
+    }
+
+    const alt = String(previewSlide.alt || '').trim()
+    return isGeneratedGalleryLabel(alt) ? '' : alt
+  }, [previewSlide])
   const totalLikes = useMemo(
     () =>
       slides.reduce((sum, slide) => {
@@ -103,6 +124,10 @@ export function EncuentrosGalleryModal({
       }, 0),
     [reactionCounts, slides],
   )
+
+  useEffect(() => {
+    previewIndexRef.current = previewIndex
+  }, [previewIndex])
 
   useEffect(() => {
     if (!open || typeof document === 'undefined') {
@@ -115,12 +140,34 @@ export function EncuentrosGalleryModal({
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
+        if (previewIndexRef.current >= 0) {
+          setPreviewIndex(-1)
+          return
+        }
         onClose?.()
+      }
+
+      if (previewIndexRef.current < 0) {
+        return
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        setPreviewIndex((current) => (current <= 0 ? slides.length - 1 : current - 1))
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        setPreviewIndex((current) => (current >= slides.length - 1 ? 0 : current + 1))
+      }
+
+      if ((event.ctrlKey || event.metaKey) && ['s', 'S', 'p', 'P'].includes(event.key)) {
+        event.preventDefault()
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
-    setPreviewSlide(null)
+    setPreviewIndex(-1)
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
@@ -130,7 +177,52 @@ export function EncuentrosGalleryModal({
         previousActiveElement.focus()
       }
     }
-  }, [open, onClose])
+  }, [open, onClose, slides.length])
+
+  function preventAssetSave(event) {
+    event.preventDefault()
+  }
+
+  function openPreviewAt(index) {
+    setPreviewIndex(index)
+  }
+
+  function closePreview() {
+    setPreviewIndex(-1)
+  }
+
+  function showPreviousPreview() {
+    setPreviewIndex((current) => (current <= 0 ? slides.length - 1 : current - 1))
+  }
+
+  function showNextPreview() {
+    setPreviewIndex((current) => (current >= slides.length - 1 ? 0 : current + 1))
+  }
+
+  function handlePreviewTouchStart(event) {
+    previewTouchStartXRef.current = event.touches?.[0]?.clientX || 0
+    previewTouchDeltaXRef.current = 0
+  }
+
+  function handlePreviewTouchMove(event) {
+    const currentX = event.touches?.[0]?.clientX || 0
+    previewTouchDeltaXRef.current = currentX - previewTouchStartXRef.current
+  }
+
+  function handlePreviewTouchEnd() {
+    const deltaX = previewTouchDeltaXRef.current
+
+    if (Math.abs(deltaX) < 44) {
+      return
+    }
+
+    if (deltaX > 0) {
+      showPreviousPreview()
+      return
+    }
+
+    showNextPreview()
+  }
 
   if (!open) {
     return null
@@ -197,7 +289,14 @@ export function EncuentrosGalleryModal({
                         to={unlockHref}
                         aria-label={t('access.login', 'Foto bloqueada. Inicia sesion para desbloquear.')}
                       >
-                        <img src={slide.src} alt={slide.alt} loading="lazy" />
+                        <img
+                          src={slide.src}
+                          alt={slide.alt}
+                          loading="lazy"
+                          draggable="false"
+                          onContextMenu={preventAssetSave}
+                          onDragStart={preventAssetSave}
+                        />
                         <span className="encuentros-gallery-modal-thumb-lock">
                           <span className="encuentros-gallery-modal-thumb-lock-icon" aria-hidden="true">
                             <AiOutlineLock aria-hidden="true" />
@@ -212,10 +311,17 @@ export function EncuentrosGalleryModal({
                       <button
                         type="button"
                         className="encuentros-gallery-modal-thumb-open"
-                        onClick={() => setPreviewSlide(slide)}
+                        onClick={() => openPreviewAt(index)}
                         aria-label={t('encuentros.galleryPreview')}
                       >
-                        <img src={slide.src} alt={slide.alt} loading={index < 2 ? 'eager' : 'lazy'} />
+                        <img
+                          src={slide.src}
+                          alt={slide.alt}
+                          loading={index < 2 ? 'eager' : 'lazy'}
+                          draggable="false"
+                          onContextMenu={preventAssetSave}
+                          onDragStart={preventAssetSave}
+                        />
                       </button>
                     )}
 
@@ -247,27 +353,64 @@ export function EncuentrosGalleryModal({
         </div>
 
         {previewSlide ? (
-          <div className="encuentros-gallery-modal-preview" role="presentation" onClick={() => setPreviewSlide(null)}>
+          <div className="encuentros-gallery-modal-preview" role="presentation" onClick={closePreview}>
             <figure
               className="encuentros-gallery-modal-preview-frame"
               role="dialog"
               aria-modal="true"
               aria-label={previewSlide.alt}
               onClick={(event) => event.stopPropagation()}
+              onTouchStart={handlePreviewTouchStart}
+              onTouchMove={handlePreviewTouchMove}
+              onTouchEnd={handlePreviewTouchEnd}
             >
-              <button
-                type="button"
-                className="encuentros-gallery-modal-preview-close"
-                onClick={() => setPreviewSlide(null)}
-                aria-label={t('encuentros.galleryClosePreview')}
-              >
-                &times;
-              </button>
-              <img src={previewSlide.src} alt={previewSlide.alt} />
+              <div className="encuentros-gallery-modal-preview-topbar">
+                <button
+                  type="button"
+                  className="encuentros-gallery-modal-preview-close"
+                  onClick={closePreview}
+                  aria-label={t('encuentros.galleryClosePreview')}
+                >
+                  &times;
+                </button>
+              </div>
+              {slides.length > 1 ? (
+                <div className="encuentros-gallery-modal-preview-stage-nav" aria-hidden="true">
+                  <button
+                    type="button"
+                    className="encuentros-gallery-modal-preview-nav is-prev"
+                    onClick={showPreviousPreview}
+                    aria-label={t('encuentros.galleryPrevious', 'Foto anterior')}
+                  >
+                    <AiOutlineLeft aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="encuentros-gallery-modal-preview-nav is-next"
+                    onClick={showNextPreview}
+                    aria-label={t('encuentros.galleryNext', 'Siguiente foto')}
+                  >
+                    <AiOutlineRight aria-hidden="true" />
+                  </button>
+                </div>
+              ) : null}
+              <div className="encuentros-gallery-modal-preview-watermark" aria-hidden="true">
+                <span>{title || t('encuentros.galleryTitle')}</span>
+              </div>
+              <img
+                src={previewSlide.src}
+                alt={previewSlide.alt}
+                draggable="false"
+                onContextMenu={preventAssetSave}
+                onDragStart={preventAssetSave}
+              />
 
               <div className="encuentros-gallery-modal-preview-footer">
                 <div className="encuentros-gallery-modal-preview-copy">
-                  <span>{previewSlide.caption || previewSlide.alt}</span>
+                  {previewLabel ? <span>{previewLabel}</span> : null}
+                  {slides.length > 1 ? (
+                    <small>{`${previewIndex + 1} / ${slides.length}`}</small>
+                  ) : null}
                 </div>
                 <GalleryReactionControls
                   photoId={previewSlide.id}

@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
-    "mtime": 1783032347.1431997,
-    "ast_hash": "40f63d87a027bef51d858a4526c52913",
+    "mtime": 1783217982.866888,
+    "ast_hash": "feb8ae32743deddb3dc147ea26d81a7a",
     "semantic_hash": ""
   },
   "src/pages/AdminLoginPage.jsx": {
@@ -570,8 +570,8 @@
     "semantic_hash": ""
   },
   "src/components/admin/EncuentrosModelsManager.jsx": {
-    "mtime": 1783203954.0990534,
-    "ast_hash": "21ec0f2c64ede0c4c8967331c884b377",
+    "mtime": 1783208720.5124762,
+    "ast_hash": "d6663ed37127cdc2918ffc0ef80f9498",
     "semantic_hash": ""
   },
   "src/utils/encuentrosModels.js": {

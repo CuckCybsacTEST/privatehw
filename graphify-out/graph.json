@@ -1140,7 +1140,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "server_index_normalizebearertoken",
-      "community": 2,
+      "community": 49,
       "norm_label": "normalizebearertoken()"
     },
     {
@@ -1280,7 +1280,7 @@
       "source_location": "L448",
       "_origin": "ast",
       "id": "server_index_getauthenticateduser",
-      "community": 2,
+      "community": 49,
       "norm_label": "getauthenticateduser()"
     },
     {
@@ -1390,7 +1390,7 @@
       "source_location": "L649",
       "_origin": "ast",
       "id": "server_index_logadminauditevent",
-      "community": 40,
+      "community": 42,
       "norm_label": "logadminauditevent()"
     },
     {
@@ -1400,7 +1400,7 @@
       "source_location": "L676",
       "_origin": "ast",
       "id": "server_index_createorupdateorder",
-      "community": 49,
+      "community": 42,
       "norm_label": "createorupdateorder()"
     },
     {
@@ -1500,7 +1500,7 @@
       "source_location": "L1163",
       "_origin": "ast",
       "id": "server_index_handlecheckoutcompleted",
-      "community": 49,
+      "community": 42,
       "norm_label": "handlecheckoutcompleted()"
     },
     {
@@ -3747,7 +3747,7 @@
       "label": "ModelCard()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L531",
+      "source_location": "L537",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_modelcard",
       "community": 0,
@@ -3757,7 +3757,7 @@
       "label": "SectionTitle()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L585",
+      "source_location": "L591",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_sectiontitle",
       "community": 0,
@@ -3767,7 +3767,7 @@
       "label": "EncuentrosModelsManager()",
       "file_type": "code",
       "source_file": "src/components/admin/EncuentrosModelsManager.jsx",
-      "source_location": "L597",
+      "source_location": "L603",
       "_origin": "ast",
       "id": "admin_encuentrosmodelsmanager_encuentrosmodelsmanager",
       "community": 0,
@@ -5307,7 +5307,7 @@
       "label": "UsersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3161",
+      "source_location": "L3197",
       "_origin": "ast",
       "id": "pages_admindashboardpage_userseditor",
       "community": 1,
@@ -5317,7 +5317,7 @@
       "label": "PhysicalOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3710",
+      "source_location": "L3746",
       "_origin": "ast",
       "id": "pages_admindashboardpage_physicalorderseditor",
       "community": 1,
@@ -5327,7 +5327,7 @@
       "label": "ReservationOrdersEditor()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3792",
+      "source_location": "L3828",
       "_origin": "ast",
       "id": "pages_admindashboardpage_reservationorderseditor",
       "community": 1,
@@ -5337,7 +5337,7 @@
       "label": "AdminDashboardPage()",
       "file_type": "code",
       "source_file": "src/pages/AdminDashboardPage.jsx",
-      "source_location": "L3864",
+      "source_location": "L3900",
       "_origin": "ast",
       "id": "pages_admindashboardpage_admindashboardpage",
       "community": 1,
@@ -25069,9 +25069,9 @@
       "source_file": "src/pages/ProfilePage.jsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_profilepage",
-      "target": "pages_profilepage_getencounternavtonestyles",
-      "confidence_score": 1.0
+      "target": "pages_profilepage_getencounternavtonestyles"
     },
     {
       "relation": "contains",
@@ -25210,9 +25210,9 @@
       "source_file": "src/pages/ProfilePage.jsx",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_profilepage_profilepage",
-      "target": "pages_profilepage_getencounternavtonestyles",
-      "confidence_score": 1.0
+      "target": "pages_profilepage_getencounternavtonestyles"
     },
     {
       "relation": "calls",
@@ -28630,5 +28630,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "565db83940b6bb91741aebc15323efcb9e214edf"
+  "built_at_commit": "6b17f59b321ac1eed06a232f8eac555e964a60fb"
 }
