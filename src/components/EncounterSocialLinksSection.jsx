@@ -82,7 +82,7 @@ export function EncounterSocialLinksSection({
       ) : null}
 
       <div className="encuentros-social-links-grid" role="list" aria-label={title || t('encuentros.socialNetworks', 'Redes sociales')}>
-        {normalizedLinks.map((link) => {
+        {normalizedLinks.map((link, index) => {
           const networkKey = link.network
           const Icon = getSocialLinkIconComponent(networkKey)
           const isClickable = !isLocked
@@ -90,7 +90,7 @@ export function EncounterSocialLinksSection({
 
           return (
             <CardTag
-              key={`${networkKey}-${link.url}`}
+              key={`${networkKey}-${link.url}-${index}`}
               className={`encuentros-social-link-card is-${networkKey}${isLocked ? ' is-locked' : ''}`}
               role="listitem"
               {...(isClickable
