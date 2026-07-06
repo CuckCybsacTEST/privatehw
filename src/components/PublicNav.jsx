@@ -189,10 +189,10 @@ export function PublicNav() {
     <>
       <header className="public-nav" aria-label="Navegacion principal">
         <Link className="public-brand public-nav-brandcard" to="/">
-          <span className="public-brand-mark">SM</span>
+          <span className="public-brand-mark">K</span>
           <span className="public-brand-copy">
-            <strong>Sindy Mireya</strong>
-            <small>Hotwife</small>
+            <strong>Kinkly</strong>
+            <small>Directorio</small>
           </span>
         </Link>
 

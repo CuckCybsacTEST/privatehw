@@ -22,7 +22,9 @@ import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { EncounterSocialLinksSection } from '../components/EncounterSocialLinksSection'
 import { EncuentrosBookingWizardModal } from '../components/EncuentrosBookingWizardModal'
 import { EncuentrosGalleryModal } from '../components/EncuentrosGalleryModal'
-import { fetchEncuentrosBookingPricing, fetchEncuentrosModel } from '../lib/supabase'
+import { Seo } from '../components/Seo'
+import { EncounterCatalogCard } from '../components/EncounterCatalogCard'
+import { fetchEncuentrosBookingPricing, fetchEncuentrosModel, fetchEncuentrosModels } from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 import {
   buildBookingDays,
@@ -44,6 +46,7 @@ import {
   normalizeSocialNetworkValue,
   buildWhatsAppChatUrl,
 } from '../utils/socialNetworks'
+import { buildCatalogCombinedFacetPath, buildCatalogFacetPath, getCatalogModelDetails } from '../utils/encuentrosCatalog'
 
 function parsePriceValue(value) {
   const parsed = Number.parseFloat(String(value || '').replace(/[^\d.,]/g, '').replace(',', '.'))
@@ -322,6 +325,7 @@ export function EncuentrosPage() {
   const [recordingChoice, setRecordingChoice] = useState('standard')
   const [error, setError] = useState('')
   const [isDatesModalOpen, setIsDatesModalOpen] = useState(false)
+  const [allModels, setAllModels] = useState([])
   const pageContent = model?.content || siteContent
   const booking = pageContent.encuentrosBooking || {}
   const modelSlug = model?.slug || slug || ''
@@ -382,6 +386,15 @@ export function EncuentrosPage() {
     'avatarUrl',
     'profilePhotoUrl',
   ])
+  const pageSeoDescription =
+    getProfileTextValue(pageContent, [
+      'profileDescription',
+      'heroDescription',
+      'presencialDescription',
+      'extraLead',
+    ]) ||
+    booking.description ||
+    t('encuentros.bookingPageIntro')
   const profileAvatarInitials = getInitialsFromName(modelDisplayName || profileTopBadge || 'M')
   const recordsEncounters = Boolean(
     pageContent.recordsEncounters ?? pageContent.recordingEnabled ?? false,
@@ -447,8 +460,27 @@ export function EncuentrosPage() {
     () =>
       [
         profileAge ? { key: 'age', label: `${profileAge} años` } : null,
-        profileCity ? { key: 'city', label: profileCity } : null,
-        !profileCity && profileNationality ? { key: 'nationality', label: profileNationality } : null,
+        profileCity
+          ? {
+              key: 'city',
+              label: profileCity,
+              href: buildCatalogFacetPath('city', profileCity),
+            }
+          : null,
+        profileNationality
+          ? {
+              key: 'nationality',
+              label: profileNationality,
+              href: buildCatalogFacetPath('nationality', profileNationality),
+            }
+          : null,
+        profileCity && profileNationality
+          ? {
+              key: 'city-nationality',
+              label: `${profileCity} / ${profileNationality}`,
+              href: buildCatalogCombinedFacetPath({ city: profileCity, nationality: profileNationality }),
+            }
+          : null,
         profileRelationshipStatus
           ? { key: 'relationship', label: profileRelationshipStatus, tone: 'relationship' }
           : null,
@@ -460,6 +492,33 @@ export function EncuentrosPage() {
       ].filter(Boolean),
     [profileAge, profileAttendanceModes, profileCity, profileNationality, profileRelationshipStatus],
   )
+  const relatedModels = useMemo(() => {
+    const currentSlug = String(modelSlug || '').trim()
+    const currentCity = String(profileCity || '').trim().toLowerCase()
+    const currentNationality = String(profileNationality || '').trim().toLowerCase()
+
+    return (Array.isArray(allModels) ? allModels : [])
+      .filter((candidate) => candidate && candidate.slug && candidate.slug !== currentSlug)
+      .map((candidate) => ({
+        ...candidate,
+        details: getCatalogModelDetails(candidate),
+      }))
+      .filter((candidate) => {
+        const candidateCity = String(candidate.details.city || '').trim().toLowerCase()
+        const candidateNationality = String(candidate.details.nationality || '').trim().toLowerCase()
+
+        if (currentCity && candidateCity === currentCity) {
+          return true
+        }
+
+        if (currentNationality && candidateNationality === currentNationality) {
+          return true
+        }
+
+        return false
+      })
+      .slice(0, 3)
+  }, [allModels, modelSlug, profileCity, profileNationality])
   const [galleryReactionCounts, setGalleryReactionCounts] = useState({})
   const [galleryReactionVotes, setGalleryReactionVotes] = useState(() => readGalleryReactionState())
   const galleryVisitorKey = useMemo(() => getOrCreateGalleryVisitorKey(), [])
@@ -504,6 +563,26 @@ export function EncuentrosPage() {
       isCancelled = true
     }
   }, [slug, t])
+
+  useEffect(() => {
+    let isCancelled = false
+
+    fetchEncuentrosModels()
+      .then((items) => {
+        if (!isCancelled) {
+          setAllModels(Array.isArray(items) ? items : [])
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setAllModels([])
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     let isCancelled = false
@@ -777,6 +856,12 @@ export function EncuentrosPage() {
   if (modelLoading) {
     return (
       <main className="creator-home encuentros-page encuentros-page-loading">
+        <Seo
+          title="Kinkly | Encuentros"
+          description={pageSeoDescription}
+          canonicalPath="/encuentros"
+          noindex
+        />
         <AtmosphericBackdrop
           variant="premium"
           intensity="soft"
@@ -799,6 +884,12 @@ export function EncuentrosPage() {
   if (slug && modelError && !model) {
     return (
       <main className="creator-home encuentros-page encuentros-page-loading">
+        <Seo
+          title="Kinkly | Encuentros"
+          description={pageSeoDescription}
+          canonicalPath={`/encuentros/${slug}`}
+          noindex
+        />
         <AtmosphericBackdrop
           variant="premium"
           intensity="soft"
@@ -825,6 +916,11 @@ export function EncuentrosPage() {
 
   return (
     <main className="encuentros-page-modern encuentros-screen">
+      <Seo
+        title={`${modelDisplayName} | Kinkly | Encuentros`}
+        description={pageSeoDescription}
+        canonicalPath={`/encuentros/${modelSlug}`}
+      />
       <AtmosphericBackdrop
         variant="premium"
         intensity="soft"
@@ -909,18 +1005,34 @@ export function EncuentrosPage() {
           {profileSummary.length ? (
             <div className="encuentros-screen-profile-metadata" aria-label={t('encuentros.profileSummary', 'Perfil')}>
               {profileSummary.map((item) => (
-                <span
-                  className={
-                    item.tone === 'relationship'
-                      ? 'encuentros-screen-profile-chip is-relationship'
-                      : item.tone === 'attendance'
-                        ? 'encuentros-screen-profile-chip is-attendance'
-                        : 'encuentros-screen-profile-chip'
-                  }
-                  key={item.key}
-                >
-                  {item.label}
-                </span>
+                item.href ? (
+                  <Link
+                    key={item.key}
+                    className={
+                      item.tone === 'relationship'
+                        ? 'encuentros-screen-profile-chip is-relationship'
+                        : item.tone === 'attendance'
+                          ? 'encuentros-screen-profile-chip is-attendance'
+                          : 'encuentros-screen-profile-chip'
+                    }
+                    to={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    className={
+                      item.tone === 'relationship'
+                        ? 'encuentros-screen-profile-chip is-relationship'
+                        : item.tone === 'attendance'
+                          ? 'encuentros-screen-profile-chip is-attendance'
+                          : 'encuentros-screen-profile-chip'
+                    }
+                    key={item.key}
+                  >
+                    {item.label}
+                  </span>
+                )
               ))}
             </div>
           ) : null}
@@ -1063,6 +1175,28 @@ export function EncuentrosPage() {
           className="encuentros-screen-social-section"
           showTitle={false}
         />
+
+        {relatedModels.length ? (
+          <section className="encuentros-screen-related-section" aria-labelledby="encuentros-related-title">
+            <div className="section-heading">
+              <p className="section-kicker">Relacionadas</p>
+              <h2 id="encuentros-related-title">
+                {profileCity ? `Otras modelos en ${profileCity}` : 'Otras modelos similares'}
+              </h2>
+              <p>
+                {profileCity
+                  ? `Perfiles del mismo entorno para reforzar el cluster de ciudad y continuar la navegacion.`
+                  : 'Perfiles cercanos por nacionalidad para expandir la navegacion interna.'}
+              </p>
+            </div>
+
+            <div className="encuentros-catalog-grid encuentros-screen-related-grid">
+              {relatedModels.map((candidate) => (
+                <EncounterCatalogCard key={candidate.slug} model={candidate} />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="encuentros-screen-actions" aria-label={t('encuentros.bookingWizardTitle')}>
           {hasGalleryImages ? (

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { Seo } from '../components/Seo'
 import { useAppState } from '../state/AppState'
 import { AiFillX } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
@@ -108,6 +109,12 @@ export function AccessPage() {
 
   return (
     <main className="access-auth-page">
+      <Seo
+        title="Acceso | Kinkly"
+        description="Inicio de sesion, registro y acceso al area privada."
+        canonicalPath="/access"
+        noindex
+      />
       <section className="access-auth-shell">
         <div className="access-auth-card">
           <div className="access-auth-topbar">

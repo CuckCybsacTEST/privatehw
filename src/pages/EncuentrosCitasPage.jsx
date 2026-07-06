@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { EncuentrosBookingWizardModal } from '../components/EncuentrosBookingWizardModal'
+import { Seo } from '../components/Seo'
 import { fetchEncuentrosBookingPricing, fetchEncuentrosModel } from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 import {
@@ -157,6 +158,12 @@ export function EncuentrosCitasPage() {
 
   return (
     <main className="creator-home encuentros-citas-page">
+      <Seo
+        title={`${booking.bookingPageTitle || t('encuentros.bookingPageTitle')} | Kinkly`}
+        description={booking.bookingPageIntro || t('encuentros.bookingPageIntro')}
+        canonicalPath={slug ? `/encuentros/${slug}/citas` : '/encuentros/citas'}
+        noindex={!slug || Boolean(modelError)}
+      />
       <AtmosphericBackdrop
         variant="editorial"
         intensity="soft"

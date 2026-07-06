@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CollectionCard } from '../components/CollectionCard'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
@@ -13,6 +14,11 @@ export function CollectionCatalogPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title={`${videoCollections.title} | Kinkly`}
+        description={videoCollections.description}
+        canonicalPath="/packs"
+      />
       <PublicNav />
       <section className="content-listing-page">
         <Link className="content-back-link" to="/">

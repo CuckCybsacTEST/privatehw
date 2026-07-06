@@ -1,176 +1,27 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { AiOutlineFlag, AiOutlinePicture, AiOutlineRight, AiOutlineUser } from 'react-icons/ai'
-import { HiOutlineLocationMarker, HiOutlineShieldCheck } from 'react-icons/hi'
+import { HiOutlineShieldCheck } from 'react-icons/hi'
+import { Seo } from '../components/Seo'
+import { EncounterCatalogCard } from '../components/EncounterCatalogCard'
 import { fetchEncuentrosModels } from '../lib/supabase'
-
-function normalizeMediaUrl(src = '') {
-  const value = String(src || '').trim()
-
-  if (!value) {
-    return ''
-  }
-
-  if (/^(https?:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('/')) {
-    return value
-  }
-
-  return `/${value.replace(/^\/+/, '')}`
-}
-
-function collectModelImages(content = {}) {
-  const pools = [
-    content.profileGalleryImages,
-    content.galleryImages,
-    content.topCarouselImages,
-    content.bottomCarouselImages,
-  ]
-
-  const images = []
-
-  pools.forEach((pool) => {
-    if (!Array.isArray(pool)) {
-      return
-    }
-
-    pool.forEach((item) => {
-      const src = normalizeMediaUrl(
-        typeof item === 'string' ? item : item?.src || item?.image || item?.url || '',
-      )
-
-      if (src) {
-        images.push(src)
-      }
-    })
-  })
-
-  return Array.from(new Set(images))
-}
-
-function getFirstTextValue(source = {}, keys = []) {
-  for (const key of keys) {
-    const value = source?.[key]
-
-    if (typeof value === 'string' && value.trim()) {
-      return value.trim()
-    }
-
-    if (Number.isFinite(value) && value !== 0) {
-      return String(value)
-    }
-  }
-
-  return ''
-}
-
-function getTopBadgeLabel(content = {}) {
-  const raw =
-    content.profileTopBadge ??
-    content.topBadge ??
-    content.badgeTop ??
-    content.isTop ??
-    content.featured ??
-    ''
-
-  if (typeof raw === 'string' && raw.trim()) {
-    return raw.trim()
-  }
-
-  return raw ? 'Top' : ''
-}
-
-function ProfileMetaLine({ icon: Icon, label }) {
-  if (!label) {
-    return null
-  }
-
-  return (
-    <div className="encuentros-catalog-card-meta-row">
-      <Icon aria-hidden="true" />
-      <span>{label}</span>
-    </div>
-  )
-}
-
-function CatalogCard({ model }) {
-  const content = model?.content || {}
-  const booking = content.encuentrosBooking || {}
-  const title = String(model?.displayName || content.heroTitle || model?.slug || 'Modelo').trim()
-  const description =
-    getFirstTextValue(content, [
-      'profileDescription',
-      'heroDescription',
-      'presencialDescription',
-      'extraLead',
-    ]) ||
-    getFirstTextValue(booking, ['description']) ||
-    'Perfil disponible en el catalogo.'
-  const age = getFirstTextValue(content, ['profileAge', 'age', 'edad'])
-  const location = getFirstTextValue(content, ['profileCity', 'profileLocation', 'location', 'ubicacion'])
-  const nationality = getFirstTextValue(content, ['profileNationality', 'nationality', 'pais'])
-  const images = useMemo(() => collectModelImages(content), [content])
-  const photoCount = images.length
-  const coverImage = images[0] || normalizeMediaUrl(content.profileCoverImage || content.coverImage || '')
-  const topBadge = getTopBadgeLabel(content)
-  const profileHref = `/encuentros/${encodeURIComponent(model?.slug || '')}`
-
-  return (
-    <article className="encuentros-catalog-card">
-      <Link className="encuentros-catalog-card-media" to={profileHref} aria-label={`Abrir perfil de ${title}`}>
-        {coverImage ? (
-          <img src={coverImage} alt={title} loading="lazy" />
-        ) : (
-          <div className="encuentros-catalog-card-empty">
-            <AiOutlinePicture aria-hidden="true" />
-          </div>
-        )}
-
-        {photoCount ? (
-          <span className="encuentros-catalog-card-photo-badge">
-            <AiOutlinePicture aria-hidden="true" />
-            <span>{photoCount}</span>
-          </span>
-        ) : null}
-      </Link>
-
-      <div className="encuentros-catalog-card-body">
-        {topBadge ? (
-          <span className="encuentros-catalog-card-top-badge">
-            <HiOutlineShieldCheck aria-hidden="true" />
-            <span>{topBadge}</span>
-          </span>
-        ) : null}
-
-        <div className="encuentros-catalog-card-copy">
-          <h2 className="encuentros-catalog-card-title">
-            <Link to={profileHref}>{title}</Link>
-          </h2>
-          <p className="encuentros-catalog-card-description">{description}</p>
-        </div>
-
-        <div className="encuentros-catalog-card-facts" aria-label={`Datos de ${title}`}>
-          <ProfileMetaLine icon={AiOutlineUser} label={age} />
-          <ProfileMetaLine icon={HiOutlineLocationMarker} label={location} />
-          <ProfileMetaLine icon={AiOutlineFlag} label={nationality} />
-        </div>
-
-        <div className="encuentros-catalog-card-actions">
-          <Link className="encuentros-catalog-card-button" to={profileHref}>
-            <span>Ver perfil</span>
-            <AiOutlineRight aria-hidden="true" />
-          </Link>
-        </div>
-      </div>
-    </article>
-  )
-}
+import {
+  buildCatalogCanonicalPath,
+  buildCatalogFacetOptions,
+  buildCatalogFacetPath,
+  filterCatalogModels,
+  hasCatalogFilters,
+  parseCatalogFilters,
+  slugifyCatalogValue,
+} from '../utils/encuentrosCatalog'
 
 export function EncuentrosCatalogPage() {
   const { t } = useTranslation()
   const [models, setModels] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const filters = useMemo(() => parseCatalogFilters(searchParams), [searchParams])
 
   useEffect(() => {
     let cancelled = false
@@ -202,14 +53,54 @@ export function EncuentrosCatalogPage() {
   }, [])
 
   const pageTitle = t('nav.encuentros', 'Encuentros')
-  const visibleModels = useMemo(
-    () => models.filter((model) => model && model.slug),
-    [models],
+  const canonicalPath = buildCatalogCanonicalPath(filters, '/encuentros')
+  const visibleModels = useMemo(() => models.filter((model) => model && model.slug), [models])
+  const facetOptions = useMemo(() => buildCatalogFacetOptions(visibleModels), [visibleModels])
+  const filteredModels = useMemo(
+    () => filterCatalogModels(visibleModels, filters),
+    [filters, visibleModels],
   )
+  const isFiltered = hasCatalogFilters(filters)
+
+  function updateFilters(patch = {}) {
+    const next = new URLSearchParams(searchParams)
+
+    Object.entries({
+      q: patch.query ?? filters.query,
+      city: patch.city ?? filters.city,
+      nationality: patch.nationality ?? filters.nationality,
+      age: patch.age ?? filters.age,
+      relationshipStatus: patch.relationshipStatus ?? filters.relationshipStatus,
+      attendance: patch.attendance ?? filters.attendance,
+    }).forEach(([key, value]) => {
+      if (String(value || '').trim()) {
+        next.set(key, String(value).trim())
+      } else {
+        next.delete(key)
+      }
+    })
+
+    setSearchParams(next, { replace: true })
+  }
+
+  function clearFilters() {
+    setSearchParams({}, { replace: true })
+  }
+
+  function facetHref(type, value) {
+    return buildCatalogFacetPath(type, value)
+  }
 
   return (
     <main className="encuentros-catalog-page">
       <div className="encuentros-catalog-shell">
+        <Seo
+          title="Kinkly | Encuentros"
+          description="Catalogo de perfiles con URLs publicas, tarjetas compactas y acceso directo al perfil."
+          canonicalPath={canonicalPath}
+          noindex={isFiltered}
+        />
+
         <header className="encuentros-catalog-header">
           <span className="encuentros-catalog-kicker">
             <HiOutlineShieldCheck aria-hidden="true" />
@@ -220,6 +111,96 @@ export function EncuentrosCatalogPage() {
             Tarjetas compactas por modelo, con su propia URL publica y acceso directo al perfil.
           </p>
         </header>
+
+        <section className="catalog-home-section">
+          <div className="catalog-home-chip-row">
+            {filters.city ? <span className="catalog-home-filter-chip is-static">Ciudad: {filters.city}</span> : null}
+            {filters.nationality ? (
+              <span className="catalog-home-filter-chip is-static">Nacionalidad: {filters.nationality}</span>
+            ) : null}
+            {filters.relationshipStatus ? (
+              <span className="catalog-home-filter-chip is-static">Estado: {filters.relationshipStatus}</span>
+            ) : null}
+            {filters.attendance ? (
+              <span className="catalog-home-filter-chip is-static">Presencia: {filters.attendance}</span>
+            ) : null}
+            {(filters.city || filters.nationality || filters.relationshipStatus || filters.attendance) ? (
+              <button type="button" className="catalog-home-filter-chip" onClick={clearFilters}>
+                Limpiar filtros
+              </button>
+            ) : null}
+          </div>
+
+          <div className="catalog-home-filter-cluster">
+            <div className="catalog-home-filter-block">
+              <p className="catalog-home-filter-label">Ciudades</p>
+              <div className="catalog-home-chip-row">
+                {facetOptions.cities.slice(0, 12).map((city) => (
+                  <Link
+                    key={city}
+                    className={filters.city === city ? 'catalog-home-filter-chip is-active' : 'catalog-home-filter-chip'}
+                    to={facetHref('city', city)}
+                  >
+                    {city}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="catalog-home-filter-block">
+              <p className="catalog-home-filter-label">Nacionalidades</p>
+              <div className="catalog-home-chip-row">
+                {facetOptions.nationalities.slice(0, 12).map((nationality) => (
+                  <Link
+                    key={nationality}
+                    className={
+                      filters.nationality === nationality
+                        ? 'catalog-home-filter-chip is-active'
+                        : 'catalog-home-filter-chip'
+                    }
+                    to={facetHref('nationality', nationality)}
+                  >
+                    {nationality}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="catalog-home-filter-cluster">
+            <div className="catalog-home-filter-block">
+              <p className="catalog-home-filter-label">Busquedas rapidas</p>
+              <div className="catalog-home-chip-row">
+                {facetOptions.relationshipStatuses.slice(0, 8).map((status) => (
+                  <button
+                    key={status}
+                    type="button"
+                    className={
+                      filters.relationshipStatus === status
+                        ? 'catalog-home-filter-chip is-active'
+                        : 'catalog-home-filter-chip'
+                    }
+                    onClick={() => updateFilters({ relationshipStatus: filters.relationshipStatus === status ? '' : status })}
+                    aria-pressed={filters.relationshipStatus === status}
+                  >
+                    {status}
+                  </button>
+                ))}
+                {facetOptions.attendanceModes.slice(0, 6).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    className={filters.attendance === mode ? 'catalog-home-filter-chip is-active' : 'catalog-home-filter-chip'}
+                    onClick={() => updateFilters({ attendance: filters.attendance === mode ? '' : mode })}
+                    aria-pressed={filters.attendance === mode}
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {loading ? (
           <section className="encuentros-catalog-state" aria-live="polite">
@@ -242,19 +223,28 @@ export function EncuentrosCatalogPage() {
               </button>
             </article>
           </section>
-        ) : visibleModels.length ? (
+        ) : filteredModels.length ? (
           <section className="encuentros-catalog-grid" aria-label="Catalogo de modelos">
-            {visibleModels.map((model) => (
-              <CatalogCard key={model.slug} model={model} />
+            {filteredModels.map((model) => (
+              <EncounterCatalogCard key={model.slug} model={model} />
             ))}
           </section>
         ) : (
           <section className="encuentros-catalog-state" aria-live="polite">
             <article className="encuentros-catalog-state-card">
-              <p className="encuentros-catalog-state-title">Todavia no hay modelos publicados.</p>
-              <p className="encuentros-catalog-state-copy">
-                Cuando publiques modelos desde el panel, apareceran aqui como tarjetas compactas.
+              <p className="encuentros-catalog-state-title">
+                {visibleModels.length ? 'No hay coincidencias para ese filtro.' : 'Todavia no hay modelos publicados.'}
               </p>
+              <p className="encuentros-catalog-state-copy">
+                {visibleModels.length
+                  ? 'Prueba con otra ciudad o nacionalidad, o limpia los filtros para volver al catalogo completo.'
+                  : 'Cuando publiques modelos desde el panel, apareceran aqui como tarjetas compactas.'}
+              </p>
+              {visibleModels.length ? (
+                <button type="button" className="encuentros-catalog-state-button" onClick={clearFilters}>
+                  Ver todo el catalogo
+                </button>
+              ) : null}
             </article>
           </section>
         )}

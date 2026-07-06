@@ -7,7 +7,7 @@ import { useAppState } from '../state/AppState'
 export function HomePreviewTopBar() {
   const { session, siteContent } = useAppState()
   const { t } = useTranslation()
-  const telegramUrl = siteContent?.socialUrl || 'https://t.me/SindyHotwife'
+  const telegramUrl = siteContent?.socialUrl || 'https://t.me/Kinkly'
 
   return (
     <header className="home-topbar" aria-label="Barra superior">

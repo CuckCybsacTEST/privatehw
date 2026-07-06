@@ -1,4 +1,4 @@
-export const DEFAULT_ENCUENTROS_MODEL_SLUG = 'sindy-mireya'
+export const DEFAULT_ENCUENTROS_MODEL_SLUG = 'modelo-principal'
 
 export function getEncounterFallbackSlug(models = [], fallbackSlug = DEFAULT_ENCUENTROS_MODEL_SLUG) {
   const list = Array.isArray(models) ? models : []

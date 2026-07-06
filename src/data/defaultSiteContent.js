@@ -308,7 +308,7 @@ export const defaultSiteContent = {
     browseHref: '/videos',
     items: [
       {
-        slug: 'sindy-premium-01',
+        slug: 'premium-01',
         title: 'Premium Video 01',
         description:
           'Producto editorial base con preview, precio, duracion y CTA de compra.',
@@ -323,7 +323,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-02',
+        slug: 'premium-02',
         title: 'Premium Video 02',
         description:
           'Card preparada para video vertical, horizontal o clip exclusivo con poster.',
@@ -338,7 +338,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-03',
+        slug: 'premium-03',
         title: 'Premium Video 03',
         description:
           'Espacio listo para bundles, videos completos y previews optimizados.',
@@ -353,7 +353,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-04',
+        slug: 'premium-04',
         title: 'Premium Video 04',
         description:
           'Card adicional para ampliar el catalogo visible en desktop y sostener una experiencia mas completa desde la home.',
@@ -368,7 +368,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-05',
+        slug: 'premium-05',
         title: 'Premium Video 05',
         description:
           'Bloque listo para mantener variedad de formatos, temporadas y nuevos lanzamientos dentro del catalogo premium.',
@@ -383,7 +383,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-06',
+        slug: 'premium-06',
         title: 'Premium Video 06',
         description:
           'Espacio editorial para una sexta pieza visible en home y acceso a la libreria completa desde una ruta dedicada.',
@@ -398,7 +398,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-07',
+        slug: 'premium-07',
         title: 'Premium Video 07',
         description:
           'Placeholder adicional para pruebas de catalogo amplio, scroll y rotacion aleatoria en home.',
@@ -413,7 +413,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-08',
+        slug: 'premium-08',
         title: 'Premium Video 08',
         description:
           'Item de prueba para validar composicion de cards, pagina de catalogo y control total desde admin.',
@@ -428,7 +428,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-09',
+        slug: 'premium-09',
         title: 'Premium Video 09',
         description:
           'Contenido placeholder para una libreria mas extensa y una experiencia de browse mas realista.',
@@ -443,7 +443,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-10',
+        slug: 'premium-10',
         title: 'Premium Video 10',
         description:
           'Tarjeta placeholder pensada para validar densidad del grid y consistencia visual en desktop.',
@@ -458,7 +458,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-11',
+        slug: 'premium-11',
         title: 'Premium Video 11',
         description:
           'Entrada de ejemplo para pruebas de volumen, paginacion futura y filtros por categoria.',
@@ -473,7 +473,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-12',
+        slug: 'premium-12',
         title: 'Premium Video 12',
         description:
           'Placeholder extra para consolidar un catalogo premium robusto dentro de la UI principal.',
@@ -488,7 +488,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-13',
+        slug: 'premium-13',
         title: 'Premium Video 13',
         description:
           'Card adicional para ensayar rendimiento visual con una libreria extensa y rotativa.',
@@ -503,7 +503,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-14',
+        slug: 'premium-14',
         title: 'Premium Video 14',
         description:
           'Pieza placeholder creada para dar mayor profundidad al browse completo de /videos.',
@@ -518,7 +518,7 @@ export const defaultSiteContent = {
         purchaseUrl: 'https://loverfans.com/sindyhotwife',
       },
       {
-        slug: 'sindy-premium-15',
+        slug: 'premium-15',
         title: 'Premium Video 15',
         description:
           'Placeholder final del bloque extendido para validar catÃ¡logos largos desde home y detalle.',

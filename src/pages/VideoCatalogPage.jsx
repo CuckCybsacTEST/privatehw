@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HomePreviewRail } from '../components/HomePreviewRail'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { VideoCard } from '../components/VideoCard'
 import { useAppState } from '../state/AppState'
@@ -51,6 +52,11 @@ export function VideoCatalogPage() {
 
   return (
     <main className="creator-home home-preview-page video-catalog-home-page">
+      <Seo
+        title={`${videoLibrary.title} | Kinkly`}
+        description={videoLibrary.description}
+        canonicalPath="/videos"
+      />
       <HomePreviewRail />
       <div className="home-preview-main video-catalog-main">
         <section className={`content-listing-page video-catalog-page is-mobile-${catalogViewportMode}`}>

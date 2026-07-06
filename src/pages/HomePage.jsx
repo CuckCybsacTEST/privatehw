@@ -1,141 +1,145 @@
-import { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { AccessTotalSection } from '../components/AccessTotalSection'
-import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
-import { BlogTeaserSection } from '../components/BlogTeaserSection'
-import { HomePreviewRail } from '../components/HomePreviewRail'
-import { CreatorHero } from '../components/CreatorHero'
-import { MembershipSection } from '../components/MembershipSection'
-import { SiteFooter } from '../components/SiteFooter'
-import { SpotlightGrid } from '../components/SpotlightGrid'
-import { VideoCollectionsSection } from '../components/VideoCollectionsSection'
-import { VideoShowcase } from '../components/VideoShowcase'
-import { useAppState } from '../state/AppState'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { Seo } from '../components/Seo'
+import {
+  ModelCTASection,
+  LatestAnnouncementsSection,
+  PrivateExperienceSection,
+} from '../components/HomeSections'
+import { HomeFooter } from '../components/HomeFooter'
+import { fetchEncuentrosModels } from '../lib/supabase'
+import {
+  buildCatalogCanonicalPath,
+  buildCatalogSearchParams,
+  hasCatalogFilters,
+  parseCatalogFilters,
+} from '../utils/encuentrosCatalog'
 
 export function HomePage() {
-  const { siteContent } = useAppState()
-  const { i18n } = useTranslation()
-  const { sectionVisibility } = siteContent
-  const hasAccessTotalTiers =
-    Array.isArray(siteContent?.accessTotal?.tiers) && siteContent.accessTotal.tiers.length > 0
-  const lastSectionIdRef = useRef('')
-  const sectionScrollLockRef = useRef(false)
-  const sectionScrollUnlockRef = useRef(null)
-  const languageScrollLockRef = useRef(false)
-  const languageScrollUnlockRef = useRef(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [models, setModels] = useState([])
+
+  const filters = useMemo(() => parseCatalogFilters(searchParams), [searchParams])
 
   useEffect(() => {
-    languageScrollLockRef.current = true
+    let cancelled = false
 
-    if (languageScrollUnlockRef.current) {
-      window.clearTimeout(languageScrollUnlockRef.current)
-    }
-
-    languageScrollUnlockRef.current = window.setTimeout(() => {
-      languageScrollLockRef.current = false
-    }, 300)
-
-    return () => {
-      if (languageScrollUnlockRef.current) {
-        window.clearTimeout(languageScrollUnlockRef.current)
-      }
-    }
-  }, [i18n.resolvedLanguage])
-
-  useEffect(() => {
-    function revealTarget(sectionId) {
-      if (!sectionId) {
-        return
-      }
-
-      if (languageScrollLockRef.current) {
-        return
-      }
-
-      if (sectionScrollLockRef.current && lastSectionIdRef.current === sectionId) {
-        return
-      }
-
-      if (lastSectionIdRef.current === sectionId) {
-        return
-      }
-
-      const target = document.getElementById(sectionId)
-
-      if (!target) {
-        return
-      }
-
-      lastSectionIdRef.current = sectionId
-      sectionScrollLockRef.current = true
-      if (sectionScrollUnlockRef.current) {
-        window.clearTimeout(sectionScrollUnlockRef.current)
-      }
-
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+    fetchEncuentrosModels()
+      .then((items) => {
+        if (!cancelled) {
+          setModels(Array.isArray(items) ? items : [])
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setModels([])
+        }
       })
 
-      target.classList.remove('section-arrival-highlight')
-      window.requestAnimationFrame(() => {
-        target.classList.add('section-arrival-highlight')
-      })
-
-      window.setTimeout(() => {
-        target.classList.remove('section-arrival-highlight')
-      }, 1600)
-
-      sectionScrollUnlockRef.current = window.setTimeout(() => {
-        sectionScrollLockRef.current = false
-      }, 650)
-    }
-
-    function handleHashArrival() {
-      revealTarget(window.location.hash.replace('#', ''))
-    }
-
-    function handleManualArrival(event) {
-      revealTarget(event.detail?.sectionId)
-    }
-
-    handleHashArrival()
-    window.addEventListener('hashchange', handleHashArrival)
-    window.addEventListener('section-nav-arrive', handleManualArrival)
-
     return () => {
-      window.removeEventListener('hashchange', handleHashArrival)
-      window.removeEventListener('section-nav-arrive', handleManualArrival)
-      if (sectionScrollUnlockRef.current) {
-        window.clearTimeout(sectionScrollUnlockRef.current)
-      }
+      cancelled = true
     }
   }, [])
 
+  const latestAnnouncements = useMemo(
+    () =>
+      (Array.isArray(models) ? models : [])
+        .filter(
+          (model) =>
+            model &&
+            model.slug &&
+            model.status === 'published' &&
+            (!model.publishedAt || new Date(model.publishedAt).getTime() <= Date.now()),
+        )
+        .slice()
+        .sort((left, right) => {
+          const leftTime = left.publishedAt ? new Date(left.publishedAt).getTime() : 0
+          const rightTime = right.publishedAt ? new Date(right.publishedAt).getTime() : 0
+          if (rightTime !== leftTime) {
+            return rightTime - leftTime
+          }
+
+          const leftSort = Number.parseInt(left.sortOrder || '0', 10) || 0
+          const rightSort = Number.parseInt(right.sortOrder || '0', 10) || 0
+          if (rightSort !== leftSort) {
+            return rightSort - leftSort
+          }
+
+          return rightTime - leftTime
+        })
+        .slice(0, 10),
+    [models],
+  )
+  const isFiltered = hasCatalogFilters(filters)
+  const quickChips = useMemo(
+    () => [
+      { label: 'Ciudad', to: '/encuentros/ciudad' },
+      { label: 'Nacionalidad', to: '/encuentros/nacionalidad' },
+      { label: 'Disponibilidad', to: '/encuentros?attendance=Disponible' },
+      { label: 'Categoria', to: '/encuentros' },
+      { label: 'Ver todo', to: '/encuentros' },
+    ],
+    [],
+  )
+
+  function updateFilters(patch = {}) {
+    const next = buildCatalogSearchParams({ ...filters, ...patch }, searchParams)
+    setSearchParams(next, { replace: true })
+  }
+
+  function handleSearchChange(event) {
+    updateFilters({ query: event.target.value })
+  }
+
   return (
-    <main className="creator-home home-preview-page">
-      <AtmosphericBackdrop
-        variant="editorial"
-        intensity="soft"
-        glowPosition="center-right"
-        grain={false}
-        withVignette={false}
-        className="home-backdrop"
+    <main className="catalog-home-page">
+      <Seo
+        title="Kinkly | Directorio privado"
+        description="Portada principal de Kinkly para explorar perfiles por ciudad, nacionalidad y contenido publicado."
+        canonicalPath={buildCatalogCanonicalPath(filters, '/')}
+        noindex={isFiltered}
       />
-      <HomePreviewRail />
-      <div className="home-preview-main">
-        {sectionVisibility.creatorHero || sectionVisibility.accessTotal ? (
-          <section className="hero-access-row">
-            {sectionVisibility.creatorHero ? <CreatorHero content={siteContent} /> : null}
-            {sectionVisibility.accessTotal ? <AccessTotalSection content={siteContent} /> : null}
-          </section>
-        ) : null}
-        {sectionVisibility.mediaSpotlight ? <SpotlightGrid content={siteContent} /> : null}
-        {sectionVisibility.videoLibrary ? <VideoShowcase content={siteContent} /> : null}
-        {sectionVisibility.membership || hasAccessTotalTiers ? <MembershipSection content={siteContent} /> : null}
-        {sectionVisibility.videoCollections ? <VideoCollectionsSection content={siteContent} /> : null}
-        {sectionVisibility.blogTeaser ? <BlogTeaserSection content={siteContent} /> : null}
-        {sectionVisibility.siteFooter ? <SiteFooter content={siteContent} /> : null}
+
+      <div className="catalog-home-shell">
+        <header className="catalog-home-hero">
+          <div className="catalog-home-hero-copy is-home-intro">
+            <h1>Encuentra modelos por ciudad, nacionalidad y perfil público</h1>
+            <p>
+              Kinkly reúne fichas con URL propia, filtros locales y navegación preparada para crecer sin perder
+              claridad ni velocidad.
+            </p>
+
+            <form className="catalog-home-search" onSubmit={(event) => event.preventDefault()} role="search">
+              <label className="catalog-home-search-field">
+                <AiOutlineSearch aria-hidden="true" />
+                <input
+                  type="search"
+                  value={filters.query}
+                  onChange={handleSearchChange}
+                  placeholder="Buscar ciudad, nacionalidad o perfil"
+                  aria-label="Buscar ciudad, nacionalidad o perfil"
+                />
+                <button type="submit" className="catalog-home-search-button">
+                  Buscar
+                </button>
+              </label>
+            </form>
+
+            <div className="catalog-home-chip-row">
+              {quickChips.map((chip) => (
+                <Link key={chip.label} className="catalog-home-chip" to={chip.to}>
+                  {chip.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <LatestAnnouncementsSection posts={latestAnnouncements} />
+        <PrivateExperienceSection />
+        <ModelCTASection />
+        <HomeFooter />
       </div>
     </main>
   )

@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord } from '../utils/localizedContent'
@@ -183,6 +184,12 @@ export function MemberLibraryPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title="Library | Kinkly"
+        description="Area privada para miembros con videos, packs, blog y accesos activos."
+        canonicalPath="/library"
+        noindex
+      />
       <PublicNav />
       <section className="content-listing-page member-library-page">
         <div className="section-heading">

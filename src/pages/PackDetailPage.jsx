@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CollectionCard } from '../components/CollectionCard'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
@@ -153,6 +154,12 @@ export function PackDetailPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title={`${pack.title} | Kinkly`}
+        description={pack.description}
+        canonicalPath={`/packs/${pack.slug}`}
+        noindex={!access.unlocked}
+      />
       <PublicNav />
       <article className="content-detail-page pack-detail-page">
         <Link className="content-back-link" to="/packs">

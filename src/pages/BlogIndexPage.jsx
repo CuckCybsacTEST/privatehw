@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AtmosphericBackdrop } from '../components/AtmosphericBackdrop'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord, resolveLocalizedSection } from '../utils/localizedContent'
@@ -281,6 +282,11 @@ export function BlogIndexPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title={`${blogPage.heroTitle} | Kinkly`}
+        description={blogPage.heroDescription}
+        canonicalPath="/blog"
+      />
       <PublicNav />
       <section className="content-listing-page blog-index-page">
         <AtmosphericBackdrop

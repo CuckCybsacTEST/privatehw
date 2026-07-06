@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
@@ -36,6 +37,11 @@ export function CalzonesPage() {
 
   return (
     <main className="creator-home physical-store-page-shell">
+      <Seo
+        title={`${merch.title} | Kinkly`}
+        description={merch.description}
+        canonicalPath="/calzones"
+      />
       <PublicNav />
       <section className="physical-store-page">
         <div className="physical-store-hero">

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
 import { RelatedVideosSection } from '../components/RelatedVideosSection'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { buildVideoAccessActions } from '../utils/videoAccess'
@@ -156,6 +157,12 @@ export function VideoDetailPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title={`${video.title} | Kinkly`}
+        description={video.description || video.previewLabel || video.accessLabel || ''}
+        canonicalPath={`/videos/${video.slug}`}
+        noindex={access.accessMode !== 'public'}
+      />
       <PublicNav />
       <article className="content-detail-page">
         <Link className="content-back-link" to="/">

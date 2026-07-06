@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
@@ -51,6 +52,12 @@ export function FreeContentPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title="Contenido gratis | Kinkly"
+        description="Galeria gratuita para usuarios registrados."
+        canonicalPath="/free-content"
+        noindex
+      />
       <PublicNav />
       <section className="free-content-page">
         <div className="free-content-hero">

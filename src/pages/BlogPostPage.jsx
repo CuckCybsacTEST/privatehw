@@ -2,6 +2,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord, resolveLocalizedSection } from '../utils/localizedContent'
@@ -135,6 +136,12 @@ export function BlogPostPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title={`${localizedPost?.seoTitle || localizedPost?.title || post.title} | Kinkly`}
+        description={localizedPost?.seoDescription || localizedPost?.excerpt || post.excerpt}
+        canonicalPath={`/blog/${post.slug}`}
+        noindex={post.accessLevel !== 'public' || !canRead}
+      />
       <PublicNav />
       <article className="content-detail-page">
         <Link className="content-back-link" to="/blog">

@@ -11,6 +11,8 @@ import { MobileBottomNav } from './components/MobileBottomNav'
 import { HomePage } from './pages/HomePage'
 import { BlogIndexPage } from './pages/BlogIndexPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { StaticContentPage } from './components/StaticContentPage'
+import { staticPages } from './data/staticPages'
 import { resolveEncounterFallbackSlug } from './utils/encuentrosModels'
 const AccessPage = lazy(() => import('./pages/AccessPage').then((module) => ({ default: module.AccessPage })))
 const CheckoutCancelPage = lazy(() =>
@@ -29,6 +31,9 @@ const CollectionCatalogPage = lazy(() =>
 const EncuentrosCatalogPage = lazy(() =>
   import('./pages/EncuentrosCatalogPage').then((module) => ({ default: module.EncuentrosCatalogPage })),
 )
+const EncuentrosFacetPage = lazy(() =>
+  import('./pages/EncuentrosFacetPage').then((module) => ({ default: module.EncuentrosFacetPage })),
+)
 const EncuentrosPage = lazy(() => import('./pages/EncuentrosPage').then((module) => ({ default: module.EncuentrosPage })))
 const EncuentrosCitasPage = lazy(() =>
   import('./pages/EncuentrosCitasPage').then((module) => ({ default: module.EncuentrosCitasPage })),
@@ -39,6 +44,9 @@ const PackDetailPage = lazy(() =>
 const FreeContentPage = lazy(() => import('./pages/FreeContentPage').then((module) => ({ default: module.FreeContentPage })))
 const MemberLibraryPage = lazy(() =>
   import('./pages/MemberLibraryPage').then((module) => ({ default: module.MemberLibraryPage })),
+)
+const ModelsLandingPage = lazy(() =>
+  import('./pages/ModelsLandingPage').then((module) => ({ default: module.ModelsLandingPage })),
 )
 const ProfilePage = lazy(() =>
   import('./pages/ProfilePage').then((module) => ({ default: module.ProfilePage })),
@@ -157,6 +165,14 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/encuentros" element={<EncuentrosCatalogPage />} />
+        <Route path="/encuentros/ciudad" element={<EncuentrosFacetPage facetType="city" />} />
+        <Route path="/encuentros/ciudad/:citySlug" element={<EncuentrosFacetPage facetType="city" />} />
+        <Route
+          path="/encuentros/ciudad/:citySlug/nacionalidad/:nationalitySlug"
+          element={<EncuentrosFacetPage facetType="city" secondaryFacetType="nationality" />}
+        />
+        <Route path="/encuentros/nacionalidad" element={<EncuentrosFacetPage facetType="nationality" />} />
+        <Route path="/encuentros/nacionalidad/:nationalitySlug" element={<EncuentrosFacetPage facetType="nationality" />} />
         <Route path="/encuentros/:slug" element={<EncuentrosPage />} />
         <Route path="/encuentros/:slug/citas" element={<EncuentrosCitasPage />} />
         <Route path="/encuentros/citas" element={<EncuentrosLegacyBookingRedirect />} />
@@ -167,6 +183,13 @@ function AppRoutes() {
         <Route path="/encuentross/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/modelos" element={<ModelsLandingPage />} />
+        <Route path="/terminos" element={<StaticContentPage page={staticPages.terms} />} />
+        <Route path="/privacidad" element={<StaticContentPage page={staticPages.privacy} />} />
+        <Route path="/cookies" element={<StaticContentPage page={staticPages.cookies} />} />
+        <Route path="/contacto" element={<StaticContentPage page={staticPages.contact} />} />
+        <Route path="/ayuda" element={<StaticContentPage page={staticPages.help} />} />
+        <Route path="/denunciar-estafa" element={<StaticContentPage page={staticPages.report} />} />
         <Route path="/videos" element={<VideoCatalogPage />} />
         <Route path="/videos/:slug" element={<VideoDetailPage />} />
         <Route path="/packs" element={<CollectionCatalogPage />} />
@@ -224,7 +247,12 @@ function AppChrome() {
   const isEncuentrosProfileContext =
     pathname === '/profile' && new URLSearchParams(search).get('source') === 'encuentros'
 
-  if (pathname.startsWith('/access') || pathname.startsWith('/admin') || isEncuentrosProfileContext) {
+  if (
+    pathname === '/' ||
+    pathname.startsWith('/access') ||
+    pathname.startsWith('/admin') ||
+    isEncuentrosProfileContext
+  ) {
     return null
   }
 

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { AiFillFire, AiOutlineCalendar, AiOutlinePicture } from 'react-icons/ai'
 import { HiOutlineUser } from 'react-icons/hi'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import {
@@ -65,6 +66,12 @@ export function ProfilePage() {
 
   return (
     <main className={isEncuentrosContext ? 'creator-home profile-shell-encuentros' : 'creator-home'}>
+      <Seo
+        title="Perfil | Kinkly"
+        description="Panel de perfil privado con accesos, estado de cuenta y rutas de usuario."
+        canonicalPath="/profile"
+        noindex
+      />
       {isEncuentrosContext ? null : <PublicNav />}
       <section className={isEncuentrosContext ? 'content-listing-page profile-page profile-page-encuentros' : 'content-listing-page profile-page'}>
         <div className="section-heading">

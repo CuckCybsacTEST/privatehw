@@ -2,6 +2,7 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PublicNav } from '../components/PublicNav'
+import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord } from '../utils/localizedContent'
@@ -173,6 +174,12 @@ export function CheckoutStartPage() {
 
   return (
     <main className="creator-home">
+      <Seo
+        title="Checkout | Kinkly"
+        description="Proceso de compra y confirmacion de pago."
+        canonicalPath={`/checkout/start/${productSlug}`}
+        noindex
+      />
       <PublicNav />
       <section className="content-listing-page checkout-page">
         <Link className="content-back-link" to="/library">
