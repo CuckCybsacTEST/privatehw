@@ -5,7 +5,9 @@ import { defaultSiteContent, mergeSiteContent } from '../../data/defaultSiteCont
 import {
   deleteAdminEncuentrosModel,
   fetchAdminEncuentrosModels,
+  fetchAdminEncuentrosModelRequests,
   saveAdminEncuentrosModel,
+  updateAdminEncuentrosModelRequest,
 } from '../../lib/supabase'
 import {
   SOCIAL_NETWORK_OPTIONS,
@@ -29,39 +31,32 @@ const NATIONALITY_OPTIONS = [
   'Brasilena',
   'Otra',
 ]
-const CITY_OPTIONS_BY_NATIONALITY = {
-  Peruana: [
-    'Lima',
-    'Callao',
-    'Cusco',
-    'Arequipa',
-    'Trujillo',
-    'Piura',
-    'Chiclayo',
-    'Ica',
-    'Huancayo',
-    'Puno',
-    'Tacna',
-    'Cajamarca',
-    'Tarapoto',
-    'Huanuco',
-    'Chimbote',
-    'Tumbes',
-    'Iquitos',
-    'Sullana',
-    'Sicuani',
-    'Otra',
-  ],
-  Colombiana: ['Bogota', 'Medellin', 'Cali', 'Barranquilla', 'Cartagena', 'Otra'],
-  Argentina: ['Buenos Aires', 'Cordoba', 'Rosario', 'Mendoza', 'Otra'],
-  Chilena: ['Santiago', 'Valparaiso', 'Concepcion', 'La Serena', 'Otra'],
-  Boliviana: ['La Paz', 'Santa Cruz', 'Cochabamba', 'Sucre', 'Otra'],
-  Ecuatoriana: ['Quito', 'Guayaquil', 'Cuenca', 'Ambato', 'Otra'],
-  Venezolana: ['Caracas', 'Maracaibo', 'Valencia', 'Barquisimeto', 'Otra'],
-  Mexicana: ['CDMX', 'Guadalajara', 'Monterrey', 'Puebla', 'Otra'],
-  Brasilena: ['Sao Paulo', 'Rio de Janeiro', 'Brasilia', 'Salvador', 'Otra'],
-  Otra: ['Otra'],
-}
+const PERU_CITY_OPTIONS = [
+  'Arequipa',
+  'Ayacucho',
+  'Cajamarca',
+  'Callao',
+  'Cerro de Pasco',
+  'Chachapoyas',
+  'Chiclayo',
+  'Cusco',
+  'Huancayo',
+  'Huanuco',
+  'Huaraz',
+  'Ica',
+  'Iquitos',
+  'Lima',
+  'Moyobamba',
+  'Moquegua',
+  'Piura',
+  'Pucallpa',
+  'Puno',
+  'Sullana',
+  'Tacna',
+  'Tarapoto',
+  'Trujillo',
+  'Tumbes',
+]
 const PRESENCIAL_UNIT_OPTIONS = ['hora', 'noche', 'sesion']
 const ATTENDANCE_MODE_OPTIONS = ['Hoteles', 'A domicilio', 'Cuarto propio', 'Auto']
 const TIME_OPTIONS = Array.from({ length: 24 }, (_, index) => {
@@ -77,6 +72,7 @@ const PRESENCIAL_FEATURE_OPTIONS_PLACEHOLDER = [
   'Feature presencial 4',
 ]
 const RELATIONSHIP_STATUS_OPTIONS = ['Soltera', 'Casada', 'Con novio', 'Con esposo', 'Divorciada', 'Otra']
+const BODY_HAIR_OPTIONS = ['Sin vello', 'Vello suave', 'Vello visible', 'Vello abundante']
 const MAX_VOICE_AUDIO_BYTES = 10 * 1024 * 1024
 const MAX_AVATAR_BYTES = 8 * 1024 * 1024
 const BLANK_MODEL_DEFAULTS = {
@@ -91,6 +87,8 @@ const BLANK_MODEL_DEFAULTS = {
   socialTitle: '',
   socialUrl: '',
   profileAvatarUrl: '',
+  profileHeightCm: '',
+  profileBodyHair: '',
   profileAttendanceModes: [],
   whatsappPhone: '',
   whatsappUrl: '',
@@ -113,8 +111,18 @@ function getSelectableAge(value = '') {
   return age && AGE_OPTIONS.includes(age) ? age : ''
 }
 
-function getCityOptionsForNationality(nationality = '') {
-  return CITY_OPTIONS_BY_NATIONALITY[nationality] || CITY_OPTIONS_BY_NATIONALITY.Otra
+function getPeruCityOptions() {
+  return PERU_CITY_OPTIONS
+}
+
+function formatHeightLabel(value = '') {
+  const height = Number.parseInt(String(value || '').replace(/[^\d]/g, ''), 10)
+
+  if (!Number.isFinite(height) || height <= 0) {
+    return ''
+  }
+
+  return `${(height / 100).toFixed(2)} m`
 }
 
 function VoiceAudioField({
@@ -358,7 +366,22 @@ function formatStatusLabel(status) {
     case 'suspended':
       return 'Suspendido'
     default:
-      return 'Borrador'
+      return 'En revisión'
+  }
+}
+
+function formatRequestStatusLabel(status) {
+  switch (String(status || '').trim()) {
+    case 'approved':
+      return 'Aprobada'
+    case 'rejected':
+      return 'Rechazada'
+    case 'suspended':
+      return 'Suspendida'
+    case 'observed':
+      return 'Observada'
+    default:
+      return 'Pendiente'
   }
 }
 
@@ -537,8 +560,14 @@ function createDraftFromModel(model = null, fallbackContent = null) {
 function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, deletingSlug }) {
   const previewHref = `/encuentros/${encodeURIComponent(model.slug)}`
   const isPublished = model.status === 'published'
+  const requestSource = String(model?.content?.requestSource || '').trim()
+  const requestContactName = String(model?.content?.requestContactName || model?.content?.contactName || '').trim()
+  const requestEmail = String(model?.content?.requestEmail || model?.content?.contactEmail || '').trim()
+  const requestCity = String(model?.content?.requestCity || model?.content?.profileCity || '').trim()
   const recordsEncounters = normalizeBooleanValue(model?.content?.recordsEncounters)
   const relationshipStatus = String(model?.content?.profileRelationshipStatus || '').trim()
+  const heightCm = String(model?.content?.profileHeightCm || '').trim()
+  const bodyHair = String(model?.content?.profileBodyHair || '').trim()
   const booking = model?.content?.encuentrosBooking || {}
   const bookingSummary = formatBookingSummary(booking, recordsEncounters)
 
@@ -549,6 +578,14 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
         <p className="admin-note">
           <strong>{model.slug}</strong> · {formatStatusLabel(model.status)}
         </p>
+        {requestSource === 'self-register' ? (
+          <p className="admin-note">
+            Solicitud recibida
+            {requestContactName ? ` · ${requestContactName}` : ''}
+            {requestEmail ? ` · ${requestEmail}` : ''}
+            {requestCity ? ` · ${requestCity}` : ''}
+          </p>
+        ) : null}
         <p className="admin-note">
           URL publica: <Link to={previewHref}>{previewHref}</Link>
         </p>
@@ -556,6 +593,8 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
           <span>{formatBookingModeLabel(booking.availabilityMode)}</span>
           <span>{recordsEncounters ? 'Graba' : 'No graba'}</span>
           <span>{relationshipStatus || 'Sin estado'}</span>
+          <span>{heightCm ? formatHeightLabel(heightCm) || `${heightCm} cm` : 'Sin dato'}</span>
+          <span>{bodyHair || 'Sin dato'}</span>
           <span>{bookingSummary[0]}</span>
           <span>{bookingSummary[1]}</span>
         </div>
@@ -588,6 +627,95 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
   )
 }
 
+function RequestCard({ request, linkedModel, onAction, busyId }) {
+  const isBusy = busyId === request.id
+  const previewUrl = String(request.verificationPhotoUrl || '').trim()
+  const subtitle = [
+    request.email,
+    request.city,
+    request.nationality,
+  ]
+    .map((value) => String(value || '').trim())
+    .filter(Boolean)
+    .join(' · ')
+
+  return (
+    <article className="admin-request-card">
+      <div className="admin-request-photo">
+        {previewUrl ? (
+          <img src={previewUrl} alt={`Foto de verificacion de ${request.displayName || request.email || 'solicitud'}`} />
+        ) : (
+          <div className="admin-request-photo-placeholder">Sin foto</div>
+        )}
+      </div>
+
+      <div className="admin-request-copy">
+        <div className="admin-request-header">
+          <div>
+            <h3>{request.displayName || request.email || request.id}</h3>
+            <p className="admin-note">
+              <strong>{formatRequestStatusLabel(request.status)}</strong>
+              {subtitle ? ` · ${subtitle}` : ''}
+            </p>
+          </div>
+          <span className={`admin-request-badge is-${String(request.status || 'pending')}`}>
+            {formatRequestStatusLabel(request.status)}
+          </span>
+        </div>
+
+        <p className="admin-note">
+          Telegram: {request.telegram || 'No indicado'} · Tel: {request.phone || 'No indicado'}
+        </p>
+        <p className="admin-note">{request.bio || 'Sin presentacion.'}</p>
+        {request.notes ? <p className="admin-note">Notas: {request.notes}</p> : null}
+        <p className="admin-note">
+          Revisado: {request.reviewedAt ? new Date(request.reviewedAt).toLocaleString() : 'Pendiente'}
+        </p>
+        {linkedModel ? (
+          <p className="admin-note">
+            Modelo vinculado: <Link to={`/encuentros/${encodeURIComponent(linkedModel.slug)}`}>{linkedModel.slug}</Link>
+          </p>
+        ) : null}
+
+        <div className="admin-actions-row">
+          <button
+            type="button"
+            className="admin-secondary-button"
+            onClick={() => onAction(request, 'approved')}
+            disabled={isBusy}
+          >
+            {isBusy ? 'Procesando...' : 'Aprobar'}
+          </button>
+          <button
+            type="button"
+            className="admin-secondary-button"
+            onClick={() => onAction(request, 'observed')}
+            disabled={isBusy}
+          >
+            Observar
+          </button>
+          <button
+            type="button"
+            className="admin-secondary-button"
+            onClick={() => onAction(request, 'suspended')}
+            disabled={isBusy}
+          >
+            Suspender
+          </button>
+          <button
+            type="button"
+            className="admin-danger-button"
+            onClick={() => onAction(request, 'rejected')}
+            disabled={isBusy}
+          >
+            Rechazar
+          </button>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 function SectionTitle({ eyebrow, title, description }) {
   return (
     <div className="admin-section-header">
@@ -603,9 +731,14 @@ function SectionTitle({ eyebrow, title, description }) {
 export function EncuentrosModelsManager() {
   const { session, siteContent, uploadManagedMedia } = useAppState()
   const [models, setModels] = useState([])
+  const [requests, setRequests] = useState([])
   const [loading, setLoading] = useState(true)
+  const [requestsLoading, setRequestsLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [deletingSlug, setDeletingSlug] = useState('')
+  const [requestActionId, setRequestActionId] = useState('')
+  const [activeModelsTab, setActiveModelsTab] = useState('models')
+  const [requestStatusFilter, setRequestStatusFilter] = useState('all')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [galleryUploading, setGalleryUploading] = useState(false)
@@ -625,6 +758,39 @@ export function EncuentrosModelsManager() {
   const gallerySlides = useMemo(
     () => getModelGallerySlides(content),
     [content.bottomCarouselImages, content.topCarouselImages],
+  )
+  const requestCounts = useMemo(
+    () =>
+      requests.reduce(
+        (accumulator, request) => {
+          const status = String(request?.status || 'pending')
+          accumulator.all += 1
+          if (status in accumulator) {
+            accumulator[status] += 1
+          }
+          return accumulator
+        },
+        {
+          all: 0,
+          pending: 0,
+          approved: 0,
+          rejected: 0,
+          suspended: 0,
+          observed: 0,
+        },
+      ),
+    [requests],
+  )
+  const requestModelMap = useMemo(
+    () => new Map(models.map((model) => [String(model.id || '').trim(), model])),
+    [models],
+  )
+  const filteredRequests = useMemo(
+    () =>
+      requestStatusFilter === 'all'
+        ? requests
+        : requests.filter((request) => String(request?.status || 'pending') === requestStatusFilter),
+    [requestStatusFilter, requests],
   )
   const selectedPresencialFeatures = useMemo(
     () => normalizeStringList(content.presencialFeatures || []),
@@ -686,8 +852,23 @@ export function EncuentrosModelsManager() {
     }
   }
 
+  async function refreshRequests() {
+    setRequestsLoading(true)
+    setError('')
+
+    try {
+      const nextRequests = await fetchAdminEncuentrosModelRequests(session?.accessToken || '')
+      setRequests(Array.isArray(nextRequests) ? nextRequests : [])
+    } catch (nextError) {
+      setRequests([])
+      setError(nextError?.message || 'No se pudieron cargar las solicitudes.')
+    } finally {
+      setRequestsLoading(false)
+    }
+  }
+
   useEffect(() => {
-    void refreshModels()
+    void Promise.all([refreshModels(), refreshRequests()])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.accessToken])
 
@@ -812,21 +993,10 @@ export function EncuentrosModelsManager() {
   }
 
   function handleNationalityChange(value) {
-    const nextCities = getCityOptionsForNationality(value)
     setDraft((current) => {
-      const nextContent = setByPath(current.content, ['profileNationality'], value)
-      const currentCity = String(current.content?.profileCity || '')
-
-      if (currentCity && !nextCities.includes(currentCity)) {
-        return {
-          ...current,
-          content: setByPath(nextContent, ['profileCity'], ''),
-        }
-      }
-
       return {
         ...current,
-        content: nextContent,
+        content: setByPath(current.content, ['profileNationality'], value),
       }
     })
   }
@@ -1005,6 +1175,37 @@ export function EncuentrosModelsManager() {
     }
   }
 
+  async function handleRequestAction(request, nextStatus) {
+    setError('')
+    setMessage('')
+    setRequestActionId(request.id)
+
+    try {
+      const nextRequest = await updateAdminEncuentrosModelRequest(
+        request.id,
+        {
+          status: nextStatus,
+          createModel: nextStatus === 'approved',
+        },
+        session?.accessToken || '',
+      )
+
+      setMessage(
+        `Solicitud ${request.displayName || request.email || request.id} marcada como ${formatRequestStatusLabel(
+          nextRequest?.status || nextStatus,
+        ).toLowerCase()}.`,
+      )
+      await Promise.all([refreshRequests(), refreshModels()])
+      if (nextStatus === 'approved') {
+        setActiveModelsTab('models')
+      }
+    } catch (nextError) {
+      setError(nextError?.message || 'No se pudo actualizar la solicitud.')
+    } finally {
+      setRequestActionId('')
+    }
+  }
+
   return (
     <section className="admin-panel-section">
       <SectionTitle
@@ -1022,10 +1223,85 @@ export function EncuentrosModelsManager() {
         </button>
       </div>
 
+      <div className="admin-tabs admin-subtabs">
+        <button
+          type="button"
+          className={activeModelsTab === 'models' ? 'admin-tab active' : 'admin-tab'}
+          onClick={() => setActiveModelsTab('models')}
+        >
+          Modelos ({models.length})
+        </button>
+        <button
+          type="button"
+          className={activeModelsTab === 'requests' ? 'admin-tab active' : 'admin-tab'}
+          onClick={() => setActiveModelsTab('requests')}
+        >
+          Solicitudes ({requestCounts.all})
+        </button>
+      </div>
+
+      {activeModelsTab === 'requests' ? (
+        <div className="admin-request-workspace">
+          <div className="admin-tabs admin-request-filters">
+            {[
+              ['all', 'Todas', requestCounts.all],
+              ['pending', 'Pendientes', requestCounts.pending],
+              ['approved', 'Aprobadas', requestCounts.approved],
+              ['observed', 'Observadas', requestCounts.observed],
+              ['suspended', 'Suspendidas', requestCounts.suspended],
+              ['rejected', 'Rechazadas', requestCounts.rejected],
+            ].map(([key, label, count]) => (
+              <button
+                key={String(key)}
+                type="button"
+                className={requestStatusFilter === key ? 'admin-tab active' : 'admin-tab'}
+                onClick={() => setRequestStatusFilter(String(key))}
+              >
+                {label} ({count})
+              </button>
+            ))}
+          </div>
+
+          <article className="admin-hint">
+            <p>
+              {requestCounts.pending} solicitud{requestCounts.pending === 1 ? '' : 'es'} siguen pendientes de
+              revision.
+            </p>
+            <p>
+              Desde aqui puedes aprobar una solicitud para crear su ficha, marcarla como observada, suspenderla o
+              rechazarla.
+            </p>
+          </article>
+
+          {requestsLoading ? (
+            <article className="admin-hint">
+              <p>Cargando solicitudes...</p>
+            </article>
+          ) : filteredRequests.length ? (
+            <div className="admin-request-list">
+              {filteredRequests.map((request) => (
+                <RequestCard
+                  key={request.id}
+                  request={request}
+                  linkedModel={requestModelMap.get(String(request.modelId || '').trim()) || null}
+                  onAction={handleRequestAction}
+                  busyId={requestActionId}
+                />
+              ))}
+            </div>
+          ) : (
+            <article className="admin-hint">
+              <p>No hay solicitudes en este estado.</p>
+            </article>
+          )}
+        </div>
+      ) : null}
+
       {error ? <p className="admin-error">{error}</p> : null}
       {message ? <p className="admin-success">{message}</p> : null}
 
-      <div className="admin-users-layout">
+      {activeModelsTab === 'models' ? (
+        <div className="admin-users-layout">
         <div className="admin-users-list">
           {loading ? (
             <article className="admin-hint">
@@ -1109,16 +1385,42 @@ export function EncuentrosModelsManager() {
               </select>
             </label>
             <label className="admin-field">
+              <span>Estatura (cm)</span>
+              <input
+                type="number"
+                min="130"
+                max="220"
+                step="1"
+                value={String(content.profileHeightCm || '')}
+                onChange={(event) => updateDraft(['profileHeightCm'], event.target.value)}
+                placeholder="168"
+              />
+            </label>
+            <label className="admin-field">
+              <span>Vello corporal</span>
+              <select
+                value={content.profileBodyHair || ''}
+                onChange={(event) => updateDraft(['profileBodyHair'], event.target.value)}
+              >
+                <option value="">Selecciona opcion</option>
+                {BODY_HAIR_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
               <span>Ciudad</span>
               <select
                 value={content.profileCity || ''}
                 onChange={(event) => updateDraft(['profileCity'], event.target.value)}
               >
                 <option value="">Selecciona ciudad</option>
-                {selectedCity && !getCityOptionsForNationality(selectedNationality).includes(selectedCity) ? (
+                {selectedCity && !getPeruCityOptions().includes(selectedCity) ? (
                   <option value={selectedCity}>{selectedCity}</option>
                 ) : null}
-                {getCityOptionsForNationality(selectedNationality).map((city) => (
+                {getPeruCityOptions().map((city) => (
                   <option key={city} value={city}>
                     {city}
                   </option>
@@ -1638,6 +1940,7 @@ export function EncuentrosModelsManager() {
           </div>
         </div>
       </div>
+      ) : null}
     </section>
   )
 }

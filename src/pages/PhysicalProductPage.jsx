@@ -5,9 +5,14 @@ import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
 export function PhysicalProductPage() {
   const navigate = useNavigate()
+  const basePath =
+    typeof window !== 'undefined' && window.location.pathname.startsWith('/sindyprivate')
+      ? '/sindyprivate'
+      : ''
   const { slug } = useParams()
   const { session, siteContent } = useAppState()
   const { t, i18n } = useTranslation()
@@ -20,11 +25,11 @@ export function PhysicalProductPage() {
 
   function handleContinue() {
     if (!session) {
-      navigate(`/access?redirect=/calzones/checkout/${item.slug}`)
+      navigate(withBasePath(basePath, `/access?redirect=/calzones/checkout/${item.slug}`))
       return
     }
 
-    navigate(`/calzones/checkout/${item.slug}`)
+    navigate(withBasePath(basePath, `/calzones/checkout/${item.slug}`))
   }
 
   return (
@@ -36,7 +41,7 @@ export function PhysicalProductPage() {
       />
       <PublicNav />
       <section className="content-detail-page physical-product-page">
-        <Link className="content-back-link" to="/calzones">
+        <Link className="content-back-link" to={withBasePath(basePath, '/calzones')}>
           {t('physicalCheckout.backStore')}
         </Link>
 
@@ -68,14 +73,14 @@ export function PhysicalProductPage() {
               <button className="hero-primary-cta" type="button" onClick={handleContinue}>
                 {t('content.buyNow')}
               </button>
-              <Link className="video-preview-link" to="/calzones">
+              <Link className="video-preview-link" to={withBasePath(basePath, '/calzones')}>
                 {t('physicalProduct.moreProducts')}
               </Link>
             </div>
           </article>
         </div>
       </section>
-      <SiteFooter content={siteContent} />
+      <SiteFooter content={siteContent} basePath={basePath} />
     </main>
   )
 }

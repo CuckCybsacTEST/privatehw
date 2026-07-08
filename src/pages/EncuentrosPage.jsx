@@ -61,6 +61,16 @@ function formatPriceValue(value) {
   return Number.isInteger(value) ? `S/${value}` : `S/${value.toFixed(2)}`
 }
 
+function formatHeightLabel(value = '') {
+  const height = Number.parseInt(String(value || '').replace(/[^\d]/g, ''), 10)
+
+  if (!Number.isFinite(height) || height <= 0) {
+    return ''
+  }
+
+  return `${(height / 100).toFixed(2)} m`
+}
+
 function PriceText({ value, className = '' }) {
   const amount = parsePriceValue(value)
   const formatted = amount > 0 ? formatPriceValue(amount) : String(value || '')
@@ -350,6 +360,7 @@ export function EncuentrosPage() {
     ? pageContent.presencialFeatures.filter(Boolean).slice(0, 6)
     : []
   const profileAge = getProfileTextValue(pageContent, ['profileAge', 'age'])
+  const profileHeightCm = getProfileTextValue(pageContent, ['profileHeightCm', 'heightCm', 'height'])
   const profileCity = getProfileTextValue(pageContent, ['profileCity', 'profileLocation', 'city', 'location'])
   const profileNationality = getProfileTextValue(pageContent, [
     'profileNationality',
@@ -361,6 +372,7 @@ export function EncuentrosPage() {
     'relationshipStatus',
     'maritalStatus',
   ])
+  const profileBodyHair = getProfileTextValue(pageContent, ['profileBodyHair', 'bodyHair'])
   const profileTopBadge = getProfileTextValue(pageContent, [
     'profileTopBadge',
     'topBadge',
@@ -460,6 +472,7 @@ export function EncuentrosPage() {
     () =>
       [
         profileAge ? { key: 'age', label: `${profileAge} años` } : null,
+        profileHeightCm ? { key: 'height', label: formatHeightLabel(profileHeightCm) || `${profileHeightCm} cm` } : null,
         profileCity
           ? {
               key: 'city',
@@ -484,13 +497,22 @@ export function EncuentrosPage() {
         profileRelationshipStatus
           ? { key: 'relationship', label: profileRelationshipStatus, tone: 'relationship' }
           : null,
+        profileBodyHair ? { key: 'body-hair', label: profileBodyHair } : null,
         ...profileAttendanceModes.map((item) => ({
           key: `attendance-${item}`,
           label: item,
           tone: 'attendance',
         })),
       ].filter(Boolean),
-    [profileAge, profileAttendanceModes, profileCity, profileNationality, profileRelationshipStatus],
+    [
+      profileAge,
+      profileAttendanceModes,
+      profileBodyHair,
+      profileCity,
+      profileHeightCm,
+      profileNationality,
+      profileRelationshipStatus,
+    ],
   )
   const relatedModels = useMemo(() => {
     const currentSlug = String(modelSlug || '').trim()

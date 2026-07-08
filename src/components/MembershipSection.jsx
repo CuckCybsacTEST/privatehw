@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
 function formatPlanPeriod(plan) {
   const durationValue = Number(plan.durationValue || plan.durationMonths || 1)
@@ -34,7 +35,7 @@ function getCardLabel(index, plan) {
   return plan.discountLabel || plan.label || (index === 0 ? 'Plan' : '')
 }
 
-export function MembershipSection({ content }) {
+export function MembershipSection({ content, basePath = '' }) {
   const navigate = useNavigate()
   const { session, subscriptionProducts } = useAppState()
   const { i18n, t } = useTranslation()
@@ -55,11 +56,11 @@ export function MembershipSection({ content }) {
     }
 
     if (!session || !session.accessToken) {
-      navigate(`/access?redirect=/checkout/start/${targetProduct.slug}`)
+      navigate(withBasePath(basePath, `/access?redirect=/checkout/start/${targetProduct.slug}`))
       return
     }
 
-    navigate(`/checkout/start/${targetProduct.slug}`)
+    navigate(withBasePath(basePath, `/checkout/start/${targetProduct.slug}`))
   }
 
   return (

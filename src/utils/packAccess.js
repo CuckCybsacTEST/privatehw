@@ -1,3 +1,5 @@
+import { withBasePath } from './routes'
+
 export function buildPackAccessActions({
   access,
   collectionSlug,
@@ -6,18 +8,19 @@ export function buildPackAccessActions({
   siteContent,
   t,
   viewHref,
+  basePath = '',
 }) {
   const hasSession = Boolean(session?.accessToken)
   const buildCheckoutHref = (productSlug) =>
     hasSession
-      ? `/checkout/start/${productSlug}`
-      : `/access?redirect=/checkout/start/${productSlug}`
+      ? withBasePath(basePath, `/checkout/start/${productSlug}`)
+      : withBasePath(basePath, `/access?redirect=/checkout/start/${productSlug}`)
   const rawSubscriptionLabel = siteContent.accessTotal.ctaLabel || t('checkout.checkoutTypeSubscription')
   const subscriptionLabel =
     rawSubscriptionLabel === 'Suscribirme ahora'
       ? 'Suscribirme y desbloquear'
       : rawSubscriptionLabel
-  const resolvedViewHref = viewHref || `/packs/${collectionSlug}`
+  const resolvedViewHref = viewHref || withBasePath(basePath, `/packs/${collectionSlug}`)
 
   if (access.unlocked) {
     return [

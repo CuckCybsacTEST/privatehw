@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   HiBookOpen,
@@ -11,8 +11,8 @@ import { AiFillFire, AiOutlineShopping, AiOutlineVideoCamera } from 'react-icons
 import { useAppState } from '../state/AppState'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
-function resolveSectionHref(pathname, sectionId) {
-  return pathname === '/' ? `#${sectionId}` : `/#${sectionId}`
+function resolveSectionHref(pathname, sectionId, homePath = '/') {
+  return pathname === homePath ? `#${sectionId}` : `${homePath}#${sectionId}`
 }
 
 function getNavToneStyles(tone) {
@@ -101,45 +101,48 @@ function PublicNavCardLink({ href, active, onClick, children, route = false }) {
   )
 }
 
-export function PublicNav() {
+export function PublicNav({ homePath = '/' }) {
   const location = useLocation()
+  const navigate = useNavigate()
   const { session } = useAppState()
   const { t, i18n } = useTranslation()
   const pathname = location.pathname
+  const basePath = pathname.startsWith('/sindyprivate') ? '/sindyprivate' : ''
+  const resolvedHomePath = homePath === '/' && basePath ? basePath : homePath
   const currentLanguage = i18n.resolvedLanguage?.slice(0, 2) || i18n.language?.slice(0, 2) || 'es'
 
   const primaryItems = [
     {
       label: t('nav.home'),
-      href: resolveSectionHref(pathname, 'home-top'),
+      href: resolveSectionHref(pathname, 'home-top', resolvedHomePath),
       type: 'section',
       icon: AiFillFire,
       tone: 'home',
     },
     {
       label: t('nav.premium'),
-      href: resolveSectionHref(pathname, 'videos'),
+      href: resolveSectionHref(pathname, 'videos', resolvedHomePath),
       type: 'section',
       icon: AiOutlineVideoCamera,
       tone: 'premium',
     },
     {
       label: t('nav.packs'),
-      href: '/packs',
+      href: basePath ? `${basePath}/packs` : '/packs',
       type: 'route',
       icon: HiCollection,
       tone: 'packs',
     },
     {
       label: t('nav.calzones'),
-      href: '/calzones',
+      href: basePath ? `${basePath}/calzones` : '/calzones',
       type: 'route',
       icon: AiOutlineShopping,
       tone: 'calzones',
     },
     {
       label: t('nav.blog'),
-      href: resolveSectionHref(pathname, 'blog'),
+      href: resolveSectionHref(pathname, 'blog', resolvedHomePath),
       type: 'section',
       icon: HiBookOpen,
       tone: 'blog',
@@ -150,14 +153,14 @@ export function PublicNav() {
     ? [
         {
           label: session.name || t('nav.profile'),
-          href: '/profile',
+          href: basePath ? `${basePath}/profile` : '/profile',
           type: 'route',
           icon: HiUser,
           tone: 'profile',
         },
         {
           label: t('nav.library'),
-          href: '/library',
+          href: basePath ? `${basePath}/library` : '/library',
           type: 'route',
           icon: HiOutlineLibrary,
           tone: 'library',
@@ -166,7 +169,7 @@ export function PublicNav() {
     : [
         {
           label: t('nav.signIn'),
-          href: '/access',
+          href: basePath ? `${basePath}/access` : '/access',
           type: 'route',
           icon: HiOutlineLibrary,
           tone: 'signin',
@@ -176,19 +179,24 @@ export function PublicNav() {
   function handleSectionClick(itemHref) {
     const sectionId = itemHref.split('#')[1]
 
-    if (pathname === '/' && sectionId) {
+    if ((pathname === '/' || pathname === resolvedHomePath) && sectionId) {
       window.dispatchEvent(
         new CustomEvent('section-nav-arrive', {
           detail: { sectionId },
         }),
       )
+      return
+    }
+
+    if (sectionId) {
+      navigate(`${resolvedHomePath}#${sectionId}`)
     }
   }
 
   return (
     <>
       <header className="public-nav" aria-label="Navegacion principal">
-        <Link className="public-brand public-nav-brandcard" to="/">
+        <Link className="public-brand public-nav-brandcard" to={resolvedHomePath}>
           <span className="public-brand-mark">K</span>
           <span className="public-brand-copy">
             <strong>Kinkly</strong>
@@ -206,7 +214,7 @@ export function PublicNav() {
                 <PublicNavCardLink
                   key={item.href}
                   href={item.href}
-                  active={item.href === resolveSectionHref(pathname, 'home-top')}
+                  active={item.href === resolveSectionHref(pathname, 'home-top', resolvedHomePath)}
                   onClick={() => handleSectionClick(item.href)}
                   route={isRoute}
                 >

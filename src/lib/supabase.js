@@ -583,6 +583,25 @@ export async function createManualEncuentrosReservation(payload = {}, authToken 
   return data?.order || data || null
 }
 
+export async function submitEncounterModelRequest(payload = {}, authToken = '') {
+  const response = await fetch('/api/encuentros/model-requests', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo registrar la solicitud de modelo.')
+  }
+
+  return data?.request || data?.model || null
+}
+
 async function parseApiJson(response, fallbackMessage) {
   const payload = await response.json().catch(() => ({}))
 
@@ -603,6 +622,34 @@ export async function fetchAdminEncuentrosModels(authToken = '') {
   const payload = await parseApiJson(response, 'No se pudieron cargar los modelos de encuentros.')
 
   return Array.isArray(payload.models) ? payload.models : []
+}
+
+export async function fetchAdminEncuentrosModelRequests(authToken = '') {
+  const response = await fetch('/api/admin/encuentros/model-requests', {
+    headers: {
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const payload = await parseApiJson(response, 'No se pudieron cargar las solicitudes de modelos.')
+
+  return Array.isArray(payload.requests) ? payload.requests : []
+}
+
+export async function updateAdminEncuentrosModelRequest(requestId = '', patch = {}, authToken = '') {
+  const normalizedRequestId = String(requestId || '').trim()
+  const response = await fetch(`/api/admin/encuentros/model-requests/${encodeURIComponent(normalizedRequestId)}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(patch),
+  })
+
+  const payload = await parseApiJson(response, 'No se pudo actualizar la solicitud de modelo.')
+
+  return payload.request || null
 }
 
 export async function saveAdminEncuentrosModel(model = {}, authToken = '') {

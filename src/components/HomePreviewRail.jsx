@@ -4,9 +4,10 @@ import { AiOutlineVideoCamera, AiOutlineShopping } from 'react-icons/ai'
 import { HiBookOpen, HiOutlineLibrary, HiOutlineHome, HiOutlineUser } from 'react-icons/hi'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { useAppState } from '../state/AppState'
+import { withBasePath } from '../utils/routes'
 
-function resolveSectionHref(pathname, sectionId) {
-  return pathname === '/' ? `#${sectionId}` : `/#${sectionId}`
+function resolveSectionHref(pathname, sectionId, homePath = '/') {
+  return pathname === homePath ? `#${sectionId}` : `${homePath}#${sectionId}`
 }
 
 function RailItem({ href, icon: Icon, label, isActive = false, onClick, route = false, disabled = false }) {
@@ -53,29 +54,29 @@ function RailItem({ href, icon: Icon, label, isActive = false, onClick, route = 
   )
 }
 
-export function HomePreviewRail() {
+export function HomePreviewRail({ homePath = '/' }) {
   const location = useLocation()
   const navigate = useNavigate()
   const { session } = useAppState()
   const { t, i18n } = useTranslation()
   const pathname = location.pathname
-  const isVideosPage = pathname === '/videos'
+  const isVideosPage = pathname === withBasePath(homePath, '/videos')
   const currentLanguage = i18n.resolvedLanguage?.slice(0, 2) || i18n.language?.slice(0, 2) || 'es'
   const primaryItems = [
-    { label: t('nav.home'), href: resolveSectionHref(pathname, 'home-top'), icon: HiOutlineHome },
+    { label: t('nav.home'), href: resolveSectionHref(pathname, 'home-top', homePath), icon: HiOutlineHome },
     isVideosPage
-      ? { label: t('nav.premium'), href: '/videos', icon: AiOutlineVideoCamera, route: true, active: true }
-      : { label: t('nav.premium'), href: resolveSectionHref(pathname, 'videos'), icon: AiOutlineVideoCamera },
-    { label: t('nav.packs'), href: '/packs', icon: AiOutlineShopping, route: true },
-    { label: t('nav.calzones'), href: '/calzones', icon: HiOutlineUser, route: true },
-    { label: t('nav.blog'), href: resolveSectionHref(pathname, 'blog'), icon: HiBookOpen },
-    { label: t('nav.library'), href: '/library', icon: HiOutlineLibrary, route: true },
+      ? { label: t('nav.premium'), href: withBasePath(homePath, '/videos'), icon: AiOutlineVideoCamera, route: true, active: true }
+      : { label: t('nav.premium'), href: resolveSectionHref(pathname, 'videos', homePath), icon: AiOutlineVideoCamera },
+    { label: t('nav.packs'), href: withBasePath(homePath, '/packs'), icon: AiOutlineShopping, route: true },
+    { label: t('nav.calzones'), href: withBasePath(homePath, '/calzones'), icon: HiOutlineUser, route: true },
+    { label: t('nav.blog'), href: resolveSectionHref(pathname, 'blog', homePath), icon: HiBookOpen },
+    { label: t('nav.library'), href: withBasePath(homePath, '/library'), icon: HiOutlineLibrary, route: true },
   ]
 
   function handleSectionClick(itemHref) {
     const sectionId = itemHref.split('#')[1]
 
-    if (pathname === '/' && sectionId) {
+    if ((pathname === '/' || pathname === homePath) && sectionId) {
       window.dispatchEvent(
         new CustomEvent('section-nav-arrive', {
           detail: { sectionId },
@@ -85,7 +86,7 @@ export function HomePreviewRail() {
     }
 
     if (sectionId) {
-      navigate(`/#${sectionId}`)
+      navigate(`${homePath}#${sectionId}`)
     }
   }
 
@@ -97,21 +98,21 @@ export function HomePreviewRail() {
 
       <nav className="home-rail-nav" aria-label="Navegacion principal">
         {primaryItems.map((item) => (
-            <RailItem
-              key={item.href}
-              href={item.href}
-              icon={item.icon}
-              label={item.label}
-              route={item.route}
-              onClick={item.route ? undefined : () => handleSectionClick(item.href)}
-              isActive={Boolean(item.active) || (!item.route && item.href === resolveSectionHref(pathname, 'home-top'))}
-            />
-          ))}
+          <RailItem
+            key={item.href}
+            href={item.href}
+            icon={item.icon}
+            label={item.label}
+            route={item.route}
+            onClick={item.route ? undefined : () => handleSectionClick(item.href)}
+            isActive={Boolean(item.active) || (!item.route && item.href === resolveSectionHref(pathname, 'home-top', homePath))}
+          />
+        ))}
       </nav>
 
       <div className="home-rail-footer">
-        <RailItem
-          href={session ? '/profile' : '/access'}
+      <RailItem
+          href={session ? withBasePath(homePath, '/profile') : withBasePath(homePath, '/access')}
           icon={HiOutlineUser}
           label={session ? session.name || t('nav.profile') : t('nav.signIn')}
           route

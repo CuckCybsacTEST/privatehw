@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { normalizeSubscriptionTiers } from '../data/defaultCommerce'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
-export function AccessTotalSection({ content }) {
+export function AccessTotalSection({ content, basePath = '' }) {
   const navigate = useNavigate()
   const { session, subscriptionProducts } = useAppState()
   const { i18n, t } = useTranslation()
@@ -84,7 +85,7 @@ export function AccessTotalSection({ content }) {
     if (!targetProduct) {
       if (accessTotal.ctaUrl) {
         if (accessTotal.ctaUrl.startsWith('/')) {
-          navigate(accessTotal.ctaUrl)
+          navigate(withBasePath(basePath, accessTotal.ctaUrl))
           return
         }
 
@@ -95,11 +96,11 @@ export function AccessTotalSection({ content }) {
     }
 
     if (!session || !session.accessToken) {
-      navigate(`/access?redirect=/checkout/start/${targetProduct.slug}`)
+      navigate(withBasePath(basePath, `/access?redirect=/checkout/start/${targetProduct.slug}`))
       return
     }
 
-    navigate(`/checkout/start/${targetProduct.slug}`)
+    navigate(withBasePath(basePath, `/checkout/start/${targetProduct.slug}`))
   }
 
   return (

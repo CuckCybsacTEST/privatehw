@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
 import { useViewportState } from '../hooks/useViewportState'
+import { withBasePath } from '../utils/routes'
 
-export function CreatorHero({ content }) {
+export function CreatorHero({ content, basePath = '' }) {
   const navigate = useNavigate()
   const { i18n } = useTranslation()
   const { session, subscriptionProducts } = useAppState()
@@ -20,11 +21,11 @@ export function CreatorHero({ content }) {
     }
 
     if (!session || !session.accessToken) {
-      navigate(`/access?redirect=/checkout/start/${targetProduct.slug}`)
+      navigate(withBasePath(basePath, `/access?redirect=/checkout/start/${targetProduct.slug}`))
       return
     }
 
-    navigate(`/checkout/start/${targetProduct.slug}`)
+    navigate(withBasePath(basePath, `/checkout/start/${targetProduct.slug}`))
   }
 
   return (

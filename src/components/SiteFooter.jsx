@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { resolveLocalizedSection } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
-export function SiteFooter({ content }) {
+export function SiteFooter({ content, basePath = '' }) {
   const { session } = useAppState()
   const { t, i18n } = useTranslation()
   const siteFooter = resolveLocalizedSection(content, 'siteFooter', i18n.resolvedLanguage)
@@ -27,7 +28,7 @@ export function SiteFooter({ content }) {
           <a href={content.socialUrl} target="_blank" rel="noopener noreferrer">
             {t('footer.telegram')}
           </a>
-          <Link to={session ? '/library' : '/access'}>
+          <Link to={session ? withBasePath(basePath, '/library') : withBasePath(basePath, '/access')}>
             {session ? t('nav.library') : t('footer.access')}
           </Link>
         </div>

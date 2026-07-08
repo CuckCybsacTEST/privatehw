@@ -144,6 +144,9 @@ const resources = {
         manualCoordinationPoint: 'Coordinacion manual despues del pago',
         moreProducts: 'Ver mas productos',
       },
+      home: {
+        publishFree: 'Publicar gratis',
+      },
       physicalStore: {
         panelTitle: 'Compra asistida y envio manual',
         panelDescription:
@@ -158,7 +161,7 @@ const resources = {
         eyebrow: 'Acceso del cliente',
         title: 'Entrar o crear cuenta para desbloquear contenido',
         description:
-          'Usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear videos, packs y publicaciones premium.',
+          'Clientes, modelos y publico conviven en una sola puerta: usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear videos, packs y publicaciones premium.',
         authTitle: 'Iniciar sesion',
         loginUnlockCopy: 'Inicia sesion para desbloquear contenido y seguir con la modelo.',
         registerUnlockCopy: 'Crea tu cuenta para desbloquear contenido y continuar al instante.',
@@ -198,7 +201,7 @@ const resources = {
           'Aqui ves tu informacion basica, estado de acceso y accesos directos a tus areas clave.',
         account: 'Cuenta',
         roleAdmin: 'Administrador',
-        roleMember: 'Miembro',
+        roleMember: 'Cliente',
         statusActive: 'Activo',
         statusInactive: 'Inactivo',
         accessSummary: 'Acceso',
@@ -1244,6 +1247,9 @@ const resources = {
         manualCoordinationPoint: 'Manual coordination after payment',
         moreProducts: 'See more products',
       },
+      home: {
+        publishFree: 'Publish free',
+      },
       physicalStore: {
         panelTitle: 'Assisted purchase and manual shipping',
         panelDescription:
@@ -1258,7 +1264,7 @@ const resources = {
         eyebrow: 'Client access',
         title: 'Sign in or create an account to unlock content',
         description:
-          'Use your account to manage purchases, review active access, and unlock premium videos, packs, and posts.',
+          'Clients, models, and public visitors share one entry point: use your account to manage purchases, review active access, and unlock premium videos, packs, and posts.',
         authTitle: 'Sign in',
         loginUnlockCopy: 'Sign in to unlock content and continue with the model.',
         registerUnlockCopy: 'Create your account to unlock content and continue instantly.',
@@ -1303,7 +1309,7 @@ const resources = {
           'Here you can see your basic information, access status, and quick links to key areas.',
         account: 'Account',
         roleAdmin: 'Admin',
-        roleMember: 'Member',
+        roleMember: 'Client',
         statusActive: 'Active',
         statusInactive: 'Inactive',
         accessSummary: 'Access',

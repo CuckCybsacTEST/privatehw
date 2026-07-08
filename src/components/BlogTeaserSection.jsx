@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord, resolveLocalizedSection } from '../utils/localizedContent'
 import { useViewportState } from '../hooks/useViewportState'
+import { withBasePath } from '../utils/routes'
 
 function BlogTextCard({
   post,
@@ -36,7 +37,7 @@ function BlogTextCard({
   )
 }
 
-export function BlogTeaserSection({ content }) {
+export function BlogTeaserSection({ content, basePath = '' }) {
   const { blogPosts, getContentAccess, getProductBySlug } = useAppState()
   const { i18n, t } = useTranslation()
   const blogSection = resolveLocalizedSection(content, 'blogSection', i18n.resolvedLanguage)
@@ -61,18 +62,18 @@ export function BlogTeaserSection({ content }) {
     const purchaseProduct = getBlogPurchaseProduct(post)
 
     if (access.unlocked) {
-      return { label: t('content.fullEditorial'), href: `/blog/${post.slug}` }
+      return { label: t('content.fullEditorial'), href: withBasePath(basePath, `/blog/${post.slug}`) }
     }
 
     if (post.accessLevel === 'purchase') {
       return {
         label: t('content.buyArticle'),
-        href: `/checkout/start/${purchaseProduct?.slug || `blog-${post.slug}`}`,
+        href: withBasePath(basePath, `/checkout/start/${purchaseProduct?.slug || `blog-${post.slug}`}`),
         priceLabel: purchaseProduct?.priceLabel || post.priceLabel || '',
       }
     }
 
-    return { label: t('content.fullEditorial'), href: `/blog/${post.slug}` }
+    return { label: t('content.fullEditorial'), href: withBasePath(basePath, `/blog/${post.slug}`) }
   }
 
   function getPriceLabel(post) {
@@ -169,7 +170,7 @@ export function BlogTeaserSection({ content }) {
       )}
 
       <div className="section-more-actions">
-        <Link className="section-more-link" to="/blog">
+        <Link className="section-more-link" to={withBasePath(basePath, '/blog')}>
           {t('content.fullEditorial')}
         </Link>
       </div>

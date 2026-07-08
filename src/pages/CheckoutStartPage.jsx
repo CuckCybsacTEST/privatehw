@@ -6,6 +6,7 @@ import { Seo } from '../components/Seo'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedRecord } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
 function resolveProductVisual(product, siteContent, blogPosts = []) {
   if (!product) {
@@ -109,6 +110,10 @@ function buildProductSummary(product, t, displayTitle) {
 
 export function CheckoutStartPage() {
   const navigate = useNavigate()
+  const basePath =
+    typeof window !== 'undefined' && window.location.pathname.startsWith('/sindyprivate')
+      ? '/sindyprivate'
+      : ''
   const { productSlug } = useParams()
   const { blogPosts, createCheckoutSession, getProductBySlug, session, siteContent } = useAppState()
   const { t, i18n } = useTranslation()
@@ -146,18 +151,20 @@ export function CheckoutStartPage() {
   const productSummary = buildProductSummary(product, t, localizedProductTitle)
   const visual = resolveProductVisual(product, localizedSiteContent, blogPosts)
   const videoMode = productVideoItem?.accessMode || 'purchase'
-  const videoRedirectHref = productVideoSlug ? `/videos/${productVideoSlug}` : '/access'
+  const videoRedirectHref = productVideoSlug
+    ? withBasePath(basePath, `/videos/${productVideoSlug}`)
+    : withBasePath(basePath, '/access')
 
   if (!session) {
-    return <Navigate to={`/access?redirect=/checkout/start/${productSlug}`} replace />
+    return <Navigate to={withBasePath(basePath, `/access?redirect=/checkout/start/${productSlug}`)} replace />
   }
 
   if (!product) {
-    return <Navigate to="/library" replace />
+    return <Navigate to={withBasePath(basePath, '/library')} replace />
   }
 
   if (product.productType === 'video' && videoMode !== 'purchase') {
-    return <Navigate to={`/access?redirect=${encodeURIComponent(videoRedirectHref)}`} replace />
+    return <Navigate to={withBasePath(basePath, `/access?redirect=${encodeURIComponent(videoRedirectHref)}`)} replace />
   }
 
   async function handleContinue() {
@@ -182,7 +189,7 @@ export function CheckoutStartPage() {
       />
       <PublicNav />
       <section className="content-listing-page checkout-page">
-        <Link className="content-back-link" to="/library">
+        <Link className="content-back-link" to={withBasePath(basePath, '/library')}>
           {t('checkout.backLibrary')}
         </Link>
 
@@ -238,7 +245,7 @@ export function CheckoutStartPage() {
           </article>
         </div>
       </section>
-      <SiteFooter content={siteContent} />
+      <SiteFooter content={siteContent} basePath={basePath} />
     </main>
   )
 }

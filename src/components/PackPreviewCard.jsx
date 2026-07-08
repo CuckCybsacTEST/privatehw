@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '../state/AppState'
 import { buildPackAccessActions } from '../utils/packAccess'
 import { resolveLocalizedRecord } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
-export function PackPreviewCard({ collection }) {
+export function PackPreviewCard({ collection, basePath = '' }) {
   const { getContentAccess, session, siteContent, subscriptionProduct } = useAppState()
   const { t, i18n } = useTranslation()
   const resolvedCollection = resolveLocalizedRecord(collection, i18n.resolvedLanguage)
@@ -17,7 +18,8 @@ export function PackPreviewCard({ collection }) {
     subscriptionProduct,
     siteContent: localizedSiteContent,
     t,
-    viewHref: `/packs/${resolvedCollection.slug}`,
+    viewHref: withBasePath(basePath, `/packs/${resolvedCollection.slug}`),
+    basePath,
   })
   const primaryAction = actions.find((action) => action.variant === 'primary') || actions[0] || null
   const displayPrice = access.product?.priceLabel || resolvedCollection.priceLabel

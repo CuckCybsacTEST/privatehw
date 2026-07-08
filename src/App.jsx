@@ -7,6 +7,7 @@ import { LanguageSync } from './components/LanguageSync'
 import { AppLoader } from './components/AppLoader'
 import { fetchEncuentrosModels } from './lib/supabase'
 import { HomePreviewTopBar } from './components/HomePreviewTopBar'
+import { PublicHomeTopBar } from './components/PublicHomeTopBar'
 import { MobileBottomNav } from './components/MobileBottomNav'
 import { HomePage } from './pages/HomePage'
 import { BlogIndexPage } from './pages/BlogIndexPage'
@@ -14,6 +15,14 @@ import { BlogPostPage } from './pages/BlogPostPage'
 import { StaticContentPage } from './components/StaticContentPage'
 import { staticPages } from './data/staticPages'
 import { resolveEncounterFallbackSlug } from './utils/encuentrosModels'
+
+const legacyHomeBasePath = '/sindyprivate'
+const legacyHomeRedirectPath = '/home-anterior'
+
+function withLegacyHomePath(path = '') {
+  return `${legacyHomeBasePath}${path}`
+}
+
 const AccessPage = lazy(() => import('./pages/AccessPage').then((module) => ({ default: module.AccessPage })))
 const CheckoutCancelPage = lazy(() =>
   import('./pages/CheckoutCancelPage').then((module) => ({ default: module.CheckoutCancelPage })),
@@ -45,8 +54,14 @@ const FreeContentPage = lazy(() => import('./pages/FreeContentPage').then((modul
 const MemberLibraryPage = lazy(() =>
   import('./pages/MemberLibraryPage').then((module) => ({ default: module.MemberLibraryPage })),
 )
+const LegacyHomePage = lazy(() =>
+  import('./pages/LegacyHomePage').then((module) => ({ default: module.LegacyHomePage })),
+)
 const ModelsLandingPage = lazy(() =>
   import('./pages/ModelsLandingPage').then((module) => ({ default: module.ModelsLandingPage })),
+)
+const OpeningPage = lazy(() =>
+  import('./pages/OpeningPage').then((module) => ({ default: module.OpeningPage })),
 )
 const ProfilePage = lazy(() =>
   import('./pages/ProfilePage').then((module) => ({ default: module.ProfilePage })),
@@ -122,7 +137,7 @@ function ProtectedAdminRoute() {
   return <AdminDashboardPage />
 }
 
-function ProtectedMemberRoute() {
+function ProtectedMemberRoute({ redirectTo = '/access?redirect=/library' }) {
   const { isBootstrapping, session } = useAppState()
   const { t } = useTranslation()
 
@@ -131,7 +146,7 @@ function ProtectedMemberRoute() {
   }
 
   if (!session) {
-    return <Navigate to="/access?redirect=/library" replace />
+    return <Navigate to={redirectTo} replace />
   }
 
   return <MemberLibraryPage />
@@ -183,6 +198,56 @@ function AppRoutes() {
         <Route path="/encuentross/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path={legacyHomeRedirectPath} element={<Navigate to={legacyHomeBasePath} replace />} />
+        <Route path={legacyHomeBasePath} element={<LegacyHomePage />} />
+        <Route path="/apertura" element={<Navigate to="/registro-modelos" replace />} />
+        <Route path="/registro-modelos" element={<OpeningPage />} />
+        <Route path={withLegacyHomePath('/blog')} element={<BlogIndexPage />} />
+        <Route path={withLegacyHomePath('/blog/:slug')} element={<BlogPostPage />} />
+        <Route path={withLegacyHomePath('/videos')} element={<VideoCatalogPage />} />
+        <Route path={withLegacyHomePath('/videos/:slug')} element={<VideoDetailPage />} />
+        <Route path={withLegacyHomePath('/packs')} element={<CollectionCatalogPage />} />
+        <Route path={withLegacyHomePath('/packs/:slug')} element={<PackDetailPage />} />
+        <Route path={withLegacyHomePath('/calzones')} element={<CalzonesPage />} />
+        <Route path={withLegacyHomePath('/calzones/:slug')} element={<PhysicalProductPage />} />
+        <Route
+          path={withLegacyHomePath('/calzones/checkout/:slug')}
+          element={
+            <ProtectedRegisteredRoute
+              redirectTo={
+                window.location.pathname
+                  ? `${legacyHomeBasePath}/access?redirect=${encodeURIComponent(window.location.pathname)}`
+                  : `${legacyHomeBasePath}/access?redirect=/calzones`
+              }
+            >
+              <PhysicalCheckoutPage />
+            </ProtectedRegisteredRoute>
+          }
+        />
+        <Route path={withLegacyHomePath('/access')} element={<AccessPage />} />
+        <Route
+          path={withLegacyHomePath('/library')}
+          element={<ProtectedMemberRoute redirectTo={withLegacyHomePath('/access?redirect=/library')} />}
+        />
+        <Route
+          path={withLegacyHomePath('/profile')}
+          element={
+            <ProtectedRegisteredRoute redirectTo={withLegacyHomePath('/access?redirect=/profile')}>
+              <ProfilePage />
+            </ProtectedRegisteredRoute>
+          }
+        />
+        <Route
+          path={withLegacyHomePath('/free-content')}
+          element={
+            <ProtectedRegisteredRoute redirectTo={withLegacyHomePath('/access?redirect=/free-content')}>
+              <FreeContentPage />
+            </ProtectedRegisteredRoute>
+          }
+        />
+        <Route path={withLegacyHomePath('/checkout/start/:productSlug')} element={<CheckoutStartPage />} />
+        <Route path={withLegacyHomePath('/checkout/success')} element={<CheckoutSuccessPage />} />
+        <Route path={withLegacyHomePath('/checkout/cancel')} element={<CheckoutCancelPage />} />
         <Route path="/modelos" element={<ModelsLandingPage />} />
         <Route path="/terminos" element={<StaticContentPage page={staticPages.terms} />} />
         <Route path="/privacidad" element={<StaticContentPage page={staticPages.privacy} />} />
@@ -190,12 +255,6 @@ function AppRoutes() {
         <Route path="/contacto" element={<StaticContentPage page={staticPages.contact} />} />
         <Route path="/ayuda" element={<StaticContentPage page={staticPages.help} />} />
         <Route path="/denunciar-estafa" element={<StaticContentPage page={staticPages.report} />} />
-        <Route path="/videos" element={<VideoCatalogPage />} />
-        <Route path="/videos/:slug" element={<VideoDetailPage />} />
-        <Route path="/packs" element={<CollectionCatalogPage />} />
-        <Route path="/packs/:slug" element={<PackDetailPage />} />
-        <Route path="/calzones" element={<CalzonesPage />} />
-        <Route path="/calzones/:slug" element={<PhysicalProductPage />} />
         <Route
           path="/calzones/checkout/:slug"
           element={
@@ -204,7 +263,6 @@ function AppRoutes() {
             </ProtectedRegisteredRoute>
           }
         />
-        <Route path="/access" element={<AccessPage />} />
         <Route path="/library" element={<ProtectedMemberRoute />} />
         <Route
           path="/profile"
@@ -246,9 +304,10 @@ function AppChrome() {
   const { pathname, search } = useLocation()
   const isEncuentrosProfileContext =
     pathname === '/profile' && new URLSearchParams(search).get('source') === 'encuentros'
+  const isLegacyHomeContext = pathname === legacyHomeBasePath
+  const isCurrentHomeContext = pathname === '/'
 
   if (
-    pathname === '/' ||
     pathname.startsWith('/access') ||
     pathname.startsWith('/admin') ||
     isEncuentrosProfileContext
@@ -260,17 +319,19 @@ function AppChrome() {
     return <MobileBottomNav />
   }
 
-  const topbarLayoutClass =
-    pathname === '/'
-      ? 'site-topbar-shell is-home-layout'
-      : 'site-topbar-shell is-sidebar-layout'
+  if (!isCurrentHomeContext && !isLegacyHomeContext) {
+    return null
+  }
+
+  const topbarLayoutClass = isCurrentHomeContext
+    ? 'site-topbar-shell is-public-home-layout'
+    : 'site-topbar-shell is-home-layout'
 
   return (
     <>
       <div className={topbarLayoutClass}>
-        <HomePreviewTopBar />
+        {isCurrentHomeContext ? <PublicHomeTopBar /> : <HomePreviewTopBar basePath={legacyHomeBasePath} />}
       </div>
-      <MobileBottomNav />
     </>
   )
 }

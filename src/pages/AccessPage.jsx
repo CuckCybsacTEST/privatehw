@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { Seo } from '../components/Seo'
 import { useAppState } from '../state/AppState'
 import { AiFillX } from 'react-icons/ai'
@@ -10,6 +9,7 @@ import { FcGoogle } from 'react-icons/fc'
 export function AccessPage() {
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/'
+  const initialTab = searchParams.get('tab') === 'register' ? 'register' : 'login'
   const {
     isSupabaseConfigured,
     session,
@@ -18,7 +18,7 @@ export function AccessPage() {
     signUpMemberWithEmail,
   } = useAppState()
   const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState('login')
+  const [activeTab, setActiveTab] = useState(initialTab)
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const [registerForm, setRegisterForm] = useState({ displayName: '', email: '', password: '' })
   const [error, setError] = useState('')
@@ -110,18 +110,46 @@ export function AccessPage() {
   return (
     <main className="access-auth-page">
       <Seo
-        title="Acceso | Kinkly"
-        description="Inicio de sesion, registro y acceso al area privada."
+        title="Acceso global | Kinkly"
+        description="Acceso para clientes, modelos y publico dentro de una sola puerta de entrada."
         canonicalPath="/access"
         noindex
       />
       <section className="access-auth-shell">
         <div className="access-auth-card">
-          <div className="access-auth-topbar">
-            <Link className="access-auth-home-link" to={postAuthTarget}>
-              {t('access.backHome')}
-            </Link>
-            <LanguageSwitcher className="access-auth-language" />
+          <div className="access-auth-copy">
+            <p className="access-auth-eyebrow">{t('access.eyebrow')}</p>
+            <h1>{t('access.title')}</h1>
+            <p>{t('access.description')}</p>
+          </div>
+
+          <div className="access-audience-grid" aria-label="Entradas principales">
+            <article className="access-audience-card">
+              <span className="access-audience-kicker">Clientes</span>
+              <strong>Entra, compra y guarda tus reservas.</strong>
+              <p>Usa tu cuenta para acceder a contenido, biblioteca y seguimiento privado.</p>
+              <Link className="hero-secondary-cta access-audience-cta" to="#access-form">
+                Ir al acceso
+              </Link>
+            </article>
+
+            <article className="access-audience-card is-highlighted">
+              <span className="access-audience-kicker">Modelos</span>
+              <strong>Publica tu perfil y gestiona tu presencia.</strong>
+              <p>Arranca desde el flujo de modelos y entra al panel cuando quieras editar o actualizar.</p>
+              <Link className="hero-primary-cta access-audience-cta" to="/registro-modelos">
+                Crear perfil
+              </Link>
+            </article>
+
+            <article className="access-audience-card">
+              <span className="access-audience-kicker">Público</span>
+              <strong>Explora antes de iniciar sesión.</strong>
+              <p>El catálogo sigue abierto para ver encuentros, anuncios y rutas públicas.</p>
+              <Link className="hero-secondary-cta access-audience-cta" to="/encuentros">
+                Ver catálogo
+              </Link>
+            </article>
           </div>
 
           <div className="access-oauth-block">
@@ -181,7 +209,7 @@ export function AccessPage() {
             </button>
           </div>
 
-          <div className="access-card access-card-form">
+          <div className="access-card access-card-form" id="access-form">
             <div className="access-card-copy">
               <strong>{authTitle}</strong>
               <span>{authSubtitle}</span>

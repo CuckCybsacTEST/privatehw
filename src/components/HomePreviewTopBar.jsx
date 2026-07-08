@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 import { BiLogoTelegram } from 'react-icons/bi'
 import { useAppState } from '../state/AppState'
+import { withBasePath } from '../utils/routes'
 
-export function HomePreviewTopBar() {
+export function HomePreviewTopBar({ basePath = '' }) {
   const { session, siteContent } = useAppState()
   const { t } = useTranslation()
   const telegramUrl = siteContent?.socialUrl || 'https://t.me/Kinkly'
@@ -31,17 +32,17 @@ export function HomePreviewTopBar() {
           <BiLogoTelegram aria-hidden="true" />
         </a>
         {session ? (
-          <Link className="home-topbar-user" to="/profile" aria-label={t('profile.title')}>
+          <Link className="home-topbar-user" to={withBasePath(basePath, '/profile')} aria-label={t('profile.title')}>
             <span className="home-topbar-user-avatar" aria-hidden="true" />
             <strong>{session.name || t('profile.title')}</strong>
             <AiOutlineBell aria-hidden="true" className="home-topbar-user-bell" />
           </Link>
         ) : (
           <div className="home-topbar-auth">
-            <Link className="home-topbar-auth-button home-topbar-auth-button-secondary" to="/access">
+            <Link className="home-topbar-auth-button home-topbar-auth-button-secondary" to={withBasePath(basePath, '/access')}>
               {t('access.login')}
             </Link>
-            <Link className="home-topbar-auth-button home-topbar-auth-button-primary" to="/access">
+            <Link className="home-topbar-auth-button home-topbar-auth-button-primary" to={withBasePath(basePath, '/access')}>
               {t('access.register')}
             </Link>
           </div>

@@ -41,6 +41,8 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || ''
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
 const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', import.meta.url)
+const ENCUENTROS_MODELS_FILE = new URL('./data/encuentros-models.json', import.meta.url)
+const ENCUENTROS_MODEL_REQUESTS_FILE = new URL('./data/encuentros-model-requests.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
 const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
 let homeContentCache = {
@@ -161,6 +163,58 @@ async function writeGalleryReactionVotes(votes = []) {
   await writeFile(
     GALLERY_REACTIONS_FILE,
     `${JSON.stringify({ votes }, null, 2)}\n`,
+    'utf8',
+  )
+}
+
+async function readLocalEncounterModels() {
+  try {
+    const rawValue = await readFile(ENCUENTROS_MODELS_FILE, 'utf8')
+    const parsedValue = JSON.parse(rawValue)
+
+    return Array.isArray(parsedValue?.models) ? parsedValue.models : []
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return []
+    }
+
+    throw error
+  }
+}
+
+async function writeLocalEncounterModels(models = []) {
+  await mkdir(new URL('./data/', import.meta.url), { recursive: true })
+  await writeFile(
+    ENCUENTROS_MODELS_FILE,
+    `${JSON.stringify({ models }, null, 2)}\n`,
+    'utf8',
+  )
+}
+
+async function readLocalEncounterModelRequests() {
+  try {
+    const rawValue = await readFile(ENCUENTROS_MODEL_REQUESTS_FILE, 'utf8')
+    const parsedValue = JSON.parse(rawValue)
+
+    return Array.isArray(parsedValue?.requests)
+      ? parsedValue.requests
+      : Array.isArray(parsedValue?.models)
+        ? parsedValue.models
+        : []
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return []
+    }
+
+    throw error
+  }
+}
+
+async function writeLocalEncounterModelRequests(requests = []) {
+  await mkdir(new URL('./data/', import.meta.url), { recursive: true })
+  await writeFile(
+    ENCUENTROS_MODEL_REQUESTS_FILE,
+    `${JSON.stringify({ requests }, null, 2)}\n`,
     'utf8',
   )
 }
@@ -1565,6 +1619,30 @@ function normalizeEncounterModelRow(row = {}, fallbackIndex = 0) {
   }
 }
 
+function normalizeEncounterModelRequestRow(row = {}, fallbackIndex = 0) {
+  return {
+    id: row.id || `encuentros-model-request-${fallbackIndex}`,
+    slug: row.slug || row.request_slug || '',
+    displayName: row.display_name || row.displayName || `Solicitud ${fallbackIndex + 1}`,
+    email: row.email || row.request_email || row.contact_email || '',
+    city: row.city || row.request_city || '',
+    nationality: row.nationality || row.request_nationality || '',
+    phone: row.phone || row.request_phone || '',
+    telegram: row.telegram || row.request_telegram || '',
+    bio: row.bio || row.request_bio || '',
+    notes: row.notes || row.request_notes || '',
+    verificationPhotoUrl: row.verification_photo_url || row.verificationPhotoUrl || '',
+    status: row.status || 'pending',
+    modelId: row.model_id || row.modelId || null,
+    reviewNotes: row.review_notes || row.reviewNotes || '',
+    reviewedBy: row.reviewed_by || row.reviewedBy || null,
+    reviewedAt: row.reviewed_at || row.reviewedAt || null,
+    submittedBy: row.submitted_by || row.submittedBy || null,
+    createdAt: row.created_at || row.createdAt || null,
+    updatedAt: row.updated_at || row.updatedAt || null,
+  }
+}
+
 function isMissingEncounterModelRelationTableError(error) {
   const message = String(error?.message || error || '')
 
@@ -2114,6 +2192,17 @@ function isMissingEncounterModelsTableError(error) {
   )
 }
 
+function isMissingEncounterModelRequestsTableError(error) {
+  const message = String(error?.message || error || '')
+
+  return (
+    message.includes('encuentros_model_requests') ||
+    message.includes('schema cache') ||
+    message.includes('does not exist') ||
+    message.includes('relation "public.encuentros_model_requests"')
+  )
+}
+
 function isAuthRequiredError(error) {
   const message = String(error?.message || '').toLowerCase()
 
@@ -2126,7 +2215,21 @@ function isAuthRequiredError(error) {
 
 async function loadEncounterModels({ includeHidden = false } = {}) {
   if (!supabaseAdmin) {
-    return [buildFallbackEncounterModel()]
+    const fallbackModel = buildFallbackEncounterModel(await loadHomeContent())
+    const localModels = (await readLocalEncounterModels()).map((row, index) =>
+      normalizeEncounterModelRow(row, index),
+    )
+    const modelsBySlug = new Map([[fallbackModel.slug, fallbackModel]])
+
+    for (const model of localModels) {
+      modelsBySlug.set(model.slug, model)
+    }
+
+    const models = Array.from(modelsBySlug.values()).filter((model) =>
+      includeHidden ? true : model.status === 'published' && model.deletedAt === null,
+    )
+
+    return models.length ? models : [fallbackModel]
   }
 
   try {
@@ -2182,8 +2285,27 @@ async function loadEncounterModelBySlug(slug = '', { includeHidden = false } = {
   }
 
   if (!supabaseAdmin) {
-    const fallbackModel = buildFallbackEncounterModel()
-    return fallbackModel.slug === normalizedSlug ? fallbackModel : null
+    const fallbackModel = buildFallbackEncounterModel(await loadHomeContent())
+    const localModels = (await readLocalEncounterModels()).map((row, index) =>
+      normalizeEncounterModelRow(row, index),
+    )
+    const modelsBySlug = new Map([[fallbackModel.slug, fallbackModel]])
+
+    for (const model of localModels) {
+      modelsBySlug.set(model.slug, model)
+    }
+
+    const model = modelsBySlug.get(normalizedSlug) || null
+
+    if (!model) {
+      return null
+    }
+
+    if (!includeHidden && (model.status !== 'published' || model.deletedAt)) {
+      return null
+    }
+
+    return model
   }
 
   let query = supabaseAdmin
@@ -2347,13 +2469,53 @@ async function deleteEncounterReservationHistoryByModelSlug(slug = '') {
 }
 
 async function createEncounterModel(payload = {}, adminProfile) {
-  assertSupabaseAuthConfig()
-
   const slugSeed =
     String(payload.slug || '').trim() ||
     String(payload.displayName || payload.display_name || '').trim() ||
     `modelo-${Date.now()}`
   const resolvedSlug = slugifyEncounterModelSlug(slugSeed)
+  const record = normalizeEncounterModelPayload(
+    {
+      ...payload,
+      slug: resolvedSlug,
+    },
+    null,
+    adminProfile,
+  )
+  const relationPayload = buildEncounterModelRecordPayload(payload, null, adminProfile)
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModels()
+    const duplicate = existingRows.some((row) => slugifyEncounterModelSlug(row.slug || '') === resolvedSlug)
+
+    if (duplicate) {
+      const error = new Error('Ya existe un modelo con ese slug.')
+      error.code = 'MODEL_EXISTS'
+      throw error
+    }
+
+    const now = new Date().toISOString()
+    const nextRow = {
+      id: crypto.randomUUID(),
+      slug: resolvedSlug,
+      display_name: record.display_name,
+      status: record.status,
+      sort_order: record.sort_order,
+      content: record.content,
+      published_at: record.published_at,
+      deleted_at: null,
+      created_by: null,
+      updated_by: null,
+      created_at: now,
+      updated_at: now,
+    }
+
+    await writeLocalEncounterModels([...existingRows, nextRow])
+
+    return normalizeEncounterModelRow(nextRow)
+  }
+
+  assertSupabaseAuthConfig()
 
   const { data: existing, error: existingError } = await supabaseAdmin
     .from('encuentros_models')
@@ -2370,16 +2532,6 @@ async function createEncounterModel(payload = {}, adminProfile) {
     error.code = 'MODEL_EXISTS'
     throw error
   }
-
-  const record = normalizeEncounterModelPayload(
-    {
-      ...payload,
-      slug: resolvedSlug,
-    },
-    null,
-    adminProfile,
-  )
-  const relationPayload = buildEncounterModelRecordPayload(payload, null, adminProfile)
 
   const { data, error } = await supabaseAdmin
     .from('encuentros_models')
@@ -2413,9 +2565,50 @@ async function createEncounterModel(payload = {}, adminProfile) {
 }
 
 async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
-  assertSupabaseAuthConfig()
-
   const normalizedSlug = slugifyEncounterModelSlug(slug)
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModels()
+    const existing = existingRows.find((row) => slugifyEncounterModelSlug(row.slug || '') === normalizedSlug)
+
+    if (!existing) {
+      const error = new Error('El modelo solicitado no existe.')
+      error.code = 'MODEL_NOT_FOUND'
+      throw error
+    }
+
+    const nextRecord = normalizeEncounterModelPayload(payload, existing, adminProfile)
+    const nextSlug = nextRecord.slug
+
+    if (
+      nextSlug !== existing.slug &&
+      existingRows.some(
+        (row) =>
+          row.id !== existing.id &&
+          slugifyEncounterModelSlug(row.slug || '') === nextSlug,
+      )
+    ) {
+      const error = new Error('Ya existe otro modelo con el nuevo slug.')
+      error.code = 'MODEL_EXISTS'
+      throw error
+    }
+
+    const updatedRow = {
+      ...existing,
+      ...nextRecord,
+      id: existing.id,
+      created_at: existing.created_at || new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
+
+    await writeLocalEncounterModels(
+      existingRows.map((row) => (row.id === existing.id ? updatedRow : row)),
+    )
+
+    return normalizeEncounterModelRow(updatedRow)
+  }
+
+  assertSupabaseAuthConfig()
 
   const { data: existing, error: existingError } = await supabaseAdmin
     .from('encuentros_models')
@@ -2489,9 +2682,26 @@ async function updateEncounterModel(slug = '', payload = {}, adminProfile) {
 }
 
 async function deleteEncounterModel(slug = '', adminProfile) {
-  assertSupabaseAuthConfig()
-
   const normalizedSlug = slugifyEncounterModelSlug(slug)
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModels()
+    const existing = existingRows.find((row) => slugifyEncounterModelSlug(row.slug || '') === normalizedSlug)
+
+    if (!existing) {
+      const error = new Error('El modelo solicitado no existe.')
+      error.code = 'MODEL_NOT_FOUND'
+      throw error
+    }
+
+    await writeLocalEncounterModels(
+      existingRows.filter((row) => row.id !== existing.id),
+    )
+
+    return { deleted: true, cleanupResult: { ordersDeleted: 0, orderItemsDeleted: 0, entitlementsDeleted: 0 } }
+  }
+
+  assertSupabaseAuthConfig()
 
   const { data: existing, error: existingError } = await supabaseAdmin
     .from('encuentros_models')
@@ -2530,6 +2740,418 @@ async function deleteEncounterModel(slug = '', adminProfile) {
   })
 
   return { deleted: true, cleanupResult }
+}
+
+function normalizeEncounterModelRequestPayload(payload = {}, existingRow = null, actorProfile = null) {
+  const status = ['pending', 'approved', 'rejected', 'suspended', 'observed'].includes(payload.status)
+    ? payload.status
+    : existingRow?.status || 'pending'
+
+  return {
+    display_name:
+      String(payload.displayName || payload.display_name || existingRow?.display_name || '').trim() ||
+      'Modelo',
+    email: String(payload.email || existingRow?.email || '').trim(),
+    city: String(payload.city || existingRow?.city || '').trim(),
+    nationality: String(payload.nationality || existingRow?.nationality || '').trim(),
+    phone: String(payload.phone || existingRow?.phone || '').trim(),
+    telegram: String(payload.telegram || existingRow?.telegram || '').trim(),
+    bio: String(payload.bio || existingRow?.bio || '').trim(),
+    notes: String(payload.notes || existingRow?.notes || '').trim(),
+    verification_photo_url:
+      String(
+        payload.verificationPhotoUrl ||
+          payload.verification_photo_url ||
+          existingRow?.verification_photo_url ||
+          '',
+      ).trim(),
+    status,
+    review_notes: String(payload.reviewNotes || payload.review_notes || existingRow?.review_notes || '').trim(),
+    reviewed_by: actorProfile?.id || existingRow?.reviewed_by || null,
+    reviewed_at:
+      status !== 'pending'
+        ? payload.reviewedAt || payload.reviewed_at || existingRow?.reviewed_at || new Date().toISOString()
+        : existingRow?.reviewed_at || null,
+    submitted_by: actorProfile?.id || payload.submittedBy || payload.submitted_by || existingRow?.submitted_by || null,
+  }
+}
+
+function buildEncounterModelContentFromRequest(requestRow = {}) {
+  return mergeSiteContent({
+    requestSource: 'self-register',
+    requestStatus: requestRow.status || 'pending',
+    requestSubmittedAt: requestRow.created_at || requestRow.createdAt || new Date().toISOString(),
+    requestId: requestRow.id || '',
+    requestContactName: requestRow.display_name || requestRow.displayName || '',
+    requestEmail: requestRow.email || '',
+    requestPhone: requestRow.phone || '',
+    requestCity: requestRow.city || '',
+    requestNationality: requestRow.nationality || '',
+    requestTelegram: requestRow.telegram || '',
+    requestBio: requestRow.bio || '',
+    requestNotes: requestRow.notes || '',
+    requestVerificationPhotoUrl: requestRow.verification_photo_url || requestRow.verificationPhotoUrl || '',
+  })
+}
+
+async function loadEncounterModelRequests({ includeHidden = true } = {}) {
+  if (!supabaseAdmin) {
+    const rows = (await readLocalEncounterModelRequests()).map((row, index) =>
+      normalizeEncounterModelRequestRow(row, index),
+    )
+
+    return includeHidden ? rows : rows.filter((row) => row.status === 'pending')
+  }
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('encuentros_model_requests')
+      .select(
+      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+      )
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      throw error
+    }
+
+    const requests = (data || []).map((row, index) => normalizeEncounterModelRequestRow(row, index))
+
+    return includeHidden ? requests : requests.filter((row) => row.status === 'pending')
+  } catch (error) {
+    if (!isMissingEncounterModelRequestsTableError(error)) {
+      throw new Error(error.message || 'No se pudieron cargar las solicitudes de modelo.')
+    }
+
+    return []
+  }
+}
+
+async function loadEncounterModelById(modelId = '') {
+  const normalizedId = String(modelId || '').trim()
+
+  if (!normalizedId) {
+    return null
+  }
+
+  if (!supabaseAdmin) {
+    const models = await readLocalEncounterModels()
+    const localModel = models.find((row) => String(row.id || '').trim() === normalizedId)
+    return localModel ? normalizeEncounterModelRow(localModel) : null
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_models')
+    .select(
+      'id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at',
+    )
+    .eq('id', normalizedId)
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  return data ? normalizeEncounterModelRow(data) : null
+}
+
+async function createEncounterModelFromRequest(requestRow = {}, adminProfile = null) {
+  const requestPayload = normalizeEncounterModelRequestRow(requestRow)
+  const slugSeed =
+    String(requestRow.slug || '').trim() ||
+    String(requestPayload.displayName || '').trim() ||
+    String(requestPayload.city || requestPayload.nationality || 'solicitud').trim() ||
+    `modelo-${Date.now()}`
+  const slug = slugifyEncounterModelSlug(slugSeed)
+  const existingContent = buildEncounterModelContentFromRequest(requestRow)
+  const content = mergeSiteContent(existingContent)
+
+  const model = await createEncounterModel(
+    {
+      slug,
+      displayName: requestPayload.displayName || getEncounterModelDisplayName(slug),
+      status: 'draft',
+      sortOrder: -1000,
+      content,
+    },
+    adminProfile,
+  )
+
+  return model
+}
+
+async function createEncounterModelRequest(payload = {}) {
+  const rawName = String(payload.displayName || payload.name || payload.profileName || '').trim()
+  const name = rawName || 'Modelo'
+  const email = String(payload.email || '').trim()
+  const bio = String(payload.bio || '').trim()
+
+  if (!rawName) {
+    const error = new Error('Debes indicar un nombre de modelo.')
+    error.code = 'BAD_REQUEST'
+    throw error
+  }
+
+  if (!email) {
+    const error = new Error('Debes indicar un correo de contacto.')
+    error.code = 'BAD_REQUEST'
+    throw error
+  }
+
+  if (!bio) {
+    const error = new Error('Debes añadir una presentacion breve.')
+    error.code = 'BAD_REQUEST'
+    throw error
+  }
+
+  const slugSeed =
+    String(payload.slug || '').trim() ||
+    `${name}-${String(payload.city || payload.nationality || 'solicitud').trim()}-${Date.now()}`
+  const slug = slugifyEncounterModelSlug(slugSeed)
+  const normalizedRequest = normalizeEncounterModelRequestPayload({
+    ...payload,
+    displayName: name,
+    email,
+    bio,
+    status: 'pending',
+  })
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModelRequests()
+    const duplicate = existingRows.some((row) => slugifyEncounterModelSlug(row.slug || '') === slug)
+
+    if (duplicate) {
+      const error = new Error('Ya existe una solicitud con ese nombre.')
+      error.code = 'MODEL_EXISTS'
+      throw error
+    }
+
+    const now = new Date().toISOString()
+    const nextRow = {
+      id: crypto.randomUUID(),
+      slug,
+      ...normalizedRequest,
+      status: 'pending',
+      model_id: null,
+      review_notes: '',
+      reviewed_by: null,
+      reviewed_at: null,
+      created_by: null,
+      updated_by: null,
+      created_at: now,
+      updated_at: now,
+    }
+
+    await writeLocalEncounterModelRequests([...existingRows, nextRow])
+
+    return normalizeEncounterModelRequestRow(nextRow)
+  }
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from('encuentros_model_requests')
+    .select('id, slug')
+    .eq('slug', slug)
+    .maybeSingle()
+
+  if (existingError) {
+    throw new Error(existingError.message || 'No se pudo verificar la solicitud.')
+  }
+
+  if (existing) {
+    const error = new Error('Ya existe una solicitud con ese nombre.')
+    error.code = 'MODEL_EXISTS'
+    throw error
+  }
+
+  const record = {
+    slug,
+    ...normalizedRequest,
+    status: 'pending',
+    model_id: null,
+    review_notes: '',
+    reviewed_by: null,
+    reviewed_at: null,
+    submitted_by: normalizedRequest.submitted_by || null,
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_model_requests')
+    .insert(record)
+    .select(
+      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+    )
+    .single()
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo registrar la solicitud de modelo.')
+  }
+
+  return normalizeEncounterModelRequestRow(data)
+}
+
+async function updateEncounterModelRequest(requestId = '', payload = {}, adminProfile = null) {
+  const normalizedId = String(requestId || '').trim()
+
+  if (!normalizedId) {
+    const error = new Error('La solicitud solicitada no existe.')
+    error.code = 'MODEL_REQUEST_NOT_FOUND'
+    throw error
+  }
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModelRequests()
+    const existing = existingRows.find((row) => String(row.id || '').trim() === normalizedId)
+
+    if (!existing) {
+      const error = new Error('La solicitud solicitada no existe.')
+      error.code = 'MODEL_REQUEST_NOT_FOUND'
+      throw error
+    }
+
+    const nextRequest = normalizeEncounterModelRequestPayload(payload, existing, adminProfile)
+    const nextStatus = nextRequest.status || existing.status || 'pending'
+    let modelId = existing.model_id || null
+
+    if (nextStatus === 'approved' && !modelId && payload.createModel !== false) {
+      const createdModel = await createEncounterModelFromRequest(
+        {
+          ...existing,
+          ...nextRequest,
+          status: nextStatus,
+          created_at: existing.created_at,
+        },
+        adminProfile,
+      )
+
+      modelId = createdModel.id
+    }
+
+    const updatedRow = {
+      ...existing,
+      ...nextRequest,
+      status: nextStatus,
+      model_id: modelId,
+      reviewed_by: adminProfile?.id || existing.reviewed_by || null,
+      reviewed_at:
+        nextStatus !== 'pending'
+          ? new Date().toISOString()
+          : existing.reviewed_at || null,
+      updated_at: new Date().toISOString(),
+    }
+
+    if (nextStatus === 'suspended' && modelId) {
+      const localModels = await readLocalEncounterModels()
+      const linkedModel = localModels.find((row) => String(row.id || '').trim() === String(modelId))
+
+      if (linkedModel) {
+        const suspendedRow = {
+          ...linkedModel,
+          status: 'suspended',
+          updated_at: new Date().toISOString(),
+        }
+
+        await writeLocalEncounterModels(
+          localModels.map((row) => (row.id === linkedModel.id ? suspendedRow : row)),
+        )
+      }
+    }
+
+    await writeLocalEncounterModelRequests(
+      existingRows.map((row) => (row.id === existing.id ? updatedRow : row)),
+    )
+
+    return normalizeEncounterModelRequestRow(updatedRow)
+  }
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from('encuentros_model_requests')
+    .select(
+      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+    )
+    .eq('id', normalizedId)
+    .maybeSingle()
+
+  if (existingError) {
+    throw new Error(existingError.message || 'No se pudo leer la solicitud de modelo.')
+  }
+
+  if (!existing) {
+    const error = new Error('La solicitud solicitada no existe.')
+    error.code = 'MODEL_REQUEST_NOT_FOUND'
+    throw error
+  }
+
+  const nextRequest = normalizeEncounterModelRequestPayload(payload, existing, adminProfile)
+  const nextStatus = nextRequest.status || existing.status || 'pending'
+  let modelId = existing.model_id || null
+
+  if (nextStatus === 'approved' && !modelId && payload.createModel !== false) {
+    const createdModel = await createEncounterModelFromRequest(
+      {
+        ...existing,
+        ...nextRequest,
+        status: nextStatus,
+      },
+      adminProfile,
+    )
+
+    modelId = createdModel.id
+  }
+
+  if (nextStatus === 'suspended' && modelId) {
+    const linkedModel = await loadEncounterModelById(modelId)
+
+    if (linkedModel) {
+      await updateEncounterModel(linkedModel.slug, { ...linkedModel, status: 'suspended' }, adminProfile)
+    }
+  }
+
+  const updatedRow = {
+    ...existing,
+    ...nextRequest,
+    status: nextStatus,
+    model_id: modelId,
+    reviewed_by: adminProfile?.id || existing.reviewed_by || null,
+    reviewed_at:
+      nextStatus !== 'pending'
+        ? new Date().toISOString()
+        : existing.reviewed_at || null,
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_model_requests')
+    .update({
+      slug: updatedRow.slug,
+      display_name: updatedRow.display_name,
+      email: updatedRow.email,
+      city: updatedRow.city,
+      nationality: updatedRow.nationality,
+      phone: updatedRow.phone,
+      telegram: updatedRow.telegram,
+      bio: updatedRow.bio,
+      notes: updatedRow.notes,
+      verification_photo_url: updatedRow.verification_photo_url,
+      status: updatedRow.status,
+      model_id: updatedRow.model_id,
+      review_notes: updatedRow.review_notes,
+      reviewed_by: updatedRow.reviewed_by,
+      reviewed_at: updatedRow.reviewed_at,
+      submitted_by: updatedRow.submitted_by,
+    })
+    .eq('id', existing.id)
+    .select(
+      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+    )
+    .single()
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo actualizar la solicitud de modelo.')
+  }
+
+  return normalizeEncounterModelRequestRow({
+    ...data,
+    model_id: modelId,
+  })
 }
 
 function normalizeBlogPostRow(row, fallbackIndex = 0) {
@@ -3462,21 +4084,21 @@ app.post('/api/admin/users/:userId/subscription', async (req, res) => {
 
 app.get('/api/admin/encuentros/models', async (req, res) => {
   try {
-    assertSupabaseAuthConfig()
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+        return
+      }
 
-    const authHeader = req.headers.authorization || ''
-    if (!authHeader) {
-      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
-      return
-    }
+      const { profile } = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
 
-    const { profile } = await getAuthenticatedUser(authHeader, {
-      requireStripe: false,
-    })
-
-    if (profile.role !== 'admin') {
-      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
-      return
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+        return
+      }
     }
 
     const models = await loadEncounterModels({ includeHidden: true })
@@ -3495,21 +4117,24 @@ app.get('/api/admin/encuentros/models', async (req, res) => {
 
 app.post('/api/admin/encuentros/models', async (req, res) => {
   try {
-    assertSupabaseAuthConfig()
+    let profile = null
 
-    const authHeader = req.headers.authorization || ''
-    if (!authHeader) {
-      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
-      return
-    }
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+        return
+      }
 
-    const { profile } = await getAuthenticatedUser(authHeader, {
-      requireStripe: false,
-    })
+      const authResult = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
+      profile = authResult.profile
 
-    if (profile.role !== 'admin') {
-      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
-      return
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+        return
+      }
     }
 
     const model = await createEncounterModel(req.body || {}, profile)
@@ -3538,21 +4163,24 @@ app.post('/api/admin/encuentros/models', async (req, res) => {
 
 app.patch('/api/admin/encuentros/models/:slug', async (req, res) => {
   try {
-    assertSupabaseAuthConfig()
+    let profile = null
 
-    const authHeader = req.headers.authorization || ''
-    if (!authHeader) {
-      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
-      return
-    }
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+        return
+      }
 
-    const { profile } = await getAuthenticatedUser(authHeader, {
-      requireStripe: false,
-    })
+      const authResult = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
+      profile = authResult.profile
 
-    if (profile.role !== 'admin') {
-      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
-      return
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+        return
+      }
     }
 
     const model = await updateEncounterModel(req.params.slug, req.body || {}, profile)
@@ -3583,21 +4211,24 @@ app.patch('/api/admin/encuentros/models/:slug', async (req, res) => {
 
 app.delete('/api/admin/encuentros/models/:slug', async (req, res) => {
   try {
-    assertSupabaseAuthConfig()
+    let profile = null
 
-    const authHeader = req.headers.authorization || ''
-    if (!authHeader) {
-      res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
-      return
-    }
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de comprar.' })
+        return
+      }
 
-    const { profile } = await getAuthenticatedUser(authHeader, {
-      requireStripe: false,
-    })
+      const authResult = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
+      profile = authResult.profile
 
-    if (profile.role !== 'admin') {
-      res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
-      return
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar modelos de encuentros.' })
+        return
+      }
     }
 
     const result = await deleteEncounterModel(req.params.slug, profile)
@@ -3620,6 +4251,121 @@ app.delete('/api/admin/encuentros/models/:slug', async (req, res) => {
     res.status(status).json({
       error: error.message || 'No se pudo eliminar el modelo de encuentros.',
       code: error.code || 'MODEL_ERROR',
+    })
+  }
+})
+
+app.get('/api/admin/encuentros/model-requests', async (req, res) => {
+  try {
+    let profile = null
+
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de revisar solicitudes.' })
+        return
+      }
+
+      const authResult = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
+      profile = authResult.profile
+
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar solicitudes de modelos.' })
+        return
+      }
+    }
+
+    const requests = await loadEncounterModelRequests({ includeHidden: true })
+
+    res.json({
+      ok: true,
+      requests,
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || 'No se pudieron cargar las solicitudes de modelo.',
+    })
+  }
+})
+
+app.patch('/api/admin/encuentros/model-requests/:id', async (req, res) => {
+  try {
+    let profile = null
+
+    if (supabaseAdmin) {
+      const authHeader = req.headers.authorization || ''
+      if (!authHeader) {
+        res.status(401).json({ error: 'Debes iniciar sesion antes de revisar solicitudes.' })
+        return
+      }
+
+      const authResult = await getAuthenticatedUser(authHeader, {
+        requireStripe: false,
+      })
+      profile = authResult.profile
+
+      if (profile.role !== 'admin') {
+        res.status(403).json({ error: 'Solo admin puede administrar solicitudes de modelos.' })
+        return
+      }
+    }
+
+    const request = await updateEncounterModelRequest(req.params.id, req.body || {}, profile)
+
+    res.json({
+      ok: true,
+      request,
+    })
+  } catch (error) {
+    const status =
+      error.code === 'MODEL_REQUEST_NOT_FOUND'
+        ? 404
+        : error.code === 'MODEL_EXISTS'
+          ? 409
+          : error.code === 'BAD_REQUEST'
+            ? 400
+            : isMissingEncounterModelRequestsTableError(error)
+              ? 503
+              : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo actualizar la solicitud de modelo.',
+      code: error.code || 'MODEL_REQUEST_ERROR',
+    })
+  }
+})
+
+app.post('/api/encuentros/model-requests', async (req, res) => {
+  try {
+    let submittedBy = null
+    const authHeader = req.headers.authorization || ''
+
+    if (authHeader) {
+      try {
+        const authResult = await getAuthenticatedUser(authHeader, {
+          requireStripe: false,
+        })
+        submittedBy = authResult.profile?.id || null
+      } catch (authError) {
+        submittedBy = null
+      }
+    }
+
+    const request = await createEncounterModelRequest({
+      ...req.body,
+      submittedBy,
+    })
+
+    res.json({
+      ok: true,
+      request,
+    })
+  } catch (error) {
+    const status = error.code === 'MODEL_EXISTS' ? 409 : error.code === 'BAD_REQUEST' ? 400 : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo registrar la solicitud de modelo.',
+      code: error.code || 'MODEL_REQUEST_ERROR',
     })
   }
 })

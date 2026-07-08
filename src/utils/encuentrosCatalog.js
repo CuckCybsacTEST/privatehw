@@ -35,6 +35,16 @@ function getFirstTextValue(source = {}, keys = []) {
   return ''
 }
 
+function formatHeightLabel(value = '') {
+  const height = Number.parseInt(String(value || '').replace(/[^\d]/g, ''), 10)
+
+  if (!Number.isFinite(height) || height <= 0) {
+    return ''
+  }
+
+  return `${(height / 100).toFixed(2)} m`
+}
+
 function getArrayValue(source = {}, keys = []) {
   for (const key of keys) {
     const value = source?.[key]
@@ -63,6 +73,8 @@ export function getCatalogModelDetails(model = {}) {
   const city = getFirstTextValue(content, ['profileCity', 'profileLocation', 'location', 'ubicacion'])
   const nationality = getFirstTextValue(content, ['profileNationality', 'nationality', 'pais'])
   const age = getFirstTextValue(content, ['profileAge', 'age', 'edad'])
+  const height = getFirstTextValue(content, ['profileHeightCm', 'heightCm', 'height'])
+  const bodyHair = getFirstTextValue(content, ['profileBodyHair', 'bodyHair'])
   const relationshipStatus = getFirstTextValue(content, ['profileRelationshipStatus', 'relationshipStatus'])
   const attendanceModes = getArrayValue(content, ['profileAttendanceModes'])
   const tags = collectUniqueValues([
@@ -76,6 +88,9 @@ export function getCatalogModelDetails(model = {}) {
     city,
     nationality,
     age,
+    height,
+    heightLabel: formatHeightLabel(height),
+    bodyHair,
     relationshipStatus,
     attendanceModes,
     tags,
@@ -158,6 +173,9 @@ function matchesSearchTerm(details, query = '') {
     details.city,
     details.nationality,
     details.age,
+    details.height,
+    details.heightLabel,
+    details.bodyHair,
     details.relationshipStatus,
     details.attendanceModes.join(' '),
     details.tags.join(' '),

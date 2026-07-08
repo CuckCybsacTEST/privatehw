@@ -973,6 +973,7 @@ function ContentEditor() {
   const [isTranslating, setIsTranslating] = useState(false)
   const [translationMessage, setTranslationMessage] = useState('')
   const [activeSection, setActiveSection] = useState('creator')
+  const [activeCreatorSection, setActiveCreatorSection] = useState('creator')
   const [activeBlogSection, setActiveBlogSection] = useState('landing')
   const [activeEncuentrosSection, setActiveEncuentrosSection] = useState('overview')
   const [activeGlobalSection, setActiveGlobalSection] = useState('links')
@@ -994,17 +995,23 @@ function ContentEditor() {
   }, [draftState])
 
   useEffect(() => {
-    if (activeSection !== 'blog') {
+    if (activeSection !== 'creator' || activeCreatorSection !== 'blog') {
       setActiveBlogSection('landing')
+    }
+  }, [activeSection, activeCreatorSection])
+
+  useEffect(() => {
+    if (activeSection !== 'creator') {
+      setActiveCreatorSection('creator')
     }
   }, [activeSection])
 
   useEffect(() => {
     setTranslationMessage('')
-  }, [activeSection, activeBlogSection])
+  }, [activeSection, activeBlogSection, activeCreatorSection])
 
   useEffect(() => {
-    if (activeSection !== 'videos') {
+    if (activeSection !== 'creator' || activeCreatorSection !== 'videos') {
       return
     }
 
@@ -1012,10 +1019,10 @@ function ContentEditor() {
       const maxIndex = Math.max((draft.videoLibrary.items || []).length - 1, 0)
       return Math.min(current, maxIndex)
     })
-  }, [activeSection, draft.videoLibrary.items.length])
+  }, [activeSection, activeCreatorSection, draft.videoLibrary.items.length])
 
   useEffect(() => {
-    if (activeSection !== 'packs') {
+    if (activeSection !== 'creator' || activeCreatorSection !== 'packs') {
       return
     }
 
@@ -1023,10 +1030,10 @@ function ContentEditor() {
       const maxIndex = Math.max((draft.videoCollections.items || []).length - 1, 0)
       return Math.min(current, maxIndex)
     })
-  }, [activeSection, draft.videoCollections.items.length])
+  }, [activeSection, activeCreatorSection, draft.videoCollections.items.length])
 
   useEffect(() => {
-    if (activeSection !== 'physical') {
+    if (activeSection !== 'creator' || activeCreatorSection !== 'physical') {
       return
     }
 
@@ -1034,7 +1041,7 @@ function ContentEditor() {
       const maxIndex = Math.max((draft.physicalMerch.items || []).length - 1, 0)
       return Math.min(current, maxIndex)
     })
-  }, [activeSection, draft.physicalMerch.items.length])
+  }, [activeSection, activeCreatorSection, draft.physicalMerch.items.length])
 
   function setDraftValue(path, value) {
     const targetPath = localeKey === 'en' ? ['localized', 'en', ...path] : path
@@ -1123,7 +1130,7 @@ function ContentEditor() {
     const localizedRoot = isTargetSpanish ? ['localized', 'es'] : ['localized', 'en']
     const metaRoot = isTargetSpanish ? ['localizedMeta', 'es'] : ['localizedMeta', 'en']
 
-    if (activeSection === 'creator') {
+    if (activeSection === 'creator' && activeCreatorSection === 'creator') {
       return {
         scopeKey: 'creatorHome',
         source: sourceContent.creatorHome,
@@ -1132,7 +1139,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'access') {
+    if (activeSection === 'creator' && activeCreatorSection === 'access') {
       return {
         scopeKey: 'accessTotal',
         source: sourceContent.accessTotal,
@@ -1141,7 +1148,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'spotlight') {
+    if (activeSection === 'creator' && activeCreatorSection === 'spotlight') {
       return {
         scopeKey: 'mediaSpotlight',
         source: sourceContent.mediaSpotlight,
@@ -1150,7 +1157,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'videos') {
+    if (activeSection === 'creator' && activeCreatorSection === 'videos') {
       return {
         scopeKey: 'videoLibrary',
         source: sourceContent.videoLibrary,
@@ -1159,7 +1166,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'packs') {
+    if (activeSection === 'creator' && activeCreatorSection === 'packs') {
       return {
         scopeKey: 'videoCollections',
         source: sourceContent.videoCollections,
@@ -1168,7 +1175,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'physical') {
+    if (activeSection === 'creator' && activeCreatorSection === 'physical') {
       return {
         scopeKey: 'physicalMerch',
         source: sourceContent.physicalMerch,
@@ -1177,7 +1184,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'free') {
+    if (activeSection === 'creator' && activeCreatorSection === 'free') {
       return {
         scopeKey: 'freeContent',
         source: sourceContent.freeContent,
@@ -1186,7 +1193,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'membership') {
+    if (activeSection === 'creator' && activeCreatorSection === 'membership') {
       return {
         scopeKey: 'membership',
         source: sourceContent.membership,
@@ -1195,7 +1202,7 @@ function ContentEditor() {
       }
     }
 
-    if (activeSection === 'blog' && activeBlogSection === 'landing') {
+    if (activeSection === 'creator' && activeCreatorSection === 'blog' && activeBlogSection === 'landing') {
       return {
         scopeKey: 'blogLanding',
         source: {
@@ -1750,6 +1757,13 @@ function ContentEditor() {
   }
 
   const sectionButtons = [
+    ['creator', 'Sindy cretor'],
+    ['models', 'Modelos'],
+    ['encuentros', t('admin.content.encuentros')],
+    ['global', t('admin.content.global')],
+  ]
+
+  const creatorSubtabs = [
     ['creator', t('admin.content.creator')],
     ['access', t('admin.content.accessTotal')],
     ['spotlight', t('admin.content.spotlight')],
@@ -1759,9 +1773,6 @@ function ContentEditor() {
     ['free', t('admin.content.freeContent')],
     ['membership', t('admin.content.membership')],
     ['blog', t('admin.content.blog')],
-    ['models', 'Modelos'],
-    ['encuentros', t('admin.content.encuentros')],
-    ['global', t('admin.content.global')],
   ]
 
   const encuentrosSubtabs = [
@@ -1955,7 +1966,22 @@ function ContentEditor() {
       </div>
       {translationMessage ? <p className="admin-success">{translationMessage}</p> : null}
 
-        {activeSection === 'creator' ? (
+      {activeSection === 'creator' ? (
+        <div className="admin-blog-subtabs admin-creator-subtabs">
+          {creatorSubtabs.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              className={activeCreatorSection === key ? 'admin-tab active' : 'admin-tab'}
+              onClick={() => setActiveCreatorSection(key)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+        {activeSection === 'creator' && activeCreatorSection === 'creator' ? (
           <SectionPanel title={t('admin.content.heroTitle')} description={t('admin.content.heroDescription')}>
             <div className="admin-creator-layout">
               <div className="admin-creator-main">
@@ -1993,7 +2019,7 @@ function ContentEditor() {
           </SectionPanel>
         ) : null}
 
-        {activeSection === 'access' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'access' ? (
           <SectionPanel title={t('admin.content.accessTitle')} description={t('admin.content.accessDescription')}>
             <div className="admin-access-layout">
               <div className="admin-access-main">
@@ -2102,7 +2128,7 @@ function ContentEditor() {
           </SectionPanel>
         ) : null}
 
-        {activeSection === 'spotlight' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'spotlight' ? (
           <SectionPanel title={t('admin.content.spotlightTitle')} description={t('admin.content.spotlightDescription')}>
             <Field label={t('admin.content.title')} value={draft.mediaSpotlight.title} onChange={(value) => setDraftValue(['mediaSpotlight', 'title'], value)} />
             <TextareaField label={t('admin.content.description')} rows={4} value={draft.mediaSpotlight.description} onChange={(value) => setDraftValue(['mediaSpotlight', 'description'], value)} />
@@ -2127,7 +2153,7 @@ function ContentEditor() {
             </div>
           </SectionPanel>
         ) : null}
-        {activeSection === 'videos' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'videos' ? (
           <SectionPanel title={t('admin.content.videosTitle')} description={t('admin.content.videosDescription')}>
             <Field label={t('admin.content.sectionTitle')} value={draft.videoLibrary.title} onChange={(value) => setDraftValue(['videoLibrary', 'title'], value)} />
             <TextareaField
@@ -2246,7 +2272,7 @@ function ContentEditor() {
           </SectionPanel>
         ) : null}
 
-        {activeSection === 'packs' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'packs' ? (
           <>
             <SectionPanel title={t('admin.content.collectionsTitle')} description={t('admin.content.collectionsDescription')}>
               <Field label={t('admin.content.sectionTitle')} value={draft.videoCollections.title} onChange={(value) => setDraftValue(['videoCollections', 'title'], value)} />
@@ -2480,7 +2506,7 @@ function ContentEditor() {
           </>
         ) : null}
 
-        {activeSection === 'physical' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'physical' ? (
           <>
             <SectionPanel title={t('admin.content.physicalTitle')} description={t('admin.content.physicalDescription')}>
               <Field label={t('admin.content.kicker')} value={draft.physicalMerch.kicker} onChange={(value) => setDraftValue(['physicalMerch', 'kicker'], value)} />
@@ -2629,7 +2655,7 @@ function ContentEditor() {
           </>
         ) : null}
 
-        {activeSection === 'membership' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'membership' ? (
           <SectionPanel title={t('admin.content.membershipTitle')} description={t('admin.content.membershipDescription')}>
             <Field label={t('admin.content.title')} value={draft.membership.title} onChange={(value) => setDraftValue(['membership', 'title'], value)} />
             <TextareaField label={t('admin.content.description')} rows={4} value={draft.membership.description} onChange={(value) => setDraftValue(['membership', 'description'], value)} />
@@ -2655,7 +2681,7 @@ function ContentEditor() {
             </div>
           </SectionPanel>
         ) : null}
-        {activeSection === 'free' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'free' ? (
           <SectionPanel title={t('admin.content.freeTitle')} description={t('admin.content.freeDescription')}>
             <Field label={t('admin.content.kicker')} value={draft.freeContent.kicker} onChange={(value) => setDraftValue(['freeContent', 'kicker'], value)} />
             <Field label={t('admin.content.title')} value={draft.freeContent.title} onChange={(value) => setDraftValue(['freeContent', 'title'], value)} />
@@ -2738,7 +2764,7 @@ function ContentEditor() {
             </div>
           </SectionPanel>
         ) : null}
-        {activeSection === 'blog' ? (
+        {activeSection === 'creator' && activeCreatorSection === 'blog' ? (
           <>
             <div className="admin-blog-subtabs">
               <button

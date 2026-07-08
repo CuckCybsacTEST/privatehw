@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { AiOutlineFlag, AiOutlinePicture, AiOutlineRight, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlinePicture, AiOutlineRight, AiOutlineUser } from 'react-icons/ai'
 import { HiOutlineLocationMarker, HiOutlineShieldCheck } from 'react-icons/hi'
 import { getCatalogModelDetails } from '../utils/encuentrosCatalog'
 
@@ -116,13 +116,15 @@ export function EncounterCatalogCard({ model, className = '', actionLabel = 'Ver
           <h2 className="encuentros-catalog-card-title">
             <Link to={profileHref}>{details.title}</Link>
           </h2>
+          {details.nationality ? <p className="encuentros-catalog-card-nationality">{details.nationality}</p> : null}
           <p className="encuentros-catalog-card-description">{details.description}</p>
         </div>
 
         <div className="encuentros-catalog-card-facts" aria-label={`Datos de ${details.title}`}>
           <ProfileMetaLine icon={AiOutlineUser} label={details.age} />
+          <ProfileMetaLine icon={AiOutlineUser} label={details.heightLabel} />
           <ProfileMetaLine icon={HiOutlineLocationMarker} label={details.city} />
-          <ProfileMetaLine icon={AiOutlineFlag} label={details.nationality} />
+          <ProfileMetaLine icon={AiOutlinePicture} label={details.bodyHair} />
         </div>
 
         <div className="encuentros-catalog-card-actions">

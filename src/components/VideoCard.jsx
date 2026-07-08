@@ -168,7 +168,7 @@ function VideoPreview({
   )
 }
 
-export function VideoCard({ item, presentation = 'regular' }) {
+export function VideoCard({ item, presentation = 'regular', basePath = '' }) {
   const { getContentAccess, session, siteContent, subscriptionProduct } = useAppState()
   const { t, i18n } = useTranslation()
   const resolvedItem = resolveLocalizedRecord(item, i18n.resolvedLanguage)
@@ -193,6 +193,7 @@ export function VideoCard({ item, presentation = 'regular' }) {
         videoSlug,
         siteContent: localizedSiteContent,
         t,
+        basePath,
       })
     : []
   const tagList = getVideoTags(resolvedItem)

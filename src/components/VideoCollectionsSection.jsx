@@ -5,8 +5,9 @@ import { PackPreviewCard } from './PackPreviewCard'
 import { ViewAllPacksCard } from './ViewAllPacksCard'
 import { resolveLocalizedSection } from '../utils/localizedContent'
 import { useViewportState } from '../hooks/useViewportState'
+import { withBasePath } from '../utils/routes'
 
-export function VideoCollectionsSection({ content }) {
+export function VideoCollectionsSection({ content, basePath = '' }) {
   const { i18n, t } = useTranslation()
   const videoCollections = resolveLocalizedSection(content, 'videoCollections', i18n.resolvedLanguage)
   const physicalMerch = resolveLocalizedSection(content, 'physicalMerch', i18n.resolvedLanguage)
@@ -47,11 +48,12 @@ export function VideoCollectionsSection({ content }) {
               <PackPreviewCard
                 collection={collection}
                 key={collection.slug}
+                basePath={basePath}
               />
             ))}
             <ViewAllPacksCard
               description={videoCollections.description}
-              href={videoCollections.browseHref}
+              href={withBasePath(basePath, videoCollections.browseHref || '/packs')}
               label={browseLabel}
               title={videoCollections.title}
             />
@@ -82,7 +84,7 @@ export function VideoCollectionsSection({ content }) {
 
           <Link
             className="hero-primary-cta video-collections-request-cta"
-            to={physicalMerch.primaryUrl || '/calzones'}
+            to={withBasePath(basePath, physicalMerch.primaryUrl || '/calzones')}
           >
             {physicalMerch.primaryLabel}
           </Link>

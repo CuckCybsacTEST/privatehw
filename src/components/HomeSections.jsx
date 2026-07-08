@@ -121,17 +121,8 @@ export function PrivateExperienceSection() {
   ]
 
   return (
-    <section className="catalog-home-section">
+    <section className="catalog-home-section catalog-home-latest-section">
       <div className="catalog-home-private-panel">
-        <div className="catalog-home-private-rail" aria-hidden="true">
-          {steps.map((step, index) => (
-            <span key={step.number} className="catalog-home-private-rail-node">
-              <span className="catalog-home-private-rail-number">{step.number}</span>
-              {index < steps.length - 1 ? <span className="catalog-home-private-rail-line" /> : null}
-            </span>
-          ))}
-        </div>
-
         <div className="catalog-home-private-copy">
           <p className="section-kicker">Explora, elige y reserva</p>
           <h2>Descubre perfiles, revisa fotos y reserva en minutos.</h2>
@@ -142,12 +133,10 @@ export function PrivateExperienceSection() {
 
           <div className="catalog-home-private-step-list">
             {steps.map((step) => {
-              const Icon = step.icon
-
               return (
                 <article className="catalog-home-private-step-card" key={step.number}>
                   <span className="catalog-home-private-step-icon">
-                    <Icon aria-hidden="true" />
+                    <span aria-hidden="true">{step.number}</span>
                   </span>
                   <div className="catalog-home-private-step-copy">
                     <strong>{step.title}</strong>
@@ -167,48 +156,48 @@ export function ModelCTASection() {
   const features = [
     {
       icon: AiOutlineUser,
-      title: 'Crea tu perfil profesional',
-      description: 'URL propia, galer?a y descripci?n cuidada.',
+      title: 'Perfil listo',
+      description: 'URL propia, galería y descripción cuidada.',
     },
     {
       icon: AiOutlinePicture,
-      title: 'Define servicios y adicionales',
+      title: 'Servicios visibles',
       description: 'Muestra lo que ofreces con claridad.',
     },
     {
       icon: AiOutlineCalendar,
-      title: 'Gestiona disponibilidad',
+      title: 'Disponibilidad clara',
       description: 'Controla horarios, ciudades y estado online.',
     },
     {
       icon: AiOutlineRight,
-      title: 'Recibe solicitudes y reservas',
+      title: 'Solicitudes directas',
       description: 'Todo desde una experiencia simple y discreta.',
     },
   ]
 
   return (
-    <section className="catalog-home-section">
+    <section className="catalog-home-section catalog-home-model-section">
       <div className="catalog-home-model-panel">
         <div className="catalog-home-model-copy">
-          <p className="section-kicker">Eres modelo?</p>
+          <p className="section-kicker">¿Eres modelo?</p>
           <h2>Gestiona tu perfil y recibe reservas con una presencia premium.</h2>
           <p>
             Crea tu ficha profesional, sube fotos, organiza servicios y adicionales, gestiona tu disponibilidad y
-            aparece en b?squedas por ciudad, nacionalidad y categor?a.
+            aparece en búsquedas por ciudad, nacionalidad y categoría.
           </p>
         </div>
 
         <div className="catalog-home-model-steps" aria-label="Beneficios para modelos">
-          {features.map((feature, index) => {
+          {features.map((feature) => {
             const Icon = feature.icon
 
             return (
-              <article className="catalog-home-model-step" key={feature.title || index}>
-                <span className="catalog-home-model-step-icon" aria-hidden="true">
-                  <Icon aria-hidden="true" />
-                </span>
+              <article className="catalog-home-model-step" key={feature.title}>
                 <div className="catalog-home-model-step-copy">
+                  <span className="catalog-home-model-step-icon" aria-hidden="true">
+                    <Icon aria-hidden="true" />
+                  </span>
                   <strong>{feature.title}</strong>
                   <p>{feature.description}</p>
                 </div>
@@ -218,10 +207,10 @@ export function ModelCTASection() {
         </div>
 
         <div className="catalog-home-model-actions">
-          <Link className="hero-primary-cta" to="/admin/login">
-            Publicar perfil
+          <Link className="hero-primary-cta catalog-home-public-cta-button is-announce" to="/registro-modelos">
+            ¡ANUNCIA GRATIS!
           </Link>
-          <Link className="hero-secondary-cta" to="/modelos">
+          <Link className="hero-secondary-cta catalog-home-model-secondary-cta" to="/modelos">
             Ver la plataforma
           </Link>
         </div>

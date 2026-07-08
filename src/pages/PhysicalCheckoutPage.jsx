@@ -5,6 +5,7 @@ import { PublicNav } from '../components/PublicNav'
 import { SiteFooter } from '../components/SiteFooter'
 import { useAppState } from '../state/AppState'
 import { resolveLocalizedSection } from '../utils/localizedContent'
+import { withBasePath } from '../utils/routes'
 
 const initialForm = {
   recipientName: '',
@@ -23,6 +24,10 @@ const initialForm = {
 
 export function PhysicalCheckoutPage() {
   const navigate = useNavigate()
+  const basePath =
+    typeof window !== 'undefined' && window.location.pathname.startsWith('/sindyprivate')
+      ? '/sindyprivate'
+      : ''
   const { slug } = useParams()
   const {
     createCheckoutSession,
@@ -43,11 +48,11 @@ export function PhysicalCheckoutPage() {
   const product = getProductByScope(`physical:${slug}`)
 
   if (!session) {
-    return <Navigate to={`/access?redirect=/calzones/checkout/${slug}`} replace />
+    return <Navigate to={withBasePath(basePath, `/access?redirect=/calzones/checkout/${slug}`)} replace />
   }
 
   if (!item || !product) {
-    return <Navigate to="/calzones" replace />
+    return <Navigate to={withBasePath(basePath, '/calzones')} replace />
   }
 
   function handleChange(event) {
@@ -82,7 +87,7 @@ export function PhysicalCheckoutPage() {
     <main className="creator-home">
       <PublicNav />
       <section className="content-listing-page physical-checkout-page">
-        <Link className="content-back-link" to={`/calzones/${slug}`}>
+        <Link className="content-back-link" to={withBasePath(basePath, `/calzones/${slug}`)}>
           {t('physicalCheckout.backStore')}
         </Link>
 
@@ -179,7 +184,7 @@ export function PhysicalCheckoutPage() {
           </article>
         </div>
       </section>
-      <SiteFooter content={siteContent} />
+      <SiteFooter content={siteContent} basePath={basePath} />
     </main>
   )
 }

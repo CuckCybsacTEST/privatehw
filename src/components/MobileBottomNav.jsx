@@ -73,7 +73,8 @@ export function MobileBottomNav() {
   const { t } = useTranslation()
   const location = useLocation()
   const pathname = location.pathname
-  const libraryHref = session ? '/library' : '/access'
+  const basePath = pathname.startsWith('/sindyprivate') ? '/sindyprivate' : ''
+  const libraryHref = session ? (basePath ? `${basePath}/library` : '/library') : basePath ? `${basePath}/access` : '/access'
   const isEncuentrosPage = pathname.startsWith('/encuentros')
 
   if (isEncuentrosPage) {
@@ -84,11 +85,11 @@ export function MobileBottomNav() {
     <nav className="mobile-bottom-nav" aria-label="Navegacion movil">
       <div className="mobile-bottom-nav-track">
         {[
-          { key: 'home', label: t('nav.home'), href: '/', icon: AiFillFire, tone: 'home' },
-          { key: 'videos', label: t('nav.premium'), href: '/videos', icon: AiOutlineVideoCamera, tone: 'premium' },
-          { key: 'packs', label: t('nav.packs'), href: '/packs', icon: HiCollection, tone: 'packs' },
-          { key: 'calzones', label: t('nav.calzones'), href: '/calzones', icon: AiOutlineShopping, tone: 'merch' },
-          { key: 'blog', label: t('nav.blog'), href: '/blog', icon: HiBookOpen, tone: 'blog' },
+          { key: 'home', label: t('nav.home'), href: basePath || '/', icon: AiFillFire, tone: 'home' },
+          { key: 'videos', label: t('nav.premium'), href: basePath ? `${basePath}/videos` : '/videos', icon: AiOutlineVideoCamera, tone: 'premium' },
+          { key: 'packs', label: t('nav.packs'), href: basePath ? `${basePath}/packs` : '/packs', icon: HiCollection, tone: 'packs' },
+          { key: 'calzones', label: t('nav.calzones'), href: basePath ? `${basePath}/calzones` : '/calzones', icon: AiOutlineShopping, tone: 'merch' },
+          { key: 'blog', label: t('nav.blog'), href: basePath ? `${basePath}/blog` : '/blog', icon: HiBookOpen, tone: 'blog' },
           {
             key: 'library',
             label: session ? t('nav.library') : t('nav.signIn'),

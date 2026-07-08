@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { VideoCard } from './VideoCard'
 import { resolveLocalizedSection } from '../utils/localizedContent'
 import { shuffleItems } from '../utils/shuffleItems'
+import { withBasePath } from '../utils/routes'
 
-export function VideoShowcase({ content }) {
+export function VideoShowcase({ content, basePath = '' }) {
   const { i18n, t } = useTranslation()
   const videoLibrary = resolveLocalizedSection(content, 'videoLibrary', i18n.resolvedLanguage)
   const visibleItems = useMemo(
@@ -25,12 +26,12 @@ export function VideoShowcase({ content }) {
 
       <div className="video-library-grid video-library-grid-home">
         {visibleItems.map((item) => (
-          <VideoCard item={item} presentation="showcase" key={item.slug} />
+          <VideoCard item={item} presentation="showcase" key={item.slug} basePath={basePath} />
         ))}
       </div>
 
       <div className="section-more-actions">
-        <Link className="section-more-link section-more-link-collections" to={videoLibrary.browseHref}>
+        <Link className="section-more-link section-more-link-collections" to={withBasePath(basePath, videoLibrary.browseHref || '/videos')}>
           {videoLibrary.browseLabel}
         </Link>
       </div>

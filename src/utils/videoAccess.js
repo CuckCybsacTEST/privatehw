@@ -1,3 +1,5 @@
+import { withBasePath } from './routes'
+
 export function buildVideoAccessActions({
   access,
   session,
@@ -5,12 +7,13 @@ export function buildVideoAccessActions({
   videoSlug,
   siteContent,
   t,
+  basePath = '',
 }) {
   const hasSession = Boolean(session?.accessToken)
   const buildCheckoutHref = (productSlug) =>
     hasSession
-      ? `/checkout/start/${productSlug}`
-      : `/access?redirect=/checkout/start/${productSlug}`
+      ? withBasePath(basePath, `/checkout/start/${productSlug}`)
+      : withBasePath(basePath, `/access?redirect=/checkout/start/${productSlug}`)
   const rawSubscriptionLabel = siteContent.accessTotal.ctaLabel || t('checkout.checkoutTypeSubscription')
   const subscriptionLabel =
     rawSubscriptionLabel === 'Suscribirme ahora'
@@ -22,7 +25,7 @@ export function buildVideoAccessActions({
       {
         key: 'view',
         label: t('content.watchVideo'),
-        href: `/videos/${videoSlug}`,
+        href: withBasePath(basePath, `/videos/${videoSlug}`),
         variant: 'primary',
       },
     ]
@@ -48,7 +51,9 @@ export function buildVideoAccessActions({
       {
         key: 'register',
         label: t('access.register'),
-        href: hasSession ? `/videos/${videoSlug}` : `/access?redirect=/videos/${videoSlug}`,
+        href: hasSession
+          ? withBasePath(basePath, `/videos/${videoSlug}`)
+          : withBasePath(basePath, `/access?redirect=/videos/${videoSlug}`),
         variant: 'primary',
       },
     ]
@@ -89,7 +94,7 @@ export function buildVideoAccessActions({
     actions.push({
       key: 'view',
       label: t('content.watchVideo'),
-      href: `/videos/${videoSlug}`,
+      href: withBasePath(basePath, `/videos/${videoSlug}`),
       variant: 'primary',
     })
   }
