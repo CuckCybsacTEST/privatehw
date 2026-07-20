@@ -1450,7 +1450,7 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "server_index_normalizebearertoken",
-      "community": 2,
+      "community": 52,
       "norm_label": "normalizebearertoken()"
     },
     {
@@ -1614,10 +1614,30 @@
       "norm_label": "buildtelegramdisplayname()"
     },
     {
-      "label": "buildSyntheticManagedEmail()",
+      "label": "buildWhatsAppSyntheticEmail()",
       "file_type": "code",
       "source_file": "server/index.js",
       "source_location": "L520",
+      "_origin": "ast",
+      "id": "server_index_buildwhatsappsyntheticemail",
+      "community": 46,
+      "norm_label": "buildwhatsappsyntheticemail()"
+    },
+    {
+      "label": "buildWhatsAppDisplayName()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L525",
+      "_origin": "ast",
+      "id": "server_index_buildwhatsappdisplayname",
+      "community": 46,
+      "norm_label": "buildwhatsappdisplayname()"
+    },
+    {
+      "label": "buildSyntheticManagedEmail()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L530",
       "_origin": "ast",
       "id": "server_index_buildsyntheticmanagedemail",
       "community": 38,
@@ -1627,47 +1647,57 @@
       "label": "normalizeManagedUserIdentifier()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L525",
+      "source_location": "L535",
       "_origin": "ast",
       "id": "server_index_normalizemanageduseridentifier",
-      "community": 38,
+      "community": 52,
       "norm_label": "normalizemanageduseridentifier()"
     },
     {
       "label": "provisionTelegramLoginUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L529",
+      "source_location": "L539",
       "_origin": "ast",
       "id": "server_index_provisiontelegramloginuser",
       "community": 2,
       "norm_label": "provisiontelegramloginuser()"
     },
     {
+      "label": "provisionWhatsAppLoginUser()",
+      "file_type": "code",
+      "source_file": "server/index.js",
+      "source_location": "L626",
+      "_origin": "ast",
+      "id": "server_index_provisionwhatsapploginuser",
+      "community": 46,
+      "norm_label": "provisionwhatsapploginuser()"
+    },
+    {
       "label": "resolveLoginIdentifier()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L616",
+      "source_location": "L723",
       "_origin": "ast",
       "id": "server_index_resolveloginidentifier",
-      "community": 38,
+      "community": 52,
       "norm_label": "resolveloginidentifier()"
     },
     {
       "label": "assertSupabaseAuthConfig()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L684",
+      "source_location": "L791",
       "_origin": "ast",
       "id": "server_index_assertsupabaseauthconfig",
-      "community": 40,
+      "community": 52,
       "norm_label": "assertsupabaseauthconfig()"
     },
     {
       "label": "isConnectivityError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L690",
+      "source_location": "L797",
       "_origin": "ast",
       "id": "server_index_isconnectivityerror",
       "community": 38,
@@ -1677,17 +1707,17 @@
       "label": "getAuthenticatedUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L702",
+      "source_location": "L809",
       "_origin": "ast",
       "id": "server_index_getauthenticateduser",
-      "community": 2,
+      "community": 52,
       "norm_label": "getauthenticateduser()"
     },
     {
       "label": "ensureStripeCustomer()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L755",
+      "source_location": "L862",
       "_origin": "ast",
       "id": "server_index_ensurestripecustomer",
       "community": 38,
@@ -1697,7 +1727,7 @@
       "label": "buildLineItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L782",
+      "source_location": "L889",
       "_origin": "ast",
       "id": "server_index_buildlineitem",
       "community": 2,
@@ -1707,7 +1737,7 @@
       "label": "addMonths()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L829",
+      "source_location": "L936",
       "_origin": "ast",
       "id": "server_index_addmonths",
       "community": 38,
@@ -1717,7 +1747,7 @@
       "label": "addDays()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L835",
+      "source_location": "L942",
       "_origin": "ast",
       "id": "server_index_adddays",
       "community": 38,
@@ -1727,7 +1757,7 @@
       "label": "parseDateOrNull()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L841",
+      "source_location": "L948",
       "_origin": "ast",
       "id": "server_index_parsedateornull",
       "community": 38,
@@ -1737,7 +1767,7 @@
       "label": "computeSubscriptionExpiry()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L850",
+      "source_location": "L957",
       "_origin": "ast",
       "id": "server_index_computesubscriptionexpiry",
       "community": 38,
@@ -1747,7 +1777,7 @@
       "label": "isSubscriptionEntitlementKey()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L859",
+      "source_location": "L966",
       "_origin": "ast",
       "id": "server_index_issubscriptionentitlementkey",
       "community": 2,
@@ -1757,7 +1787,7 @@
       "label": "isSubscriptionAccessScope()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L863",
+      "source_location": "L970",
       "_origin": "ast",
       "id": "server_index_issubscriptionaccessscope",
       "community": 38,
@@ -1767,7 +1797,7 @@
       "label": "revokeOtherSubscriptionEntitlements()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L867",
+      "source_location": "L974",
       "_origin": "ast",
       "id": "server_index_revokeothersubscriptionentitlements",
       "community": 38,
@@ -1777,7 +1807,7 @@
       "label": "normalizeCheckoutMode()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L905",
+      "source_location": "L1012",
       "_origin": "ast",
       "id": "server_index_normalizecheckoutmode",
       "community": 2,
@@ -1787,7 +1817,7 @@
       "label": "logAdminAuditEvent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L913",
+      "source_location": "L1020",
       "_origin": "ast",
       "id": "server_index_logadminauditevent",
       "community": 38,
@@ -1797,7 +1827,7 @@
       "label": "createOrUpdateOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L940",
+      "source_location": "L1047",
       "_origin": "ast",
       "id": "server_index_createorupdateorder",
       "community": 38,
@@ -1807,7 +1837,7 @@
       "label": "createManualReservationOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1007",
+      "source_location": "L1114",
       "_origin": "ast",
       "id": "server_index_createmanualreservationorder",
       "community": 43,
@@ -1817,7 +1847,7 @@
       "label": "createOrUpdateInvoiceOrder()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1143",
+      "source_location": "L1250",
       "_origin": "ast",
       "id": "server_index_createorupdateinvoiceorder",
       "community": 38,
@@ -1827,7 +1857,7 @@
       "label": "grantEntitlement()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1180",
+      "source_location": "L1287",
       "_origin": "ast",
       "id": "server_index_grantentitlement",
       "community": 38,
@@ -1837,7 +1867,7 @@
       "label": "shapeProductRecord()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1241",
+      "source_location": "L1348",
       "_origin": "ast",
       "id": "server_index_shapeproductrecord",
       "community": 38,
@@ -1847,7 +1877,7 @@
       "label": "fetchProductRowFromTable()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1256",
+      "source_location": "L1363",
       "_origin": "ast",
       "id": "server_index_fetchproductrowfromtable",
       "community": 38,
@@ -1857,7 +1887,7 @@
       "label": "resolveProductBySlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1279",
+      "source_location": "L1386",
       "_origin": "ast",
       "id": "server_index_resolveproductbyslug",
       "community": 38,
@@ -1867,7 +1897,7 @@
       "label": "getEncuentrosBookingPricing()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1316",
+      "source_location": "L1423",
       "_origin": "ast",
       "id": "server_index_getencuentrosbookingpricing",
       "community": 43,
@@ -1877,7 +1907,7 @@
       "label": "syncRowsToTable()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1324",
+      "source_location": "L1431",
       "_origin": "ast",
       "id": "server_index_syncrowstotable",
       "community": 38,
@@ -1887,7 +1917,7 @@
       "label": "syncProductsFromSiteContent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1384",
+      "source_location": "L1491",
       "_origin": "ast",
       "id": "server_index_syncproductsfromsitecontent",
       "community": 38,
@@ -1897,7 +1927,7 @@
       "label": "handleCheckoutCompleted()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1427",
+      "source_location": "L1534",
       "_origin": "ast",
       "id": "server_index_handlecheckoutcompleted",
       "community": 38,
@@ -1907,7 +1937,7 @@
       "label": "handleSubscriptionDeleted()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1461",
+      "source_location": "L1568",
       "_origin": "ast",
       "id": "server_index_handlesubscriptiondeleted",
       "community": 38,
@@ -1917,7 +1947,7 @@
       "label": "handleInvoicePaymentSucceeded()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1483",
+      "source_location": "L1590",
       "_origin": "ast",
       "id": "server_index_handleinvoicepaymentsucceeded",
       "community": 38,
@@ -1927,7 +1957,7 @@
       "label": "provisionManagedUser()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1510",
+      "source_location": "L1617",
       "_origin": "ast",
       "id": "server_index_provisionmanageduser",
       "community": 38,
@@ -1937,7 +1967,7 @@
       "label": "upsertManagedSubscription()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1657",
+      "source_location": "L1764",
       "_origin": "ast",
       "id": "server_index_upsertmanagedsubscription",
       "community": 38,
@@ -1947,7 +1977,7 @@
       "label": "loadHomeContent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1760",
+      "source_location": "L1867",
       "_origin": "ast",
       "id": "server_index_loadhomecontent",
       "community": 43,
@@ -1957,7 +1987,7 @@
       "label": "buildFallbackEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1803",
+      "source_location": "L1910",
       "_origin": "ast",
       "id": "server_index_buildfallbackencountermodel",
       "community": 43,
@@ -1967,7 +1997,7 @@
       "label": "normalizeEncounterModelRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1825",
+      "source_location": "L1932",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelrow",
       "community": 40,
@@ -1977,7 +2007,7 @@
       "label": "normalizeEncounterModelRequestRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1845",
+      "source_location": "L1952",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelrequestrow",
       "community": 40,
@@ -1987,17 +2017,17 @@
       "label": "isMissingEncounterModelRelationTableError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1872",
+      "source_location": "L1979",
       "_origin": "ast",
       "id": "server_index_ismissingencountermodelrelationtableerror",
-      "community": 40,
+      "community": 43,
       "norm_label": "ismissingencountermodelrelationtableerror()"
     },
     {
       "label": "normalizeEncounterModelOwnerRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1888",
+      "source_location": "L1995",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelownerrow",
       "community": 2,
@@ -2007,7 +2037,7 @@
       "label": "normalizeEncounterModelAge()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1900",
+      "source_location": "L2007",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelage",
       "community": 45,
@@ -2017,7 +2047,7 @@
       "label": "normalizeEncounterModelText()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1905",
+      "source_location": "L2012",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodeltext",
       "community": 45,
@@ -2027,7 +2057,7 @@
       "label": "uniqueEncounterValues()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1909",
+      "source_location": "L2016",
       "_origin": "ast",
       "id": "server_index_uniqueencountervalues",
       "community": 45,
@@ -2037,7 +2067,7 @@
       "label": "normalizeEncounterModelTextList()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1913",
+      "source_location": "L2020",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodeltextlist",
       "community": 45,
@@ -2047,7 +2077,7 @@
       "label": "normalizeEncounterMediaUrl()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1932",
+      "source_location": "L2039",
       "_origin": "ast",
       "id": "server_index_normalizeencountermediaurl",
       "community": 2,
@@ -2057,7 +2087,7 @@
       "label": "extractEncounterModelProfilePayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1938",
+      "source_location": "L2045",
       "_origin": "ast",
       "id": "server_index_extractencountermodelprofilepayload",
       "community": 45,
@@ -2067,7 +2097,7 @@
       "label": "extractEncounterModelBookingPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L1972",
+      "source_location": "L2079",
       "_origin": "ast",
       "id": "server_index_extractencountermodelbookingpayload",
       "community": 45,
@@ -2077,27 +2107,27 @@
       "label": "extractEncounterModelRecordingPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2020",
+      "source_location": "L2127",
       "_origin": "ast",
       "id": "server_index_extractencountermodelrecordingpayload",
-      "community": 40,
+      "community": 45,
       "norm_label": "extractencountermodelrecordingpayload()"
     },
     {
       "label": "extractEncounterModelSocialLinks()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2038",
+      "source_location": "L2145",
       "_origin": "ast",
       "id": "server_index_extractencountermodelsociallinks",
-      "community": 40,
+      "community": 14,
       "norm_label": "extractencountermodelsociallinks()"
     },
     {
       "label": "extractEncounterModelMedia()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2056",
+      "source_location": "L2163",
       "_origin": "ast",
       "id": "server_index_extractencountermodelmedia",
       "community": 45,
@@ -2107,7 +2137,7 @@
       "label": "hydrateEncounterModelContent()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2109",
+      "source_location": "L2216",
       "_origin": "ast",
       "id": "server_index_hydrateencountermodelcontent",
       "community": 40,
@@ -2117,17 +2147,17 @@
       "label": "buildEncounterModelRecordPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2220",
+      "source_location": "L2327",
       "_origin": "ast",
       "id": "server_index_buildencountermodelrecordpayload",
-      "community": 40,
+      "community": 45,
       "norm_label": "buildencountermodelrecordpayload()"
     },
     {
       "label": "fetchEncounterRelationRows()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2236",
+      "source_location": "L2343",
       "_origin": "ast",
       "id": "server_index_fetchencounterrelationrows",
       "community": 43,
@@ -2137,7 +2167,7 @@
       "label": "mergeEncounterModelsWithRelations()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2296",
+      "source_location": "L2403",
       "_origin": "ast",
       "id": "server_index_mergeencountermodelswithrelations",
       "community": 43,
@@ -2147,7 +2177,7 @@
       "label": "persistEncounterModelRelations()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2329",
+      "source_location": "L2436",
       "_origin": "ast",
       "id": "server_index_persistencountermodelrelations",
       "community": 40,
@@ -2157,7 +2187,7 @@
       "label": "isMissingEncounterModelsTableError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2435",
+      "source_location": "L2542",
       "_origin": "ast",
       "id": "server_index_ismissingencountermodelstableerror",
       "community": 43,
@@ -2167,7 +2197,7 @@
       "label": "isMissingEncounterModelRequestsTableError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2446",
+      "source_location": "L2553",
       "_origin": "ast",
       "id": "server_index_ismissingencountermodelrequeststableerror",
       "community": 40,
@@ -2177,7 +2207,7 @@
       "label": "isAuthRequiredError()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2457",
+      "source_location": "L2564",
       "_origin": "ast",
       "id": "server_index_isauthrequirederror",
       "community": 2,
@@ -2187,7 +2217,7 @@
       "label": "loadEncounterModels()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2467",
+      "source_location": "L2574",
       "_origin": "ast",
       "id": "server_index_loadencountermodels",
       "community": 43,
@@ -2197,7 +2227,7 @@
       "label": "loadEncounterModelBySlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2531",
+      "source_location": "L2638",
       "_origin": "ast",
       "id": "server_index_loadencountermodelbyslug",
       "community": 43,
@@ -2207,7 +2237,7 @@
       "label": "slugifyEncounterModelSlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2607",
+      "source_location": "L2714",
       "_origin": "ast",
       "id": "server_index_slugifyencountermodelslug",
       "community": 40,
@@ -2217,7 +2247,7 @@
       "label": "getEncounterModelDisplayName()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2619",
+      "source_location": "L2726",
       "_origin": "ast",
       "id": "server_index_getencountermodeldisplayname",
       "community": 40,
@@ -2227,7 +2257,7 @@
       "label": "normalizeEncounterModelPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2627",
+      "source_location": "L2734",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelpayload",
       "community": 40,
@@ -2237,17 +2267,17 @@
       "label": "deleteEncounterReservationHistoryByModelSlug()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2665",
+      "source_location": "L2772",
       "_origin": "ast",
       "id": "server_index_deleteencounterreservationhistorybymodelslug",
-      "community": 40,
+      "community": 2,
       "norm_label": "deleteencounterreservationhistorybymodelslug()"
     },
     {
       "label": "createEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2722",
+      "source_location": "L2829",
       "_origin": "ast",
       "id": "server_index_createencountermodel",
       "community": 40,
@@ -2257,7 +2287,7 @@
       "label": "updateEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2818",
+      "source_location": "L2925",
       "_origin": "ast",
       "id": "server_index_updateencountermodel",
       "community": 40,
@@ -2267,7 +2297,7 @@
       "label": "deleteEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2935",
+      "source_location": "L3042",
       "_origin": "ast",
       "id": "server_index_deleteencountermodel",
       "community": 40,
@@ -2277,7 +2307,7 @@
       "label": "normalizeEncounterModelRequestPayload()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L2996",
+      "source_location": "L3103",
       "_origin": "ast",
       "id": "server_index_normalizeencountermodelrequestpayload",
       "community": 40,
@@ -2287,7 +2317,7 @@
       "label": "buildEncounterModelContentFromRequest()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3033",
+      "source_location": "L3140",
       "_origin": "ast",
       "id": "server_index_buildencountermodelcontentfromrequest",
       "community": 40,
@@ -2297,7 +2327,7 @@
       "label": "loadEncounterModelRequests()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3054",
+      "source_location": "L3161",
       "_origin": "ast",
       "id": "server_index_loadencountermodelrequests",
       "community": 40,
@@ -2307,7 +2337,7 @@
       "label": "loadEncounterModelById()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3087",
+      "source_location": "L3194",
       "_origin": "ast",
       "id": "server_index_loadencountermodelbyid",
       "community": 40,
@@ -2317,7 +2347,7 @@
       "label": "loadEncounterModelOwnerships()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3115",
+      "source_location": "L3222",
       "_origin": "ast",
       "id": "server_index_loadencountermodelownerships",
       "community": 2,
@@ -2327,7 +2357,7 @@
       "label": "assignEncounterModelOwner()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3146",
+      "source_location": "L3253",
       "_origin": "ast",
       "id": "server_index_assignencountermodelowner",
       "community": 2,
@@ -2337,7 +2367,7 @@
       "label": "loadOwnedEncounterModel()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3208",
+      "source_location": "L3315",
       "_origin": "ast",
       "id": "server_index_loadownedencountermodel",
       "community": 40,
@@ -2347,7 +2377,7 @@
       "label": "resolveEncounterModelOwnerProfileId()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3299",
+      "source_location": "L3406",
       "_origin": "ast",
       "id": "server_index_resolveencountermodelownerprofileid",
       "community": 40,
@@ -2357,7 +2387,7 @@
       "label": "createEncounterModelFromRequest()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3329",
+      "source_location": "L3436",
       "_origin": "ast",
       "id": "server_index_createencountermodelfromrequest",
       "community": 40,
@@ -2367,7 +2397,7 @@
       "label": "createEncounterModelRequest()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3367",
+      "source_location": "L3474",
       "_origin": "ast",
       "id": "server_index_createencountermodelrequest",
       "community": 40,
@@ -2377,7 +2407,7 @@
       "label": "updateEncounterModelRequest()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3525",
+      "source_location": "L3632",
       "_origin": "ast",
       "id": "server_index_updateencountermodelrequest",
       "community": 40,
@@ -2387,17 +2417,17 @@
       "label": "normalizeBlogPostRow()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3726",
+      "source_location": "L3833",
       "_origin": "ast",
       "id": "server_index_normalizeblogpostrow",
-      "community": 4,
+      "community": 49,
       "norm_label": "normalizeblogpostrow()"
     },
     {
       "label": "loadBlogPosts()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3761",
+      "source_location": "L3868",
       "_origin": "ast",
       "id": "server_index_loadblogposts",
       "community": 38,
@@ -2407,7 +2437,7 @@
       "label": "getVideoLibraryItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3797",
+      "source_location": "L3904",
       "_origin": "ast",
       "id": "server_index_getvideolibraryitem",
       "community": 2,
@@ -2417,7 +2447,7 @@
       "label": "getMediaItem()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3801",
+      "source_location": "L3908",
       "_origin": "ast",
       "id": "server_index_getmediaitem",
       "community": 2,
@@ -2427,7 +2457,7 @@
       "label": "getVideoSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3813",
+      "source_location": "L3920",
       "_origin": "ast",
       "id": "server_index_getvideosource",
       "community": 1,
@@ -2437,7 +2467,7 @@
       "label": "getCollectionSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3844",
+      "source_location": "L3951",
       "_origin": "ast",
       "id": "server_index_getcollectionsource",
       "community": 1,
@@ -2447,7 +2477,7 @@
       "label": "getFreeContentSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3869",
+      "source_location": "L3976",
       "_origin": "ast",
       "id": "server_index_getfreecontentsource",
       "community": 1,
@@ -2457,7 +2487,7 @@
       "label": "createPlaybackToken()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3893",
+      "source_location": "L4000",
       "_origin": "ast",
       "id": "server_index_createplaybacktoken",
       "community": 2,
@@ -2467,7 +2497,7 @@
       "label": "verifyPlaybackToken()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3899",
+      "source_location": "L4006",
       "_origin": "ast",
       "id": "server_index_verifyplaybacktoken",
       "community": 2,
@@ -2477,7 +2507,7 @@
       "label": "streamRemoteMedia()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3932",
+      "source_location": "L4039",
       "_origin": "ast",
       "id": "server_index_streamremotemedia",
       "community": 41,
@@ -2487,7 +2517,7 @@
       "label": "streamVideoSource()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3973",
+      "source_location": "L4080",
       "_origin": "ast",
       "id": "server_index_streamvideosource",
       "community": 41,
@@ -2497,7 +2527,7 @@
       "label": "assertVideoAccess()",
       "file_type": "code",
       "source_file": "server/index.js",
-      "source_location": "L3995",
+      "source_location": "L4102",
       "_origin": "ast",
       "id": "server_index_assertvideoaccess",
       "community": 2,
@@ -2620,7 +2650,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_app_withlegacyhomepath",
-      "community": 5,
+      "community": 58,
       "norm_label": "withlegacyhomepath()"
     },
     {
@@ -2880,7 +2910,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "src_app_encuentroslegacybookingredirect",
-      "community": 5,
+      "community": 57,
       "norm_label": "encuentroslegacybookingredirect()"
     },
     {
@@ -2920,7 +2950,7 @@
       "source_location": "L176",
       "_origin": "ast",
       "id": "src_app_approutes",
-      "community": 5,
+      "community": 58,
       "norm_label": "approutes()"
     },
     {
@@ -2930,7 +2960,7 @@
       "source_location": "L329",
       "_origin": "ast",
       "id": "src_app_appchrome",
-      "community": 5,
+      "community": 58,
       "norm_label": "appchrome()"
     },
     {
@@ -2940,7 +2970,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 5,
+      "community": 56,
       "norm_label": "app()"
     },
     {
@@ -3060,7 +3090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop",
-      "community": 42,
+      "community": 48,
       "norm_label": "atmosphericbackdrop.jsx"
     },
     {
@@ -3070,7 +3100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_atmosphericbackdrop_atmosphericbackdrop",
-      "community": 42,
+      "community": 48,
       "norm_label": "atmosphericbackdrop()"
     },
     {
@@ -3310,7 +3340,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "components_encountersociallinkssection_encountersociallinkssection",
-      "community": 25,
+      "community": 14,
       "norm_label": "encountersociallinkssection()"
     },
     {
@@ -3610,7 +3640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_languagesync",
-      "community": 5,
+      "community": 59,
       "norm_label": "languagesync.jsx"
     },
     {
@@ -3620,7 +3650,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_languagesync_languagesync",
-      "community": 5,
+      "community": 59,
       "norm_label": "languagesync()"
     },
     {
@@ -4000,7 +4030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_staticcontentpage",
-      "community": 5,
+      "community": 61,
       "norm_label": "staticcontentpage.jsx"
     },
     {
@@ -4010,7 +4040,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_staticcontentpage_staticcontentpage",
-      "community": 5,
+      "community": 61,
       "norm_label": "staticcontentpage()"
     },
     {
@@ -4860,7 +4890,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultblogposts",
-      "community": 4,
+      "community": 49,
       "norm_label": "defaultblogposts.js"
     },
     {
@@ -4870,7 +4900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "data_defaultblogposts_defaultblogposts",
-      "community": 9,
+      "community": 49,
       "norm_label": "defaultblogposts"
     },
     {
@@ -4880,7 +4910,7 @@
       "source_location": "L537",
       "_origin": "ast",
       "id": "data_defaultblogposts_normalizemediaitems",
-      "community": 4,
+      "community": 49,
       "norm_label": "normalizemediaitems()"
     },
     {
@@ -4890,7 +4920,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "data_defaultblogposts_parseblogpriceamount",
-      "community": 4,
+      "community": 49,
       "norm_label": "parseblogpriceamount()"
     },
     {
@@ -4900,7 +4930,7 @@
       "source_location": "L572",
       "_origin": "ast",
       "id": "data_defaultblogposts_getblogposttimestamp",
-      "community": 4,
+      "community": 49,
       "norm_label": "getblogposttimestamp()"
     },
     {
@@ -4910,7 +4940,7 @@
       "source_location": "L578",
       "_origin": "ast",
       "id": "data_defaultblogposts_isnewerblogpost",
-      "community": 4,
+      "community": 49,
       "norm_label": "isnewerblogpost()"
     },
     {
@@ -4920,7 +4950,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "data_defaultblogposts_normalizeblogpost",
-      "community": 4,
+      "community": 49,
       "norm_label": "normalizeblogpost()"
     },
     {
@@ -4950,7 +4980,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "data_defaultcommerce_parsepriceamount",
-      "community": 60,
+      "community": 11,
       "norm_label": "parsepriceamount()"
     },
     {
@@ -5180,7 +5210,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizecarouselslides",
-      "community": 40,
+      "community": 1,
       "norm_label": "normalizecarouselslides()"
     },
     {
@@ -5210,7 +5240,7 @@
       "source_location": "L1530",
       "_origin": "ast",
       "id": "data_defaultsitecontent_mergeitemsbyslug",
-      "community": 40,
+      "community": 1,
       "norm_label": "mergeitemsbyslug()"
     },
     {
@@ -5230,7 +5260,7 @@
       "source_location": "L1559",
       "_origin": "ast",
       "id": "data_defaultsitecontent_normalizeencounterpricelabel",
-      "community": 40,
+      "community": 1,
       "norm_label": "normalizeencounterpricelabel()"
     },
     {
@@ -5360,7 +5390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_i18n",
-      "community": 5,
+      "community": 56,
       "norm_label": "i18n.js"
     },
     {
@@ -5370,7 +5400,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_i18n_supportedlanguages",
-      "community": 5,
+      "community": 56,
       "norm_label": "supportedlanguages"
     },
     {
@@ -5380,7 +5410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_i18n_resources",
-      "community": 5,
+      "community": 56,
       "norm_label": "resources"
     },
     {
@@ -5634,50 +5664,50 @@
       "norm_label": "signinwithtelegram()"
     },
     {
-      "label": "parseJsonResponse()",
+      "label": "signInWithWhatsApp()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
       "source_location": "L462",
       "_origin": "ast",
+      "id": "lib_supabase_signinwithwhatsapp",
+      "community": 8,
+      "norm_label": "signinwithwhatsapp()"
+    },
+    {
+      "label": "parseJsonResponse()",
+      "file_type": "code",
+      "source_file": "src/lib/supabase.js",
+      "source_location": "L487",
+      "_origin": "ast",
       "id": "lib_supabase_parsejsonresponse",
-      "community": 47,
+      "community": 8,
       "norm_label": "parsejsonresponse()"
     },
     {
       "label": "getWhatsappVerificationConfig()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L472",
+      "source_location": "L497",
       "_origin": "ast",
       "id": "lib_supabase_getwhatsappverificationconfig",
-      "community": 47,
+      "community": 8,
       "norm_label": "getwhatsappverificationconfig()"
     },
     {
       "label": "requestWhatsappVerificationCode()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L477",
+      "source_location": "L502",
       "_origin": "ast",
       "id": "lib_supabase_requestwhatsappverificationcode",
-      "community": 47,
+      "community": 8,
       "norm_label": "requestwhatsappverificationcode()"
-    },
-    {
-      "label": "verifyWhatsappVerificationCode()",
-      "file_type": "code",
-      "source_file": "src/lib/supabase.js",
-      "source_location": "L489",
-      "_origin": "ast",
-      "id": "lib_supabase_verifywhatsappverificationcode",
-      "community": 47,
-      "norm_label": "verifywhatsappverificationcode()"
     },
     {
       "label": "signUpWithPassword()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L501",
+      "source_location": "L514",
       "_origin": "ast",
       "id": "lib_supabase_signupwithpassword",
       "community": 32,
@@ -5687,7 +5717,7 @@
       "label": "setMyProfileAudience()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L542",
+      "source_location": "L555",
       "_origin": "ast",
       "id": "lib_supabase_setmyprofileaudience",
       "community": 32,
@@ -5697,7 +5727,7 @@
       "label": "createManagedUser()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L560",
+      "source_location": "L573",
       "_origin": "ast",
       "id": "lib_supabase_createmanageduser",
       "community": 8,
@@ -5707,7 +5737,7 @@
       "label": "updateManagedSubscription()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L579",
+      "source_location": "L592",
       "_origin": "ast",
       "id": "lib_supabase_updatemanagedsubscription",
       "community": 8,
@@ -5717,7 +5747,7 @@
       "label": "signOut()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L598",
+      "source_location": "L611",
       "_origin": "ast",
       "id": "lib_supabase_signout",
       "community": 32,
@@ -5727,7 +5757,7 @@
       "label": "listenToAuthChanges()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L603",
+      "source_location": "L616",
       "_origin": "ast",
       "id": "lib_supabase_listentoauthchanges",
       "community": 32,
@@ -5737,7 +5767,7 @@
       "label": "fetchSiteContent()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L629",
+      "source_location": "L642",
       "_origin": "ast",
       "id": "lib_supabase_fetchsitecontent",
       "community": 32,
@@ -5747,17 +5777,17 @@
       "label": "fetchEncuentrosModels()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L644",
+      "source_location": "L657",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosmodels",
-      "community": 42,
+      "community": 8,
       "norm_label": "fetchencuentrosmodels()"
     },
     {
       "label": "fetchEncuentrosModel()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L655",
+      "source_location": "L668",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosmodel",
       "community": 44,
@@ -5767,7 +5797,7 @@
       "label": "fetchEncuentrosBookingPricing()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L667",
+      "source_location": "L680",
       "_origin": "ast",
       "id": "lib_supabase_fetchencuentrosbookingpricing",
       "community": 44,
@@ -5777,77 +5807,77 @@
       "label": "createManualEncuentrosReservation()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L685",
+      "source_location": "L698",
       "_origin": "ast",
       "id": "lib_supabase_createmanualencuentrosreservation",
-      "community": 8,
+      "community": 9,
       "norm_label": "createmanualencuentrosreservation()"
     },
     {
       "label": "submitEncounterModelRequest()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L704",
+      "source_location": "L717",
       "_origin": "ast",
       "id": "lib_supabase_submitencountermodelrequest",
-      "community": 49,
+      "community": 8,
       "norm_label": "submitencountermodelrequest()"
     },
     {
       "label": "parseApiJson()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L726",
+      "source_location": "L739",
       "_origin": "ast",
       "id": "lib_supabase_parseapijson",
-      "community": 8,
+      "community": 51,
       "norm_label": "parseapijson()"
     },
     {
       "label": "fetchAdminEncuentrosModels()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L736",
+      "source_location": "L749",
       "_origin": "ast",
       "id": "lib_supabase_fetchadminencuentrosmodels",
-      "community": 8,
+      "community": 51,
       "norm_label": "fetchadminencuentrosmodels()"
     },
     {
       "label": "fetchAdminEncuentrosModelRequests()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L748",
+      "source_location": "L761",
       "_origin": "ast",
       "id": "lib_supabase_fetchadminencuentrosmodelrequests",
-      "community": 8,
+      "community": 51,
       "norm_label": "fetchadminencuentrosmodelrequests()"
     },
     {
       "label": "updateAdminEncuentrosModelRequest()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L760",
+      "source_location": "L773",
       "_origin": "ast",
       "id": "lib_supabase_updateadminencuentrosmodelrequest",
-      "community": 8,
+      "community": 51,
       "norm_label": "updateadminencuentrosmodelrequest()"
     },
     {
       "label": "fetchMyEncounterModel()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L776",
+      "source_location": "L789",
       "_origin": "ast",
       "id": "lib_supabase_fetchmyencountermodel",
-      "community": 8,
+      "community": 9,
       "norm_label": "fetchmyencountermodel()"
     },
     {
       "label": "saveMyEncounterModel()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L791",
+      "source_location": "L804",
       "_origin": "ast",
       "id": "lib_supabase_savemyencountermodel",
       "community": 20,
@@ -5857,37 +5887,37 @@
       "label": "saveAdminEncuentrosModel()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L810",
+      "source_location": "L823",
       "_origin": "ast",
       "id": "lib_supabase_saveadminencuentrosmodel",
-      "community": 8,
+      "community": 51,
       "norm_label": "saveadminencuentrosmodel()"
     },
     {
       "label": "deleteAdminEncuentrosModel()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L839",
+      "source_location": "L852",
       "_origin": "ast",
       "id": "lib_supabase_deleteadminencuentrosmodel",
-      "community": 8,
+      "community": 51,
       "norm_label": "deleteadminencuentrosmodel()"
     },
     {
       "label": "normalizeBlogPostRow()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L853",
+      "source_location": "L866",
       "_origin": "ast",
       "id": "lib_supabase_normalizeblogpostrow",
-      "community": 8,
+      "community": 49,
       "norm_label": "normalizeblogpostrow()"
     },
     {
       "label": "fetchBlogPosts()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L900",
+      "source_location": "L913",
       "_origin": "ast",
       "id": "lib_supabase_fetchblogposts",
       "community": 32,
@@ -5897,17 +5927,17 @@
       "label": "upsertBlogPost()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L919",
+      "source_location": "L932",
       "_origin": "ast",
       "id": "lib_supabase_upsertblogpost",
-      "community": 8,
+      "community": 49,
       "norm_label": "upsertblogpost()"
     },
     {
       "label": "deleteBlogPost()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L968",
+      "source_location": "L981",
       "_origin": "ast",
       "id": "lib_supabase_deleteblogpost",
       "community": 32,
@@ -5917,7 +5947,7 @@
       "label": "upsertSiteContent()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L977",
+      "source_location": "L990",
       "_origin": "ast",
       "id": "lib_supabase_upsertsitecontent",
       "community": 32,
@@ -5927,7 +5957,7 @@
       "label": "normalizeProductRow()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L993",
+      "source_location": "L1006",
       "_origin": "ast",
       "id": "lib_supabase_normalizeproductrow",
       "community": 8,
@@ -5937,7 +5967,7 @@
       "label": "fetchProducts()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1010",
+      "source_location": "L1023",
       "_origin": "ast",
       "id": "lib_supabase_fetchproducts",
       "community": 11,
@@ -5947,7 +5977,7 @@
       "label": "upsertProducts()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1032",
+      "source_location": "L1045",
       "_origin": "ast",
       "id": "lib_supabase_upsertproducts",
       "community": 32,
@@ -5957,7 +5987,7 @@
       "label": "fetchCurrentEntitlements()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1082",
+      "source_location": "L1095",
       "_origin": "ast",
       "id": "lib_supabase_fetchcurrententitlements",
       "community": 32,
@@ -5967,7 +5997,7 @@
       "label": "normalizeOrderRow()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1121",
+      "source_location": "L1134",
       "_origin": "ast",
       "id": "lib_supabase_normalizeorderrow",
       "community": 8,
@@ -5977,7 +6007,7 @@
       "label": "fetchCurrentOrders()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1141",
+      "source_location": "L1154",
       "_origin": "ast",
       "id": "lib_supabase_fetchcurrentorders",
       "community": 32,
@@ -5987,7 +6017,7 @@
       "label": "getProfiles()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1165",
+      "source_location": "L1178",
       "_origin": "ast",
       "id": "lib_supabase_getprofiles",
       "community": 32,
@@ -5997,7 +6027,7 @@
       "label": "getCustomerAdminSnapshot()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1183",
+      "source_location": "L1196",
       "_origin": "ast",
       "id": "lib_supabase_getcustomeradminsnapshot",
       "community": 32,
@@ -6007,17 +6037,17 @@
       "label": "getAdminAuditEvents()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1265",
+      "source_location": "L1278",
       "_origin": "ast",
       "id": "lib_supabase_getadminauditevents",
-      "community": 9,
+      "community": 8,
       "norm_label": "getadminauditevents()"
     },
     {
       "label": "translateAdminContent()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1285",
+      "source_location": "L1298",
       "_origin": "ast",
       "id": "lib_supabase_translateadmincontent",
       "community": 32,
@@ -6027,7 +6057,7 @@
       "label": "updateProfile()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1315",
+      "source_location": "L1328",
       "_origin": "ast",
       "id": "lib_supabase_updateprofile",
       "community": 8,
@@ -6037,7 +6067,7 @@
       "label": "uploadMediaAsset()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1337",
+      "source_location": "L1350",
       "_origin": "ast",
       "id": "lib_supabase_uploadmediaasset",
       "community": 8,
@@ -6047,7 +6077,7 @@
       "label": "uploadMediaAssetFromUrl()",
       "file_type": "code",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L1378",
+      "source_location": "L1391",
       "_origin": "ast",
       "id": "lib_supabase_uploadmediaassetfromurl",
       "community": 8,
@@ -6060,7 +6090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 5,
+      "community": 56,
       "norm_label": "main.jsx"
     },
     {
@@ -6077,7 +6107,7 @@
       "label": "normalizeAudience()",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L15",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "pages_accesspage_normalizeaudience",
       "community": 47,
@@ -6087,7 +6117,7 @@
       "label": "getModelTarget()",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L25",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "pages_accesspage_getmodeltarget",
       "community": 47,
@@ -6097,7 +6127,7 @@
       "label": "normalizePhoneInput()",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L29",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "pages_accesspage_normalizephoneinput",
       "community": 47,
@@ -6107,7 +6137,7 @@
       "label": "audienceOptions",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L33",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "pages_accesspage_audienceoptions",
       "community": 47,
@@ -6117,7 +6147,7 @@
       "label": "AccessPage()",
       "file_type": "code",
       "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L46",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "pages_accesspage_accesspage",
       "community": 47,
@@ -7040,7 +7070,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "pages_encuentrospage_getcontactchannelicon",
-      "community": 19,
+      "community": 14,
       "norm_label": "getcontactchannelicon()"
     },
     {
@@ -7510,7 +7540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pages_openingpage",
-      "community": 49,
+      "community": 8,
       "norm_label": "openingpage.jsx"
     },
     {
@@ -7520,7 +7550,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "pages_openingpage_openingpage",
-      "community": 49,
+      "community": 8,
       "norm_label": "openingpage()"
     },
     {
@@ -7747,7 +7777,7 @@
       "label": "withTimeout()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L83",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "state_appstate_withtimeout",
       "community": 9,
@@ -7757,7 +7787,7 @@
       "label": "normalizeFeaturedSlot()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L92",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "state_appstate_normalizefeaturedslot",
       "community": 9,
@@ -7767,7 +7797,7 @@
       "label": "parseDateOrNull()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L100",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "state_appstate_parsedateornull",
       "community": 9,
@@ -7777,7 +7807,7 @@
       "label": "getFallbackUsersState()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L109",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "state_appstate_getfallbackusersstate",
       "community": 9,
@@ -7787,7 +7817,7 @@
       "label": "isLikelySupabaseAuthConnectivityError()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L113",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "state_appstate_islikelysupabaseauthconnectivityerror",
       "community": 9,
@@ -7797,7 +7827,7 @@
       "label": "getActiveAdminCount()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L127",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "state_appstate_getactiveadmincount",
       "community": 9,
@@ -7807,7 +7837,7 @@
       "label": "wouldRemoveAdminAccess()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L136",
+      "source_location": "L137",
       "_origin": "ast",
       "id": "state_appstate_wouldremoveadminaccess",
       "community": 9,
@@ -7817,7 +7847,7 @@
       "label": "addDuration()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L148",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "state_appstate_addduration",
       "community": 9,
@@ -7827,7 +7857,7 @@
       "label": "buildOrderDateMap()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L160",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "state_appstate_buildorderdatemap",
       "community": 9,
@@ -7837,7 +7867,7 @@
       "label": "buildManualReservationOrder()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L166",
+      "source_location": "L167",
       "_origin": "ast",
       "id": "state_appstate_buildmanualreservationorder",
       "community": 9,
@@ -7847,7 +7877,7 @@
       "label": "isSubscriptionEntitlementKey()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L238",
+      "source_location": "L239",
       "_origin": "ast",
       "id": "state_appstate_issubscriptionentitlementkey",
       "community": 9,
@@ -7857,7 +7887,7 @@
       "label": "buildSubscriptionGrantSet()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L242",
+      "source_location": "L243",
       "_origin": "ast",
       "id": "state_appstate_buildsubscriptiongrantset",
       "community": 9,
@@ -7867,7 +7897,7 @@
       "label": "enrichSubscriptionEntitlements()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L267",
+      "source_location": "L268",
       "_origin": "ast",
       "id": "state_appstate_enrichsubscriptionentitlements",
       "community": 9,
@@ -7877,7 +7907,7 @@
       "label": "mergeGeneratedProducts()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L309",
+      "source_location": "L310",
       "_origin": "ast",
       "id": "state_appstate_mergegeneratedproducts",
       "community": 9,
@@ -7887,7 +7917,7 @@
       "label": "buildBlogTranslationSource()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L348",
+      "source_location": "L349",
       "_origin": "ast",
       "id": "state_appstate_buildblogtranslationsource",
       "community": 9,
@@ -7897,7 +7927,7 @@
       "label": "applyTranslatedBlogPost()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L364",
+      "source_location": "L365",
       "_origin": "ast",
       "id": "state_appstate_applytranslatedblogpost",
       "community": 9,
@@ -7907,7 +7937,7 @@
       "label": "AppProvider()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L395",
+      "source_location": "L396",
       "_origin": "ast",
       "id": "state_appstate_appprovider",
       "community": 9,
@@ -7917,7 +7947,7 @@
       "label": "useAppState()",
       "file_type": "code",
       "source_file": "src/state/AppState.jsx",
-      "source_location": "L2080",
+      "source_location": "L2099",
       "_origin": "ast",
       "id": "state_appstate_useappstate",
       "community": 48,
@@ -8470,7 +8500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_encuentrosmodels",
-      "community": 5,
+      "community": 57,
       "norm_label": "encuentrosmodels.js"
     },
     {
@@ -8480,7 +8510,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_encuentrosmodels_getencounterfallbackslug",
-      "community": 5,
+      "community": 57,
       "norm_label": "getencounterfallbackslug()"
     },
     {
@@ -8490,7 +8520,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "utils_encuentrosmodels_resolveencounterfallbackslug",
-      "community": 5,
+      "community": 57,
       "norm_label": "resolveencounterfallbackslug()"
     },
     {
@@ -8800,7 +8830,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "utils_socialnetworks_social_network_options",
-      "community": 14,
+      "community": 20,
       "norm_label": "social_network_options"
     },
     {
@@ -13277,11 +13307,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L525",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_buildwhatsappdisplayname"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L520",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_buildwhatsappsyntheticemail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_buildwhatsappverificationmessage",
-      "confidence_score": 1.0
+      "target": "server_index_buildwhatsappverificationmessage"
     },
     {
       "relation": "contains",
@@ -13379,9 +13429,9 @@
       "source_file": "server/index.js",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_createwhatsappverificationcode",
-      "confidence_score": 1.0
+      "target": "server_index_createwhatsappverificationcode"
     },
     {
       "relation": "contains",
@@ -13629,9 +13679,9 @@
       "source_file": "server/index.js",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_getwhatsappchallengestoragepath",
-      "confidence_score": 1.0
+      "target": "server_index_getwhatsappchallengestoragepath"
     },
     {
       "relation": "contains",
@@ -13679,9 +13729,9 @@
       "source_file": "server/index.js",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_hashwhatsappverificationcode",
-      "confidence_score": 1.0
+      "target": "server_index_hashwhatsappverificationcode"
     },
     {
       "relation": "contains",
@@ -13859,9 +13909,9 @@
       "source_file": "server/index.js",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_loadwhatsappverificationchallenges",
-      "confidence_score": 1.0
+      "target": "server_index_loadwhatsappverificationchallenges"
     },
     {
       "relation": "contains",
@@ -14059,9 +14109,9 @@
       "source_file": "server/index.js",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_parsedwhatsappverificationttlms",
-      "confidence_score": 1.0
+      "target": "server_index_parsedwhatsappverificationttlms"
     },
     {
       "relation": "contains",
@@ -14107,11 +14157,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L626",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index",
+      "target": "server_index_provisionwhatsapploginuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_prunewhatsappverificationchallenges",
-      "confidence_score": 1.0
+      "target": "server_index_prunewhatsappverificationchallenges"
     },
     {
       "relation": "contains",
@@ -14209,9 +14269,9 @@
       "source_file": "server/index.js",
       "source_location": "L98",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_savewhatsappverificationchallenges",
-      "confidence_score": 1.0
+      "target": "server_index_savewhatsappverificationchallenges"
     },
     {
       "relation": "contains",
@@ -14219,9 +14279,9 @@
       "source_file": "server/index.js",
       "source_location": "L75",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_serializewhatsappverificationchallenge",
-      "confidence_score": 1.0
+      "target": "server_index_serializewhatsappverificationchallenge"
     },
     {
       "relation": "contains",
@@ -14369,9 +14429,9 @@
       "source_file": "server/index.js",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_whatsapp_verification_file",
-      "confidence_score": 1.0
+      "target": "server_index_whatsapp_verification_file"
     },
     {
       "relation": "contains",
@@ -14379,9 +14439,9 @@
       "source_file": "server/index.js",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_index_whatsappverificationchallenges",
-      "confidence_score": 1.0
+      "target": "server_index_whatsappverificationchallenges"
     },
     {
       "relation": "contains",
@@ -14430,9 +14490,9 @@
       "source_file": "server/index.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_openwa",
-      "confidence_score": 1.0
+      "target": "server_openwa"
     },
     {
       "relation": "imports",
@@ -14441,9 +14501,9 @@
       "source_file": "server/index.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_openwa_checkopenwaphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_checkopenwaphone"
     },
     {
       "relation": "imports",
@@ -14452,9 +14512,9 @@
       "source_file": "server/index.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_openwa_isopenwaconfigured",
-      "confidence_score": 1.0
+      "target": "server_openwa_isopenwaconfigured"
     },
     {
       "relation": "imports",
@@ -14463,9 +14523,9 @@
       "source_file": "server/index.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_openwa_normalizewhatsappphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_normalizewhatsappphone"
     },
     {
       "relation": "imports",
@@ -14474,9 +14534,9 @@
       "source_file": "server/index.js",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index",
-      "target": "server_openwa_sendopenwatext",
-      "confidence_score": 1.0
+      "target": "server_openwa_sendopenwatext"
     },
     {
       "relation": "imports_from",
@@ -14584,9 +14644,9 @@
       "source_file": "server/index.js",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index_loadwhatsappverificationchallenges",
-      "target": "server_index_getwhatsappchallengestoragepath",
-      "confidence_score": 1.0
+      "target": "server_index_getwhatsappchallengestoragepath"
     },
     {
       "relation": "calls",
@@ -14595,9 +14655,9 @@
       "source_file": "server/index.js",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index_savewhatsappverificationchallenges",
-      "target": "server_index_getwhatsappchallengestoragepath",
-      "confidence_score": 1.0
+      "target": "server_index_getwhatsappchallengestoragepath"
     },
     {
       "relation": "calls",
@@ -14606,9 +14666,9 @@
       "source_file": "server/index.js",
       "source_location": "L99",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_index_savewhatsappverificationchallenges",
-      "target": "server_index_prunewhatsappverificationchallenges",
-      "confidence_score": 1.0
+      "target": "server_index_prunewhatsappverificationchallenges"
     },
     {
       "relation": "calls",
@@ -15264,6 +15324,50 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server/index.js",
+      "source_location": "L521",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildwhatsappsyntheticemail",
+      "target": "server_openwa_normalizewhatsappphone"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L637",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_provisionwhatsapploginuser",
+      "target": "server_index_buildwhatsappsyntheticemail"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L526",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_buildwhatsappdisplayname",
+      "target": "server_openwa_normalizewhatsappphone"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L638",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_provisionwhatsapploginuser",
+      "target": "server_index_buildwhatsappdisplayname"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
       "source_location": "L423",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -15313,6 +15417,28 @@
       "confidence_score": 1.0,
       "source": "server_index_provisiontelegramloginuser",
       "target": "server_index_assertsupabaseauthconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L627",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_provisionwhatsapploginuser",
+      "target": "server_index_assertsupabaseauthconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server/index.js",
+      "source_location": "L629",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "server_index_provisionwhatsapploginuser",
+      "target": "server_openwa_normalizewhatsappphone"
     },
     {
       "relation": "calls",
@@ -16871,9 +16997,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_buildopenwaurl",
-      "confidence_score": 1.0
+      "target": "server_openwa_buildopenwaurl"
     },
     {
       "relation": "contains",
@@ -16881,9 +17007,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_checkopenwaphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_checkopenwaphone"
     },
     {
       "relation": "contains",
@@ -16891,9 +17017,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_isopenwaconfigured",
-      "confidence_score": 1.0
+      "target": "server_openwa_isopenwaconfigured"
     },
     {
       "relation": "contains",
@@ -16901,9 +17027,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_normalizewhatsappphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_normalizewhatsappphone"
     },
     {
       "relation": "contains",
@@ -16911,9 +17037,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_openwaapikey",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwaapikey"
     },
     {
       "relation": "contains",
@@ -16921,9 +17047,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_openwabaseurl",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwabaseurl"
     },
     {
       "relation": "contains",
@@ -16931,9 +17057,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_openwajson",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwajson"
     },
     {
       "relation": "contains",
@@ -16941,9 +17067,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_openwasessionid",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwasessionid"
     },
     {
       "relation": "contains",
@@ -16951,9 +17077,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa",
-      "target": "server_openwa_sendopenwatext",
-      "confidence_score": 1.0
+      "target": "server_openwa_sendopenwatext"
     },
     {
       "relation": "calls",
@@ -16962,9 +17088,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_openwajson",
-      "target": "server_openwa_isopenwaconfigured",
-      "confidence_score": 1.0
+      "target": "server_openwa_isopenwaconfigured"
     },
     {
       "relation": "calls",
@@ -16973,9 +17099,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_checkopenwaphone",
-      "target": "server_openwa_normalizewhatsappphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_normalizewhatsappphone"
     },
     {
       "relation": "calls",
@@ -16984,9 +17110,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_sendopenwatext",
-      "target": "server_openwa_normalizewhatsappphone",
-      "confidence_score": 1.0
+      "target": "server_openwa_normalizewhatsappphone"
     },
     {
       "relation": "calls",
@@ -16995,9 +17121,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_openwajson",
-      "target": "server_openwa_buildopenwaurl",
-      "confidence_score": 1.0
+      "target": "server_openwa_buildopenwaurl"
     },
     {
       "relation": "calls",
@@ -17006,9 +17132,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L73",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_checkopenwaphone",
-      "target": "server_openwa_openwajson",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwajson"
     },
     {
       "relation": "calls",
@@ -17017,9 +17143,9 @@
       "source_file": "server/openwa.js",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "server_openwa_sendopenwatext",
-      "target": "server_openwa_openwajson",
-      "confidence_score": 1.0
+      "target": "server_openwa_openwajson"
     },
     {
       "relation": "imports_from",
@@ -26367,9 +26493,9 @@
       "source_file": "src/lib/supabase.js",
       "source_location": "L472",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_supabase",
-      "target": "lib_supabase_getwhatsappverificationconfig",
-      "confidence_score": 1.0
+      "target": "lib_supabase_getwhatsappverificationconfig"
     },
     {
       "relation": "contains",
@@ -26457,9 +26583,9 @@
       "source_file": "src/lib/supabase.js",
       "source_location": "L462",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_supabase",
-      "target": "lib_supabase_parsejsonresponse",
-      "confidence_score": 1.0
+      "target": "lib_supabase_parsejsonresponse"
     },
     {
       "relation": "contains",
@@ -26467,9 +26593,9 @@
       "source_file": "src/lib/supabase.js",
       "source_location": "L477",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_supabase",
-      "target": "lib_supabase_requestwhatsappverificationcode",
-      "confidence_score": 1.0
+      "target": "lib_supabase_requestwhatsappverificationcode"
     },
     {
       "relation": "contains",
@@ -26560,6 +26686,16 @@
       "confidence_score": 1.0,
       "source": "lib_supabase",
       "target": "lib_supabase_signinwithtelegram"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/supabase.js",
+      "source_location": "L462",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_supabase",
+      "target": "lib_supabase_signinwithwhatsapp"
     },
     {
       "relation": "contains",
@@ -26725,16 +26861,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/supabase.js",
-      "source_location": "L489",
-      "weight": 1.0,
-      "source": "lib_supabase",
-      "target": "lib_supabase_verifywhatsappverificationcode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/supabase.js",
       "source_location": "L63",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26770,9 +26896,9 @@
       "source_file": "src/pages/AccessPage.jsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_accesspage",
-      "target": "lib_supabase",
-      "confidence_score": 1.0
+      "target": "lib_supabase"
     },
     {
       "relation": "imports_from",
@@ -27347,6 +27473,17 @@
       "target": "lib_supabase_signinwithpassword"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/supabase.js",
+      "source_location": "L484",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_supabase_signinwithwhatsapp",
+      "target": "lib_supabase_signinwithpassword"
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -27402,15 +27539,26 @@
       "target": "lib_supabase_signinwithtelegram"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/state/AppState.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "state_appstate",
+      "target": "lib_supabase_signinwithwhatsapp"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/supabase.js",
       "source_location": "L474",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_supabase_getwhatsappverificationconfig",
-      "target": "lib_supabase_parsejsonresponse",
-      "confidence_score": 1.0
+      "target": "lib_supabase_parsejsonresponse"
     },
     {
       "relation": "calls",
@@ -27419,20 +27567,9 @@
       "source_file": "src/lib/supabase.js",
       "source_location": "L486",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_supabase_requestwhatsappverificationcode",
-      "target": "lib_supabase_parsejsonresponse",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/supabase.js",
-      "source_location": "L498",
-      "weight": 1.0,
-      "source": "lib_supabase_verifywhatsappverificationcode",
-      "target": "lib_supabase_parsejsonresponse",
-      "confidence_score": 1.0
+      "target": "lib_supabase_parsejsonresponse"
     },
     {
       "relation": "imports",
@@ -27441,9 +27578,9 @@
       "source_file": "src/pages/AccessPage.jsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_accesspage",
-      "target": "lib_supabase_getwhatsappverificationconfig",
-      "confidence_score": 1.0
+      "target": "lib_supabase_getwhatsappverificationconfig"
     },
     {
       "relation": "imports",
@@ -27452,20 +27589,9 @@
       "source_file": "src/pages/AccessPage.jsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_accesspage",
-      "target": "lib_supabase_requestwhatsappverificationcode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AccessPage.jsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "source": "pages_accesspage",
-      "target": "lib_supabase_verifywhatsappverificationcode",
-      "confidence_score": 1.0
+      "target": "lib_supabase_requestwhatsappverificationcode"
     },
     {
       "relation": "imports",
@@ -28041,9 +28167,9 @@
       "source_file": "src/pages/AccessPage.jsx",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_accesspage",
-      "target": "pages_accesspage_normalizephoneinput",
-      "confidence_score": 1.0
+      "target": "pages_accesspage_normalizephoneinput"
     },
     {
       "relation": "imports_from",
@@ -28085,9 +28211,9 @@
       "source_file": "src/pages/AccessPage.jsx",
       "source_location": "L288",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_accesspage_accesspage",
-      "target": "pages_accesspage_normalizephoneinput",
-      "confidence_score": 1.0
+      "target": "pages_accesspage_normalizephoneinput"
     },
     {
       "relation": "calls",
@@ -36879,5 +37005,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "21b4f4f73d3dd7070bcfb80d003707dbb5d37b4a"
+  "built_at_commit": "19ea569536f3bd86902123071ac38b6591914c71"
 }

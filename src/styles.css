@@ -5684,42 +5684,6 @@ button {
     radial-gradient(circle at top right, rgba(255, 138, 42, 0.06), transparent 34%);
 }
 
-.access-auth-tabs {
-  display: inline-flex;
-  gap: 0.55rem;
-  align-self: start;
-  padding: 0.35rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.access-auth-tabs button {
-  min-height: 42px;
-  padding: 0.7rem 1rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 244, 235, 0.7);
-  font-weight: 800;
-}
-
-.access-auth-tabs button.is-active {
-  background: linear-gradient(135deg, var(--color-primary), #7a0d24);
-  color: #fff4ef;
-  box-shadow: var(--shadow-brand);
-}
-
-.access-auth-form {
-  display: grid;
-  gap: 0.95rem;
-}
-
-.access-auth-fields {
-  display: grid;
-  gap: 0.85rem;
-}
-
 .access-auth-field {
   display: grid;
   gap: 0.45rem;
@@ -5736,9 +5700,54 @@ button {
   min-height: 48px;
 }
 
-.access-auth-submit {
-  width: 100%;
-  min-height: 50px;
+.access-auth-copy-compact {
+  gap: 0.45rem;
+}
+
+.access-whatsapp-panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(39, 167, 223, 0.2);
+  background:
+    linear-gradient(180deg, rgba(11, 17, 22, 0.96), rgba(7, 9, 11, 0.98)),
+    radial-gradient(circle at top right, rgba(39, 167, 223, 0.1), transparent 34%);
+}
+
+.access-whatsapp-panel-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.access-whatsapp-panel-copy strong {
+  font-size: 1.04rem;
+  line-height: 1.35;
+  color: #fff4ef;
+}
+
+.access-whatsapp-panel-copy p {
+  margin: 0;
+  color: rgba(255, 231, 221, 0.72);
+  line-height: 1.5;
+}
+
+.access-whatsapp-panel-fields {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.access-whatsapp-panel-actions {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.access-auth-button-whatsapp {
+  border-color: rgba(39, 167, 223, 0.2);
+}
+
+.access-auth-button-icon-whatsapp {
+  color: #25d366;
 }
 
 .access-auth-success,
@@ -5854,15 +5863,6 @@ button {
 
 .access-auth-error {
   color: #ff8f8f;
-}
-
-.access-auth-telegram-panel {
-  display: grid;
-  gap: 0.85rem;
-  padding: 1rem;
-  border-radius: 24px;
-  border: 1px solid rgba(87, 191, 255, 0.22);
-  background: rgba(87, 191, 255, 0.08);
 }
 
 .access-auth-link {
@@ -6193,6 +6193,10 @@ button {
 
   .access-auth-mini-actions > * {
     width: 100%;
+  }
+
+  .access-whatsapp-panel-actions {
+    grid-template-columns: 1fr;
   }
 }
 

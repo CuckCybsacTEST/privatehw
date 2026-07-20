@@ -39,6 +39,7 @@ import {
   signInWithIdentifier,
   signInWithOAuth,
   signInWithTelegram,
+  signInWithWhatsApp,
   signUpWithPassword,
   signOut,
   setMyProfileAudience,
@@ -1127,6 +1128,23 @@ export function AppProvider({ children }) {
     return nextSession
   }
 
+  async function loginMemberWithWhatsApp(whatsappLogin) {
+    if (!isSupabaseConfigured) {
+      throw new Error('WhatsApp requiere Supabase configurado.')
+    }
+
+    const nextSession = await withTimeout(
+      signInWithWhatsApp(whatsappLogin),
+      15000,
+      'WhatsApp tardo demasiado en validar el acceso. Revisa tu conexion o intenta otra vez.',
+    )
+
+    setSession(nextSession)
+    hydrateSessionSideData(nextSession)
+
+    return nextSession
+  }
+
   async function createManagedUser(form) {
     if (!isSupabaseConfigured) {
       const fallbackIdentifier = String(form.username || form.email || form.name || 'usuario')
@@ -2040,6 +2058,7 @@ export function AppProvider({ children }) {
       loginMemberWithEmail,
       loginMemberWithOAuth,
       loginMemberWithTelegram,
+      loginMemberWithWhatsApp,
       signUpMemberWithEmail,
       setMemberAudience,
       createManagedUser,

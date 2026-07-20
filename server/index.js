@@ -517,6 +517,16 @@ function buildTelegramDisplayName(telegramUser = {}) {
   )
 }
 
+function buildWhatsAppSyntheticEmail(phone = '') {
+  const normalizedPhone = normalizeWhatsAppPhone(phone)
+  return `whatsapp_${normalizedPhone}@whatsapp.local`
+}
+
+function buildWhatsAppDisplayName(phone = '') {
+  const normalizedPhone = normalizeWhatsAppPhone(phone)
+  return `WhatsApp ${normalizedPhone}`
+}
+
 function buildSyntheticManagedEmail(identifier = '') {
   const slug = slugifyEncounterModelSlug(String(identifier || '').trim() || `modelo-${Date.now()}`)
   return `${slug}@models.local`
@@ -611,6 +621,103 @@ async function provisionTelegramLoginUser(telegramUser = {}) {
   }
 
   return { email, password, displayName }
+}
+
+async function provisionWhatsAppLoginUser(phone = '') {
+  assertSupabaseAuthConfig()
+
+  const normalizedPhone = normalizeWhatsAppPhone(phone)
+
+  if (!normalizedPhone) {
+    const error = new Error('Debes indicar un telefono valido.')
+    error.code = 'BAD_REQUEST'
+    throw error
+  }
+
+  const email = buildWhatsAppSyntheticEmail(normalizedPhone)
+  const displayName = buildWhatsAppDisplayName(normalizedPhone)
+  const password = crypto.randomBytes(24).toString('base64url')
+  const metadata = {
+    display_name: displayName,
+    phone: normalizedPhone,
+    whatsapp_phone: normalizedPhone,
+    whatsapp_verified: true,
+  }
+
+  const { data: existingProfile, error: profileError } = await supabaseAdmin
+    .from('profiles')
+    .select('id, email, status')
+    .eq('email', email)
+    .maybeSingle()
+
+  if (profileError) {
+    throw new Error(profileError.message || 'No se pudo verificar el perfil de WhatsApp.')
+  }
+
+  if (existingProfile?.status && existingProfile.status !== 'active') {
+    const error = new Error('La cuenta asociada a WhatsApp esta deshabilitada.')
+    error.code = 'ACCOUNT_DISABLED'
+    throw error
+  }
+
+  if (existingProfile?.id) {
+    const { error: authUpdateError } = await supabaseAdmin.auth.admin.updateUserById(
+      existingProfile.id,
+      {
+        password,
+        user_metadata: metadata,
+      },
+    )
+
+    if (authUpdateError) {
+      throw new Error(authUpdateError.message || 'No se pudo actualizar la cuenta de WhatsApp.')
+    }
+
+    const { error: updateProfileError } = await supabaseAdmin
+      .from('profiles')
+      .update({
+        display_name: displayName,
+        email,
+        phone: normalizedPhone,
+      })
+      .eq('id', existingProfile.id)
+
+    if (updateProfileError) {
+      throw new Error(updateProfileError.message || 'No se pudo actualizar el perfil de WhatsApp.')
+    }
+
+    return { email, password, displayName, phone: normalizedPhone }
+  }
+
+  const { data: createdUser, error: createUserError } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: metadata,
+  })
+
+  if (createUserError || !createdUser?.user?.id) {
+    throw new Error(createUserError?.message || 'No se pudo crear la cuenta de WhatsApp.')
+  }
+
+  const { error: profileUpsertError } = await supabaseAdmin.from('profiles').upsert(
+    {
+      id: createdUser.user.id,
+      email,
+      display_name: displayName,
+      phone: normalizedPhone,
+      audience: 'client',
+      role: 'public',
+      status: 'active',
+    },
+    { onConflict: 'id' },
+  )
+
+  if (profileUpsertError) {
+    throw new Error(profileUpsertError.message || 'No se pudo guardar el perfil de WhatsApp.')
+  }
+
+  return { email, password, displayName, phone: normalizedPhone }
 }
 
 async function resolveLoginIdentifier(identifier = '') {
@@ -4707,6 +4814,8 @@ app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
       return
     }
 
+    const credentials = await provisionWhatsAppLoginUser(challenge.phone)
+
     whatsappVerificationChallenges.delete(challengeId)
     await saveWhatsappVerificationChallenges()
 
@@ -4714,9 +4823,17 @@ app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
       ok: true,
       verified: true,
       phone: challenge.phone,
+      ...credentials,
     })
   } catch (error) {
-    res.status(500).json({
+    const status =
+      error.code === 'BAD_REQUEST'
+        ? 400
+        : error.code === 'ACCOUNT_DISABLED'
+          ? 403
+          : 500
+
+    res.status(status).json({
       error: error.message || 'No se pudo validar el codigo de WhatsApp.',
       code: error.code || 'WHATSAPP_VERIFICATION_ERROR',
     })

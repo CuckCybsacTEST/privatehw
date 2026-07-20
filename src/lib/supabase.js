@@ -459,6 +459,31 @@ export async function signInWithTelegram(telegramUser) {
   return signInWithPassword({ email, password })
 }
 
+export async function signInWithWhatsApp({ challengeId = '', code = '' }) {
+  const response = await fetch('/api/auth/whatsapp/verify-code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ challengeId, code }),
+  })
+
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'No se pudo validar el acceso por WhatsApp.')
+  }
+
+  const email = String(payload.email || '').trim()
+  const password = String(payload.password || '').trim()
+
+  if (!email || !password) {
+    throw new Error('WhatsApp no devolvio credenciales validas.')
+  }
+
+  return signInWithPassword({ email, password })
+}
+
 async function parseJsonResponse(response, fallbackMessage) {
   const payload = await response.json().catch(() => ({}))
 
@@ -484,18 +509,6 @@ export async function requestWhatsappVerificationCode({ phone = '' }) {
   })
 
   return parseJsonResponse(response, 'No se pudo enviar el codigo por WhatsApp.')
-}
-
-export async function verifyWhatsappVerificationCode({ challengeId = '', code = '' }) {
-  const response = await fetch('/api/auth/whatsapp/verify-code', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ challengeId, code }),
-  })
-
-  return parseJsonResponse(response, 'No se pudo validar el codigo de WhatsApp.')
 }
 
 export async function signUpWithPassword({
