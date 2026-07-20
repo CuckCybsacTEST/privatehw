@@ -5684,6 +5684,144 @@ button {
     radial-gradient(circle at top right, rgba(255, 138, 42, 0.06), transparent 34%);
 }
 
+.access-auth-section {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.access-auth-section-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.access-auth-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.access-auth-tabs-compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.access-auth-tab {
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(20, 12, 16, 0.96), rgba(10, 7, 10, 0.98)),
+    rgba(255, 255, 255, 0.02);
+  color: #f4dedd;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.access-auth-tab:hover,
+.access-auth-tab:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255, 190, 122, 0.24);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+.access-auth-tab.is-active {
+  border-color: rgba(255, 106, 82, 0.42);
+  background:
+    linear-gradient(180deg, rgba(58, 18, 22, 0.98), rgba(24, 10, 13, 0.99)),
+    radial-gradient(circle at top right, rgba(255, 138, 42, 0.12), transparent 34%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 184, 124, 0.12),
+    0 14px 30px rgba(0, 0, 0, 0.22);
+}
+
+.access-auth-method-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.access-auth-method-card {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+  text-align: left;
+  min-height: 168px;
+  padding: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(19, 11, 16, 0.98), rgba(10, 6, 9, 0.95)),
+    radial-gradient(circle at top right, rgba(255, 138, 42, 0.06), transparent 32%);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+.access-auth-method-card:hover,
+.access-auth-method-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 190, 122, 0.22);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.26);
+}
+
+.access-auth-method-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+  transform: none;
+  box-shadow: none;
+}
+
+.access-auth-method-card strong {
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  line-height: 1.08;
+}
+
+.access-auth-method-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.access-auth-method-icon {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff7ed;
+  font-size: 1.2rem;
+}
+
+.access-auth-method-icon-whatsapp {
+  color: #7cff95;
+}
+
+.access-auth-method-icon-x {
+  color: #f2ebeb;
+  font-weight: 900;
+}
+
+.access-auth-method-icon-password {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
 .access-auth-field {
   display: grid;
   gap: 0.45rem;
@@ -5698,6 +5836,23 @@ button {
 
 .access-auth-field input {
   min-height: 48px;
+  padding: 0.82rem 0.92rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff4ef;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.access-auth-field input:focus {
+  outline: none;
+  border-color: rgba(255, 184, 124, 0.34);
+  box-shadow:
+    0 0 0 3px rgba(255, 184, 124, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 22px rgba(0, 0, 0, 0.22);
 }
 
 .access-auth-copy-compact {
@@ -5740,6 +5895,11 @@ button {
 .access-whatsapp-panel-actions {
   display: grid;
   gap: 0.8rem;
+}
+
+.access-credentials-panel {
+  display: grid;
+  gap: 0.85rem;
 }
 
 .access-auth-button-whatsapp {
@@ -6182,8 +6342,12 @@ button {
     align-items: flex-start;
   }
 
-  .access-auth-choice-grid,
   .access-role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .access-auth-tabs,
+  .access-auth-method-grid {
     grid-template-columns: 1fr;
   }
 

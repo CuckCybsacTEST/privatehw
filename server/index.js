@@ -724,6 +724,7 @@ async function resolveLoginIdentifier(identifier = '') {
   assertSupabaseAuthConfig()
 
   const normalizedIdentifier = normalizeManagedUserIdentifier(identifier)
+  const normalizedPhone = normalizeWhatsAppPhone(identifier)
 
   if (!normalizedIdentifier) {
     const error = new Error('Debes indicar un correo o usuario.')
@@ -733,8 +734,10 @@ async function resolveLoginIdentifier(identifier = '') {
 
   const query = supabaseAdmin
     .from('profiles')
-    .select('id, email, username, display_name, status')
-    .or(`email.ilike.${normalizedIdentifier},username.ilike.${normalizedIdentifier},display_name.ilike.${normalizedIdentifier}`)
+    .select('id, email, username, display_name, phone, status')
+    .or(
+      `email.ilike.${normalizedIdentifier},username.ilike.${normalizedIdentifier},display_name.ilike.${normalizedIdentifier}`,
+    )
 
   let data = null
   let error = null
@@ -756,13 +759,24 @@ async function resolveLoginIdentifier(identifier = '') {
     if (missingUsernameColumn) {
       const fallbackQuery = supabaseAdmin
         .from('profiles')
-        .select('id, email, display_name, status')
+        .select('id, email, display_name, phone, status')
         .or(`email.ilike.${normalizedIdentifier},display_name.ilike.${normalizedIdentifier}`)
 
       const fallbackResult = await fallbackQuery.maybeSingle()
       data = fallbackResult.data
       error = fallbackResult.error
     }
+  }
+
+  if (!data && normalizedPhone) {
+    const phoneQuery = supabaseAdmin
+      .from('profiles')
+      .select('id, email, username, display_name, phone, status')
+      .or(`phone.eq.${normalizedPhone},phone.ilike.%${normalizedPhone}%`)
+
+    const phoneResult = await phoneQuery.maybeSingle()
+    data = phoneResult.data
+    error = phoneResult.error
   }
 
   if (error) {

@@ -946,7 +946,7 @@ export function AppProvider({ children }) {
       const identifier = String(form.identifier || form.email || '').trim().toLowerCase()
       const matchedUser = users.find(
         (user) =>
-          [user.email, user.username, user.name]
+          [user.email, user.username, user.name, user.phone]
             .filter(Boolean)
             .some((field) => String(field).trim().toLowerCase() === identifier) &&
           user.password === form.password &&
@@ -1097,7 +1097,7 @@ export function AppProvider({ children }) {
     return nextSession
   }
 
-  async function loginMemberWithOAuth(provider, redirectTo = '/') {
+  async function loginMemberWithOAuth(provider, redirectTo = '/', options = {}) {
     if (!isSupabaseConfigured) {
       throw new Error('El acceso social requiere Supabase configurado.')
     }
@@ -1105,6 +1105,9 @@ export function AppProvider({ children }) {
     const callbackUrl = new URL('/access', window.location.origin)
     callbackUrl.searchParams.set('redirect', redirectTo || '/')
     callbackUrl.searchParams.set('oauth', '1')
+    if (options?.audience) {
+      callbackUrl.searchParams.set('audience', options.audience)
+    }
 
     await signInWithOAuth(provider, callbackUrl.toString())
 
