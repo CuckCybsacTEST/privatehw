@@ -16,6 +16,11 @@ import {
   getSocialNetworkOption,
   normalizeSocialNetworkValue,
 } from '../../utils/socialNetworks'
+import {
+  ENCUENTROS_BODY_TYPE_OPTIONS,
+  ENCUENTROS_HAIR_COLOR_OPTIONS,
+  ENCUENTROS_HAIR_TYPE_OPTIONS,
+} from '../../utils/encuentrosPhysicalTraits'
 import { useAppState } from '../../state/AppState'
 
 const AGE_OPTIONS = Array.from({ length: 53 }, (_, index) => String(index + 18))
@@ -89,6 +94,9 @@ const BLANK_MODEL_DEFAULTS = {
   profileAvatarUrl: '',
   profileHeightCm: '',
   profileBodyHair: '',
+  profileHairColor: '',
+  profileBodyType: '',
+  profileHairType: '',
   profileAttendanceModes: [],
   whatsappPhone: '',
   whatsappUrl: '',
@@ -568,6 +576,9 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
   const relationshipStatus = String(model?.content?.profileRelationshipStatus || '').trim()
   const heightCm = String(model?.content?.profileHeightCm || '').trim()
   const bodyHair = String(model?.content?.profileBodyHair || '').trim()
+  const hairColor = String(model?.content?.profileHairColor || '').trim()
+  const bodyType = String(model?.content?.profileBodyType || '').trim()
+  const hairType = String(model?.content?.profileHairType || '').trim()
   const booking = model?.content?.encuentrosBooking || {}
   const bookingSummary = formatBookingSummary(booking, recordsEncounters)
 
@@ -584,6 +595,9 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
             {requestContactName ? ` · ${requestContactName}` : ''}
             {requestEmail ? ` · ${requestEmail}` : ''}
             {requestCity ? ` · ${requestCity}` : ''}
+            {hairColor ? ` · ${hairColor}` : ''}
+            {bodyType ? ` · ${bodyType}` : ''}
+            {hairType ? ` · ${hairType}` : ''}
           </p>
         ) : null}
         <p className="admin-note">
@@ -594,6 +608,9 @@ function ModelCard({ model, onEdit, onDuplicate, onDelete, onToggleStatus, delet
           <span>{recordsEncounters ? 'Graba' : 'No graba'}</span>
           <span>{relationshipStatus || 'Sin estado'}</span>
           <span>{heightCm ? formatHeightLabel(heightCm) || `${heightCm} cm` : 'Sin dato'}</span>
+          <span>{hairColor || 'Color sin dato'}</span>
+          <span>{bodyType || 'Tipo sin dato'}</span>
+          <span>{hairType || 'Cabello sin dato'}</span>
           <span>{bodyHair || 'Sin dato'}</span>
           <span>{bookingSummary[0]}</span>
           <span>{bookingSummary[1]}</span>
@@ -665,6 +682,9 @@ function RequestCard({ request, linkedModel, onAction, busyId }) {
 
         <p className="admin-note">
           Telegram: {request.telegram || 'No indicado'} · Tel: {request.phone || 'No indicado'}
+        </p>
+        <p className="admin-note">
+          Cabello: {request.hairColor || 'No indicado'} · Cuerpo: {request.bodyType || 'No indicado'} · Tipo: {request.hairType || 'No indicado'}
         </p>
         <p className="admin-note">{request.bio || 'Sin presentacion.'}</p>
         {request.notes ? <p className="admin-note">Notas: {request.notes}</p> : null}
@@ -1454,6 +1474,48 @@ export function EncuentrosModelsManager() {
                 {RELATIONSHIP_STATUS_OPTIONS.map((status) => (
                   <option key={status} value={status}>
                     {status}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Color de cabello</span>
+              <select
+                value={content.profileHairColor || ''}
+                onChange={(event) => updateDraft(['profileHairColor'], event.target.value)}
+              >
+                <option value="">Selecciona color</option>
+                {ENCUENTROS_HAIR_COLOR_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Tipo de cuerpo</span>
+              <select
+                value={content.profileBodyType || ''}
+                onChange={(event) => updateDraft(['profileBodyType'], event.target.value)}
+              >
+                <option value="">Selecciona tipo</option>
+                {ENCUENTROS_BODY_TYPE_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              <span>Tipo de cabello</span>
+              <select
+                value={content.profileHairType || ''}
+                onChange={(event) => updateDraft(['profileHairType'], event.target.value)}
+              >
+                <option value="">Selecciona tipo</option>
+                {ENCUENTROS_HAIR_TYPE_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
               </select>

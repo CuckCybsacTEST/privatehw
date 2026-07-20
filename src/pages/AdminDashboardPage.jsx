@@ -3237,6 +3237,7 @@ function UsersEditor() {
   const [form, setForm] = useState({
     name: '',
     email: '',
+    username: '',
     password: '',
     role: 'public',
     status: 'active',
@@ -3344,6 +3345,7 @@ function UsersEditor() {
       setForm({
         name: '',
         email: '',
+        username: '',
         password: '',
         role: 'public',
         status: 'active',
@@ -3460,8 +3462,23 @@ function UsersEditor() {
             <input name="name" value={form.name} onChange={handleChange} required />
           </label>
           <label className="admin-field">
+            <span>Usuario</span>
+            <input
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              placeholder="sindy-mireya"
+            />
+          </label>
+          <label className="admin-field">
             <span>{t('admin.users.email')}</span>
-            <input type="email" name="email" value={form.email} onChange={handleChange} required />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Opcional para modelos"
+            />
           </label>
           <label className="admin-field">
             <span>{t('admin.users.password')}</span>

@@ -1,59 +1,88 @@
-import { useMemo, useState } from 'react'
-import { Link, Navigate, useSearchParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Seo } from '../components/Seo'
-import { useAppState } from '../state/AppState'
 import { AiFillX } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { AppLoader } from '../components/AppLoader'
+import { Seo } from '../components/Seo'
+import { useAppState } from '../state/AppState'
+
+function normalizeAudience(value = '') {
+  const normalized = String(value || '').trim().toLowerCase()
+
+  if (normalized === 'model' || normalized === 'visitor') {
+    return normalized
+  }
+
+  return 'client'
+}
+
+function getModelTarget() {
+  return '/modelo/dashboard'
+}
+
+const audienceOptions = [
+  {
+    value: 'model',
+    label: 'Modelo',
+    description: 'Acceso para gestionar tu perfil privado y tu panel de modelo.',
+  },
+  {
+    value: 'visitor',
+    label: 'Visitante / cliente',
+    description: 'Acceso para explorar, revisar tu cuenta y seguir como cliente.',
+  },
+]
 
 export function AccessPage() {
-  const [searchParams] = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/'
-  const initialTab = searchParams.get('tab') === 'register' ? 'register' : 'login'
   const {
+    isBootstrapping,
     isSupabaseConfigured,
     session,
-    loginMemberWithEmail,
     loginMemberWithOAuth,
+    loginMemberWithEmail,
     signUpMemberWithEmail,
+    setMemberAudience,
   } = useAppState()
+  const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState(initialTab)
+
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
+  const initialAudience = normalizeAudience(searchParams.get('audience'))
+
+  const [mode, setMode] = useState('login')
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
-  const [registerForm, setRegisterForm] = useState({ displayName: '', email: '', password: '' })
-  const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const [registerForm, setRegisterForm] = useState({ email: '', username: '', password: '' })
+  const [selectedAudience, setSelectedAudience] = useState(initialAudience)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [activeOAuthProvider, setActiveOAuthProvider] = useState('')
-  const postAuthTarget = redirectTo && redirectTo !== '/access' ? redirectTo : '/'
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
 
-  const authTitle = useMemo(
-    () => (activeTab === 'login' ? t('access.authTitle') : t('access.register')),
-    [activeTab, t],
-  )
-  const authSubtitle = useMemo(
-    () => (activeTab === 'login' ? t('access.loginUnlockCopy') : t('access.registerUnlockCopy')),
-    [activeTab, t],
-  )
+  useEffect(() => {
+    if (session?.audience === 'model' || session?.audience === 'visitor') {
+      setSelectedAudience(session.audience)
+      return
+    }
 
-  if (session) {
-    return <Navigate to={postAuthTarget} replace />
-  }
+    if (!session) {
+      setSelectedAudience(initialAudience)
+    }
+  }, [initialAudience, session?.audience, session?.id])
 
-  function handleLoginChange(event) {
-    const { name, value } = event.target
-    setLoginForm((current) => ({ ...current, [name]: value }))
-  }
+  useEffect(() => {
+    if (session?.audience === 'model') {
+      navigate(getModelTarget(), { replace: true })
+    }
+  }, [navigate, session?.audience, session?.id])
 
-  function handleRegisterChange(event) {
-    const { name, value } = event.target
-    setRegisterForm((current) => ({ ...current, [name]: value }))
-  }
+  function resolvePostAuthTarget(audience) {
+    if (audience === 'model') {
+      return getModelTarget()
+    }
 
-  function handleTabChange(nextTab) {
-    setActiveTab(nextTab)
-    setError('')
-    setNotice('')
+    return '/cliente/dashboard'
   }
 
   async function handleOAuthLogin(provider) {
@@ -63,7 +92,7 @@ export function AccessPage() {
     setActiveOAuthProvider(provider)
 
     try {
-      await loginMemberWithOAuth(provider, redirectTo || '/')
+      await loginMemberWithOAuth(provider, '/access')
     } catch (nextError) {
       setError(nextError.message || t('access.oauthError'))
     } finally {
@@ -72,39 +101,62 @@ export function AccessPage() {
     }
   }
 
-  async function handleLoginSubmit(event) {
+  async function handleEmailSubmit(event) {
     event.preventDefault()
     setError('')
     setNotice('')
     setIsSubmitting(true)
 
     try {
-      await loginMemberWithEmail(loginForm)
+      if (mode === 'register') {
+        const result = await signUpMemberWithEmail({
+          email: registerForm.email.trim(),
+          password: registerForm.password,
+          username: registerForm.username.trim(),
+          displayName: registerForm.username.trim(),
+          audience: selectedAudience,
+        })
+
+        if (result?.requiresEmailConfirmation) {
+          setNotice(
+            'La cuenta quedo creada. Revisa tu correo para confirmar el acceso antes de elegir tu panel.',
+          )
+          return
+        }
+      } else {
+        await loginMemberWithEmail({
+          email: loginForm.email.trim(),
+          password: loginForm.password,
+        })
+      }
+
+      setNotice('Cuenta autenticada. Ahora elige el panel que quieres abrir.')
     } catch (nextError) {
-      setError(nextError.message || t('access.loginError'))
+      setError(nextError.message || (mode === 'register' ? t('access.registerError') : t('access.loginError')))
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  async function handleRegisterSubmit(event) {
-    event.preventDefault()
+  async function handleAudienceChoice(audience) {
+    const normalizedAudience = normalizeAudience(audience)
     setError('')
     setNotice('')
     setIsSubmitting(true)
+    setSelectedAudience(normalizedAudience)
 
     try {
-      const result = await signUpMemberWithEmail(registerForm)
-
-      if (result?.requiresEmailConfirmation) {
-        setNotice(t('access.emailConfirmation'))
-        setActiveTab('login')
-      }
+      await setMemberAudience(normalizedAudience)
+      navigate(resolvePostAuthTarget(normalizedAudience), { replace: true })
     } catch (nextError) {
-      setError(nextError.message || t('access.registerError'))
+      setError(nextError.message || 'No se pudo guardar tu tipo de acceso.')
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (isBootstrapping) {
+    return <AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />
   }
 
   return (
@@ -115,194 +167,253 @@ export function AccessPage() {
         canonicalPath="/access"
         noindex
       />
+
       <section className="access-auth-shell">
         <div className="access-auth-card">
+          <div className="access-auth-topline">
+            <Link className="access-auth-home-link" to="/">
+              Volver a la home
+            </Link>
+            <p className="access-auth-state">
+              {session ? 'Sesion lista' : 'Acceso privado'}
+            </p>
+          </div>
+
           <div className="access-auth-copy">
-            <p className="access-auth-eyebrow">{t('access.eyebrow')}</p>
-            <h1>{t('access.title')}</h1>
-            <p>{t('access.description')}</p>
+            <p className="access-auth-eyebrow">{session ? 'Acceso activo' : t('access.eyebrow')}</p>
+            <h1>
+              {session ? 'Ahora elige tu panel' : t('access.title')}
+            </h1>
+            <p>
+              {session
+                ? 'Ya validaste tu cuenta. El siguiente paso es decidir si sigues como modelo o como visitante/cliente.'
+                : 'Primero entra por Google, X o correo. Luego eliges si vas como modelo o como cliente/visitante.'}
+            </p>
           </div>
 
-          <div className="access-audience-grid" aria-label="Entradas principales">
-            <article className="access-audience-card">
-              <span className="access-audience-kicker">Clientes</span>
-              <strong>Entra, compra y guarda tus reservas.</strong>
-              <p>Usa tu cuenta para acceder a contenido, biblioteca y seguimiento privado.</p>
-              <Link className="hero-secondary-cta access-audience-cta" to="#access-form">
-                Ir al acceso
-              </Link>
-            </article>
-
-            <article className="access-audience-card is-highlighted">
-              <span className="access-audience-kicker">Modelos</span>
-              <strong>Publica tu perfil y gestiona tu presencia.</strong>
-              <p>Arranca desde el flujo de modelos y entra al panel cuando quieras editar o actualizar.</p>
-              <Link className="hero-primary-cta access-audience-cta" to="/registro-modelos">
-                Crear perfil
-              </Link>
-            </article>
-
-            <article className="access-audience-card">
-              <span className="access-audience-kicker">Público</span>
-              <strong>Explora antes de iniciar sesión.</strong>
-              <p>El catálogo sigue abierto para ver encuentros, anuncios y rutas públicas.</p>
-              <Link className="hero-secondary-cta access-audience-cta" to="/encuentros">
-                Ver catálogo
-              </Link>
-            </article>
-          </div>
-
-          <div className="access-oauth-block">
-            <div className="access-oauth-actions">
-              <button
-                className="access-auth-button access-auth-button-google"
-                type="button"
-                onClick={() => handleOAuthLogin('google')}
-                disabled={isSubmitting || !isSupabaseConfigured}
-              >
-                <span className="access-auth-button-icon" aria-hidden="true">
-                  <FcGoogle />
-                </span>
-                <span>
-                  {isSubmitting && activeOAuthProvider === 'google'
-                    ? t('access.connecting')
-                    : t('access.googleLogin')}
-                </span>
-              </button>
-
-              <button
-                className="access-auth-button access-auth-button-x"
-                type="button"
-                onClick={() => handleOAuthLogin('twitter')}
-                disabled={isSubmitting || !isSupabaseConfigured}
-              >
-                <span className="access-auth-button-icon access-auth-button-icon-x" aria-hidden="true">
-                  <AiFillX />
-                </span>
-                <span>
-                  {isSubmitting && activeOAuthProvider === 'twitter'
-                    ? t('access.connecting')
-                    : t('access.xLogin')}
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <div className="access-auth-divider" aria-hidden="true">
-            <span>{t('access.oauthDivider')}</span>
-          </div>
-
-          <div className="access-tabs" role="tablist" aria-label={t('access.ariaLabel')}>
-            <button
-              type="button"
-              className={activeTab === 'login' ? 'is-active' : ''}
-              onClick={() => handleTabChange('login')}
-            >
-              {t('access.login')}
-            </button>
-            <button
-              type="button"
-              className={activeTab === 'register' ? 'is-active' : ''}
-              onClick={() => handleTabChange('register')}
-            >
-              {t('access.register')}
-            </button>
-          </div>
-
-          <div className="access-card access-card-form" id="access-form">
-            <div className="access-card-copy">
-              <strong>{authTitle}</strong>
-              <span>{authSubtitle}</span>
-            </div>
-
-            {activeTab === 'login' ? (
-              <form className="admin-form access-form" onSubmit={handleLoginSubmit}>
-                <label className="admin-field">
-                  <span>{t('access.email')}</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={loginForm.email}
-                    onChange={handleLoginChange}
-                    autoComplete="email"
-                    placeholder="cliente@email.com"
-                    required
-                  />
-                </label>
-
-                <label className="admin-field">
-                  <span>{t('access.password')}</span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={loginForm.password}
-                    onChange={handleLoginChange}
-                    autoComplete="current-password"
-                    placeholder="********"
-                    required
-                  />
-                </label>
-
-                <button className="hero-primary-cta" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? t('access.loggingIn') : t('access.loginSubmit')}
+          {session ? (
+            <div className="access-audience-panel">
+              <div className="access-role-grid access-auth-choice-grid" aria-label="Seleccion de panel">
+                <button
+                  type="button"
+                  className={`access-role-card access-auth-choice-card ${
+                    selectedAudience === 'model' ? 'is-highlighted is-selected' : ''
+                  }`}
+                  onClick={() => void handleAudienceChoice('model')}
+                  disabled={isSubmitting}
+                >
+                  <span className="access-audience-kicker">Modelo</span>
+                  <strong>Ir al panel de modelo</strong>
+                  <p>Te llevamos al dashboard de modelo y desde ahi continúas con tu perfil privado.</p>
                 </button>
-              </form>
-            ) : (
-              <form className="admin-form access-form" onSubmit={handleRegisterSubmit}>
-                <label className="admin-field">
-                  <span>{t('access.displayName')}</span>
-                  <input
-                    type="text"
-                    name="displayName"
-                    value={registerForm.displayName}
-                    onChange={handleRegisterChange}
-                    autoComplete="nickname"
-                    placeholder="Tu nombre"
-                    maxLength={80}
-                    required
-                  />
-                </label>
 
-                <label className="admin-field">
-                  <span>{t('access.email')}</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={registerForm.email}
-                    onChange={handleRegisterChange}
-                    autoComplete="email"
-                    placeholder="cliente@email.com"
-                    required
-                  />
-                </label>
-
-                <label className="admin-field">
-                  <span>{t('access.password')}</span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={registerForm.password}
-                    onChange={handleRegisterChange}
-                    autoComplete="new-password"
-                    placeholder="Minimo 6 caracteres"
-                    minLength={6}
-                    required
-                  />
-                </label>
-
-                <button className="hero-primary-cta" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? t('access.creating') : t('access.registerSubmit')}
+                <button
+                  type="button"
+                  className={`access-role-card access-auth-choice-card ${
+                    selectedAudience !== 'model' ? 'is-highlighted is-selected' : ''
+                  }`}
+                  onClick={() => void handleAudienceChoice('client')}
+                  disabled={isSubmitting}
+                >
+                  <span className="access-audience-kicker">Cliente</span>
+                  <strong>Ir a tu panel</strong>
+                  <p>Accede al perfil privado para revisar tu cuenta, accesos y rutas de contenido.</p>
                 </button>
-              </form>
-            )}
-          </div>
+              </div>
 
-          {!isSupabaseConfigured ? (
-            <p className="access-auth-note">{t('access.oauthUnavailable')}</p>
-          ) : null}
+              <div className="access-auth-mini-actions">
+                <button
+                  type="button"
+                  className="hero-secondary-cta"
+                  onClick={() => void handleAudienceChoice('visitor')}
+                  disabled={isSubmitting}
+                >
+                  Entrar como visitante
+                </button>
+                <button
+                  type="button"
+                  className="video-preview-link"
+                  onClick={() => navigate('/')}
+                  disabled={isSubmitting}
+                >
+                  Volver al inicio
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="access-auth-stack">
+              <div className="access-auth-authbox">
+                <div className="access-auth-tabs" role="tablist" aria-label="Tipo de acceso">
+                  <button
+                    type="button"
+                    className={mode === 'login' ? 'is-active' : ''}
+                    onClick={() => {
+                      setMode('login')
+                      setError('')
+                      setNotice('')
+                    }}
+                  >
+                    Entrar
+                  </button>
+                  <button
+                    type="button"
+                    className={mode === 'register' ? 'is-active' : ''}
+                    onClick={() => {
+                      setMode('register')
+                      setError('')
+                      setNotice('')
+                    }}
+                  >
+                    Registrarme
+                  </button>
+                </div>
+
+                <form className="access-auth-form" onSubmit={handleEmailSubmit}>
+                  <div className="access-auth-fields">
+                    {mode === 'register' ? (
+                      <fieldset className="access-audience-fieldset">
+                        <legend>¿Como quieres registrarte?</legend>
+                        <div className="access-audience-selector" role="radiogroup" aria-label="Tipo de acceso">
+                          {audienceOptions.map((option) => (
+                            <button
+                              key={option.value}
+                              type="button"
+                              className={`access-role-card access-auth-audience-option ${
+                                selectedAudience === option.value ? 'is-highlighted is-selected' : ''
+                              }`}
+                              onClick={() => setSelectedAudience(option.value)}
+                              disabled={isSubmitting}
+                              aria-pressed={selectedAudience === option.value}
+                            >
+                              <span className="access-audience-kicker">{option.label}</span>
+                              <strong>{option.label}</strong>
+                              <p>{option.description}</p>
+                            </button>
+                          ))}
+                        </div>
+                      </fieldset>
+                    ) : null}
+
+                    <label className="access-auth-field">
+                      <span>Correo</span>
+                      <input
+                        type="email"
+                        autoComplete="email"
+                        value={mode === 'login' ? loginForm.email : registerForm.email}
+                        onChange={(event) =>
+                          mode === 'login'
+                            ? setLoginForm((current) => ({ ...current, email: event.target.value }))
+                            : setRegisterForm((current) => ({ ...current, email: event.target.value }))
+                        }
+                        placeholder="tu@correo.com"
+                        required
+                      />
+                    </label>
+
+                    {mode === 'register' ? (
+                      <label className="access-auth-field">
+                        <span>Nombre de usuario</span>
+                        <input
+                          type="text"
+                          autoComplete="username"
+                          value={registerForm.username}
+                          onChange={(event) =>
+                            setRegisterForm((current) => ({ ...current, username: event.target.value }))
+                          }
+                          placeholder="tu_usuario"
+                          required
+                        />
+                      </label>
+                    ) : null}
+
+                    <label className="access-auth-field">
+                      <span>Contrasena</span>
+                      <input
+                        type="password"
+                        autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                        value={mode === 'login' ? loginForm.password : registerForm.password}
+                        onChange={(event) =>
+                          mode === 'login'
+                            ? setLoginForm((current) => ({ ...current, password: event.target.value }))
+                            : setRegisterForm((current) => ({ ...current, password: event.target.value }))
+                        }
+                        placeholder="********"
+                        required
+                      />
+                    </label>
+                  </div>
+
+                  <button
+                    className="hero-primary-cta access-auth-submit"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {mode === 'login'
+                      ? isSubmitting
+                        ? 'Entrando...'
+                        : 'Entrar'
+                      : isSubmitting
+                        ? 'Creando...'
+                        : 'Crear cuenta'}
+                  </button>
+
+                  <p className="access-auth-note">
+                    {mode === 'login'
+                      ? 'Accede con tu correo. Si ya tienes cuenta, luego eliges tu panel.'
+                      : 'Elige primero si te registras como modelo o como visitante/cliente y luego completa tus datos.'}
+                  </p>
+                </form>
+              </div>
+
+              <div className="access-oauth-block">
+                <div className="access-oauth-actions">
+                  <button
+                    className="access-auth-button access-auth-button-google"
+                    type="button"
+                    onClick={() => void handleOAuthLogin('google')}
+                    disabled={isSubmitting || !isSupabaseConfigured}
+                  >
+                    <span className="access-auth-button-icon" aria-hidden="true">
+                      <FcGoogle />
+                    </span>
+                    <span>
+                      {isSubmitting && activeOAuthProvider === 'google'
+                        ? t('access.connecting')
+                        : 'Continuar con Google'}
+                    </span>
+                  </button>
+
+                  <button
+                    className="access-auth-button access-auth-button-x"
+                    type="button"
+                    onClick={() => void handleOAuthLogin('twitter')}
+                    disabled={isSubmitting || !isSupabaseConfigured}
+                  >
+                    <span className="access-auth-button-icon access-auth-button-icon-x" aria-hidden="true">
+                      <AiFillX />
+                    </span>
+                    <span>
+                      {isSubmitting && activeOAuthProvider === 'twitter'
+                        ? t('access.connecting')
+                        : 'Continuar con X'}
+                    </span>
+                  </button>
+                </div>
+
+                <p className="access-auth-note">
+                  Primero autenticas la cuenta. Despues te preguntamos si vas como modelo o como cliente.
+                </p>
+              </div>
+            </div>
+          )}
 
           {error ? <p className="access-auth-error">{error}</p> : null}
-          {notice ? <p className="access-auth-note">{notice}</p> : null}
+          {notice ? <p className="access-auth-success">{notice}</p> : null}
+          {!isSupabaseConfigured ? (
+            <p className="access-auth-warning">
+              Google y X requieren Supabase; el acceso por correo sigue activo en modo local.
+            </p>
+          ) : null}
         </div>
       </section>
     </main>

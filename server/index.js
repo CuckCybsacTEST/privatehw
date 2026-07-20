@@ -43,6 +43,7 @@ const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
 const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', import.meta.url)
 const ENCUENTROS_MODELS_FILE = new URL('./data/encuentros-models.json', import.meta.url)
 const ENCUENTROS_MODEL_REQUESTS_FILE = new URL('./data/encuentros-model-requests.json', import.meta.url)
+const ENCUENTROS_MODEL_OWNERS_FILE = new URL('./data/encuentros-model-owners.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
 const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
 let homeContentCache = {
@@ -215,6 +216,30 @@ async function writeLocalEncounterModelRequests(requests = []) {
   await writeFile(
     ENCUENTROS_MODEL_REQUESTS_FILE,
     `${JSON.stringify({ requests }, null, 2)}\n`,
+    'utf8',
+  )
+}
+
+async function readLocalEncounterModelOwners() {
+  try {
+    const rawValue = await readFile(ENCUENTROS_MODEL_OWNERS_FILE, 'utf8')
+    const parsedValue = JSON.parse(rawValue)
+
+    return Array.isArray(parsedValue?.owners) ? parsedValue.owners : []
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return []
+    }
+
+    throw error
+  }
+}
+
+async function writeLocalEncounterModelOwners(owners = []) {
+  await mkdir(new URL('./data/', import.meta.url), { recursive: true })
+  await writeFile(
+    ENCUENTROS_MODEL_OWNERS_FILE,
+    `${JSON.stringify({ owners }, null, 2)}\n`,
     'utf8',
   )
 }
@@ -394,6 +419,15 @@ function buildTelegramDisplayName(telegramUser = {}) {
   )
 }
 
+function buildSyntheticManagedEmail(identifier = '') {
+  const slug = slugifyEncounterModelSlug(String(identifier || '').trim() || `modelo-${Date.now()}`)
+  return `${slug}@models.local`
+}
+
+function normalizeManagedUserIdentifier(identifier = '') {
+  return String(identifier || '').trim().toLowerCase()
+}
+
 async function provisionTelegramLoginUser(telegramUser = {}) {
   assertSupabaseAuthConfig()
 
@@ -481,6 +515,74 @@ async function provisionTelegramLoginUser(telegramUser = {}) {
   return { email, password, displayName }
 }
 
+async function resolveLoginIdentifier(identifier = '') {
+  assertSupabaseAuthConfig()
+
+  const normalizedIdentifier = normalizeManagedUserIdentifier(identifier)
+
+  if (!normalizedIdentifier) {
+    const error = new Error('Debes indicar un correo o usuario.')
+    error.code = 'BAD_REQUEST'
+    throw error
+  }
+
+  const query = supabaseAdmin
+    .from('profiles')
+    .select('id, email, username, display_name, status')
+    .or(`email.ilike.${normalizedIdentifier},username.ilike.${normalizedIdentifier},display_name.ilike.${normalizedIdentifier}`)
+
+  let data = null
+  let error = null
+
+  try {
+    const result = await query.maybeSingle()
+    data = result.data
+    error = result.error
+  } catch (nextError) {
+    error = nextError
+  }
+
+  const missingUsernameColumn =
+    String(error?.message || '').includes('username') ||
+    String(error?.message || '').includes('schema cache') ||
+    String(error?.message || '').includes('does not exist')
+
+  if ((error && !missingUsernameColumn) || !data) {
+    if (missingUsernameColumn) {
+      const fallbackQuery = supabaseAdmin
+        .from('profiles')
+        .select('id, email, display_name, status')
+        .or(`email.ilike.${normalizedIdentifier},display_name.ilike.${normalizedIdentifier}`)
+
+      const fallbackResult = await fallbackQuery.maybeSingle()
+      data = fallbackResult.data
+      error = fallbackResult.error
+    }
+  }
+
+  if (error) {
+    throw new Error(error.message || 'No se pudo resolver el usuario.')
+  }
+
+  if (!data?.email) {
+    const lookupError = new Error('No se encontro un usuario con ese correo o nombre de usuario.')
+    lookupError.code = 'IDENTIFIER_NOT_FOUND'
+    throw lookupError
+  }
+
+  if (data.status && data.status !== 'active') {
+    const disabledError = new Error('La cuenta se encuentra deshabilitada.')
+    disabledError.code = 'ACCOUNT_DISABLED'
+    throw disabledError
+  }
+
+  return {
+    email: data.email,
+    username: data.username || '',
+    displayName: data.display_name || '',
+  }
+}
+
 function assertSupabaseAuthConfig() {
   if (!supabaseAdmin) {
     throw new Error('Supabase service role no esta configurado.')
@@ -525,14 +627,24 @@ async function getAuthenticatedUser(authHeader, { requireStripe = true } = {}) {
     throw authError
   }
 
-  const { data: profile, error: profileError } = await supabaseAdmin
+  let { data: profile, error: profileError } = await supabaseAdmin
     .from('profiles')
-    .select('id, email, display_name, status, stripe_customer_id, role')
+    .select('id, email, username, display_name, status, stripe_customer_id, role')
     .eq('id', user.id)
     .maybeSingle()
 
   if (profileError || !profile) {
-    throw new Error('No se encontro el perfil del cliente en Supabase.')
+    const fallbackProfileResult = await supabaseAdmin
+      .from('profiles')
+      .select('id, email, display_name, status, stripe_customer_id, role')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (fallbackProfileResult.error || !fallbackProfileResult.data) {
+      throw new Error('No se encontro el perfil del cliente en Supabase.')
+    }
+
+    profile = fallbackProfileResult.data
   }
 
   if (profile.status !== 'active') {
@@ -1301,6 +1413,7 @@ async function provisionManagedUser(payload, adminProfile) {
   assertServerConfig()
 
   const email = String(payload.email || '').trim().toLowerCase()
+  const username = normalizeManagedUserIdentifier(payload.username || payload.name || '')
   const displayName = String(payload.name || '').trim()
   const password = String(payload.password || '').trim()
   const role = payload.role === 'admin' ? 'admin' : 'public'
@@ -1311,8 +1424,8 @@ async function provisionManagedUser(payload, adminProfile) {
   const durationUnit = payload.subscriptionDurationUnit === 'days' ? 'days' : 'months'
   const subscriptionStartAt = parseDateOrNull(payload.subscriptionStartAt) || new Date()
 
-  if (!email) {
-    const error = new Error('Falta el correo del usuario.')
+  if (!email && !username) {
+    const error = new Error('Falta el correo o el nombre de usuario del usuario.')
     error.code = 'BAD_REQUEST'
     throw error
   }
@@ -1323,11 +1436,20 @@ async function provisionManagedUser(payload, adminProfile) {
     throw error
   }
 
+  const managedEmail = email || buildSyntheticManagedEmail(username || displayName)
   let userId = ''
   const { data: existingProfile, error: existingProfileError } = await supabaseAdmin
     .from('profiles')
-    .select('id, email')
-    .ilike('email', email)
+    .select('id, email, username')
+    .or(
+      [
+        email ? `email.ilike.${managedEmail}` : null,
+        username ? `username.ilike.${username}` : null,
+        displayName ? `display_name.ilike.${displayName}` : null,
+      ]
+        .filter(Boolean)
+        .join(','),
+    )
     .maybeSingle()
 
   if (existingProfileError) {
@@ -1338,10 +1460,11 @@ async function provisionManagedUser(payload, adminProfile) {
     userId = existingProfile.id
 
     const authUpdatePayload = {
-      email,
+      email: managedEmail,
       password,
       user_metadata: {
         display_name: displayName,
+        username: username || null,
       },
     }
 
@@ -1356,11 +1479,12 @@ async function provisionManagedUser(payload, adminProfile) {
   } else {
     const { data: createdUser, error: createUserError } = await supabaseAdmin.auth.admin.createUser(
       {
-        email,
+        email: managedEmail,
         password,
         email_confirm: true,
         user_metadata: {
           display_name: displayName,
+          username: username || null,
         },
       },
     )
@@ -1375,7 +1499,8 @@ async function provisionManagedUser(payload, adminProfile) {
   const { error: profileError } = await supabaseAdmin.from('profiles').upsert(
     {
       id: userId,
-      email,
+      email: managedEmail,
+      username: username || null,
       display_name: displayName,
       role,
       status,
@@ -1417,7 +1542,7 @@ async function provisionManagedUser(payload, adminProfile) {
 
   const { data: profile, error: profileLoadError } = await supabaseAdmin
     .from('profiles')
-    .select('id, email, display_name, status, stripe_customer_id, role, created_at')
+    .select('id, email, username, display_name, status, stripe_customer_id, role, created_at')
     .eq('id', userId)
     .maybeSingle()
 
@@ -1627,6 +1752,9 @@ function normalizeEncounterModelRequestRow(row = {}, fallbackIndex = 0) {
     email: row.email || row.request_email || row.contact_email || '',
     city: row.city || row.request_city || '',
     nationality: row.nationality || row.request_nationality || '',
+    hairColor: row.hair_color || row.hairColor || '',
+    bodyType: row.body_type || row.bodyType || '',
+    hairType: row.hair_type || row.hairType || '',
     phone: row.phone || row.request_phone || '',
     telegram: row.telegram || row.request_telegram || '',
     bio: row.bio || row.request_bio || '',
@@ -1652,10 +1780,23 @@ function isMissingEncounterModelRelationTableError(error) {
     message.includes('encuentros_model_recording') ||
     message.includes('encuentros_model_social_links') ||
     message.includes('encuentros_model_media') ||
+    message.includes('encuentros_model_owners') ||
     message.includes('schema cache') ||
     message.includes('does not exist') ||
     message.includes('relation "public.encuentros_model_')
   )
+}
+
+function normalizeEncounterModelOwnerRow(row = {}, fallbackIndex = 0) {
+  return {
+    id: row.id || `encuentros-model-owner-${fallbackIndex}`,
+    modelId: row.model_id || row.modelId || '',
+    profileId: row.profile_id || row.profileId || '',
+    permissionScope: row.permission_scope || row.permissionScope || 'owner',
+    status: row.status || 'active',
+    createdAt: row.created_at || row.createdAt || null,
+    updatedAt: row.updated_at || row.updatedAt || null,
+  }
 }
 
 function normalizeEncounterModelAge(value) {
@@ -1702,6 +1843,15 @@ function extractEncounterModelProfilePayload(content = {}) {
     city: normalizeEncounterModelText(content.profileCity ?? content.city ?? content.profileLocation),
     nationality: normalizeEncounterModelText(
       content.profileNationality ?? content.nationality ?? content.country,
+    ),
+    hair_color: normalizeEncounterModelText(
+      content.profileHairColor ?? content.hairColor ?? content.hair_color ?? '',
+    ),
+    body_type: normalizeEncounterModelText(
+      content.profileBodyType ?? content.bodyType ?? content.body_type ?? '',
+    ),
+    hair_type: normalizeEncounterModelText(
+      content.profileHairType ?? content.hairType ?? content.hair_type ?? '',
     ),
     top_badge: normalizeEncounterModelText(
       content.profileTopBadge ?? content.topBadge ?? content.badgeTop ?? content.featuredBadge,
@@ -1902,6 +2052,9 @@ function hydrateEncounterModelContent(baseContent = {}, relationData = {}) {
     profileCity: profile?.city ?? mergedContent.profileCity ?? '',
     profileLocation: profile?.city ?? mergedContent.profileLocation ?? mergedContent.profileCity ?? '',
     profileNationality: profile?.nationality ?? mergedContent.profileNationality ?? '',
+    profileHairColor: profile?.hair_color ?? mergedContent.profileHairColor ?? mergedContent.hairColor ?? '',
+    profileBodyType: profile?.body_type ?? mergedContent.profileBodyType ?? mergedContent.bodyType ?? '',
+    profileHairType: profile?.hair_type ?? mergedContent.profileHairType ?? mergedContent.hairType ?? '',
     profileTopBadge: profile?.top_badge ?? mergedContent.profileTopBadge ?? '',
     profileAvatarUrl: profile?.avatar_url ?? mergedContent.profileAvatarUrl ?? mergedContent.avatarUrl ?? '',
     profileAttendanceModes:
@@ -2754,6 +2907,9 @@ function normalizeEncounterModelRequestPayload(payload = {}, existingRow = null,
     email: String(payload.email || existingRow?.email || '').trim(),
     city: String(payload.city || existingRow?.city || '').trim(),
     nationality: String(payload.nationality || existingRow?.nationality || '').trim(),
+    hair_color: String(payload.hairColor || payload.hair_color || existingRow?.hair_color || '').trim(),
+    body_type: String(payload.bodyType || payload.body_type || existingRow?.body_type || '').trim(),
+    hair_type: String(payload.hairType || payload.hair_type || existingRow?.hair_type || '').trim(),
     phone: String(payload.phone || existingRow?.phone || '').trim(),
     telegram: String(payload.telegram || existingRow?.telegram || '').trim(),
     bio: String(payload.bio || existingRow?.bio || '').trim(),
@@ -2787,6 +2943,9 @@ function buildEncounterModelContentFromRequest(requestRow = {}) {
     requestPhone: requestRow.phone || '',
     requestCity: requestRow.city || '',
     requestNationality: requestRow.nationality || '',
+    requestHairColor: requestRow.hair_color || requestRow.hairColor || '',
+    requestBodyType: requestRow.body_type || requestRow.bodyType || '',
+    requestHairType: requestRow.hair_type || requestRow.hairType || '',
     requestTelegram: requestRow.telegram || '',
     requestBio: requestRow.bio || '',
     requestNotes: requestRow.notes || '',
@@ -2807,7 +2966,7 @@ async function loadEncounterModelRequests({ includeHidden = true } = {}) {
     const { data, error } = await supabaseAdmin
       .from('encuentros_model_requests')
       .select(
-      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+      'id, slug, display_name, email, city, nationality, hair_color, body_type, hair_type, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
       )
       .order('created_at', { ascending: false })
 
@@ -2855,6 +3014,220 @@ async function loadEncounterModelById(modelId = '') {
   return data ? normalizeEncounterModelRow(data) : null
 }
 
+async function loadEncounterModelOwnerships({ includeHidden = true } = {}) {
+  if (!supabaseAdmin) {
+    const rows = (await readLocalEncounterModelOwners()).map((row, index) =>
+      normalizeEncounterModelOwnerRow(row, index),
+    )
+
+    return includeHidden ? rows : rows.filter((row) => row.status === 'active')
+  }
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('encuentros_model_owners')
+      .select('id, model_id, profile_id, permission_scope, status, created_at, updated_at')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      throw error
+    }
+
+    const owners = (data || []).map((row, index) => normalizeEncounterModelOwnerRow(row, index))
+
+    return includeHidden ? owners : owners.filter((row) => row.status === 'active')
+  } catch (error) {
+    if (!String(error?.message || '').includes('encuentros_model_owners')) {
+      throw error
+    }
+
+    return []
+  }
+}
+
+async function assignEncounterModelOwner({
+  modelId = '',
+  profileId = '',
+  permissionScope = 'owner',
+} = {}) {
+  const normalizedModelId = String(modelId || '').trim()
+  const normalizedProfileId = String(profileId || '').trim()
+  const normalizedScope = permissionScope === 'editor' ? 'editor' : 'owner'
+
+  if (!normalizedModelId || !normalizedProfileId) {
+    return null
+  }
+
+  if (!supabaseAdmin) {
+    const existingRows = await readLocalEncounterModelOwners()
+    const now = new Date().toISOString()
+    const nextRow = {
+      id:
+        existingRows.find((row) => String(row.model_id || row.modelId || '').trim() === normalizedModelId)?.id ||
+        crypto.randomUUID(),
+      model_id: normalizedModelId,
+      profile_id: normalizedProfileId,
+      permission_scope: normalizedScope,
+      status: 'active',
+      created_at:
+        existingRows.find((row) => String(row.model_id || row.modelId || '').trim() === normalizedModelId)
+          ?.created_at || now,
+      updated_at: now,
+    }
+
+    const nextRows = existingRows.filter(
+      (row) =>
+        String(row.model_id || row.modelId || '').trim() !== normalizedModelId &&
+        String(row.profile_id || row.profileId || '').trim() !== normalizedProfileId,
+    )
+
+    nextRows.push(nextRow)
+    await writeLocalEncounterModelOwners(nextRows)
+    return normalizeEncounterModelOwnerRow(nextRow)
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('encuentros_model_owners')
+    .upsert(
+      {
+        model_id: normalizedModelId,
+        profile_id: normalizedProfileId,
+        permission_scope: normalizedScope,
+        status: 'active',
+      },
+      { onConflict: 'model_id' },
+    )
+    .select('id, model_id, profile_id, permission_scope, status, created_at, updated_at')
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  return data ? normalizeEncounterModelOwnerRow(data) : null
+}
+
+async function loadOwnedEncounterModel(profileId = '') {
+  const normalizedProfileId = String(profileId || '').trim()
+
+  if (!normalizedProfileId) {
+    return { ownership: null, model: null }
+  }
+
+  if (!supabaseAdmin) {
+    const owners = await readLocalEncounterModelOwners()
+    const ownership = owners.find(
+      (row) =>
+        String(row.profile_id || row.profileId || '').trim() === normalizedProfileId &&
+        (row.status || 'active') === 'active',
+    )
+
+    if (!ownership) {
+      const fallbackModel = models.find(
+        (row) =>
+          String(row.created_by || row.createdBy || row.updated_by || row.updatedBy || '').trim() ===
+          normalizedProfileId,
+      )
+
+      if (!fallbackModel) {
+        return { ownership: null, model: null }
+      }
+
+      return {
+        ownership: {
+          id: fallbackModel.id || fallbackModel.slug || `fallback-${normalizedProfileId}`,
+          model_id: fallbackModel.id,
+          profile_id: normalizedProfileId,
+          permission_scope: 'owner',
+          status: 'active',
+        },
+        model: normalizeEncounterModelRow(fallbackModel),
+      }
+    }
+
+    const models = await readLocalEncounterModels()
+    const model = models.find((row) => String(row.id || '').trim() === String(ownership.model_id || ownership.modelId || '').trim())
+
+    return {
+      ownership: normalizeEncounterModelOwnerRow(ownership),
+      model: model ? normalizeEncounterModelRow(model) : null,
+    }
+  }
+
+  const { data: ownershipRow, error: ownershipError } = await supabaseAdmin
+    .from('encuentros_model_owners')
+    .select('id, model_id, profile_id, permission_scope, status, created_at, updated_at')
+    .eq('profile_id', normalizedProfileId)
+    .eq('status', 'active')
+    .maybeSingle()
+
+  if (ownershipError) {
+    if (!String(ownershipError.message || '').includes('encuentros_model_owners')) {
+      throw ownershipError
+    }
+  }
+
+  if (!ownershipRow?.model_id) {
+    const { data: fallbackModelRow, error: fallbackModelError } = await supabaseAdmin
+      .from('encuentros_models')
+      .select('id, slug, display_name, status, sort_order, content, published_at, deleted_at, created_at, updated_at, created_by, updated_by')
+      .or(`created_by.eq.${normalizedProfileId},updated_by.eq.${normalizedProfileId}`)
+      .maybeSingle()
+
+    if (fallbackModelError || !fallbackModelRow) {
+      return { ownership: null, model: null }
+    }
+
+    return {
+      ownership: {
+        id: fallbackModelRow.id || fallbackModelRow.slug || `fallback-${normalizedProfileId}`,
+        model_id: fallbackModelRow.id,
+        profile_id: normalizedProfileId,
+        permission_scope: 'owner',
+        status: 'active',
+      },
+      model: normalizeEncounterModelRow(fallbackModelRow),
+    }
+  }
+
+  const model = await loadEncounterModelById(ownershipRow.model_id)
+
+  return {
+    ownership: normalizeEncounterModelOwnerRow(ownershipRow),
+    model,
+  }
+}
+
+async function resolveEncounterModelOwnerProfileId(requestRow = {}) {
+  const submittedBy = String(requestRow.submitted_by || requestRow.submittedBy || '').trim()
+
+  if (submittedBy) {
+    return submittedBy
+  }
+
+  if (!supabaseAdmin) {
+    return ''
+  }
+
+  const email = String(requestRow.email || requestRow.requestEmail || '').trim().toLowerCase()
+
+  if (!email) {
+    return ''
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('profiles')
+    .select('id')
+    .eq('email', email)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    return ''
+  }
+
+  return String(data.id || '').trim()
+}
+
 async function createEncounterModelFromRequest(requestRow = {}, adminProfile = null) {
   const requestPayload = normalizeEncounterModelRequestRow(requestRow)
   const slugSeed =
@@ -2876,6 +3249,19 @@ async function createEncounterModelFromRequest(requestRow = {}, adminProfile = n
     },
     adminProfile,
   )
+
+  const ownerProfileId = await resolveEncounterModelOwnerProfileId(requestRow)
+
+  if (ownerProfileId) {
+    try {
+      await assignEncounterModelOwner({
+        modelId: model.id,
+        profileId: ownerProfileId,
+      })
+    } catch {
+      // Ownership sync is best effort; the admin can still assign it later.
+    }
+  }
 
   return model
 }
@@ -2944,7 +3330,30 @@ async function createEncounterModelRequest(payload = {}) {
 
     await writeLocalEncounterModelRequests([...existingRows, nextRow])
 
-    return normalizeEncounterModelRequestRow(nextRow)
+    let linkedModel = null
+
+    if (nextRow.submitted_by) {
+      try {
+        linkedModel = await createEncounterModelFromRequest(nextRow, null)
+      } catch {
+        linkedModel = null
+      }
+    }
+
+    if (linkedModel?.id) {
+      const syncedRows = (await readLocalEncounterModelRequests()).map((row) =>
+        String(row.id || '').trim() === String(nextRow.id || '').trim()
+          ? { ...row, model_id: linkedModel.id }
+          : row,
+      )
+      await writeLocalEncounterModelRequests(syncedRows)
+      nextRow.model_id = linkedModel.id
+    }
+
+    return {
+      request: normalizeEncounterModelRequestRow(nextRow),
+      model: linkedModel ? normalizeEncounterModelRow(linkedModel) : null,
+    }
   }
 
   const { data: existing, error: existingError } = await supabaseAdmin
@@ -2978,7 +3387,7 @@ async function createEncounterModelRequest(payload = {}) {
     .from('encuentros_model_requests')
     .insert(record)
     .select(
-      'id, slug, display_name, email, city, nationality, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
+      'id, slug, display_name, email, city, nationality, hair_color, body_type, hair_type, phone, telegram, bio, notes, verification_photo_url, status, model_id, review_notes, reviewed_by, reviewed_at, submitted_by, created_at, updated_at',
     )
     .single()
 
@@ -2986,7 +3395,33 @@ async function createEncounterModelRequest(payload = {}) {
     throw new Error(error.message || 'No se pudo registrar la solicitud de modelo.')
   }
 
-  return normalizeEncounterModelRequestRow(data)
+  let linkedModel = null
+
+  if (data?.submitted_by) {
+    try {
+      linkedModel = await createEncounterModelFromRequest(data, null)
+    } catch {
+      linkedModel = null
+    }
+  }
+
+  if (linkedModel?.id) {
+    const { error: updateError } = await supabaseAdmin
+      .from('encuentros_model_requests')
+      .update({ model_id: linkedModel.id })
+      .eq('id', data.id)
+
+    if (updateError && !isMissingEncounterModelRequestsTableError(updateError)) {
+      throw new Error(updateError.message || 'No se pudo vincular el perfil de modelo.')
+    }
+
+    data.model_id = linkedModel.id
+  }
+
+  return {
+    request: normalizeEncounterModelRequestRow(data),
+    model: linkedModel ? normalizeEncounterModelRow(linkedModel) : null,
+  }
 }
 
 async function updateEncounterModelRequest(requestId = '', payload = {}, adminProfile = null) {
@@ -3024,6 +3459,24 @@ async function updateEncounterModelRequest(requestId = '', payload = {}, adminPr
       )
 
       modelId = createdModel.id
+    }
+
+    if (nextStatus === 'approved' && modelId) {
+      const ownerProfileId = await resolveEncounterModelOwnerProfileId({
+        ...existing,
+        ...nextRequest,
+      })
+
+      if (ownerProfileId) {
+        try {
+          await assignEncounterModelOwner({
+            modelId,
+            profileId: ownerProfileId,
+          })
+        } catch {
+          // Ownership sync can lag behind request processing in local mode.
+        }
+      }
     }
 
     const updatedRow = {
@@ -3096,6 +3549,24 @@ async function updateEncounterModelRequest(requestId = '', payload = {}, adminPr
     )
 
     modelId = createdModel.id
+  }
+
+  if (nextStatus === 'approved' && modelId) {
+    const ownerProfileId = await resolveEncounterModelOwnerProfileId({
+      ...existing,
+      ...nextRequest,
+    })
+
+    if (ownerProfileId) {
+      try {
+        await assignEncounterModelOwner({
+          modelId,
+          profileId: ownerProfileId,
+        })
+      } catch {
+        // Keep approval flowing even if the ownership sync fails temporarily.
+      }
+    }
   }
 
   if (nextStatus === 'suspended' && modelId) {
@@ -4002,6 +4473,33 @@ app.post('/api/auth/telegram', async (req, res) => {
   }
 })
 
+app.post('/api/auth/resolve-login-identifier', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const identifier = String(req.body?.identifier || req.body?.email || req.body?.username || '').trim()
+    const resolved = await resolveLoginIdentifier(identifier)
+
+    res.json({
+      ok: true,
+      resolved,
+    })
+  } catch (error) {
+    const status =
+      error.code === 'BAD_REQUEST'
+        ? 400
+        : error.code === 'IDENTIFIER_NOT_FOUND'
+          ? 404
+          : error.code === 'ACCOUNT_DISABLED'
+            ? 403
+            : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo resolver el usuario.',
+      code: error.code || 'IDENTIFIER_ERROR',
+    })
+  }
+})
+
 app.post('/api/admin/users', async (req, res) => {
   try {
     assertSupabaseAuthConfig()
@@ -4255,6 +4753,77 @@ app.delete('/api/admin/encuentros/models/:slug', async (req, res) => {
   }
 })
 
+app.get('/api/model/encuentros/me', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const { profile } = await getAuthenticatedUser(req.headers.authorization || '', {
+      requireStripe: false,
+    })
+
+    const { ownership, model } = await loadOwnedEncounterModel(profile.id)
+
+    res.json({
+      ok: true,
+      ownership,
+      model,
+    })
+  } catch (error) {
+    const status = error.code === 'AUTH_REQUIRED' ? 401 : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo cargar tu perfil de modelo.',
+      code: error.code || 'MODEL_ACCESS_ERROR',
+    })
+  }
+})
+
+app.patch('/api/model/encuentros/me', async (req, res) => {
+  try {
+    assertSupabaseAuthConfig()
+
+    const { profile } = await getAuthenticatedUser(req.headers.authorization || '', {
+      requireStripe: false,
+    })
+
+    const { ownership, model } = await loadOwnedEncounterModel(profile.id)
+
+    if (!ownership || !model) {
+      res.status(404).json({ error: 'No tienes un modelo asignado todavia.' })
+      return
+    }
+
+    const nextModel = await updateEncounterModel(
+      model.slug,
+      {
+        displayName: req.body?.displayName || model.displayName || model.slug,
+        content:
+          req.body?.content && typeof req.body.content === 'object'
+            ? req.body.content
+            : model.content,
+      },
+      profile,
+    )
+
+    res.json({
+      ok: true,
+      model: nextModel,
+    })
+  } catch (error) {
+    const status =
+      error.code === 'AUTH_REQUIRED'
+        ? 401
+        : error.code === 'MODEL_NOT_FOUND'
+          ? 404
+          : error.code === 'BAD_REQUEST'
+            ? 400
+            : 500
+    res.status(status).json({
+      error: error.message || 'No se pudo guardar tu perfil de modelo.',
+      code: error.code || 'MODEL_ACCESS_ERROR',
+    })
+  }
+})
+
 app.get('/api/admin/encuentros/model-requests', async (req, res) => {
   try {
     let profile = null
@@ -4352,14 +4921,15 @@ app.post('/api/encuentros/model-requests', async (req, res) => {
       }
     }
 
-    const request = await createEncounterModelRequest({
+    const result = await createEncounterModelRequest({
       ...req.body,
       submittedBy,
     })
 
     res.json({
       ok: true,
-      request,
+      request: result.request,
+      model: result.model || null,
     })
   } catch (error) {
     const status = error.code === 'MODEL_EXISTS' ? 409 : error.code === 'BAD_REQUEST' ? 400 : 500

@@ -21,6 +21,7 @@ import {
   fetchBlogPosts,
   createManualEncuentrosReservation as createManualEncuentrosReservationRequest,
   fetchEncuentrosModels,
+  fetchMyEncounterModel,
   fetchCurrentEntitlements,
   fetchCurrentOrders,
   fetchProducts,
@@ -35,10 +36,12 @@ import {
   listenToAuthChanges,
   translateAdminContent,
   signInWithPassword,
+  signInWithIdentifier,
   signInWithOAuth,
   signInWithTelegram,
   signUpWithPassword,
   signOut,
+  setMyProfileAudience,
   updateProfile,
   upsertBlogPost,
   upsertProducts,
@@ -423,6 +426,7 @@ export function AppProvider({ children }) {
   const [physicalOrders, setPhysicalOrders] = useState(() =>
     readStorageValue(PHYSICAL_ORDERS_KEY, []),
   )
+  const [encuentrosModel, setEncuentrosModel] = useState(() => null)
   const [session, setSession] = useState(() =>
     isSupabaseConfigured ? null : readStorageValue(SESSION_KEY, null),
   )
@@ -448,7 +452,11 @@ export function AppProvider({ children }) {
     }
 
     try {
-      return await fetchProducts(content, nextBlogPosts)
+      return await withTimeout(
+        fetchProducts(content, nextBlogPosts),
+        8000,
+        'La carga de productos excedio el tiempo esperado.',
+      )
     } catch {
       const generatedProducts = buildDefaultProducts(content, nextBlogPosts)
       return mergeGeneratedProducts(generatedProducts, products)
@@ -479,6 +487,22 @@ export function AppProvider({ children }) {
     }
   }
 
+  async function safeFetchMyEncounterModel(nextSession = session) {
+    if (!isSupabaseConfigured || !nextSession?.accessToken) {
+      return { model: null, ownership: null }
+    }
+
+    try {
+      return await withTimeout(
+        fetchMyEncounterModel(nextSession.accessToken),
+        8000,
+        'La carga del perfil de modelo excedio el tiempo esperado.',
+      )
+    } catch {
+      return { model: null, ownership: null }
+    }
+  }
+
   function hydrateSessionSideData(nextSession) {
     queueMicrotask(async () => {
       try {
@@ -497,9 +521,12 @@ export function AppProvider({ children }) {
 
         setEntitlements(enrichSubscriptionEntitlements(nextEntitlements, nextOrders, products))
         setOrders(nextOrders)
+        const nextModelAccess = await safeFetchMyEncounterModel(nextSession)
+        setEncuentrosModel(nextModelAccess.model)
       } catch {
         setEntitlements(defaultEntitlements)
         setOrders([])
+        setEncuentrosModel(null)
       }
 
       if (nextSession?.role === 'admin') {
@@ -711,10 +738,13 @@ export function AppProvider({ children }) {
               enrichSubscriptionEntitlements(remoteEntitlements, remoteOrders, remoteProducts),
             )
             setOrders(remoteOrders)
+            const nextModelAccess = await safeFetchMyEncounterModel(remoteSession)
+            setEncuentrosModel(nextModelAccess.model)
           }
         } else if (isMounted) {
           setEntitlements(defaultEntitlements)
           setOrders([])
+          setEncuentrosModel(null)
         }
 
         if (remoteSession?.role === 'admin') {
@@ -738,6 +768,7 @@ export function AppProvider({ children }) {
           setEntitlements(defaultEntitlements)
           setOrders([])
           setCustomerAdminData([])
+          setEncuentrosModel(null)
           setSiteContent(fallbackSiteContent)
         }
       } finally {
@@ -771,6 +802,7 @@ export function AppProvider({ children }) {
       setOrders([])
       setUsers(getFallbackUsersState())
       setCustomerAdminData([])
+      setEncuentrosModel(null)
     })
 
     return () => subscription.unsubscribe()
@@ -853,6 +885,8 @@ export function AppProvider({ children }) {
         id: matchedUser.id,
         name: matchedUser.name,
         email: matchedUser.email,
+        username: matchedUser.username || '',
+        audience: matchedUser.audience || 'client',
         role: matchedUser.role,
       }
 
@@ -895,6 +929,8 @@ export function AppProvider({ children }) {
         id: matchedUser.id,
         name: matchedUser.name,
         email: matchedUser.email,
+        username: matchedUser.username || '',
+        audience: matchedUser.audience || 'client',
         role: matchedUser.role,
         accessToken: '',
       }
@@ -906,9 +942,12 @@ export function AppProvider({ children }) {
 
   async function loginMemberWithEmail(form) {
     if (!isSupabaseConfigured) {
+      const identifier = String(form.identifier || form.email || '').trim().toLowerCase()
       const matchedUser = users.find(
         (user) =>
-          user.email.toLowerCase() === form.email.toLowerCase() &&
+          [user.email, user.username, user.name]
+            .filter(Boolean)
+            .some((field) => String(field).trim().toLowerCase() === identifier) &&
           user.password === form.password &&
           user.status === 'active',
       )
@@ -921,6 +960,8 @@ export function AppProvider({ children }) {
         id: matchedUser.id,
         name: matchedUser.name,
         email: matchedUser.email,
+        username: matchedUser.username || '',
+        audience: matchedUser.audience || 'client',
         role: matchedUser.role,
         accessToken: '',
       }
@@ -930,7 +971,10 @@ export function AppProvider({ children }) {
     }
 
     const nextSession = await withTimeout(
-      signInWithPassword(form),
+      signInWithIdentifier({
+        identifier: form.identifier || form.email || '',
+        password: form.password || '',
+      }),
       10000,
       'El login tardo demasiado. Revisa tu conexion o intenta otra vez.',
     )
@@ -953,9 +997,13 @@ export function AppProvider({ children }) {
       const nextUser = {
         id: `local-user-${Date.now()}`,
         name: form.displayName || form.email.split('@')[0],
+        username: String(form.username || form.displayName || form.email.split('@')[0]).trim().toLowerCase(),
         email: form.email,
         password: form.password,
         role: 'public',
+        audience: ['client', 'model', 'visitor'].includes(String(form.audience || '').trim())
+          ? String(form.audience || '').trim()
+          : 'client',
         status: 'active',
       }
 
@@ -965,6 +1013,8 @@ export function AppProvider({ children }) {
         id: nextUser.id,
         name: nextUser.name,
         email: nextUser.email,
+        username: nextUser.username,
+        audience: nextUser.audience,
         role: nextUser.role,
         accessToken: '',
       }
@@ -983,6 +1033,64 @@ export function AppProvider({ children }) {
     hydrateSessionSideData(nextSession)
 
     return { session: nextSession, requiresEmailConfirmation: false }
+  }
+
+  async function setMemberAudience(audience) {
+    const normalizedAudience = ['client', 'model', 'visitor'].includes(String(audience || '').trim())
+      ? String(audience || '').trim()
+      : 'client'
+
+    if (!isSupabaseConfigured) {
+      const nextSession = session
+        ? {
+            ...session,
+            audience: normalizedAudience,
+          }
+        : session
+
+      if (nextSession) {
+        setSession(nextSession)
+      }
+
+      setUsers((currentUsers) =>
+        currentUsers.map((user) =>
+          user.id === session?.id
+            ? {
+                ...user,
+                audience: normalizedAudience,
+              }
+            : user,
+        ),
+      )
+
+      return nextSession
+    }
+
+    const nextProfile = await withTimeout(
+      setMyProfileAudience(normalizedAudience),
+      10000,
+      'No se pudo guardar tu tipo de acceso.',
+    )
+
+    const nextSession = nextProfile
+      ? {
+          ...(session || {}),
+          id: nextProfile.id || session?.id || '',
+          name: nextProfile.display_name || session?.name || '',
+          email: nextProfile.email || session?.email || '',
+          username: nextProfile.username || session?.username || '',
+          role: nextProfile.role || session?.role || 'public',
+          status: nextProfile.status || session?.status || 'active',
+          audience: nextProfile.audience || normalizedAudience,
+          accessToken: session?.accessToken || '',
+        }
+      : session
+
+    if (nextSession) {
+      setSession(nextSession)
+    }
+
+    return nextSession
   }
 
   async function loginMemberWithOAuth(provider, redirectTo = '/') {
@@ -1018,18 +1126,28 @@ export function AppProvider({ children }) {
 
   async function createManagedUser(form) {
     if (!isSupabaseConfigured) {
-      const alreadyExists = users.some(
-        (user) => user.email.toLowerCase() === String(form.email || '').toLowerCase(),
+      const fallbackIdentifier = String(form.username || form.email || form.name || 'usuario')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+      const syntheticEmail = String(form.email || `${fallbackIdentifier || 'usuario'}@models.local`).trim()
+      const normalizedUsername = String(form.username || fallbackIdentifier || '').trim().toLowerCase()
+      const existingUser = users.find(
+        (user) =>
+          String(user.email || '').trim().toLowerCase() === syntheticEmail.toLowerCase() ||
+          (normalizedUsername &&
+            String(user.username || '').trim().toLowerCase() === normalizedUsername),
       )
 
-      if (alreadyExists) {
-        throw new Error('Este correo ya existe en el entorno local.')
+      if (existingUser) {
+        throw new Error('Ese correo o nombre de usuario ya existe en el entorno local.')
       }
 
       const nextUser = {
         id: `local-user-${Date.now()}`,
-        name: form.name || form.email.split('@')[0],
-        email: form.email,
+        name: form.name || fallbackIdentifier || syntheticEmail.split('@')[0],
+        username: normalizedUsername,
+        email: syntheticEmail,
         password: form.password,
         role: form.role || 'public',
         status: form.status || 'active',
@@ -1088,6 +1206,7 @@ export function AppProvider({ children }) {
           id: nextUser.id,
           display_name: nextUser.name,
           email: nextUser.email,
+          username: nextUser.username,
           role: nextUser.role,
           status: nextUser.status,
         },
@@ -1098,6 +1217,7 @@ export function AppProvider({ children }) {
       {
         name: form.name,
         email: form.email,
+        username: form.username,
         password: form.password,
         role: form.role,
         status: form.status,
@@ -1347,6 +1467,7 @@ export function AppProvider({ children }) {
     setOrders([])
     setCustomerAdminData([])
     setAdminAuditEvents([])
+    setEncuentrosModel(null)
   }
 
   async function saveSiteContent(nextContent) {
@@ -1892,6 +2013,7 @@ export function AppProvider({ children }) {
       entitlements,
       orders,
       physicalOrders,
+      encuentrosModel,
       hasEntitlement,
       hasSubscriptionGrant,
       getContentAccess,
@@ -1916,6 +2038,7 @@ export function AppProvider({ children }) {
       loginMemberWithOAuth,
       loginMemberWithTelegram,
       signUpMemberWithEmail,
+      setMemberAudience,
       createManagedUser,
       createCheckoutSession,
       logout,
@@ -1935,11 +2058,13 @@ export function AppProvider({ children }) {
       entitlements,
       orders,
       physicalOrders,
+      encuentrosModel,
       createEncounterReservationRequest,
       users,
       customerAdminData,
       adminAuditEvents,
       subscriptionGrantSet,
+      setMemberAudience,
       updateManagedSubscription,
     ],
   )

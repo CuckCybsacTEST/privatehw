@@ -13,15 +13,21 @@ $handle$;
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   email text unique,
+  username text unique,
   display_name text,
   stripe_customer_id text,
   role text not null default 'public' check (role in ('admin', 'public')),
+  audience text not null default 'client',
   status text not null default 'active' check (status in ('active', 'disabled')),
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
 
 alter table public.profiles add column if not exists stripe_customer_id text;
+alter table public.profiles add column if not exists username text;
+alter table public.profiles add column if not exists audience text not null default 'client';
+alter table public.profiles drop constraint if exists profiles_audience_check;
+alter table public.profiles add constraint profiles_audience_check check (audience in ('client', 'model', 'visitor'));
 
 create table if not exists public.site_content (
   slug text primary key,
@@ -46,6 +52,23 @@ create table if not exists public.encuentros_models (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+create table if not exists public.encuentros_model_profiles (
+  model_id uuid primary key references public.encuentros_models(id) on delete cascade,
+  age integer check (age is null or age >= 18),
+  city text,
+  nationality text,
+  hair_color text,
+  body_type text,
+  hair_type text,
+  top_badge text,
+  avatar_url text,
+  attendance_modes jsonb not null default '[]'::jsonb,
+  voice_audio_url text,
+  voice_audio_label text,
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now())
+);
+
 create table if not exists public.encuentros_model_requests (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -53,6 +76,9 @@ create table if not exists public.encuentros_model_requests (
   email text not null,
   city text,
   nationality text,
+  hair_color text,
+  body_type text,
+  hair_type text,
   phone text,
   telegram text,
   bio text not null,
@@ -64,6 +90,16 @@ create table if not exists public.encuentros_model_requests (
   reviewed_by uuid references public.profiles(id) on delete set null,
   reviewed_at timestamptz,
   submitted_by uuid references public.profiles(id) on delete set null,
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now())
+);
+
+create table if not exists public.encuentros_model_owners (
+  id uuid primary key default gen_random_uuid(),
+  model_id uuid not null references public.encuentros_models(id) on delete cascade,
+  profile_id uuid not null references public.profiles(id) on delete cascade,
+  permission_scope text not null default 'owner' check (permission_scope in ('owner', 'editor')),
+  status text not null default 'active' check (status in ('active', 'revoked')),
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
@@ -162,6 +198,10 @@ create unique index if not exists profiles_stripe_customer_id_idx
 on public.profiles (stripe_customer_id)
 where stripe_customer_id is not null;
 
+create unique index if not exists profiles_username_idx
+on public.profiles (username)
+where username is not null;
+
 create index if not exists encuentros_models_status_sort_order_idx
   on public.encuentros_models (status, sort_order asc, published_at desc);
 
@@ -173,6 +213,12 @@ create index if not exists encuentros_model_requests_status_created_at_idx
 
 create index if not exists encuentros_model_requests_model_id_idx
   on public.encuentros_model_requests (model_id);
+
+create unique index if not exists encuentros_model_owners_model_id_idx
+  on public.encuentros_model_owners (model_id);
+
+create unique index if not exists encuentros_model_owners_profile_id_idx
+  on public.encuentros_model_owners (profile_id);
 
 create unique index if not exists entitlements_user_key_idx
 on public.entitlements (user_id, entitlement_key);
@@ -207,14 +253,17 @@ security definer
 set search_path = public
 as $new_user$
 begin
-  insert into public.profiles (id, email, display_name)
+  insert into public.profiles (id, email, username, display_name, audience)
   values (
     new.id,
     new.email,
-    coalesce(new.raw_user_meta_data ->> 'display_name', split_part(new.email, '@', 1))
+    nullif(new.raw_user_meta_data ->> 'username', ''),
+    coalesce(new.raw_user_meta_data ->> 'display_name', split_part(new.email, '@', 1)),
+    coalesce(nullif(new.raw_user_meta_data ->> 'audience', ''), 'client')
   )
   on conflict (id) do update
-  set email = excluded.email;
+  set email = excluded.email,
+      username = coalesce(excluded.username, public.profiles.username);
 
   return new;
 end;
@@ -224,9 +273,11 @@ create or replace function public.get_my_profile()
 returns table (
   id uuid,
   email text,
+  username text,
   display_name text,
   stripe_customer_id text,
   role text,
+  audience text,
   status text
 )
 language sql
@@ -237,14 +288,60 @@ as $profile$
   select
     p.id,
     p.email,
+    p.username,
     p.display_name,
     p.stripe_customer_id,
     p.role,
+    p.audience,
     p.status
   from public.profiles p
   where p.id = auth.uid()
   limit 1;
 $profile$;
+
+create or replace function public.set_my_profile_audience(new_audience text)
+returns table (
+  id uuid,
+  email text,
+  username text,
+  display_name text,
+  stripe_customer_id text,
+  role text,
+  audience text,
+  status text
+)
+language plpgsql
+security definer
+set search_path = public
+as $audience$
+declare
+  normalized_audience text;
+begin
+  normalized_audience := case
+    when lower(coalesce(new_audience, '')) = 'model' then 'model'
+    when lower(coalesce(new_audience, '')) = 'visitor' then 'visitor'
+    else 'client'
+  end;
+
+  update public.profiles
+  set audience = normalized_audience
+  where id = auth.uid();
+
+  return query
+  select
+    p.id,
+    p.email,
+    p.username,
+    p.display_name,
+    p.stripe_customer_id,
+    p.role,
+    p.audience,
+    p.status
+  from public.profiles p
+  where p.id = auth.uid()
+  limit 1;
+end;
+$audience$;
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
@@ -269,6 +366,11 @@ for each row execute procedure public.handle_updated_at();
 drop trigger if exists encuentros_model_requests_set_updated_at on public.encuentros_model_requests;
 create trigger encuentros_model_requests_set_updated_at
 before update on public.encuentros_model_requests
+for each row execute procedure public.handle_updated_at();
+
+drop trigger if exists encuentros_model_owners_set_updated_at on public.encuentros_model_owners;
+create trigger encuentros_model_owners_set_updated_at
+before update on public.encuentros_model_owners
 for each row execute procedure public.handle_updated_at();
 
 drop trigger if exists media_assets_set_updated_at on public.media_assets;

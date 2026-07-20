@@ -207,8 +207,8 @@ export function ModelCTASection() {
         </div>
 
         <div className="catalog-home-model-actions">
-          <Link className="hero-primary-cta catalog-home-public-cta-button is-announce" to="/registro-modelos">
-            ¡ANUNCIA GRATIS!
+          <Link className="hero-primary-cta catalog-home-public-cta-button is-announce" to="/muy-pronto">
+            Muy pronto
           </Link>
           <Link className="hero-secondary-cta catalog-home-model-secondary-cta" to="/modelos">
             Ver la plataforma

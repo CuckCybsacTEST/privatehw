@@ -125,6 +125,9 @@ export function EncounterCatalogCard({ model, className = '', actionLabel = 'Ver
           <ProfileMetaLine icon={AiOutlineUser} label={details.heightLabel} />
           <ProfileMetaLine icon={HiOutlineLocationMarker} label={details.city} />
           <ProfileMetaLine icon={AiOutlinePicture} label={details.bodyHair} />
+          <ProfileMetaLine icon={AiOutlineUser} label={details.hairColor} />
+          <ProfileMetaLine icon={AiOutlineUser} label={details.bodyType} />
+          <ProfileMetaLine icon={AiOutlineUser} label={details.hairType} />
         </div>
 
         <div className="encuentros-catalog-card-actions">

@@ -75,6 +75,9 @@ export function getCatalogModelDetails(model = {}) {
   const age = getFirstTextValue(content, ['profileAge', 'age', 'edad'])
   const height = getFirstTextValue(content, ['profileHeightCm', 'heightCm', 'height'])
   const bodyHair = getFirstTextValue(content, ['profileBodyHair', 'bodyHair'])
+  const hairColor = getFirstTextValue(content, ['profileHairColor', 'hairColor'])
+  const bodyType = getFirstTextValue(content, ['profileBodyType', 'bodyType'])
+  const hairType = getFirstTextValue(content, ['profileHairType', 'hairType'])
   const relationshipStatus = getFirstTextValue(content, ['profileRelationshipStatus', 'relationshipStatus'])
   const attendanceModes = getArrayValue(content, ['profileAttendanceModes'])
   const tags = collectUniqueValues([
@@ -91,6 +94,9 @@ export function getCatalogModelDetails(model = {}) {
     height,
     heightLabel: formatHeightLabel(height),
     bodyHair,
+    hairColor,
+    bodyType,
+    hairType,
     relationshipStatus,
     attendanceModes,
     tags,
@@ -176,6 +182,9 @@ function matchesSearchTerm(details, query = '') {
     details.height,
     details.heightLabel,
     details.bodyHair,
+    details.hairColor,
+    details.bodyType,
+    details.hairType,
     details.relationshipStatus,
     details.attendanceModes.join(' '),
     details.tags.join(' '),

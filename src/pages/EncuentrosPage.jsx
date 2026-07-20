@@ -373,6 +373,9 @@ export function EncuentrosPage() {
     'maritalStatus',
   ])
   const profileBodyHair = getProfileTextValue(pageContent, ['profileBodyHair', 'bodyHair'])
+  const profileHairColor = getProfileTextValue(pageContent, ['profileHairColor', 'hairColor'])
+  const profileBodyType = getProfileTextValue(pageContent, ['profileBodyType', 'bodyType'])
+  const profileHairType = getProfileTextValue(pageContent, ['profileHairType', 'hairType'])
   const profileTopBadge = getProfileTextValue(pageContent, [
     'profileTopBadge',
     'topBadge',
@@ -497,6 +500,9 @@ export function EncuentrosPage() {
         profileRelationshipStatus
           ? { key: 'relationship', label: profileRelationshipStatus, tone: 'relationship' }
           : null,
+        profileHairColor ? { key: 'hair-color', label: profileHairColor } : null,
+        profileBodyType ? { key: 'body-type', label: profileBodyType } : null,
+        profileHairType ? { key: 'hair-type', label: profileHairType } : null,
         profileBodyHair ? { key: 'body-hair', label: profileBodyHair } : null,
         ...profileAttendanceModes.map((item) => ({
           key: `attendance-${item}`,
@@ -508,7 +514,10 @@ export function EncuentrosPage() {
       profileAge,
       profileAttendanceModes,
       profileBodyHair,
+      profileBodyType,
       profileCity,
+      profileHairColor,
+      profileHairType,
       profileHeightCm,
       profileNationality,
       profileRelationshipStatus,
@@ -1190,6 +1199,26 @@ export function EncuentrosPage() {
           </ScreenCard>
         ) : null}
 
+        <div className="encuentros-screen-actions" aria-label={t('encuentros.bookingWizardTitle')}>
+          {hasGalleryImages ? (
+            <button
+              type="button"
+              className="encuentros-screen-action encuentros-screen-action-secondary"
+              onClick={openGallery}
+            >
+              <AiOutlinePicture aria-hidden="true" />
+              <span>{t('encuentros.galleryOpen')}</span>
+              <AiOutlineRight aria-hidden="true" />
+            </button>
+          ) : null}
+
+          <button type="button" className="encuentros-screen-action encuentros-screen-action-primary" onClick={handleOpenWizard}>
+            <AiOutlineCalendar aria-hidden="true" />
+            <span>{t('encuentros.bookingPageTitle')}</span>
+            <AiOutlineRight aria-hidden="true" />
+          </button>
+        </div>
+
         <EncounterSocialLinksSection
           title={t('encuentros.socialNetworks', 'Redes sociales')}
           description={''}
@@ -1219,26 +1248,6 @@ export function EncuentrosPage() {
             </div>
           </section>
         ) : null}
-
-        <div className="encuentros-screen-actions" aria-label={t('encuentros.bookingWizardTitle')}>
-          {hasGalleryImages ? (
-            <button
-              type="button"
-              className="encuentros-screen-action encuentros-screen-action-secondary"
-              onClick={openGallery}
-            >
-              <AiOutlinePicture aria-hidden="true" />
-              <span>{t('encuentros.galleryOpen')}</span>
-              <AiOutlineRight aria-hidden="true" />
-            </button>
-          ) : null}
-
-          <button type="button" className="encuentros-screen-action encuentros-screen-action-primary" onClick={handleOpenWizard}>
-            <AiOutlineCalendar aria-hidden="true" />
-            <span>{t('encuentros.bookingPageTitle')}</span>
-            <AiOutlineRight aria-hidden="true" />
-          </button>
-        </div>
 
         <EncuentrosBottomNav
           activeKey={activeBottomNavKey}

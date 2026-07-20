@@ -145,7 +145,7 @@ const resources = {
         moreProducts: 'Ver mas productos',
       },
       home: {
-        publishFree: 'Publicar gratis',
+        publishFree: 'Muy pronto',
       },
       physicalStore: {
         panelTitle: 'Compra asistida y envio manual',
@@ -159,9 +159,9 @@ const resources = {
       access: {
         backHome: 'Volver a la home',
         eyebrow: 'Acceso del cliente',
-        title: 'Entrar o crear cuenta para desbloquear contenido',
+        title: 'Entra con correo o red y elige tu panel',
         description:
-          'Clientes, modelos y publico conviven en una sola puerta: usa tu cuenta para gestionar compras, revisar accesos activos y desbloquear videos, packs y publicaciones premium.',
+          'Primero autenticas tu cuenta. Luego eliges si vas como modelo o como visitante/cliente y completas tu acceso privado.',
         authTitle: 'Iniciar sesion',
         loginUnlockCopy: 'Inicia sesion para desbloquear contenido y seguir con la modelo.',
         registerUnlockCopy: 'Crea tu cuenta para desbloquear contenido y continuar al instante.',
@@ -1248,7 +1248,7 @@ const resources = {
         moreProducts: 'See more products',
       },
       home: {
-        publishFree: 'Publish free',
+        publishFree: 'Coming soon',
       },
       physicalStore: {
         panelTitle: 'Assisted purchase and manual shipping',
@@ -1262,9 +1262,9 @@ const resources = {
       access: {
         backHome: 'Back home',
         eyebrow: 'Client access',
-        title: 'Sign in or create an account to unlock content',
+        title: 'Sign in with email or social and choose your panel',
         description:
-          'Clients, models, and public visitors share one entry point: use your account to manage purchases, review active access, and unlock premium videos, packs, and posts.',
+          'First authenticate your account. Then choose whether you are joining as a model or as a visitor/client and continue into your private area.',
         authTitle: 'Sign in',
         loginUnlockCopy: 'Sign in to unlock content and continue with the model.',
         registerUnlockCopy: 'Create your account to unlock content and continue instantly.',

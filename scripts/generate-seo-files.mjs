@@ -170,6 +170,7 @@ async function buildSitemapEntries() {
     buildUrlEntry('/packs', { lastmod: collectionLastMod, changefreq: 'weekly', priority: '0.8' }),
     buildUrlEntry('/calzones', { lastmod: merchLastMod, changefreq: 'weekly', priority: '0.8' }),
     buildUrlEntry('/modelos', { lastmod: today, changefreq: 'weekly', priority: '0.8' }),
+    buildUrlEntry('/muy-pronto', { lastmod: today, changefreq: 'weekly', priority: '0.6' }),
     buildUrlEntry('/terminos', { lastmod: today, changefreq: 'monthly', priority: '0.3' }),
     buildUrlEntry('/privacidad', { lastmod: today, changefreq: 'monthly', priority: '0.3' }),
     buildUrlEntry('/cookies', { lastmod: today, changefreq: 'monthly', priority: '0.3' }),

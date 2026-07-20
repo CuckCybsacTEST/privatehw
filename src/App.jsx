@@ -60,8 +60,14 @@ const LegacyHomePage = lazy(() =>
 const ModelsLandingPage = lazy(() =>
   import('./pages/ModelsLandingPage').then((module) => ({ default: module.ModelsLandingPage })),
 )
+const ModelDashboardPage = lazy(() =>
+  import('./pages/ModelDashboardPage').then((module) => ({ default: module.ModelDashboardPage })),
+)
 const OpeningPage = lazy(() =>
   import('./pages/OpeningPage').then((module) => ({ default: module.OpeningPage })),
+)
+const ModelRequestPage = lazy(() =>
+  import('./pages/ModelRequestPage').then((module) => ({ default: module.ModelRequestPage })),
 )
 const ProfilePage = lazy(() =>
   import('./pages/ProfilePage').then((module) => ({ default: module.ProfilePage })),
@@ -198,10 +204,21 @@ function AppRoutes() {
         <Route path="/encuentross/citas" element={<EncuentrosLegacyBookingRedirect />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/access" element={<AccessPage />} />
         <Route path={legacyHomeRedirectPath} element={<Navigate to={legacyHomeBasePath} replace />} />
         <Route path={legacyHomeBasePath} element={<LegacyHomePage />} />
-        <Route path="/apertura" element={<Navigate to="/registro-modelos" replace />} />
-        <Route path="/registro-modelos" element={<OpeningPage />} />
+        <Route path="/apertura" element={<Navigate to="/muy-pronto" replace />} />
+        <Route path="/muy-pronto" element={<OpeningPage />} />
+        <Route path="/registro-modelos" element={<ModelRequestPage />} />
+        <Route
+          path="/modelo/dashboard"
+          element={
+            <ProtectedRegisteredRoute redirectTo="/access?redirect=/modelo/dashboard">
+              <ModelDashboardPage />
+            </ProtectedRegisteredRoute>
+          }
+        />
+        <Route path="/model/dashboard" element={<Navigate to="/modelo/dashboard" replace />} />
         <Route path={withLegacyHomePath('/blog')} element={<BlogIndexPage />} />
         <Route path={withLegacyHomePath('/blog/:slug')} element={<BlogPostPage />} />
         <Route path={withLegacyHomePath('/videos')} element={<VideoCatalogPage />} />
@@ -272,6 +289,15 @@ function AppRoutes() {
             </ProtectedRegisteredRoute>
           }
         />
+        <Route
+          path="/cliente/dashboard"
+          element={
+            <ProtectedRegisteredRoute redirectTo="/access?redirect=/cliente/dashboard">
+              <ProfilePage />
+            </ProtectedRegisteredRoute>
+          }
+        />
+        <Route path="/cliente" element={<Navigate to="/cliente/dashboard" replace />} />
         <Route
           path="/free-content"
           element={

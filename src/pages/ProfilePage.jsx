@@ -40,7 +40,7 @@ function getEncounterNavToneStyles(tone) {
 }
 
 export function ProfilePage() {
-  const { session, entitlements, orders, siteContent, logout } = useAppState()
+  const { session, entitlements, orders, siteContent, logout, encuentrosModel } = useAppState()
   const { i18n, t } = useTranslation()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
@@ -58,6 +58,12 @@ export function ProfilePage() {
       String(order.items?.[0]?.productSlug || '').startsWith('reservation-'),
   )
   const fullName = session?.name || t('profile.noName')
+  const audienceLabel =
+    session?.audience === 'model'
+      ? 'Modelo'
+      : session?.audience === 'visitor'
+        ? 'Visitante'
+        : 'Cliente'
   const formattedExpiresAt = accessSummary.latestExpiresAt
     ? new Intl.DateTimeFormat(dateLocale, { dateStyle: 'medium' }).format(
         new Date(accessSummary.latestExpiresAt),
@@ -90,7 +96,7 @@ export function ProfilePage() {
               <strong>{fullName}</strong>
               <p>{session?.email}</p>
               <div className="profile-badges">
-                <span>{session?.role === 'admin' ? t('profile.roleAdmin') : t('profile.roleMember')}</span>
+                <span>{session?.role === 'admin' ? t('profile.roleAdmin') : audienceLabel}</span>
                 <span>{session?.status === 'active' ? t('profile.statusActive') : t('profile.statusInactive')}</span>
               </div>
             </div>
@@ -121,6 +127,17 @@ export function ProfilePage() {
               {t('profile.goLibrary')}
             </Link>
           </article>
+
+          {encuentrosModel ? (
+            <article className="profile-card">
+              <span>Panel de modelo</span>
+              <strong>{encuentrosModel.displayName || encuentrosModel.slug}</strong>
+              <p>Gestiona tu perfil verificado, fotos, agenda, voz y redes de suscripcion.</p>
+              <Link className="hero-primary-cta" to="/modelo/dashboard">
+                Abrir panel
+              </Link>
+            </article>
+          ) : null}
 
           <article className="profile-card profile-card-actions">
             <Link className="hero-primary-cta" to="/">

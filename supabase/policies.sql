@@ -28,6 +28,7 @@ returns table (
   display_name text,
   stripe_customer_id text,
   role text,
+  audience text,
   status text
 )
 language sql
@@ -41,19 +42,64 @@ as $profile$
     p.display_name,
     p.stripe_customer_id,
     p.role,
+    p.audience,
     p.status
   from public.profiles p
   where p.id = auth.uid()
   limit 1;
 $profile$;
 
+create or replace function public.set_my_profile_audience(new_audience text)
+returns table (
+  id uuid,
+  email text,
+  display_name text,
+  stripe_customer_id text,
+  role text,
+  audience text,
+  status text
+)
+language plpgsql
+security definer
+set search_path = public
+as $audience$
+declare
+  normalized_audience text;
+begin
+  normalized_audience := case
+    when lower(coalesce(new_audience, '')) = 'model' then 'model'
+    when lower(coalesce(new_audience, '')) = 'visitor' then 'visitor'
+    else 'client'
+  end;
+
+  update public.profiles
+  set audience = normalized_audience
+  where id = auth.uid();
+
+  return query
+  select
+    p.id,
+    p.email,
+    p.display_name,
+    p.stripe_customer_id,
+    p.role,
+    p.audience,
+    p.status
+  from public.profiles p
+  where p.id = auth.uid()
+  limit 1;
+end;
+$audience$;
+
 grant execute on function public.is_admin() to anon, authenticated;
 grant execute on function public.get_my_profile() to authenticated;
+grant execute on function public.set_my_profile_audience(text) to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.site_content enable row level security;
 alter table public.encuentros_models enable row level security;
 alter table public.encuentros_model_requests enable row level security;
+alter table public.encuentros_model_owners enable row level security;
 alter table public.media_assets enable row level security;
 alter table public.blog_posts enable row level security;
 alter table public.products enable row level security;
@@ -116,6 +162,21 @@ using (public.is_admin());
 drop policy if exists "encuentros model requests admin write" on public.encuentros_model_requests;
 create policy "encuentros model requests admin write"
 on public.encuentros_model_requests
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "encuentros model owners self read" on public.encuentros_model_owners;
+create policy "encuentros model owners self read"
+on public.encuentros_model_owners
+for select
+to authenticated
+using (profile_id = auth.uid() or public.is_admin());
+
+drop policy if exists "encuentros model owners admin write" on public.encuentros_model_owners;
+create policy "encuentros model owners admin write"
+on public.encuentros_model_owners
 for all
 to authenticated
 using (public.is_admin())

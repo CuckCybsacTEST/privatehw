@@ -219,7 +219,9 @@ function normalizeProfile(profile) {
     id: profile.id,
     name: profile.display_name || profile.email || 'User',
     email: profile.email || '',
+    username: profile.username || '',
     role: profile.role || 'public',
+    audience: profile.audience || 'client',
     status: profile.status || 'active',
   }
 }
@@ -234,7 +236,9 @@ function normalizeSession(user, profile, accessToken = '') {
     name:
       profile?.display_name || user.user_metadata?.display_name || user.email || 'User',
     email: user.email || '',
+    username: profile?.username || user.user_metadata?.username || '',
     role: profile?.role || 'public',
+    audience: profile?.audience || user.user_metadata?.audience || 'client',
     status: profile?.status || 'active',
     accessToken,
   }
@@ -275,7 +279,7 @@ async function fetchCurrentProfile(client) {
       const { data: profile } = await withSupabaseTimeout(
         client
           .from('profiles')
-          .select('id, display_name, role, status, email, stripe_customer_id')
+          .select('id, display_name, username, role, audience, status, email, stripe_customer_id')
           .eq('id', session.user.id)
           .maybeSingle(),
         12000,
@@ -352,6 +356,51 @@ export async function signInWithPassword({ email, password, requireAdmin = false
   return normalizeSession(data.user, profile, data.session?.access_token || '')
 }
 
+export async function resolveLoginIdentifier(identifier = '') {
+  const normalizedIdentifier = String(identifier || '').trim()
+
+  if (!normalizedIdentifier) {
+    throw new Error('Debes indicar un correo o nombre de usuario.')
+  }
+
+  const response = await fetch('/api/auth/resolve-login-identifier', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      identifier: normalizedIdentifier,
+    }),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo resolver el usuario.')
+  }
+
+  return data?.resolved || null
+}
+
+export async function signInWithIdentifier({ identifier = '', password = '', requireAdmin = false } = {}) {
+  const normalizedIdentifier = String(identifier || '').trim()
+  const normalizedPassword = String(password || '').trim()
+
+  if (!normalizedIdentifier || !normalizedPassword) {
+    throw new Error('Debes indicar usuario o correo y contraseña.')
+  }
+
+  const resolved = normalizedIdentifier.includes('@')
+    ? { email: normalizedIdentifier }
+    : await resolveLoginIdentifier(normalizedIdentifier)
+
+  if (!resolved?.email) {
+    throw new Error('No se encontro un usuario con ese correo o nombre de usuario.')
+  }
+
+  return signInWithPassword({ email: resolved.email, password: normalizedPassword, requireAdmin })
+}
+
 export async function signInWithOAuth(provider, redirectTo) {
   const client = assertSupabase()
 
@@ -410,14 +459,16 @@ export async function signInWithTelegram(telegramUser) {
   return signInWithPassword({ email, password })
 }
 
-export async function signUpWithPassword({ email, password, displayName }) {
+export async function signUpWithPassword({ email, password, displayName, username, audience = 'client' }) {
   const client = assertSupabase()
   const { data, error } = await client.auth.signUp({
     email,
     password,
     options: {
       data: {
-        display_name: displayName,
+        display_name: displayName || username || '',
+        username: username || '',
+        audience: audience || 'client',
       },
     },
   })
@@ -437,6 +488,24 @@ export async function signUpWithPassword({ email, password, displayName }) {
   }
 
   return normalizeSession(data.user, profile, data.session.access_token)
+}
+
+export async function setMyProfileAudience(audience = 'client') {
+  const client = assertSupabase()
+  const normalizedAudience = ['client', 'model', 'visitor'].includes(String(audience || '').trim())
+    ? String(audience || '').trim()
+    : 'client'
+
+  const { error } = await client.rpc('set_my_profile_audience', {
+    new_audience: normalizedAudience,
+  })
+
+  if (error) {
+    throw error
+  }
+
+  const profile = await fetchCurrentProfile(client)
+  return profile || null
 }
 
 export async function createManagedUser(payload, authToken = '') {
@@ -599,7 +668,10 @@ export async function submitEncounterModelRequest(payload = {}, authToken = '') 
     throw new Error(data.error || 'No se pudo registrar la solicitud de modelo.')
   }
 
-  return data?.request || data?.model || null
+  return {
+    request: data?.request || null,
+    model: data?.model || null,
+  }
 }
 
 async function parseApiJson(response, fallbackMessage) {
@@ -650,6 +722,40 @@ export async function updateAdminEncuentrosModelRequest(requestId = '', patch = 
   const payload = await parseApiJson(response, 'No se pudo actualizar la solicitud de modelo.')
 
   return payload.request || null
+}
+
+export async function fetchMyEncounterModel(authToken = '') {
+  const response = await fetch('/api/model/encuentros/me', {
+    headers: {
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const payload = await parseApiJson(response, 'No se pudo cargar tu perfil de modelo.')
+
+  return {
+    model: payload.model || null,
+    ownership: payload.ownership || null,
+  }
+}
+
+export async function saveMyEncounterModel(payload = {}, authToken = '') {
+  const response = await fetch('/api/model/encuentros/me', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No se pudo guardar tu perfil de modelo.')
+  }
+
+  return data?.model || null
 }
 
 export async function saveAdminEncuentrosModel(model = {}, authToken = '') {
@@ -1011,7 +1117,7 @@ export async function getProfiles() {
   const client = assertSupabase()
   const { data, error } = await client
     .from('profiles')
-    .select('id, display_name, email, role, status, stripe_customer_id, created_at')
+    .select('id, display_name, email, role, audience, status, stripe_customer_id, created_at')
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -1030,7 +1136,7 @@ export async function getCustomerAdminSnapshot() {
   const [profilesResponse, ordersResponse, entitlementsResponse] = await Promise.all([
     client
       .from('profiles')
-      .select('id, display_name, email, role, status, stripe_customer_id, created_at')
+      .select('id, display_name, email, role, audience, status, stripe_customer_id, created_at')
       .order('created_at', { ascending: false }),
     client
       .from('orders')
@@ -1163,11 +1269,13 @@ export async function updateProfile(userId, patch) {
     .from('profiles')
     .update({
       display_name: patch.name,
+      username: patch.username,
       role: patch.role,
+      audience: patch.audience,
       status: patch.status,
     })
     .eq('id', userId)
-    .select('id, display_name, email, role, status')
+    .select('id, display_name, username, email, role, status')
     .single()
 
   if (error) {

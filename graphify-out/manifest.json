@@ -20,13 +20,13 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1783534364.2800505,
-    "ast_hash": "e74a361eb5fabe42d05e5c027be72440",
+    "mtime": 1783897724.6741207,
+    "ast_hash": "cb721ab28ed8267e30459f81f1f297e9",
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1783531151.2946117,
-    "ast_hash": "225a62a43ef41c9399fc925c76013e33",
+    "mtime": 1783977838.8718219,
+    "ast_hash": "75f128d28cc45ec92b9b3dc396b4ad11",
     "semantic_hash": ""
   },
   "src/components/AccessPricingCard.jsx": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "src/data/defaultUsers.js": {
-    "mtime": 1773079208.3072062,
-    "ast_hash": "0f12a1feee2cf2ac2ee39f707dc52133",
+    "mtime": 1783977860.8103611,
+    "ast_hash": "95d55a9bd92fb5b5d75957a97b72d5c7",
     "semantic_hash": ""
   },
   "src/hooks/useViewportState.js": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "src/i18n.js": {
-    "mtime": 1783530084.3482566,
-    "ast_hash": "d7634e7e9b0d942714e8e7b5d6e33afd",
+    "mtime": 1783978107.5404716,
+    "ast_hash": "f5d4e215106b5b0dc13cb9c821ba5c94",
     "semantic_hash": ""
   },
   "src/lib/googleDrive.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/lib/supabase.js": {
-    "mtime": 1783534381.7777872,
-    "ast_hash": "a0499c08e79001e91f9bd39caf37bdca",
+    "mtime": 1783978034.641395,
+    "ast_hash": "e1ec278c03a4f5cd7163df2fc5244aa0",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -250,13 +250,13 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1783531388.9648564,
-    "ast_hash": "22ab789b7777196021e75f1106f4cbc9",
+    "mtime": 1784584078.1147988,
+    "ast_hash": "c425abdee4129b22c45c31b016eb709e",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
-    "mtime": 1783541742.1524315,
-    "ast_hash": "17d3b2faa3e2737b0495419fc56383c4",
+    "mtime": 1783552683.7270336,
+    "ast_hash": "95708929a31975db3e28fa14ecb8357d",
     "semantic_hash": ""
   },
   "src/pages/AdminLoginPage.jsx": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "src/pages/EncuentrosPage.jsx": {
-    "mtime": 1783348982.7851791,
-    "ast_hash": "4e2367cf14845dbe5d1abe34f371affc",
+    "mtime": 1783897177.3440762,
+    "ast_hash": "9aa2387de7c39ba0cbb09f0af7a05b6e",
     "semantic_hash": ""
   },
   "src/pages/FreeContentPage.jsx": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "src/pages/ProfilePage.jsx": {
-    "mtime": 1783348256.7064502,
-    "ast_hash": "f0c5fafdf6ae33e0c1a7476498456e52",
+    "mtime": 1783977854.6867902,
+    "ast_hash": "cfa6ee1242b76080758dca2a88bf7f73",
     "semantic_hash": ""
   },
   "src/pages/VideoCatalogPage.jsx": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/state/AppState.jsx": {
-    "mtime": 1782865559.7216883,
-    "ast_hash": "655013a7cc1a7f63346b2807bcd76d0b",
+    "mtime": 1784583724.7266984,
+    "ast_hash": "ace844e8ddd3acfc08d6e3fbd391b5ad",
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
@@ -425,13 +425,13 @@
     "semantic_hash": ""
   },
   "supabase/policies.sql": {
-    "mtime": 1783534881.19973,
-    "ast_hash": "df76c5a73b70e8a8eea34254a33107e2",
+    "mtime": 1783977542.740916,
+    "ast_hash": "62f115ee0aa030ba626079a96eb8344b",
     "semantic_hash": ""
   },
   "supabase/schema.sql": {
-    "mtime": 1783534870.5878356,
-    "ast_hash": "31bddc14b118c9661053cc7ce1a3cc39",
+    "mtime": 1783977533.4789267,
+    "ast_hash": "13fab88611b973bc9dd8bd2947352db5",
     "semantic_hash": ""
   },
   "vite.config.js": {
@@ -570,8 +570,8 @@
     "semantic_hash": ""
   },
   "src/components/admin/EncuentrosModelsManager.jsx": {
-    "mtime": 1783535220.882036,
-    "ast_hash": "d7ef1c47706fedf8329c803c8c5df1c9",
+    "mtime": 1783897285.632186,
+    "ast_hash": "bfde3b14098b51ad288bd41b5c7ab986",
     "semantic_hash": ""
   },
   "src/utils/encuentrosModels.js": {
@@ -685,12 +685,12 @@
     "semantic_hash": ""
   },
   "scripts/generate-seo-files.mjs": {
-    "mtime": 1783348256.6947386,
-    "ast_hash": "bda604381cca09cf3b88cb5c1af87487",
+    "mtime": 1783801649.917546,
+    "ast_hash": "8c97a24ada8612172c3cedc65570b90c",
     "semantic_hash": ""
   },
   "public/robots.txt": {
-    "mtime": 1783541775.7241037,
+    "mtime": 1784584087.8723032,
     "ast_hash": "795afc542def1fa059fa1b118f7ce8da",
     "semantic_hash": ""
   },
@@ -700,13 +700,13 @@
     "semantic_hash": ""
   },
   "src/utils/encuentrosCatalog.js": {
-    "mtime": 1783349428.367083,
-    "ast_hash": "83a52035c49819c7824f9503bee3f50b",
+    "mtime": 1783897169.189072,
+    "ast_hash": "f8a75ae66181be040b191b4199acda0f",
     "semantic_hash": ""
   },
   "src/components/EncounterCatalogCard.jsx": {
-    "mtime": 1783349671.0897043,
-    "ast_hash": "da62e03b9e47d21330dda627d228a7b1",
+    "mtime": 1783897182.5653286,
+    "ast_hash": "1c75694033ae8b0964d38b3906a2a03d",
     "semantic_hash": ""
   },
   "src/pages/EncuentrosFacetPage.jsx": {
@@ -720,8 +720,8 @@
     "semantic_hash": ""
   },
   "src/components/HomeSections.jsx": {
-    "mtime": 1783531171.1847851,
-    "ast_hash": "7a597d69e3775ce836207b39d38c9104",
+    "mtime": 1783801568.7444816,
+    "ast_hash": "3d0d085c71b9547e1d644591ec636e47",
     "semantic_hash": ""
   },
   "src/pages/ModelsLandingPage.jsx": {
@@ -760,13 +760,13 @@
     "semantic_hash": ""
   },
   "src/components/PublicHomeTopBar.jsx": {
-    "mtime": 1783531155.3070085,
-    "ast_hash": "68bd82348bb3fe485b2e413aa9698b12",
+    "mtime": 1783801571.5513408,
+    "ast_hash": "3d8bdebc3869d886f72f26e821e02ee3",
     "semantic_hash": ""
   },
   "src/pages/OpeningPage.jsx": {
-    "mtime": 1783535072.4838974,
-    "ast_hash": "514f562eadd67140d8cc89c94fa371ac",
+    "mtime": 1783895662.266673,
+    "ast_hash": "05b0b888af324aaf6673334ef88145e7",
     "semantic_hash": ""
   },
   "supabase/migrations/20260708000000_add_encuentros_model_requests.sql": {
@@ -782,6 +782,61 @@
   "registro-modelos.png": {
     "mtime": 1783535250.2170513,
     "ast_hash": "c261a725a1c6b0724972dc3e102bc504",
+    "semantic_hash": ""
+  },
+  "src/pages/ModelDashboardPage.jsx": {
+    "mtime": 1783977001.35961,
+    "ast_hash": "ae847c4194dd294ccfc0dd580aeae6fc",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260708010000_create_encuentros_model_owners.sql": {
+    "mtime": 1783552569.9133804,
+    "ast_hash": "ba788eadc540891d42bc0a27f5b9d3d0",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260708012000_add_profiles_username.sql": {
+    "mtime": 1783552756.2537322,
+    "ast_hash": "21455b5da2c07c7cb8f71fbd69c27dff",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260708013000_update_handle_new_user_username.sql": {
+    "mtime": 1783552977.1247108,
+    "ast_hash": "5e3e76a572b54f85e04a5e0a9229c1d3",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260708014000_update_get_my_profile_username.sql": {
+    "mtime": 1783552984.8562992,
+    "ast_hash": "e214d6eac76bce3837504dae6d0b5d64",
+    "semantic_hash": ""
+  },
+  "src/pages/ModelRequestPage.jsx": {
+    "mtime": 1783976996.600215,
+    "ast_hash": "66174ff2cf1c1c34d4c841585b3a21c6",
+    "semantic_hash": ""
+  },
+  ".tmp-registro-desktop.png": {
+    "mtime": 1783896352.002251,
+    "ast_hash": "68ae7ea7756e8033e0a1912a8e7642a6",
+    "semantic_hash": ""
+  },
+  ".tmp-registro-mobile.png": {
+    "mtime": 1783896353.8961298,
+    "ast_hash": "c78b94cc23dd1bf724550620a1e382b3",
+    "semantic_hash": ""
+  },
+  "src/utils/encuentrosPhysicalTraits.js": {
+    "mtime": 1783897009.1442351,
+    "ast_hash": "9aae0da4a6a1b591b5cdf26d3f38f59f",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260712000000_add_encuentros_model_physical_traits.sql": {
+    "mtime": 1783897009.1442351,
+    "ast_hash": "6148066df3c0006fcbab51ef1f117246",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20260713000000_add_profile_audience.sql": {
+    "mtime": 1783977557.4848661,
+    "ast_hash": "2fd46a8f0edd1ae584d51c595230b04b",
     "semantic_hash": ""
   }
 }

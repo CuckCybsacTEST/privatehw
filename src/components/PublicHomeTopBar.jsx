@@ -37,8 +37,8 @@ export function PublicHomeTopBar() {
           <BiLogoTelegram aria-hidden="true" />
         </a>
 
-        <Link className="public-home-topbar-cta is-primary" to="/registro-modelos">
-          {t('home.publishFree', { defaultValue: 'Publicar gratis' })}
+        <Link className="public-home-topbar-cta is-primary" to="/muy-pronto">
+          {t('home.publishFree', { defaultValue: 'Muy pronto' })}
         </Link>
 
         {session ? (
