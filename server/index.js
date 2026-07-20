@@ -29,6 +29,12 @@ import {
   uploadGoogleDriveFile,
 } from './googleDrive.js'
 import { translateContentPayload } from './contentTranslation.js'
+import {
+  checkOpenWaPhone,
+  isOpenWaConfigured,
+  normalizeWhatsAppPhone,
+  sendOpenWaText,
+} from './openwa.js'
 
 const app = express()
 const port = Number.parseInt(process.env.PORT || '4242', 10)
@@ -37,6 +43,13 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY || ''
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
 const mediaTokenSecret = process.env.MEDIA_TOKEN_SECRET || 'dev-media-token-secret'
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN || ''
+const parsedWhatsappVerificationTtlMs = Number.parseInt(
+  process.env.WHATSAPP_VERIFICATION_TTL_MS || '600000',
+  10,
+)
+const whatsappVerificationTtlMs = Number.isFinite(parsedWhatsappVerificationTtlMs)
+  ? parsedWhatsappVerificationTtlMs
+  : 600000
 const supabaseUrl = process.env.VITE_SUPABASE_URL || ''
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 const HOME_CONTENT_CACHE_TTL_MS = 60 * 1000
@@ -44,6 +57,7 @@ const GALLERY_REACTIONS_FILE = new URL('./data/encuentros-gallery-votes.json', i
 const ENCUENTROS_MODELS_FILE = new URL('./data/encuentros-models.json', import.meta.url)
 const ENCUENTROS_MODEL_REQUESTS_FILE = new URL('./data/encuentros-model-requests.json', import.meta.url)
 const ENCUENTROS_MODEL_OWNERS_FILE = new URL('./data/encuentros-model-owners.json', import.meta.url)
+const WHATSAPP_VERIFICATION_FILE = new URL('./data/whatsapp-verifications.json', import.meta.url)
 const CLIENT_DIST_DIR = fileURLToPath(new URL('../dist/', import.meta.url))
 const CLIENT_INDEX_FILE = `${CLIENT_DIST_DIR}/index.html`
 let homeContentCache = {
@@ -52,6 +66,90 @@ let homeContentCache = {
   pending: null,
 }
 let clientIndexTemplateCache = null
+const whatsappVerificationChallenges = new Map()
+
+function getWhatsappChallengeStoragePath() {
+  return WHATSAPP_VERIFICATION_FILE
+}
+
+function serializeWhatsappVerificationChallenge(challenge = {}) {
+  return {
+    id: challenge.id || '',
+    phone: challenge.phone || '',
+    codeHash: challenge.codeHash || '',
+    expiresAt: challenge.expiresAt || 0,
+    createdAt: challenge.createdAt || 0,
+  }
+}
+
+function pruneWhatsappVerificationChallenges(now = Date.now()) {
+  let changed = false
+
+  for (const [challengeId, challenge] of whatsappVerificationChallenges.entries()) {
+    if (!challenge || !challenge.expiresAt || challenge.expiresAt <= now) {
+      whatsappVerificationChallenges.delete(challengeId)
+      changed = true
+    }
+  }
+
+  return changed
+}
+
+async function saveWhatsappVerificationChallenges() {
+  pruneWhatsappVerificationChallenges()
+  const payload = JSON.stringify(
+    Array.from(whatsappVerificationChallenges.values()).map(serializeWhatsappVerificationChallenge),
+    null,
+    2,
+  )
+
+  await mkdir(new URL('./data/', import.meta.url), { recursive: true })
+  await writeFile(getWhatsappChallengeStoragePath(), payload, 'utf8')
+}
+
+async function loadWhatsappVerificationChallenges() {
+  if (!existsSync(fileURLToPath(getWhatsappChallengeStoragePath()))) {
+    return
+  }
+
+  try {
+    const raw = await readFile(getWhatsappChallengeStoragePath(), 'utf8')
+    const parsed = JSON.parse(raw)
+
+    whatsappVerificationChallenges.clear()
+    if (Array.isArray(parsed)) {
+      parsed.forEach((challenge) => {
+        const normalized = serializeWhatsappVerificationChallenge(challenge)
+        if (normalized.id && normalized.phone && normalized.codeHash && normalized.expiresAt > Date.now()) {
+          whatsappVerificationChallenges.set(normalized.id, normalized)
+        }
+      })
+    }
+  } catch {
+    whatsappVerificationChallenges.clear()
+  }
+}
+
+function createWhatsappVerificationCode() {
+  return String(crypto.randomInt(100000, 999999))
+}
+
+function hashWhatsappVerificationCode(challengeId, phone, code) {
+  return crypto
+    .createHash('sha256')
+    .update([challengeId, phone, code].join(':'))
+    .digest('hex')
+}
+
+function buildWhatsappVerificationMessage(code) {
+  return [
+    'Tu codigo de verificacion de Kinkly es:',
+    '',
+    code,
+    '',
+    'Si no solicitaste este codigo, puedes ignorar este mensaje.',
+  ].join('\n')
+}
 
 if (!process.env.MEDIA_TOKEN_SECRET) {
   console.warn('MEDIA_TOKEN_SECRET no esta configurado. Se usara una clave de desarrollo.')
@@ -4473,6 +4571,158 @@ app.post('/api/auth/telegram', async (req, res) => {
   }
 })
 
+app.get('/api/auth/whatsapp/config', (_req, res) => {
+  res.json({
+    ok: true,
+    enabled: isOpenWaConfigured(),
+  })
+})
+
+app.post('/api/auth/whatsapp/request-code', async (req, res) => {
+  try {
+    if (!isOpenWaConfigured()) {
+      res.status(503).json({
+        error:
+          'OpenWA no esta configurado. Define OPENWA_BASE_URL, OPENWA_API_KEY y OPENWA_SESSION_ID.',
+        code: 'OPENWA_NOT_CONFIGURED',
+      })
+      return
+    }
+
+    const rawPhone = String(req.body?.phone || req.body?.whatsappPhone || '').trim()
+    const phone = normalizeWhatsAppPhone(rawPhone)
+
+    if (!phone || phone.length < 8) {
+      res.status(400).json({
+        error: 'Debes indicar un telefono valido con codigo de pais.',
+        code: 'BAD_REQUEST',
+      })
+      return
+    }
+
+    let isRegistered = true
+
+    try {
+      const checkResult = await checkOpenWaPhone(phone)
+      isRegistered = Boolean(
+        checkResult?.exists ??
+          checkResult?.registered ??
+          checkResult?.data?.exists ??
+          checkResult?.data?.registered ??
+          checkResult?.result ??
+          checkResult?.ok,
+      )
+    } catch (checkError) {
+      if (checkError.code && checkError.code !== 'OPENWA_NOT_CONFIGURED') {
+        console.warn('OpenWA contact check failed, continuing with send:', checkError.message || checkError)
+      }
+    }
+
+    if (!isRegistered) {
+      res.status(400).json({
+        error: 'Ese numero no parece estar registrado en WhatsApp.',
+        code: 'WHATSAPP_NUMBER_NOT_FOUND',
+      })
+      return
+    }
+
+    const challengeId = crypto.randomBytes(16).toString('hex')
+    const code = createWhatsappVerificationCode()
+    const createdAt = Date.now()
+    const expiresAt = createdAt + whatsappVerificationTtlMs
+    const codeHash = hashWhatsappVerificationCode(challengeId, phone, code)
+
+    whatsappVerificationChallenges.set(challengeId, {
+      id: challengeId,
+      phone,
+      codeHash,
+      expiresAt,
+      createdAt,
+    })
+    await saveWhatsappVerificationChallenges()
+
+    try {
+      await sendOpenWaText(phone, buildWhatsappVerificationMessage(code))
+    } catch (sendError) {
+      whatsappVerificationChallenges.delete(challengeId)
+      await saveWhatsappVerificationChallenges()
+      throw sendError
+    }
+
+    res.json({
+      ok: true,
+      challengeId,
+      expiresAt,
+    })
+  } catch (error) {
+    const status =
+      error.code === 'OPENWA_NOT_CONFIGURED'
+        ? 503
+        : error.code === 'BAD_REQUEST'
+          ? 400
+          : error.code === 'WHATSAPP_NUMBER_NOT_FOUND'
+            ? 404
+            : error.code === 'OPENWA_TIMEOUT'
+              ? 504
+              : 500
+
+    res.status(status).json({
+      error: error.message || 'No se pudo enviar el codigo por WhatsApp.',
+      code: error.code || 'WHATSAPP_VERIFICATION_ERROR',
+    })
+  }
+})
+
+app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
+  try {
+    const challengeId = String(req.body?.challengeId || '').trim()
+    const code = String(req.body?.code || '').trim()
+
+    if (!challengeId || !code) {
+      res.status(400).json({
+        error: 'Faltan datos para validar el codigo.',
+        code: 'BAD_REQUEST',
+      })
+      return
+    }
+
+    pruneWhatsappVerificationChallenges()
+    const challenge = whatsappVerificationChallenges.get(challengeId)
+
+    if (!challenge) {
+      res.status(404).json({
+        error: 'El codigo de WhatsApp expiro o no existe.',
+        code: 'WHATSAPP_CHALLENGE_NOT_FOUND',
+      })
+      return
+    }
+
+    const computedHash = hashWhatsappVerificationCode(challengeId, challenge.phone, code)
+
+    if (computedHash !== challenge.codeHash) {
+      res.status(401).json({
+        error: 'El codigo de WhatsApp no coincide.',
+        code: 'WHATSAPP_CODE_INVALID',
+      })
+      return
+    }
+
+    whatsappVerificationChallenges.delete(challengeId)
+    await saveWhatsappVerificationChallenges()
+
+    res.json({
+      ok: true,
+      verified: true,
+      phone: challenge.phone,
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || 'No se pudo validar el codigo de WhatsApp.',
+      code: error.code || 'WHATSAPP_VERIFICATION_ERROR',
+    })
+  }
+})
+
 app.post('/api/auth/resolve-login-identifier', async (req, res) => {
   try {
     assertSupabaseAuthConfig()
@@ -5092,6 +5342,8 @@ if (existsSync(CLIENT_DIST_DIR)) {
 
   app.use(express.static(CLIENT_DIST_DIR, { index: false }))
 }
+
+await loadWhatsappVerificationChallenges()
 
 app.listen(port, () => {
   console.log(`Stripe server running on http://localhost:${port}`)

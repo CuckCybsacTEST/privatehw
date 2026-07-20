@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1783897724.6741207,
-    "ast_hash": "cb721ab28ed8267e30459f81f1f297e9",
+    "mtime": 1784585786.4591131,
+    "ast_hash": "bc030933e60a4afcb443465ff26dc282",
     "semantic_hash": ""
   },
   "src/App.jsx": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/lib/supabase.js": {
-    "mtime": 1783978034.641395,
-    "ast_hash": "e1ec278c03a4f5cd7163df2fc5244aa0",
+    "mtime": 1784585359.7442374,
+    "ast_hash": "13e253a112c50427d7747681683db6f3",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1784584078.1147988,
-    "ast_hash": "c425abdee4129b22c45c31b016eb709e",
+    "mtime": 1784585595.6140442,
+    "ast_hash": "48e195a28fce0f15fec67cac602bb9d3",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/state/AppState.jsx": {
-    "mtime": 1784583724.7266984,
-    "ast_hash": "ace844e8ddd3acfc08d6e3fbd391b5ad",
+    "mtime": 1784585440.367676,
+    "ast_hash": "62020d8bb3c250a700d5e3bc0058ab84",
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
@@ -690,7 +690,7 @@
     "semantic_hash": ""
   },
   "public/robots.txt": {
-    "mtime": 1784584087.8723032,
+    "mtime": 1784585624.7450736,
     "ast_hash": "795afc542def1fa059fa1b118f7ce8da",
     "semantic_hash": ""
   },
@@ -837,6 +837,11 @@
   "supabase/migrations/20260713000000_add_profile_audience.sql": {
     "mtime": 1783977557.4848661,
     "ast_hash": "2fd46a8f0edd1ae584d51c595230b04b",
+    "semantic_hash": ""
+  },
+  "server/openwa.js": {
+    "mtime": 1784585257.2119043,
+    "ast_hash": "49fc8b20b9d01ff70ca34576d37d1237",
     "semantic_hash": ""
   }
 }

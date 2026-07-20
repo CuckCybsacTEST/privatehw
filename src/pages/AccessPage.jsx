@@ -5,6 +5,11 @@ import { FcGoogle } from 'react-icons/fc'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AppLoader } from '../components/AppLoader'
 import { Seo } from '../components/Seo'
+import {
+  getWhatsappVerificationConfig,
+  requestWhatsappVerificationCode,
+  verifyWhatsappVerificationCode,
+} from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 
 function normalizeAudience(value = '') {
@@ -19,6 +24,10 @@ function normalizeAudience(value = '') {
 
 function getModelTarget() {
   return '/modelo/dashboard'
+}
+
+function normalizePhoneInput(value = '') {
+  return String(value || '').replace(/[^\d]/g, '')
 }
 
 const audienceOptions = [
@@ -53,12 +62,25 @@ export function AccessPage() {
 
   const [mode, setMode] = useState('login')
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
-  const [registerForm, setRegisterForm] = useState({ email: '', username: '', password: '' })
+  const [registerForm, setRegisterForm] = useState({
+    email: '',
+    username: '',
+    phone: '',
+    password: '',
+  })
   const [selectedAudience, setSelectedAudience] = useState(initialAudience)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [activeOAuthProvider, setActiveOAuthProvider] = useState('')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [whatsappVerificationEnabled, setWhatsappVerificationEnabled] = useState(null)
+  const [whatsappChallengeId, setWhatsappChallengeId] = useState('')
+  const [whatsappCode, setWhatsappCode] = useState('')
+  const [whatsappVerifiedPhone, setWhatsappVerifiedPhone] = useState('')
+  const [whatsappStatus, setWhatsappStatus] = useState('')
+  const [whatsappError, setWhatsappError] = useState('')
+  const [isSendingWhatsappCode, setIsSendingWhatsappCode] = useState(false)
+  const [isVerifyingWhatsappCode, setIsVerifyingWhatsappCode] = useState(false)
 
   useEffect(() => {
     if (session?.audience === 'model' || session?.audience === 'visitor') {
@@ -70,6 +92,48 @@ export function AccessPage() {
       setSelectedAudience(initialAudience)
     }
   }, [initialAudience, session?.audience, session?.id])
+
+  useEffect(() => {
+    let isCancelled = false
+
+    getWhatsappVerificationConfig()
+      .then((config) => {
+        if (!isCancelled) {
+          setWhatsappVerificationEnabled(Boolean(config?.enabled))
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setWhatsappVerificationEnabled(false)
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    const normalizedPhone = normalizePhoneInput(registerForm.phone)
+
+    if (whatsappVerifiedPhone && whatsappVerifiedPhone !== normalizedPhone) {
+      setWhatsappChallengeId('')
+      setWhatsappCode('')
+      setWhatsappVerifiedPhone('')
+      setWhatsappStatus('')
+      setWhatsappError('')
+    }
+  }, [registerForm.phone, whatsappVerifiedPhone])
+
+  useEffect(() => {
+    if (mode !== 'register' || selectedAudience !== 'model') {
+      setWhatsappChallengeId('')
+      setWhatsappCode('')
+      setWhatsappVerifiedPhone('')
+      setWhatsappStatus('')
+      setWhatsappError('')
+    }
+  }, [mode, selectedAudience])
 
   useEffect(() => {
     if (session?.audience === 'model') {
@@ -109,12 +173,21 @@ export function AccessPage() {
 
     try {
       if (mode === 'register') {
+        const normalizedPhone = normalizePhoneInput(registerForm.phone)
+        const requiresWhatsappVerification = selectedAudience === 'model' && whatsappVerificationEnabled
+
+        if (requiresWhatsappVerification && whatsappVerifiedPhone !== normalizedPhone) {
+          throw new Error('Verifica tu numero por WhatsApp antes de crear la cuenta de modelo.')
+        }
+
         const result = await signUpMemberWithEmail({
           email: registerForm.email.trim(),
           password: registerForm.password,
           username: registerForm.username.trim(),
           displayName: registerForm.username.trim(),
           audience: selectedAudience,
+          phone: registerForm.phone.trim(),
+          whatsappVerified: requiresWhatsappVerification,
         })
 
         if (result?.requiresEmailConfirmation) {
@@ -154,6 +227,71 @@ export function AccessPage() {
       setIsSubmitting(false)
     }
   }
+
+  async function handleSendWhatsappCode() {
+    const normalizedPhone = normalizePhoneInput(registerForm.phone)
+
+    setWhatsappError('')
+    setWhatsappStatus('')
+
+    if (!normalizedPhone) {
+      setWhatsappError('Escribe un telefono valido con codigo de pais.')
+      return
+    }
+
+    setIsSendingWhatsappCode(true)
+
+    try {
+      const result = await requestWhatsappVerificationCode({ phone: normalizedPhone })
+      setWhatsappChallengeId(result.challengeId || '')
+      setWhatsappCode('')
+      setWhatsappVerifiedPhone('')
+      setWhatsappStatus('Te enviamos un codigo por WhatsApp. Revisalo y pegate el codigo aqui.')
+    } catch (nextError) {
+      setWhatsappError(nextError.message || 'No se pudo enviar el codigo por WhatsApp.')
+    } finally {
+      setIsSendingWhatsappCode(false)
+    }
+  }
+
+  async function handleVerifyWhatsappCode() {
+    if (!whatsappChallengeId) {
+      setWhatsappError('Primero envia un codigo por WhatsApp.')
+      return
+    }
+
+    if (!whatsappCode.trim()) {
+      setWhatsappError('Escribe el codigo que recibiste por WhatsApp.')
+      return
+    }
+
+    setIsVerifyingWhatsappCode(true)
+    setWhatsappError('')
+    setWhatsappStatus('')
+
+    try {
+      const result = await verifyWhatsappVerificationCode({
+        challengeId: whatsappChallengeId,
+        code: whatsappCode.trim(),
+      })
+
+      const verifiedPhone = normalizePhoneInput(result.phone || registerForm.phone)
+      setWhatsappVerifiedPhone(verifiedPhone)
+      setWhatsappStatus('Telefono verificado por WhatsApp. Ya puedes continuar con el alta.')
+    } catch (nextError) {
+      setWhatsappError(nextError.message || 'No se pudo validar el codigo de WhatsApp.')
+    } finally {
+      setIsVerifyingWhatsappCode(false)
+    }
+  }
+
+  const normalizedRegisterPhone = normalizePhoneInput(registerForm.phone)
+  const isWhatsappVerificationLoading =
+    mode === 'register' && selectedAudience === 'model' && whatsappVerificationEnabled === null
+  const requiresWhatsappVerification =
+    mode === 'register' && selectedAudience === 'model' && whatsappVerificationEnabled === true
+  const isWhatsappVerified =
+    Boolean(whatsappVerifiedPhone) && whatsappVerifiedPhone === normalizedRegisterPhone
 
   if (isBootstrapping) {
     return <AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />
@@ -326,6 +464,81 @@ export function AccessPage() {
                       </label>
                     ) : null}
 
+                    {mode === 'register' ? (
+                      <label className="access-auth-field">
+                        <span>Telefono WhatsApp</span>
+                        <input
+                          type="tel"
+                          autoComplete="tel"
+                          value={registerForm.phone}
+                          onChange={(event) =>
+                            setRegisterForm((current) => ({ ...current, phone: event.target.value }))
+                          }
+                          placeholder="+51 999 999 999"
+                          required={selectedAudience === 'model'}
+                        />
+                      </label>
+                    ) : null}
+
+                    {requiresWhatsappVerification ? (
+                      <div className="access-whatsapp-verification">
+                        <div className="access-whatsapp-verification-copy">
+                          <span className="access-audience-kicker">Verificacion por WhatsApp</span>
+                          <strong>Confirma tu numero antes de crear la cuenta de modelo</strong>
+                          <p>
+                            Enviaremos un codigo al numero indicado. Cuando lo confirmes, quedara listo
+                            para el alta en Supabase.
+                          </p>
+                        </div>
+
+                        <div className="access-whatsapp-verification-actions">
+                          <button
+                            type="button"
+                            className="hero-secondary-cta"
+                            onClick={() => void handleSendWhatsappCode()}
+                            disabled={isSendingWhatsappCode || !normalizedRegisterPhone}
+                          >
+                            {isSendingWhatsappCode ? 'Enviando codigo...' : 'Enviar codigo'}
+                          </button>
+
+                          <label className="access-auth-field access-whatsapp-code-field">
+                            <span>Codigo WhatsApp</span>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              autoComplete="one-time-code"
+                              value={whatsappCode}
+                              onChange={(event) => setWhatsappCode(event.target.value)}
+                              placeholder="123456"
+                              disabled={!whatsappChallengeId}
+                            />
+                          </label>
+
+                          <button
+                            type="button"
+                            className="hero-secondary-cta"
+                            onClick={() => void handleVerifyWhatsappCode()}
+                            disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
+                          >
+                            {isVerifyingWhatsappCode ? 'Verificando...' : 'Verificar codigo'}
+                          </button>
+                        </div>
+
+                        <p className="access-auth-note">
+                          {whatsappVerificationEnabled === null
+                            ? 'Comprobando la configuracion de WhatsApp...'
+                            : whatsappVerificationEnabled
+                              ? isWhatsappVerified
+                                ? 'Numero verificado por WhatsApp.'
+                                : 'El alta de modelo queda bloqueada hasta validar este numero.'
+                              : 'OpenWA no esta configurado aun. El alta seguira funcionando, pero sin verificacion por WhatsApp.'}
+                        </p>
+
+                        {whatsappStatus ? <p className="access-auth-success">{whatsappStatus}</p> : null}
+                        {whatsappError ? <p className="access-auth-error">{whatsappError}</p> : null}
+                      </div>
+                    ) : null}
+
                     <label className="access-auth-field">
                       <span>Contrasena</span>
                       <input
@@ -346,7 +559,11 @@ export function AccessPage() {
                   <button
                     className="hero-primary-cta access-auth-submit"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={
+                      isSubmitting ||
+                      isWhatsappVerificationLoading ||
+                      (requiresWhatsappVerification && !isWhatsappVerified)
+                    }
                   >
                     {mode === 'login'
                       ? isSubmitting

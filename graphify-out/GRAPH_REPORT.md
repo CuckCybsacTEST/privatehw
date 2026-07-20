@@ -1,16 +1,16 @@
 # Graph Report - PROJECTS  (2026-07-20)
 
 ## Corpus Check
-- 150 files · ~242,338 words
+- 151 files · ~243,961 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1069 nodes · 2397 edges · 61 communities (57 shown, 4 thin omitted)
+- 1095 nodes · 2444 edges · 55 communities (53 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7b4c901f`
+- Built from commit: `21b4f4f7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -62,15 +62,9 @@
 - [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
 - [[_COMMUNITY_Community 50|Community 50]]
-- [[_COMMUNITY_Community 51|Community 51]]
-- [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 55|Community 55]]
-- [[_COMMUNITY_Community 56|Community 56]]
-- [[_COMMUNITY_Community 57|Community 57]]
-- [[_COMMUNITY_Community 58|Community 58]]
-- [[_COMMUNITY_Community 59|Community 59]]
 - [[_COMMUNITY_Community 60|Community 60]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -100,7 +94,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (61 total, 4 thin omitted)
+## Communities (55 total, 2 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.09
@@ -108,23 +102,23 @@ Nodes (22): AGE_OPTIONS, ATTENDANCE_MODE_OPTIONS, BLANK_MODEL_DEFAULTS, BODY_HAI
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (44): bottomCarouselImages, mergeItemsBySlug(), normalizeCarouselSlides(), normalizeEncounterPriceLabel(), normalizeFreeContentItem(), normalizePhysicalMerchItem(), normalizePriceLabel(), normalizeVideoCollectionItem() (+36 more)
+Nodes (41): bottomCarouselImages, normalizeFreeContentItem(), normalizePhysicalMerchItem(), normalizePriceLabel(), normalizeVideoCollectionItem(), normalizeVideoLibraryItem(), topCarouselImages, AdminDashboardPage() (+33 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.08
-Nodes (27): app, buildRuntimeConfig(), buildTelegramDisplayName(), buildTelegramSyntheticEmail(), CLIENT_DIST_DIR, ENCUENTROS_MODEL_OWNERS_FILE, ENCUENTROS_MODEL_REQUESTS_FILE, ENCUENTROS_MODELS_FILE (+19 more)
+Cohesion: 0.06
+Nodes (37): app, assignEncounterModelOwner(), buildRuntimeConfig(), buildTelegramDisplayName(), buildTelegramSyntheticEmail(), CLIENT_DIST_DIR, ENCUENTROS_MODEL_OWNERS_FILE, ENCUENTROS_MODEL_REQUESTS_FILE (+29 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.24
 Nodes (10): AgeVerificationGate(), fetchGalleryReactionCounts(), getOrCreateGalleryVisitorKey(), getRandomVisitorKey(), readGalleryReactionState(), saveGalleryReaction(), writeGalleryReactionState(), readStorageValue() (+2 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.07
-Nodes (27): BlogManager(), buildTaxonomyOptions(), emptyPost(), getAccessLabel(), getStatusLabel(), isEmptyHtml(), pruneLocalizedDraft(), uniqueValues() (+19 more)
+Cohesion: 0.06
+Nodes (33): BlogManager(), buildTaxonomyOptions(), emptyPost(), getAccessLabel(), getStatusLabel(), isEmptyHtml(), pruneLocalizedDraft(), uniqueValues() (+25 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.07
-Nodes (29): LanguageSync(), AccessPage, AdminDashboardPage, AdminLoginPage, CalzonesPage, CheckoutCancelPage, CheckoutStartPage, CheckoutSuccessPage (+21 more)
+Cohesion: 0.05
+Nodes (41): LanguageSync(), PublicHomeTopBar(), StaticContentPage(), staticPages, AccessPage, AdminDashboardPage, AdminLoginPage, App() (+33 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.07
@@ -135,12 +129,12 @@ Cohesion: 0.06
 Nodes (33): dependencies, cors, dotenv, express, i18next, i18next-browser-languagedetector, i18next-localstorage-backend, react (+25 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.11
-Nodes (27): assertSupabase(), deleteAdminEncuentrosModel(), deleteBlogPost(), fetchAdminEncuentrosModelRequests(), fetchAdminEncuentrosModels(), fetchBlogPosts(), fetchCurrentEntitlements(), fetchCurrentOrders() (+19 more)
+Cohesion: 0.10
+Nodes (27): createManagedUser(), createManualEncuentrosReservation(), delay(), deleteAdminEncuentrosModel(), fetchAdminEncuentrosModelRequests(), fetchAdminEncuentrosModels(), fetchMyEncounterModel(), isSupabaseConfigured (+19 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.08
-Nodes (19): mergeBlogPosts(), isDerivedProductType(), defaultUsers, uploadGoogleDriveVideoAsset(), createManagedUser(), createManualEncuentrosReservation(), fetchEncuentrosModels(), getAdminAuditEvents() (+11 more)
+Cohesion: 0.09
+Nodes (15): defaultBlogPosts, mergeBlogPosts(), isDerivedProductType(), defaultUsers, uploadGoogleDriveVideoAsset(), getAdminAuditEvents(), applyTranslatedBlogPost(), AppProvider() (+7 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.10
@@ -160,7 +154,7 @@ Nodes (12): Breakpoints, Dashboard layout, Form layout, Layouts, Media and conte
 
 ### Community 14 - "Community 14"
 Cohesion: 0.27
-Nodes (10): normalizeSocialLink(), getContactChannelIcon(), isContactChannelLink(), getSocialNetworkActionLabel(), getSocialNetworkKey(), getSocialNetworkOption(), normalizeSocialNetworkText(), normalizeSocialNetworkValue() (+2 more)
+Nodes (10): normalizeSocialLink(), isContactChannelLink(), getSocialNetworkActionLabel(), getSocialNetworkKey(), getSocialNetworkOption(), normalizeSocialNetworkText(), normalizeSocialNetworkValue(), SOCIAL_NETWORK_ALIASES (+2 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.17
@@ -179,12 +173,12 @@ Cohesion: 0.18
 Nodes (10): Follow-up options, Migration Plan, Phase 1, Phase 2, Phase 3, Recommendation, Risks detected, Safe implementation order (+2 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.20
-Nodes (11): buildEncounterContactChannels(), EncuentrosBottomNav(), EncuentrosPage(), formatPriceValue(), getEncounterNavToneStyles(), getInitialsFromName(), getProfileTextValue(), parsePriceValue() (+3 more)
+Cohesion: 0.18
+Nodes (12): buildEncounterContactChannels(), EncuentrosBottomNav(), EncuentrosPage(), formatPriceValue(), getContactChannelIcon(), getEncounterNavToneStyles(), getInitialsFromName(), getProfileTextValue() (+4 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.18
-Nodes (13): createDraftFromModel(), saveMyEncounterModel(), collectGalleryImages(), deepClone(), getTabSummary(), mergeGalleryContent(), ModelDashboardPage(), normalizeGallerySlides() (+5 more)
+Cohesion: 0.19
+Nodes (12): createDraftFromModel(), saveMyEncounterModel(), collectGalleryImages(), deepClone(), getTabSummary(), mergeGalleryContent(), ModelDashboardPage(), normalizeGallerySlides() (+4 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.22
@@ -221,8 +215,8 @@ Cohesion: 0.22
 Nodes (8): Boundaries, Intensity, Output, Persistence, Ponytail, Rules, The ladder, When NOT to be lazy
 
 ### Community 32 - "Community 32"
-Cohesion: 0.19
-Nodes (14): delay(), fetchCurrentProfile(), getCurrentSession(), normalizeSession(), resolveLoginIdentifier(), retrySupabaseOperation(), setMyProfileAudience(), signInWithIdentifier() (+6 more)
+Cohesion: 0.14
+Nodes (20): assertSupabase(), deleteBlogPost(), fetchBlogPosts(), fetchCurrentEntitlements(), fetchCurrentOrders(), fetchCurrentProfile(), fetchSiteContent(), getCurrentSession() (+12 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.25
@@ -245,16 +239,16 @@ Cohesion: 0.50
 Nodes (3): Boundaries, Output, Scan
 
 ### Community 38 - "Community 38"
-Cohesion: 0.13
-Nodes (26): addDays(), addMonths(), assertServerConfig(), buildSyntheticManagedEmail(), computeSubscriptionExpiry(), createOrUpdateInvoiceOrder(), createOrUpdateOrder(), ensureStripeCustomer() (+18 more)
+Cohesion: 0.12
+Nodes (27): addDays(), addMonths(), assertServerConfig(), buildSyntheticManagedEmail(), computeSubscriptionExpiry(), createOrUpdateInvoiceOrder(), createOrUpdateOrder(), ensureStripeCustomer() (+19 more)
 
 ### Community 39 - "Community 39"
 Cohesion: 0.22
 Nodes (3): buildPlans(), buildPlans(), normalizeSubscriptionTiers()
 
 ### Community 40 - "Community 40"
-Cohesion: 0.20
-Nodes (27): mergeSiteContent(), assertSupabaseAuthConfig(), buildEncounterModelContentFromRequest(), createEncounterModel(), createEncounterModelFromRequest(), createEncounterModelRequest(), deleteEncounterModel(), deleteEncounterReservationHistoryByModelSlug() (+19 more)
+Cohesion: 0.14
+Nodes (34): mergeItemsBySlug(), mergeSiteContent(), normalizeCarouselSlides(), normalizeEncounterPriceLabel(), assertSupabaseAuthConfig(), buildEncounterModelContentFromRequest(), buildEncounterModelRecordPayload(), createEncounterModel() (+26 more)
 
 ### Community 41 - "Community 41"
 Cohesion: 0.25
@@ -262,7 +256,7 @@ Nodes (10): base64UrlEncode(), buildGoogleDriveDownloadUrl(), fetchGoogleDriveMe
 
 ### Community 42 - "Community 42"
 Cohesion: 0.07
-Nodes (50): AtmosphericBackdrop(), EncounterCatalogCard(), getTopBadgeLabel(), normalizeMediaUrl(), LatestAnnouncementsSection(), ModelCTASection(), PopularCitiesSection(), PrivateExperienceSection() (+42 more)
+Nodes (51): AtmosphericBackdrop(), EncounterCatalogCard(), getTopBadgeLabel(), normalizeMediaUrl(), LatestAnnouncementsSection(), ModelCTASection(), PopularCitiesSection(), PrivateExperienceSection() (+43 more)
 
 ### Community 43 - "Community 43"
 Cohesion: 0.47
@@ -273,78 +267,62 @@ Cohesion: 0.43
 Nodes (6): EncuentrosBookingWizardModal(), formatShortDateLabel(), fetchEncuentrosBookingPricing(), fetchEncuentrosModel(), EncuentrosCitasPage(), normalizeRecordingChoice()
 
 ### Community 45 - "Community 45"
-Cohesion: 0.24
-Nodes (10): buildEncounterModelRecordPayload(), extractEncounterModelBookingPayload(), extractEncounterModelMedia(), extractEncounterModelProfilePayload(), extractEncounterModelRecordingPayload(), extractEncounterModelSocialLinks(), normalizeEncounterModelAge(), normalizeEncounterModelText() (+2 more)
+Cohesion: 0.29
+Nodes (7): extractEncounterModelBookingPayload(), extractEncounterModelMedia(), extractEncounterModelProfilePayload(), normalizeEncounterModelAge(), normalizeEncounterModelText(), normalizeEncounterModelTextList(), uniqueEncounterValues()
 
 ### Community 46 - "Community 46"
-Cohesion: 0.40
-Nodes (3): App(), resources, supportedLanguages
+Cohesion: 0.33
+Nodes (9): buildOpenWaUrl(), checkOpenWaPhone(), isOpenWaConfigured(), normalizeWhatsAppPhone(), openwaApiKey, openwaBaseUrl, openWaJson(), openwaSessionId (+1 more)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.26
-Nodes (7): AppLoader(), TelegramLoginWidget(), getRuntimeConfig(), readClientEnv(), AccessPage(), audienceOptions, normalizeAudience()
+Cohesion: 0.18
+Nodes (12): AppLoader(), TelegramLoginWidget(), getRuntimeConfig(), readClientEnv(), getWhatsappVerificationConfig(), parseJsonResponse(), requestWhatsappVerificationCode(), verifyWhatsappVerificationCode() (+4 more)
 
 ### Community 48 - "Community 48"
 Cohesion: 0.05
-Nodes (80): AccessTotalSection(), BlogTeaserSection(), CollectionCard(), CreatorHero(), HomePreviewRail(), resolveSectionHref(), HomePreviewTopBar(), LanguageSwitcher() (+72 more)
-
-### Community 49 - "Community 49"
-Cohesion: 0.67
-Nodes (3): EncuentrosLegacyBookingRedirect(), getEncounterFallbackSlug(), resolveEncounterFallbackSlug()
+Nodes (79): AccessTotalSection(), BlogTeaserSection(), CollectionCard(), CreatorHero(), HomePreviewRail(), resolveSectionHref(), HomePreviewTopBar(), LanguageSwitcher() (+71 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.18
 Nodes (17): buildBookingDays(), buildBookingTimes(), buildEncuentrosBookingPricing(), buildFutureBookingDays(), clampPercent(), formatCurrencyAmount(), formatMinutesToTime(), isEncounterRecordingEnabled() (+9 more)
 
-### Community 51 - "Community 51"
-Cohesion: 0.67
-Nodes (3): AppChrome(), AppRoutes(), withLegacyHomePath()
-
-### Community 52 - "Community 52"
-Cohesion: 0.40
-Nodes (5): assignEncounterModelOwner(), loadEncounterModelOwnerships(), normalizeEncounterModelOwnerRow(), readLocalEncounterModelOwners(), writeLocalEncounterModelOwners()
-
 ### Community 54 - "Community 54"
-Cohesion: 0.19
-Nodes (6): submitEncounterModelRequest(), INITIAL_FORM, ModelRequestPage(), ENCUENTROS_BODY_TYPE_OPTIONS, ENCUENTROS_HAIR_COLOR_OPTIONS, ENCUENTROS_HAIR_TYPE_OPTIONS
+Cohesion: 0.21
+Nodes (5): INITIAL_FORM, ModelRequestPage(), ENCUENTROS_BODY_TYPE_OPTIONS, ENCUENTROS_HAIR_COLOR_OPTIONS, ENCUENTROS_HAIR_TYPE_OPTIONS
 
 ### Community 55 - "Community 55"
 Cohesion: 0.40
 Nodes (4): Deployment Notes, Historical note, Production branch, Sanity check
-
-### Community 59 - "Community 59"
-Cohesion: 0.27
-Nodes (9): defaultBlogPosts, getBlogPostTimestamp(), isNewerBlogPost(), normalizeBlogPost(), normalizeMediaItems(), parseBlogPriceAmount(), normalizeBlogPostRow(), upsertBlogPost() (+1 more)
 
 ### Community 60 - "Community 60"
 Cohesion: 0.20
 Nodes (12): EncuentrosModelsManager(), formatBookingModeLabel(), formatBookingSummary(), formatHeightLabel(), formatStatusLabel(), getPeruCityOptions(), getSelectableAge(), ModelCard() (+4 more)
 
 ## Knowledge Gaps
-- **276 isolated node(s):** `fs`, `path`, `{ getDefaultMode, getClaudeDir, isShellSafe }`, `{ getPonytailInstructions }`, `{
+- **282 isolated node(s):** `fs`, `path`, `{ getDefaultMode, getClaudeDir, isShellSafe }`, `{ getPonytailInstructions }`, `{
   clearMode,
   isCodex,
   isCopilot,
   setMode,
   writeHookOutput,
-}` (+271 more)
+}` (+277 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useAppState()` connect `Community 48` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 9`, `Community 42`, `Community 44`, `Community 14`, `Community 47`, `Community 19`, `Community 20`, `Community 51`, `Community 54`, `Community 56`, `Community 25`, `Community 60`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
-- **Why does `mergeSiteContent()` connect `Community 40` to `Community 0`, `Community 1`, `Community 2`, `Community 39`, `Community 8`, `Community 9`, `Community 43`, `Community 45`, `Community 20`, `Community 60`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
+- **Why does `useAppState()` connect `Community 48` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 9`, `Community 42`, `Community 44`, `Community 14`, `Community 47`, `Community 49`, `Community 19`, `Community 20`, `Community 54`, `Community 25`, `Community 60`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `mergeSiteContent()` connect `Community 40` to `Community 0`, `Community 1`, `Community 32`, `Community 2`, `Community 39`, `Community 8`, `Community 9`, `Community 43`, `Community 20`, `Community 60`?**
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
 - **Why does `defaultSiteContent` connect `Community 11` to `Community 0`, `Community 1`, `Community 2`, `Community 8`, `Community 9`, `Community 42`, `Community 19`, `Community 20`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `fs`, `path`, `{ getDefaultMode, getClaudeDir, isShellSafe }` to the rest of the system?**
-  _276 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _282 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.08831908831908832 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.051106639839034206 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05443371378402107 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.07539118065433854 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05505279034690799 - nodes in this community are weakly interconnected._

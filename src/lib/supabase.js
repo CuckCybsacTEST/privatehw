@@ -459,7 +459,54 @@ export async function signInWithTelegram(telegramUser) {
   return signInWithPassword({ email, password })
 }
 
-export async function signUpWithPassword({ email, password, displayName, username, audience = 'client' }) {
+async function parseJsonResponse(response, fallbackMessage) {
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok) {
+    throw new Error(payload.error || fallbackMessage)
+  }
+
+  return payload
+}
+
+export async function getWhatsappVerificationConfig() {
+  const response = await fetch('/api/auth/whatsapp/config')
+  return parseJsonResponse(response, 'No se pudo cargar la configuracion de WhatsApp.')
+}
+
+export async function requestWhatsappVerificationCode({ phone = '' }) {
+  const response = await fetch('/api/auth/whatsapp/request-code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ phone }),
+  })
+
+  return parseJsonResponse(response, 'No se pudo enviar el codigo por WhatsApp.')
+}
+
+export async function verifyWhatsappVerificationCode({ challengeId = '', code = '' }) {
+  const response = await fetch('/api/auth/whatsapp/verify-code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ challengeId, code }),
+  })
+
+  return parseJsonResponse(response, 'No se pudo validar el codigo de WhatsApp.')
+}
+
+export async function signUpWithPassword({
+  email,
+  password,
+  displayName,
+  username,
+  audience = 'client',
+  phone = '',
+  whatsappVerified = false,
+}) {
   const client = assertSupabase()
   const { data, error } = await client.auth.signUp({
     email,
@@ -469,6 +516,8 @@ export async function signUpWithPassword({ email, password, displayName, usernam
         display_name: displayName || username || '',
         username: username || '',
         audience: audience || 'client',
+        phone: phone || '',
+        whatsapp_verified: Boolean(whatsappVerified),
       },
     },
   })

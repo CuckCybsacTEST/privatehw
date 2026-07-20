@@ -999,25 +999,28 @@ export function AppProvider({ children }) {
         name: form.displayName || form.email.split('@')[0],
         username: String(form.username || form.displayName || form.email.split('@')[0]).trim().toLowerCase(),
         email: form.email,
+        phone: String(form.phone || '').trim(),
         password: form.password,
         role: 'public',
         audience: ['client', 'model', 'visitor'].includes(String(form.audience || '').trim())
           ? String(form.audience || '').trim()
           : 'client',
+        whatsappVerified: Boolean(form.whatsappVerified),
         status: 'active',
       }
 
       setUsers((currentUsers) => [...currentUsers, nextUser])
 
       const nextSession = {
-        id: nextUser.id,
-        name: nextUser.name,
-        email: nextUser.email,
-        username: nextUser.username,
-        audience: nextUser.audience,
-        role: nextUser.role,
-        accessToken: '',
-      }
+          id: nextUser.id,
+          name: nextUser.name,
+          email: nextUser.email,
+          username: nextUser.username,
+          audience: nextUser.audience,
+          phone: nextUser.phone,
+          role: nextUser.role,
+          accessToken: '',
+        }
 
       setSession(nextSession)
       return { session: nextSession, requiresEmailConfirmation: false }
