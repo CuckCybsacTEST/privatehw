@@ -5950,6 +5950,75 @@ button {
   flex-wrap: wrap;
 }
 
+.access-method-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 4, 8, 0.72);
+  backdrop-filter: blur(18px);
+  animation: encuentros-modal-fade-in 180ms ease-out both;
+}
+
+.access-method-modal-card {
+  width: min(100%, 620px);
+  max-height: min(90vh, 840px);
+  overflow: auto;
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 184, 124, 0.16);
+  background:
+    linear-gradient(180deg, rgba(19, 11, 16, 0.99), rgba(10, 6, 9, 0.98)),
+    radial-gradient(circle at top right, rgba(255, 138, 42, 0.08), transparent 36%);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+}
+
+.access-method-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.access-method-modal-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.access-method-modal-copy h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  line-height: 1.08;
+}
+
+.access-method-modal-copy p {
+  margin: 0;
+  color: rgba(255, 231, 221, 0.72);
+  line-height: 1.5;
+}
+
+.access-method-modal-close {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0.65rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff4ef;
+  cursor: pointer;
+}
+
+.access-method-modal-body {
+  display: grid;
+  gap: 0.85rem;
+}
+
 .access-auth-buttons {
   display: grid;
   gap: 0.65rem;
