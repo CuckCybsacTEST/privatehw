@@ -4835,11 +4835,14 @@ app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
     await saveWhatsappVerificationChallenges()
 
     if (challengePurpose === 'register') {
+      const credentials = await provisionWhatsAppLoginUser(challenge.phone)
+
       res.json({
         ok: true,
         verified: true,
         purpose: 'register',
         phone: challenge.phone,
+        ...credentials,
       })
       return
     }

@@ -98,6 +98,7 @@ export function AccessPage() {
     loginMemberWithEmail,
     signUpMemberWithEmail,
     setMemberAudience,
+    updateMyProfile,
   } = useAppState()
   const navigate = useNavigate()
   const location = useLocation()
@@ -138,6 +139,8 @@ export function AccessPage() {
   const [whatsappVerifiedPhone, setWhatsappVerifiedPhone] = useState('')
   const [isSendingWhatsappCode, setIsSendingWhatsappCode] = useState(false)
   const [isVerifyingWhatsappCode, setIsVerifyingWhatsappCode] = useState(false)
+  const [registerCompletionOpen, setRegisterCompletionOpen] = useState(false)
+  const [registerCompletionError, setRegisterCompletionError] = useState('')
   const [formValues, setFormValues] = useState(() => buildFormDefaults())
 
   const normalizedWhatsappPhone = normalizePhoneInput(formValues.whatsappPhone)
@@ -202,6 +205,8 @@ export function AccessPage() {
     setWhatsappError('')
     setWhatsappVerifiedPhone('')
     setSelectedMethod('')
+    setRegisterCompletionOpen(false)
+    setRegisterCompletionError('')
   }, [accessMode])
 
   useEffect(() => {
@@ -231,11 +236,23 @@ export function AccessPage() {
       return
     }
 
+    if (accessMode === 'register' && registerCompletionOpen) {
+      return
+    }
+
     const isOauthReturn = searchParams.get('oauth') === '1'
 
     if (isOauthReturn) {
       const nextAudience = lockedAudience || normalizeAudience(searchParams.get('audience') || selectedAudience)
       const target = resolveAudienceTarget(nextAudience, redirectTarget)
+
+      if (accessMode === 'register') {
+        if (!registerCompletionOpen) {
+          openRegisterCompletion(session.username || session.name || '')
+        }
+
+        return
+      }
 
       void (async () => {
         if (session.audience !== nextAudience) {
@@ -271,6 +288,8 @@ export function AccessPage() {
     selectedAudience,
     session,
     setMemberAudience,
+    accessMode,
+    registerCompletionOpen,
   ])
 
   function resetFlowMessages() {
@@ -278,6 +297,18 @@ export function AccessPage() {
     setNotice('')
     setWhatsappError('')
     setWhatsappStatus('')
+  }
+
+  function openRegisterCompletion(username = '') {
+    setRegisterCompletionError('')
+    setRegisterCompletionOpen(true)
+    setFormValues((current) => ({
+      ...current,
+      registerUsername:
+        normalizeIdentifierInput(username) ||
+        normalizeIdentifierInput(current.registerUsername) ||
+        normalizeIdentifierInput(session?.username || ''),
+    }))
   }
 
   function updateFormField(field, value) {
@@ -299,6 +330,8 @@ export function AccessPage() {
 
   function handleModeChange(mode) {
     setAccessMode(mode)
+    setRegisterCompletionOpen(false)
+    setRegisterCompletionError('')
   }
 
   async function finalizeAccess(nextAudience = selectedAudience) {
@@ -322,6 +355,36 @@ export function AccessPage() {
       })
     } catch (nextError) {
       setError(nextError.message || 'No se pudo iniciar el acceso social.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function handleRegisterCompletion(event) {
+    event.preventDefault()
+    resetFlowMessages()
+    setRegisterCompletionError('')
+
+    const normalizedUsername = normalizeIdentifierInput(formValues.registerUsername).toLowerCase()
+
+    if (!normalizedUsername) {
+      setRegisterCompletionError('Escribe un nombre de usuario para continuar.')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await updateMyProfile({
+        name: normalizeIdentifierInput(formValues.registerDisplayName) || session?.name || normalizedUsername,
+        username: normalizedUsername,
+      })
+
+      setRegisterCompletionOpen(false)
+      setSelectedMethod('')
+      await finalizeAccess(selectedAudience)
+    } catch (nextError) {
+      setRegisterCompletionError(nextError.message || 'No se pudo completar el perfil.')
     } finally {
       setIsSubmitting(false)
     }
@@ -437,7 +500,15 @@ export function AccessPage() {
         })
 
         setWhatsappVerifiedPhone(result.phone || normalizedWhatsappPhone)
-        setWhatsappStatus('Telefono verificado. Ya puedes terminar el registro.')
+        if (result.email && result.password) {
+          await loginMemberWithEmail({
+            identifier: result.email,
+            password: result.password,
+          })
+        }
+
+        openRegisterCompletion(result.displayName || '')
+        setWhatsappStatus('Telefono verificado. Completa tu usuario para terminar el registro.')
         setSelectedMethod('')
         return
       }
@@ -891,6 +962,66 @@ export function AccessPage() {
                         </p>
                       </form>
                     ) : null}
+                  </div>
+                </div>
+              ) : null}
+
+              {registerCompletionOpen ? (
+                <div
+                  className="access-method-modal"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="access-register-completion-title"
+                  aria-describedby="access-register-completion-desc"
+                  onClick={() => setRegisterCompletionOpen(false)}
+                >
+                  <div
+                    className="access-method-modal-card"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <div className="access-method-modal-head">
+                      <div className="access-method-modal-copy">
+                        <p className="access-auth-eyebrow">Completar perfil</p>
+                        <h2 id="access-register-completion-title">Elige tu nombre de usuario</h2>
+                        <p id="access-register-completion-desc">
+                          Ya validamos tu acceso. Solo falta guardar tu nombre de usuario para terminar el registro.
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="access-method-modal-close"
+                        onClick={() => setRegisterCompletionOpen(false)}
+                        aria-label="Cerrar modal"
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+
+                    <form className="access-method-modal-body access-credentials-panel" onSubmit={(event) => void handleRegisterCompletion(event)}>
+                      <label className="access-auth-field">
+                        <span>Usuario obligatorio</span>
+                        <input
+                          type="text"
+                          autoComplete="username"
+                          value={formValues.registerUsername}
+                          onChange={(event) => updateFormField('registerUsername', event.target.value)}
+                          placeholder="tu_usuario"
+                        />
+                      </label>
+
+                      <p className="access-auth-note">
+                        No te pedimos contraseña aquí. La contraseña solo aparece en el método de registro con clave.
+                      </p>
+
+                      <button type="submit" className="hero-primary-cta" disabled={isSubmitting || !isSupabaseConfigured}>
+                        {isSubmitting ? 'Guardando...' : 'Guardar usuario y continuar'}
+                      </button>
+
+                      {registerCompletionError ? (
+                        <p className="access-auth-error">{registerCompletionError}</p>
+                      ) : null}
+                    </form>
                   </div>
                 </div>
               ) : null}

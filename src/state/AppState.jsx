@@ -1655,6 +1655,81 @@ export function AppProvider({ children }) {
     await refreshUsers()
   }
 
+  async function updateMyProfile(patch = {}) {
+    if (!session) {
+      throw new Error('No hay una sesion activa para completar el perfil.')
+    }
+
+    const normalizedUsername = String(patch.username || '').trim().toLowerCase()
+    const normalizedName = String(patch.name || '').trim()
+
+    if (!normalizedUsername) {
+      throw new Error('Debes indicar un nombre de usuario.')
+    }
+
+    if (!isSupabaseConfigured) {
+      const duplicateUsername = users.some(
+        (user) =>
+          user.id !== session.id &&
+          String(user.username || '').trim().toLowerCase() === normalizedUsername,
+      )
+
+      if (duplicateUsername) {
+        throw new Error('Ese nombre de usuario ya existe.')
+      }
+
+      const updatedUser = {
+        ...(users.find((user) => user.id === session.id) || {}),
+        id: session.id,
+        name: normalizedName || session.name || normalizedUsername,
+        username: normalizedUsername,
+        email: session.email || '',
+        role: session.role || 'public',
+        status: session.status || 'active',
+        audience: session.audience || 'client',
+      }
+
+      setUsers((currentUsers) =>
+        currentUsers.some((user) => user.id === session.id)
+          ? currentUsers.map((user) => (user.id === session.id ? updatedUser : user))
+          : [...currentUsers, updatedUser],
+      )
+
+      setSession((currentSession) =>
+        currentSession
+          ? {
+              ...currentSession,
+              name: updatedUser.name,
+              username: updatedUser.username,
+            }
+          : currentSession,
+      )
+
+      return updatedUser
+    }
+
+    const updatedProfile = await updateProfile(session.id, {
+      name: normalizedName || session.name || normalizedUsername,
+      username: normalizedUsername,
+      role: session.role || 'public',
+      audience: session.audience || 'client',
+      status: session.status || 'active',
+    })
+
+    setSession((currentSession) =>
+      currentSession
+        ? {
+            ...currentSession,
+            name: updatedProfile.display_name || normalizedName || currentSession.name,
+            username: updatedProfile.username || normalizedUsername,
+          }
+        : currentSession,
+    )
+
+    await refreshUsers()
+    return updatedProfile
+  }
+
   async function uploadManagedMedia(file, bucket, folder = 'home', onProgress, options = {}) {
     if (!isSupabaseConfigured || session?.role !== 'admin') {
       return null
@@ -2070,6 +2145,7 @@ export function AppProvider({ children }) {
       refreshUsers,
       updateManagedUser,
       updateManagedSubscription,
+      updateMyProfile,
       uploadManagedMedia,
       uploadManagedVideoMedia,
       uploadManagedMediaFromUrl,
@@ -2091,6 +2167,7 @@ export function AppProvider({ children }) {
       subscriptionGrantSet,
       setMemberAudience,
       updateManagedSubscription,
+      updateMyProfile,
     ],
   )
 
