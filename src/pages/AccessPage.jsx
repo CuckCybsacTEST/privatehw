@@ -572,7 +572,9 @@ export function AccessPage() {
                 ? 'Ya validaste tu cuenta. El siguiente paso es decidir si sigues como modelo o como cliente.'
                 : isAudienceLocked
                   ? 'Este acceso va directo al flujo de modelo. Elige un metodo y seguimos sin pasos extra.'
-                  : 'Primero eliges si vas como modelo o cliente. Despues seleccionas el metodo y completas tu acceso con usuario, correo, contrasena o WhatsApp.'}
+                  : accessMode === 'register'
+                    ? 'Primero eliges si vas como modelo o cliente. Despues registras tu acceso con un metodo social.'
+                    : 'Primero eliges si vas como modelo o cliente. Despues seleccionas el metodo y completas tu acceso con usuario, correo, contrasena o WhatsApp.'}
             </p>
           </div>
 
@@ -643,11 +645,11 @@ export function AccessPage() {
               <div className="access-auth-section">
                 <div className="access-auth-section-copy">
                   <p className="access-auth-eyebrow">
-                    {accessMode === 'register' ? 'Crear acceso' : 'Entrar al acceso'}
+                    {accessMode === 'register' ? 'Crear acceso social' : 'Entrar al acceso'}
                   </p>
                   <p className="access-auth-helper">
                     {accessMode === 'register'
-                      ? 'Usa un metodo rapido o completa el formulario sin salir de la vista.'
+                      ? 'Usa Google, WhatsApp o X para registrar sin salir de la vista.'
                       : 'Usa un metodo rapido o entra con usuario y contrasena en la misma tarjeta.'}
                   </p>
                 </div>
@@ -695,18 +697,20 @@ export function AccessPage() {
                     </span>
                   </button>
 
-                  <button
-                    className="access-auth-button access-auth-button-password"
-                    type="button"
-                    onClick={() => setSelectedMethod('password')}
-                  >
-                    <span className="access-auth-method-icon access-auth-method-icon-password" aria-hidden="true">
-                      Aa
-                    </span>
-                    <span className="access-auth-button-copy">
-                      <strong>{accessMode === 'register' ? 'Formulario de registro' : 'Usuario y contrasena'}</strong>
-                    </span>
-                  </button>
+                  {accessMode === 'login' ? (
+                    <button
+                      className="access-auth-button access-auth-button-password"
+                      type="button"
+                      onClick={() => setSelectedMethod('password')}
+                    >
+                      <span className="access-auth-method-icon access-auth-method-icon-password" aria-hidden="true">
+                        Aa
+                      </span>
+                      <span className="access-auth-button-copy">
+                        <strong>Usuario y contrasena</strong>
+                      </span>
+                    </button>
+                  ) : null}
                 </div>
 
                 <p className="access-auth-note">Toca un metodo para abrir su modal y continuar.</p>
