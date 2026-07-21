@@ -79,6 +79,7 @@ function serializeWhatsappVerificationChallenge(challenge = {}) {
     codeHash: challenge.codeHash || '',
     expiresAt: challenge.expiresAt || 0,
     createdAt: challenge.createdAt || 0,
+    purpose: challenge.purpose || 'login',
   }
 }
 
@@ -4711,6 +4712,7 @@ app.post('/api/auth/whatsapp/request-code', async (req, res) => {
     }
 
     const rawPhone = String(req.body?.phone || req.body?.whatsappPhone || '').trim()
+    const purpose = String(req.body?.purpose || 'login').trim().toLowerCase() === 'register' ? 'register' : 'login'
     const phone = normalizeWhatsAppPhone(rawPhone)
 
     if (!phone || phone.length < 8) {
@@ -4759,6 +4761,7 @@ app.post('/api/auth/whatsapp/request-code', async (req, res) => {
       codeHash,
       expiresAt,
       createdAt,
+      purpose,
     })
     await saveWhatsappVerificationChallenges()
 
@@ -4798,7 +4801,6 @@ app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
   try {
     const challengeId = String(req.body?.challengeId || '').trim()
     const code = String(req.body?.code || '').trim()
-
     if (!challengeId || !code) {
       res.status(400).json({
         error: 'Faltan datos para validar el codigo.',
@@ -4828,14 +4830,26 @@ app.post('/api/auth/whatsapp/verify-code', async (req, res) => {
       return
     }
 
-    const credentials = await provisionWhatsAppLoginUser(challenge.phone)
-
+    const challengePurpose = challenge.purpose === 'register' ? 'register' : 'login'
     whatsappVerificationChallenges.delete(challengeId)
     await saveWhatsappVerificationChallenges()
+
+    if (challengePurpose === 'register') {
+      res.json({
+        ok: true,
+        verified: true,
+        purpose: 'register',
+        phone: challenge.phone,
+      })
+      return
+    }
+
+    const credentials = await provisionWhatsAppLoginUser(challenge.phone)
 
     res.json({
       ok: true,
       verified: true,
+      purpose: 'login',
       phone: challenge.phone,
       ...credentials,
     })

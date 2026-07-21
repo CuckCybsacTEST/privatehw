@@ -459,20 +459,20 @@ export async function signInWithTelegram(telegramUser) {
   return signInWithPassword({ email, password })
 }
 
-export async function signInWithWhatsApp({ challengeId = '', code = '' }) {
+export async function verifyWhatsAppCode({ challengeId = '', code = '', purpose = 'login' }) {
   const response = await fetch('/api/auth/whatsapp/verify-code', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ challengeId, code }),
+    body: JSON.stringify({ challengeId, code, purpose }),
   })
 
-  const payload = await response.json().catch(() => ({}))
+  return parseJsonResponse(response, 'No se pudo validar el acceso por WhatsApp.')
+}
 
-  if (!response.ok) {
-    throw new Error(payload.error || 'No se pudo validar el acceso por WhatsApp.')
-  }
+export async function signInWithWhatsApp({ challengeId = '', code = '' }) {
+  const payload = await verifyWhatsAppCode({ challengeId, code, purpose: 'login' })
 
   const email = String(payload.email || '').trim()
   const password = String(payload.password || '').trim()

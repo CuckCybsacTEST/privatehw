@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AppLoader } from '../components/AppLoader'
 import { Seo } from '../components/Seo'
-import { getWhatsappVerificationConfig, requestWhatsappVerificationCode } from '../lib/supabase'
+import { getWhatsappVerificationConfig, requestWhatsappVerificationCode, verifyWhatsAppCode } from '../lib/supabase'
 import { useAppState } from '../state/AppState'
 
 function normalizeAudience(value = '') {
@@ -135,6 +135,7 @@ export function AccessPage() {
   const [whatsappChallengeId, setWhatsappChallengeId] = useState('')
   const [whatsappStatus, setWhatsappStatus] = useState('')
   const [whatsappError, setWhatsappError] = useState('')
+  const [whatsappVerifiedPhone, setWhatsappVerifiedPhone] = useState('')
   const [isSendingWhatsappCode, setIsSendingWhatsappCode] = useState(false)
   const [isVerifyingWhatsappCode, setIsVerifyingWhatsappCode] = useState(false)
   const [formValues, setFormValues] = useState(() => buildFormDefaults())
@@ -187,6 +188,7 @@ export function AccessPage() {
       setWhatsappChallengeId('')
       setWhatsappStatus('')
       setWhatsappError('')
+      setWhatsappVerifiedPhone('')
       setSelectedMethod('')
     }
   }, [session?.id])
@@ -198,6 +200,7 @@ export function AccessPage() {
     setWhatsappChallengeId('')
     setWhatsappStatus('')
     setWhatsappError('')
+    setWhatsappVerifiedPhone('')
     setSelectedMethod('')
   }, [accessMode])
 
@@ -209,6 +212,7 @@ export function AccessPage() {
       ...current,
       whatsappCode: '',
     }))
+    setWhatsappVerifiedPhone('')
   }, [normalizedWhatsappPhone])
 
   useEffect(() => {
@@ -341,7 +345,8 @@ export function AccessPage() {
           displayName: normalizeIdentifierInput(formValues.registerDisplayName) || normalizedRegisterUsername,
           audience: selectedAudience,
           phone: normalizedWhatsappPhone,
-          whatsappVerified: false,
+          whatsappVerified:
+            Boolean(normalizedWhatsappPhone) && normalizedWhatsappPhone === whatsappVerifiedPhone,
         })
 
         if (nextSession?.requiresEmailConfirmation) {
@@ -387,10 +392,18 @@ export function AccessPage() {
     setIsSendingWhatsappCode(true)
 
     try {
-      const result = await requestWhatsappVerificationCode({ phone: normalizedWhatsappPhone })
+      const result = await requestWhatsappVerificationCode({
+        phone: normalizedWhatsappPhone,
+        purpose: accessMode === 'register' ? 'register' : 'login',
+      })
       setWhatsappChallengeId(result.challengeId || '')
       updateFormField('whatsappCode', '')
-      setWhatsappStatus('Te enviamos un codigo por WhatsApp. Ingresalo para validar el acceso.')
+      setWhatsappVerifiedPhone('')
+      setWhatsappStatus(
+        accessMode === 'register'
+          ? 'Te enviamos un codigo por WhatsApp para verificar tu telefono.'
+          : 'Te enviamos un codigo por WhatsApp. Ingresalo para entrar.',
+      )
     } catch (nextError) {
       setWhatsappError(nextError.message || 'No se pudo enviar el codigo de WhatsApp.')
     } finally {
@@ -416,6 +429,19 @@ export function AccessPage() {
     setNotice('')
 
     try {
+      if (accessMode === 'register') {
+        const result = await verifyWhatsAppCode({
+          challengeId: whatsappChallengeId,
+          code: normalizeIdentifierInput(formValues.whatsappCode),
+          purpose: 'register',
+        })
+
+        setWhatsappVerifiedPhone(result.phone || normalizedWhatsappPhone)
+        setWhatsappStatus('Telefono verificado. Ya puedes terminar el registro.')
+        setSelectedMethod('')
+        return
+      }
+
       await loginMemberWithWhatsApp({
         challengeId: whatsappChallengeId,
         code: normalizeIdentifierInput(formValues.whatsappCode),
@@ -632,7 +658,9 @@ export function AccessPage() {
                       <div className="access-method-modal-copy">
                         <p className="access-auth-eyebrow">
                           {selectedMethod === 'whatsapp'
-                            ? 'WhatsApp'
+                            ? accessMode === 'register'
+                              ? 'Verificacion'
+                              : 'WhatsApp'
                             : selectedMethod === 'password'
                               ? accessMode === 'register'
                                 ? 'Registro'
@@ -649,7 +677,9 @@ export function AccessPage() {
                                 ? 'Registrar con X'
                                 : 'Entrar con X'
                               : selectedMethod === 'whatsapp'
-                                ? 'Validar telefono con WhatsApp'
+                                ? accessMode === 'register'
+                                  ? 'Verificar telefono con WhatsApp'
+                                  : 'Entrar con WhatsApp'
                                 : accessMode === 'register'
                                   ? 'Crear acceso con usuario y contrasena'
                                   : 'Entrar con usuario y contrasena'}
@@ -660,7 +690,9 @@ export function AccessPage() {
                             : selectedMethod === 'twitter'
                               ? 'Usa tu cuenta de X para continuar sin salir del flujo.'
                               : selectedMethod === 'whatsapp'
-                                ? 'Primero enviamos el codigo y luego validamos la entrada en esta misma ventana.'
+                                ? accessMode === 'register'
+                                  ? 'Verificamos tu numero antes de terminar el registro.'
+                                  : 'Te enviamos un codigo y validamos tu entrada en esta misma ventana.'
                                 : accessMode === 'register'
                                   ? 'Completa tus datos y crea el acceso sin dejar la tarjeta.'
                                   : 'Escribe tus credenciales y entra desde esta misma ventana.'}
@@ -745,19 +777,25 @@ export function AccessPage() {
                             className="hero-primary-cta"
                             onClick={() => void handleVerifyWhatsappCode()}
                             disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
-                          >
-                            {isVerifyingWhatsappCode ? 'Validando...' : 'Validar y continuar'}
-                          </button>
-                        </div>
-
-                        <p className="access-auth-note">
-                          {isWhatsappLoading
-                            ? 'Comprobando la configuracion de WhatsApp...'
-                            : isWhatsappReady
-                              ? 'WhatsApp esta listo para verificacion.'
-                              : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
-                        </p>
+                        >
+                          {isVerifyingWhatsappCode
+                            ? 'Validando...'
+                            : accessMode === 'register'
+                              ? 'Verificar teléfono'
+                              : 'Validar y continuar'}
+                        </button>
                       </div>
+
+                      <p className="access-auth-note">
+                        {isWhatsappLoading
+                          ? 'Comprobando la configuracion de WhatsApp...'
+                          : isWhatsappReady
+                            ? accessMode === 'register'
+                              ? 'WhatsApp esta listo para verificar tu numero.'
+                              : 'WhatsApp esta listo para entrar.'
+                            : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
+                      </p>
+                    </div>
                     ) : null}
 
                     {selectedMethod === 'password' ? (
@@ -808,6 +846,10 @@ export function AccessPage() {
                                 placeholder="+51 999 999 999"
                               />
                             </label>
+
+                            {normalizedWhatsappPhone && whatsappVerifiedPhone === normalizedWhatsappPhone ? (
+                              <p className="access-auth-success">Telefono verificado para este registro.</p>
+                            ) : null}
                           </>
                         ) : (
                           <label className="access-auth-field">
