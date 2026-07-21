@@ -127,6 +127,7 @@ export function AccessPage() {
 
   const [selectedAudience, setSelectedAudience] = useState(initialAudience)
   const [accessMode, setAccessMode] = useState(initialMode)
+  const [selectedMethod, setSelectedMethod] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -186,6 +187,7 @@ export function AccessPage() {
       setWhatsappChallengeId('')
       setWhatsappStatus('')
       setWhatsappError('')
+      setSelectedMethod('')
     }
   }, [session?.id])
 
@@ -196,6 +198,7 @@ export function AccessPage() {
     setWhatsappChallengeId('')
     setWhatsappStatus('')
     setWhatsappError('')
+    setSelectedMethod('')
   }, [accessMode])
 
   useEffect(() => {
@@ -559,7 +562,8 @@ export function AccessPage() {
                   <button
                     className="access-auth-button access-auth-button-whatsapp"
                     type="button"
-                    onClick={() => document.getElementById('access-whatsapp-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    onClick={() => setSelectedMethod('whatsapp')}
+                    aria-pressed={selectedMethod === 'whatsapp'}
                     disabled={isWhatsappLoading || !isSupabaseConfigured}
                   >
                     <span className="access-auth-method-icon access-auth-method-icon-whatsapp" aria-hidden="true">
@@ -598,6 +602,7 @@ export function AccessPage() {
                   </button>
                 </div>
 
+                {selectedMethod === 'whatsapp' ? (
                 <div id="access-whatsapp-card" className="access-whatsapp-panel" aria-label="Acceso por WhatsApp">
                   <div className="access-whatsapp-panel-copy">
                     <span className="access-audience-kicker">WhatsApp</span>
@@ -660,6 +665,7 @@ export function AccessPage() {
                         : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
                   </p>
                 </div>
+                ) : null}
 
                 <form
                   id="access-credentials-card"
