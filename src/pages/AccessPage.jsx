@@ -127,8 +127,6 @@ export function AccessPage() {
 
   const [selectedAudience, setSelectedAudience] = useState(initialAudience)
   const [accessMode, setAccessMode] = useState(initialMode)
-  const [selectedMethod, setSelectedMethod] = useState('')
-  const [whatsappMode, setWhatsappMode] = useState('verification')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -184,8 +182,6 @@ export function AccessPage() {
 
   useEffect(() => {
     if (session) {
-      setSelectedMethod('')
-      setWhatsappMode('verification')
       setFormValues(buildFormDefaults())
       setWhatsappChallengeId('')
       setWhatsappStatus('')
@@ -194,8 +190,6 @@ export function AccessPage() {
   }, [session?.id])
 
   useEffect(() => {
-    setSelectedMethod('')
-    setWhatsappMode('verification')
     setFormValues(buildFormDefaults())
     setError('')
     setNotice('')
@@ -420,51 +414,6 @@ export function AccessPage() {
     }
   }
 
-  async function handleWhatsappPasswordLogin(event) {
-    event.preventDefault()
-    resetFlowMessages()
-    setIsSubmitting(true)
-
-    try {
-      if (!normalizedWhatsappPasswordIdentifier || !normalizedWhatsappPassword) {
-        throw new Error('Completa telefono, usuario o correo y contrasena.')
-      }
-
-      if (accessMode === 'register') {
-        const identifierSeed = normalizedWhatsappPasswordIdentifier
-        const looksLikeEmail = identifierSeed.includes('@')
-        const looksLikePhone = /^\d+$/.test(normalizePhoneInput(identifierSeed))
-        const derivedPhone = looksLikePhone ? normalizePhoneInput(identifierSeed) : normalizedWhatsappPhone
-        const derivedEmail = looksLikeEmail
-          ? identifierSeed
-          : derivedPhone
-            ? `whatsapp_${derivedPhone}@whatsapp.local`
-            : `whatsapp_${identifierSeed.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '') || 'user'}@whatsapp.local`
-
-        await signUpMemberWithEmail({
-          email: derivedEmail,
-          password: normalizedWhatsappPassword,
-          username: looksLikeEmail ? identifierSeed.split('@')[0] : identifierSeed,
-          displayName: normalizeIdentifierInput(formValues.registerDisplayName) || identifierSeed,
-          audience: selectedAudience,
-          phone: derivedPhone,
-          whatsappVerified: false,
-        })
-      } else {
-        await loginMemberWithEmail({
-          identifier: normalizedWhatsappPasswordIdentifier,
-          password: normalizedWhatsappPassword,
-        })
-      }
-
-      await finalizeAccess(selectedAudience)
-    } catch (nextError) {
-      setWhatsappError(nextError.message || 'No se pudo entrar con WhatsApp y contrasena.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   const isWhatsappReady = whatsappVerificationEnabled === true
   const isWhatsappLoading = whatsappVerificationEnabled === null
   const activeRedirect = resolveAudienceTarget(selectedAudience, redirectTarget)
@@ -494,43 +443,39 @@ export function AccessPage() {
 
           <div className="access-auth-copy">
             <p className="access-auth-eyebrow">
-              {session ? 'Acceso activo' : accessMode === 'register' ? 'Crear cuenta' : 'Entrar'}
+              {session ? 'Acceso activo' : isAudienceLocked ? 'Acceso de modelo' : accessMode === 'register' ? 'Crear cuenta' : 'Entrar'}
             </p>
             <h1>
               {session
                 ? 'Ahora elige tu panel'
-                : accessMode === 'register'
-                  ? 'Crea tu acceso y elige tu panel'
-                  : 'Entra a tu cuenta y elige tu panel'}
+                : isAudienceLocked
+                  ? accessMode === 'register'
+                    ? 'Crea tu acceso de modelo'
+                    : 'Entra a tu acceso de modelo'
+                  : accessMode === 'register'
+                    ? 'Crea tu acceso y elige tu panel'
+                    : 'Entra a tu cuenta y elige tu panel'}
             </h1>
             <p>
               {session
                 ? 'Ya validaste tu cuenta. El siguiente paso es decidir si sigues como modelo o como cliente.'
-                : 'Primero eliges si vas como modelo o cliente. Despues seleccionas el metodo y completas tu acceso con usuario, correo, contrasena o WhatsApp.'}
+                : isAudienceLocked
+                  ? 'Este acceso va directo al flujo de modelo. Elige un metodo y seguimos sin pasos extra.'
+                  : 'Primero eliges si vas como modelo o cliente. Despues seleccionas el metodo y completas tu acceso con usuario, correo, contrasena o WhatsApp.'}
             </p>
           </div>
 
           <div className="access-auth-stack">
             <div className="access-auth-authbox">
-              <div className="access-auth-section">
-                <div className="access-auth-section-copy">
-                  <p className="access-auth-eyebrow">{isAudienceLocked ? 'Ruta privada' : 'Tipo de cuenta'}</p>
-                  <p className="access-auth-helper">
-                    {isAudienceLocked
-                      ? lockedAudience === 'model'
-                        ? 'Este acceso queda reservado para modelos y te lleva directo al flujo de solicitud o panel.'
-                        : 'Este acceso queda reservado para clientes y te lleva directo a su panel privado.'
-                      : 'Este selector va primero para que el siguiente paso ya sepa a que panel te vamos a llevar.'}
-                  </p>
-                </div>
-
-                {isAudienceLocked ? (
-                  <div className="access-auth-tabs" aria-live="polite">
-                    <button type="button" className="access-auth-tab is-active" disabled>
-                      {lockedAudience === 'model' ? 'Acceso de modelo' : 'Acceso de cliente'}
-                    </button>
+              {!isAudienceLocked ? (
+                <div className="access-auth-section">
+                  <div className="access-auth-section-copy">
+                    <p className="access-auth-eyebrow">Tipo de cuenta</p>
+                    <p className="access-auth-helper">
+                      Este selector ya deja listo el destino antes de elegir el metodo.
+                    </p>
                   </div>
-                ) : (
+
                   <div className="access-auth-tabs" role="tablist" aria-label="Tipo de cuenta">
                     <button
                       type="button"
@@ -551,14 +496,14 @@ export function AccessPage() {
                       Cliente
                     </button>
                   </div>
-                )}
-              </div>
+                </div>
+              ) : null}
 
               <div className="access-auth-section">
                 <div className="access-auth-section-copy">
                   <p className="access-auth-eyebrow">Modo</p>
                   <p className="access-auth-helper">
-                    Decide si vas a entrar con una cuenta existente o si vas a crear una nueva.
+                    Elige si vas a entrar con una cuenta existente o crear una nueva.
                   </p>
                 </div>
 
@@ -586,17 +531,19 @@ export function AccessPage() {
 
               <div className="access-auth-section">
                 <div className="access-auth-section-copy">
-                  <p className="access-auth-eyebrow">Metodo de acceso</p>
+                  <p className="access-auth-eyebrow">
+                    {accessMode === 'register' ? 'Crear acceso' : 'Entrar al acceso'}
+                  </p>
                   <p className="access-auth-helper">
                     {accessMode === 'register'
-                      ? 'Elige como quieres crear la cuenta.'
-                      : 'Elige como quieres entrar a tu cuenta.'}
+                      ? 'Usa un metodo rapido o completa el formulario sin salir de la vista.'
+                      : 'Usa un metodo rapido o entra con usuario y contrasena en la misma tarjeta.'}
                   </p>
                 </div>
 
-                <div className="access-auth-method-grid" role="group" aria-label="Metodos de acceso">
+                <div className="access-auth-buttons" role="group" aria-label={accessMode === 'register' ? 'Metodos para registrar' : 'Metodos para entrar'}>
                   <button
-                    className="access-auth-method-card access-auth-method-card-google"
+                    className="access-auth-button access-auth-button-google"
                     type="button"
                     onClick={() => void handleOAuthLogin('google')}
                     disabled={isSubmitting || !isSupabaseConfigured}
@@ -604,25 +551,27 @@ export function AccessPage() {
                     <span className="access-auth-method-icon" aria-hidden="true">
                       <FcGoogle />
                     </span>
-                    <strong>{accessMode === 'register' ? 'Continuar con Google' : 'Entrar con Google'}</strong>
-                    <p>Accede con tu cuenta de Google y sigue con el panel que elegiste.</p>
+                    <span className="access-auth-button-copy">
+                      <strong>{accessMode === 'register' ? 'Registrar con Google' : 'Entrar con Google'}</strong>
+                    </span>
                   </button>
 
                   <button
-                    className="access-auth-method-card access-auth-method-card-whatsapp"
+                    className="access-auth-button access-auth-button-whatsapp"
                     type="button"
-                    onClick={() => setSelectedMethod('whatsapp')}
-                    disabled={isSubmitting || isWhatsappLoading || !isSupabaseConfigured}
+                    onClick={() => document.getElementById('access-whatsapp-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    disabled={isWhatsappLoading || !isSupabaseConfigured}
                   >
                     <span className="access-auth-method-icon access-auth-method-icon-whatsapp" aria-hidden="true">
                       <BiLogoWhatsapp />
                     </span>
-                    <strong>WhatsApp</strong>
-                    <p>Verificacion por codigo o acceso con contrasena usando tu telefono.</p>
+                    <span className="access-auth-button-copy">
+                      <strong>{accessMode === 'register' ? 'Registrar con WhatsApp' : 'Entrar con WhatsApp'}</strong>
+                    </span>
                   </button>
 
                   <button
-                    className="access-auth-method-card access-auth-method-card-x"
+                    className="access-auth-button access-auth-button-x"
                     type="button"
                     onClick={() => void handleOAuthLogin('twitter')}
                     disabled={isSubmitting || !isSupabaseConfigured}
@@ -630,155 +579,93 @@ export function AccessPage() {
                     <span className="access-auth-method-icon access-auth-method-icon-x" aria-hidden="true">
                       <AiFillX />
                     </span>
-                    <strong>{accessMode === 'register' ? 'Continuar con X' : 'Entrar con X'}</strong>
-                    <p>Usa tu cuenta social y despues afinamos el panel correcto.</p>
+                    <span className="access-auth-button-copy">
+                      <strong>{accessMode === 'register' ? 'Registrar con X' : 'Entrar con X'}</strong>
+                    </span>
                   </button>
 
                   <button
-                    className="access-auth-method-card access-auth-method-card-password"
+                    className="access-auth-button access-auth-button-password"
                     type="button"
-                    onClick={() => setSelectedMethod('password')}
+                    onClick={() => document.getElementById('access-credentials-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                   >
                     <span className="access-auth-method-icon access-auth-method-icon-password" aria-hidden="true">
                       Aa
                     </span>
-                    <strong>Usuario y contrasena</strong>
-                    <p>{accessMode === 'register' ? 'Crea tu cuenta con tus propias credenciales.' : 'Entra con tu usuario, correo o telefono y tu contrasena.'}</p>
+                    <span className="access-auth-button-copy">
+                      <strong>{accessMode === 'register' ? 'Formulario de registro' : 'Usuario y contrasena'}</strong>
+                    </span>
                   </button>
                 </div>
 
-                {selectedMethod === 'whatsapp' ? (
-                  <div className="access-whatsapp-panel" aria-label="Acceso por WhatsApp">
-                    <div className="access-auth-tabs access-auth-tabs-compact" role="tablist" aria-label="Modo WhatsApp">
-                      <button
-                        type="button"
-                        className={`access-auth-tab ${whatsappMode === 'verification' ? 'is-active' : ''}`}
-                        role="tab"
-                        aria-selected={whatsappMode === 'verification'}
-                        onClick={() => setWhatsappMode('verification')}
-                      >
-                        Verificacion
-                      </button>
-                      <button
-                        type="button"
-                        className={`access-auth-tab ${whatsappMode === 'password' ? 'is-active' : ''}`}
-                        role="tab"
-                        aria-selected={whatsappMode === 'password'}
-                        onClick={() => setWhatsappMode('password')}
-                      >
-                        Contrasena
-                      </button>
-                    </div>
-
-                    {whatsappMode === 'verification' ? (
-                      <div className="access-whatsapp-panel-fields">
-                        <div className="access-whatsapp-panel-copy">
-                          <span className="access-audience-kicker">WhatsApp</span>
-                          <strong>Valida tu telefono con un codigo</strong>
-                          <p>
-                            Te enviamos un codigo por WhatsApp. Cuando lo ingreses, tu acceso queda listo y
-                            luego te llevamos al panel que elegiste.
-                          </p>
-                        </div>
-
-                        <label className="access-auth-field">
-                          <span>Telefono WhatsApp</span>
-                          <input
-                            type="tel"
-                            autoComplete="tel"
-                            inputMode="tel"
-                            value={formValues.whatsappPhone}
-                            onChange={(event) => updateFormField('whatsappPhone', event.target.value)}
-                            placeholder="+51 999 999 999"
-                          />
-                        </label>
-
-                        <div className="access-whatsapp-panel-actions">
-                          <button
-                            type="button"
-                            className="hero-secondary-cta"
-                            onClick={() => void handleSendWhatsappCode()}
-                            disabled={isSendingWhatsappCode || !normalizedWhatsappPhone || !isWhatsappReady}
-                          >
-                            {isSendingWhatsappCode ? 'Enviando codigo...' : 'Enviar codigo'}
-                          </button>
-
-                          <label className="access-auth-field access-whatsapp-code-field">
-                            <span>Codigo WhatsApp</span>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              autoComplete="one-time-code"
-                              value={formValues.whatsappCode}
-                              onChange={(event) => updateFormField('whatsappCode', event.target.value)}
-                              placeholder="123456"
-                              disabled={!whatsappChallengeId}
-                            />
-                          </label>
-
-                          <button
-                            type="button"
-                            className="hero-primary-cta"
-                            onClick={() => void handleVerifyWhatsappCode()}
-                            disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
-                          >
-                            {isVerifyingWhatsappCode ? 'Validando...' : 'Validar y entrar'}
-                          </button>
-                        </div>
-
-                        <p className="access-auth-note">
-                          {isWhatsappLoading
-                            ? 'Comprobando la configuracion de WhatsApp...'
-                            : isWhatsappReady
-                              ? 'WhatsApp esta listo para verificacion.'
-                              : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
-                        </p>
-                      </div>
-                    ) : (
-                      <form className="access-whatsapp-panel-fields" onSubmit={(event) => void handleWhatsappPasswordLogin(event)}>
-                        <div className="access-whatsapp-panel-copy">
-                          <span className="access-audience-kicker">WhatsApp</span>
-                          <strong>Entra con tu telefono y contrasena</strong>
-                          <p>
-                            Este modo usa tu telefono, usuario o correo y tu propia contrasena. Si prefieres,
-                            puedes volver a verificacion en la pestaña anterior.
-                          </p>
-                        </div>
-
-                        <label className="access-auth-field">
-                          <span>Telefono, usuario o correo</span>
-                          <input
-                            type="text"
-                            autoComplete="username"
-                            value={formValues.whatsappPasswordIdentifier}
-                            onChange={(event) =>
-                              updateFormField('whatsappPasswordIdentifier', event.target.value)
-                            }
-                            placeholder="maria, maria@email.com o 51999111222"
-                          />
-                        </label>
-
-                        <label className="access-auth-field">
-                          <span>Contrasena</span>
-                          <input
-                            type="password"
-                            autoComplete="current-password"
-                            value={formValues.whatsappPassword}
-                            onChange={(event) => updateFormField('whatsappPassword', event.target.value)}
-                            placeholder="Tu contrasena"
-                          />
-                        </label>
-
-                        <button type="submit" className="hero-primary-cta" disabled={isSubmitting || !isSupabaseConfigured}>
-                          {isSubmitting ? 'Entrando...' : accessMode === 'register' ? 'Crear acceso' : 'Entrar'}
-                        </button>
-                      </form>
-                    )}
+                <div id="access-whatsapp-card" className="access-whatsapp-panel" aria-label="Acceso por WhatsApp">
+                  <div className="access-whatsapp-panel-copy">
+                    <span className="access-audience-kicker">WhatsApp</span>
+                    <strong>Valida tu telefono con un codigo</strong>
+                    <p>
+                      Te enviamos un codigo por WhatsApp y despues te llevamos al destino elegido sin cambiar de pantalla.
+                    </p>
                   </div>
-                ) : null}
 
-                {selectedMethod === 'password' ? (
-                  <form className="access-credentials-panel" onSubmit={(event) => void handleSubmitPasswordAccess(event)}>
+                  <label className="access-auth-field">
+                    <span>Telefono WhatsApp</span>
+                    <input
+                      type="tel"
+                      autoComplete="tel"
+                      inputMode="tel"
+                      value={formValues.whatsappPhone}
+                      onChange={(event) => updateFormField('whatsappPhone', event.target.value)}
+                      placeholder="+51 999 999 999"
+                    />
+                  </label>
+
+                  <div className="access-whatsapp-panel-actions">
+                    <button
+                      type="button"
+                      className="hero-secondary-cta"
+                      onClick={() => void handleSendWhatsappCode()}
+                      disabled={isSendingWhatsappCode || !normalizedWhatsappPhone || !isWhatsappReady}
+                    >
+                      {isSendingWhatsappCode ? 'Enviando codigo...' : 'Enviar codigo'}
+                    </button>
+
+                    <label className="access-auth-field access-whatsapp-code-field">
+                      <span>Codigo WhatsApp</span>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        value={formValues.whatsappCode}
+                        onChange={(event) => updateFormField('whatsappCode', event.target.value)}
+                        placeholder="123456"
+                        disabled={!whatsappChallengeId}
+                      />
+                    </label>
+
+                    <button
+                      type="button"
+                      className="hero-primary-cta"
+                      onClick={() => void handleVerifyWhatsappCode()}
+                      disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
+                    >
+                      {isVerifyingWhatsappCode ? 'Validando...' : 'Validar y continuar'}
+                    </button>
+                  </div>
+
+                  <p className="access-auth-note">
+                    {isWhatsappLoading
+                      ? 'Comprobando la configuracion de WhatsApp...'
+                      : isWhatsappReady
+                        ? 'WhatsApp esta listo para verificacion.'
+                        : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
+                  </p>
+                </div>
+
+                <form
+                  id="access-credentials-card"
+                  className="access-credentials-panel"
+                  onSubmit={(event) => void handleSubmitPasswordAccess(event)}
+                >
                     <div className="access-whatsapp-panel-copy">
                       <span className="access-audience-kicker">
                         {accessMode === 'register' ? 'Registro' : 'Acceso'}
@@ -884,24 +771,14 @@ export function AccessPage() {
                         ? 'Despues de crear la cuenta, te llevamos al panel elegido arriba.'
                         : 'Este acceso acepta usuario, correo y telefono porque ya tenemos perfiles con identificador propio.'}
                     </p>
-                  </form>
-                ) : null}
+                </form>
 
                 <p className="access-auth-note">
-                  {selectedMethod
-                    ? `El destino final ahora apunta a ${activeRedirect}.`
-                    : 'Selecciona un metodo para continuar.'}
+                  Tu destino final es {activeRedirect}.
                 </p>
               </div>
 
               <div className="access-auth-mini-actions">
-                <button
-                  type="button"
-                  className="hero-secondary-cta"
-                  onClick={() => setSelectedMethod('')}
-                >
-                  Limpiar metodo
-                </button>
                 <button type="button" className="video-preview-link" onClick={() => navigate('/')}>
                   Volver al inicio
                 </button>
@@ -970,3 +847,4 @@ export function AccessPage() {
     </main>
   )
 }
+

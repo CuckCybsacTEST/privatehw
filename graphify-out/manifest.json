@@ -20,13 +20,13 @@
     "semantic_hash": ""
   },
   "server/index.js": {
-    "mtime": 1784586250.8837018,
-    "ast_hash": "ef1c67562d14ab614870b29365d1b443",
+    "mtime": 1784588629.1392875,
+    "ast_hash": "d49b771d6789b3d0b06a0f1843697f7c",
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1783977838.8718219,
-    "ast_hash": "75f128d28cc45ec92b9b3dc396b4ad11",
+    "mtime": 1784667531.8921032,
+    "ast_hash": "8bf0cac1e0b12176ecf9a690a7f9ee8a",
     "semantic_hash": ""
   },
   "src/components/AccessPricingCard.jsx": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "src/pages/AccessPage.jsx": {
-    "mtime": 1784586766.936245,
-    "ast_hash": "8a4dc67d38247369c7b7ec272654773d",
+    "mtime": 1784668895.412546,
+    "ast_hash": "c8080878b2bb49cfe29e1833f3ba7d99",
     "semantic_hash": ""
   },
   "src/pages/AdminDashboardPage.jsx": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/state/AppState.jsx": {
-    "mtime": 1784586270.9752114,
-    "ast_hash": "348162ca90972578c442255ccedde6af",
+    "mtime": 1784588613.5726457,
+    "ast_hash": "5a3e3d43ea564e6a81ebbde90fbc662b",
     "semantic_hash": ""
   },
   "src/utils/encuentrosBooking.js": {
@@ -690,7 +690,7 @@
     "semantic_hash": ""
   },
   "public/robots.txt": {
-    "mtime": 1784586780.9688582,
+    "mtime": 1784668902.4395244,
     "ast_hash": "795afc542def1fa059fa1b118f7ce8da",
     "semantic_hash": ""
   },
@@ -785,8 +785,8 @@
     "semantic_hash": ""
   },
   "src/pages/ModelDashboardPage.jsx": {
-    "mtime": 1783977001.35961,
-    "ast_hash": "ae847c4194dd294ccfc0dd580aeae6fc",
+    "mtime": 1784667529.0567772,
+    "ast_hash": "fe233fdedc1ed2f02d8a9249c28c5f50",
     "semantic_hash": ""
   },
   "supabase/migrations/20260708010000_create_encuentros_model_owners.sql": {
@@ -810,8 +810,8 @@
     "semantic_hash": ""
   },
   "src/pages/ModelRequestPage.jsx": {
-    "mtime": 1783976996.600215,
-    "ast_hash": "66174ff2cf1c1c34d4c841585b3a21c6",
+    "mtime": 1784667526.15048,
+    "ast_hash": "723b3daf861276bbe4f43959d0be9496",
     "semantic_hash": ""
   },
   ".tmp-registro-desktop.png": {
@@ -842,6 +842,4901 @@
   "server/openwa.js": {
     "mtime": 1784585257.2119043,
     "ast_hash": "49fc8b20b9d01ff70ca34576d37d1237",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/eslint.config.js": {
+    "mtime": 1784587014.174354,
+    "ast_hash": "e2ec593167226aba1f6d73e463cf705c",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/package.json": {
+    "mtime": 1784587014.1753523,
+    "ast_hash": "2ca1a43fee74ec885b45c90d6a867dbf",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/scripts/check-i18n-parity.mjs": {
+    "mtime": 1784587014.176353,
+    "ast_hash": "af147f678eb3c8257140b7892cd166a1",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/App.tsx": {
+    "mtime": 1784587014.1783888,
+    "ast_hash": "0374d0dad2d3773121a4a4563c351e97",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/CustomSelect.tsx": {
+    "mtime": 1784587014.1803935,
+    "ast_hash": "dba7013b0d663ba706c069b93f8ba0cd",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/DashboardCharts.tsx": {
+    "mtime": 1784587014.1803935,
+    "ast_hash": "c94930a9be778ef07b038b13a91a1088",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/ErrorBoundary.tsx": {
+    "mtime": 1784587014.1803935,
+    "ast_hash": "958f95019c9546e2e91627aa5b01ef0e",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/FilterBuilder.tsx": {
+    "mtime": 1784587014.1829114,
+    "ast_hash": "12a97689e382534e0737aca071b291e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/GithubIcon.tsx": {
+    "mtime": 1784587014.1829114,
+    "ast_hash": "16b02c9b1220a43bf252034a553b0cb2",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/GlobalSearch.tsx": {
+    "mtime": 1784587014.1834533,
+    "ast_hash": "f35531e20c363ae400f6f2cc60291e70",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/Layout.tsx": {
+    "mtime": 1784587014.1834533,
+    "ast_hash": "6f6bb79796ae6841dd7b36a2a8d626fa",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/Modal.tsx": {
+    "mtime": 1784587014.1834533,
+    "ast_hash": "cdf89457df453eaac9593bf228b1e7fa",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/PageHeader.tsx": {
+    "mtime": 1784587014.1855242,
+    "ast_hash": "2f399c50109a1d3342904f800022035b",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/PluginInstances.tsx": {
+    "mtime": 1784587014.1861525,
+    "ast_hash": "35d8824a40bebeef50aad924c501de78",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/Toast.tsx": {
+    "mtime": 1784587014.1871817,
+    "ast_hash": "9d7dccaa1eaa2c767afe8c64b0a8fded",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/chats/MediaLightbox.tsx": {
+    "mtime": 1784587014.1877034,
+    "ast_hash": "c146028a96858e611642b35f5de9c2a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/components/chats/MessageBody.tsx": {
+    "mtime": 1784587014.1877034,
+    "ast_hash": "fe2924de59a2af62382b039e48992587",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/queries.ts": {
+    "mtime": 1784587014.188225,
+    "ast_hash": "d62bbef8258769e2b9a46c3d3eba7878",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useChatMessages.ts": {
+    "mtime": 1784587014.1887488,
+    "ast_hash": "d36571f693ae0dfe49c0c421b1613923",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useChatScrollPosition.test.ts": {
+    "mtime": 1784587014.1887488,
+    "ast_hash": "34eee47d51e9f08818b5505161408372",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useChatScrollPosition.ts": {
+    "mtime": 1784587014.189269,
+    "ast_hash": "2be8c1d09db4270a9a0c0590e3c95380",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useDocumentTitle.ts": {
+    "mtime": 1784587014.189269,
+    "ast_hash": "c9ad10fbfaa0ddc54c6bc5712e9f03d7",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useProfilePicture.ts": {
+    "mtime": 1784587014.1903155,
+    "ast_hash": "2d7ae51915efb7f90a4d7fe135565ac0",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useProfilePictures.ts": {
+    "mtime": 1784587014.1903155,
+    "ast_hash": "3c2b4217a068b0a12f24a3ac3930420d",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useResolvedPhone.ts": {
+    "mtime": 1784587014.1908019,
+    "ast_hash": "db3aee0b0cb43bd43db573000acb0426",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useRole.tsx": {
+    "mtime": 1784587014.1916878,
+    "ast_hash": "822857ee6ed0babe0f73f5a5446f2405",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useTheme.ts": {
+    "mtime": 1784587014.1923072,
+    "ast_hash": "186114bf03b041b6a9fde7c99bd8f846",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/hooks/useWebSocket.ts": {
+    "mtime": 1784587014.192913,
+    "ast_hash": "559eb1b50ff03c698020af2352669b80",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/index.ts": {
+    "mtime": 1784587014.193469,
+    "ast_hash": "eaa9e13f8924eabb025cd28882a0aa20",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/ar.json": {
+    "mtime": 1784587014.1939924,
+    "ast_hash": "02fd26672d28ca3761aa44c0d4786bf8",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/en.json": {
+    "mtime": 1784587014.1945236,
+    "ast_hash": "d14c5cd88700d9155cf250aed24f2cc6",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/es.json": {
+    "mtime": 1784587014.195054,
+    "ast_hash": "bd2fb7b38339bf72f86752b9ce7992ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/fr.json": {
+    "mtime": 1784587014.195572,
+    "ast_hash": "1f5f29194609be0a39080dbae045f5c9",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/he.json": {
+    "mtime": 1784587014.196091,
+    "ast_hash": "79d4940c8b4144bc47fa541a1e6754e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/it.json": {
+    "mtime": 1784587014.1966133,
+    "ast_hash": "b35b6e5a07dfa0b4a2481d9f14e1b431",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/ko.json": {
+    "mtime": 1784587014.197134,
+    "ast_hash": "e0cf076226915d7c020d868fae888354",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/pt-BR.json": {
+    "mtime": 1784587014.1976492,
+    "ast_hash": "bdee222e0bb6a0c0e3ead14a6a3f8226",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/te.json": {
+    "mtime": 1784587014.1976492,
+    "ast_hash": "a90a4db1a96a674f8f37bff0b1f34eb6",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/zh-CN.json": {
+    "mtime": 1784587014.1976492,
+    "ast_hash": "e89e8a81efd43e6b92eb228c0976f715",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/i18n/locales/zh-HK.json": {
+    "mtime": 1784587014.1976492,
+    "ast_hash": "7cb30facfb49881258e35a1eaa9cf5b1",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/main.tsx": {
+    "mtime": 1784587014.199654,
+    "ast_hash": "a2d15a51ed95e36605b98b7d74fbbf21",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/ApiKeys.tsx": {
+    "mtime": 1784587014.199654,
+    "ast_hash": "db7231964e6d4de592bc6e07e95bbe68",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Chats.tsx": {
+    "mtime": 1784587014.2016613,
+    "ast_hash": "0039be437005059e83f917d5463b3ad9",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Dashboard.tsx": {
+    "mtime": 1784587014.2016613,
+    "ast_hash": "5418b4147817afbbe8da1e796ce27c98",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Infrastructure.tsx": {
+    "mtime": 1784587014.2036676,
+    "ast_hash": "447875f7bbc2df3579c4b5faec7b816e",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Login.tsx": {
+    "mtime": 1784587014.2036676,
+    "ast_hash": "d56efc5d0ec9406b15f95bfe3025c988",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Logs.tsx": {
+    "mtime": 1784587014.2056727,
+    "ast_hash": "65f8e855814f8ea5bbd9f668e62d1026",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/MessageTester.tsx": {
+    "mtime": 1784587014.206679,
+    "ast_hash": "e23d266d4c8e1f6593633e1bdae006f8",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Plugins.tsx": {
+    "mtime": 1784587014.2081215,
+    "ast_hash": "a04aacdc479c209d7bd833ffdd131506",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Sessions.tsx": {
+    "mtime": 1784587014.2091208,
+    "ast_hash": "0a1e81030deabf42e9df8fbba13dc34c",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Templates.tsx": {
+    "mtime": 1784587014.2091208,
+    "ast_hash": "be4e74f10619bc5e723abc0dd380e50b",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/pages/Webhooks.tsx": {
+    "mtime": 1784587014.2101207,
+    "ast_hash": "9d4e8a3a3cefc3c9248ffc2f66f81fa2",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/services/api.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "4e153bd82efbbc2518645ad2e43de3e5",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/styles.scope.test.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "54a35e0afe6738e57546a8e74bbd4515",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/types/role.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "29bcaee49079db2e367aa4dfa2e9f5ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/bulkRecipients.test.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "8cdb133dd5c3e9473ce0dc3753497f54",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/bulkRecipients.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "26122b7e6e72b19bb33fa7083d4c2c70",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/chatMessages.test.ts": {
+    "mtime": 1784587014.2111208,
+    "ast_hash": "5fb54264f4d555fa08c696eb88aa42e9",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/chatMessages.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "6bd2c63e7c87dc6523a6e5535080e2f3",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/chunkReload.test.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "f6e9744a60ac4e8722237857c68492a8",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/chunkReload.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "ce4e9a22c230dd13d1359f1d4cf1abc0",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/clipboard.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "b696d323b2c742d8819e0ced0b099c6d",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/fetchAllPages.test.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "60f589c0a8944595e3a98ff04daa85b8",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/fetchAllPages.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "58d6c329e3ddab735698f934017951a1",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/formatPhone.test.ts": {
+    "mtime": 1784587014.2131746,
+    "ast_hash": "73d0eabeca2e37d8bd67ea191f7aef34",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/formatPhone.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "3171530f5bc73faeecc128e742e49a3b",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/instanceForm.test.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "4cb6f93984cdd3af47de371b9d08e355",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/instanceForm.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "fa9337b6eac0ab8348369db0c84afb38",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/lazyWithRetry.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "7b155fbf25115296147d1da14e98c594",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/localizePlugin.test.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "aa0d5ede615b5d1c33f23bb4f5f7e50b",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/localizePlugin.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "796ff75f8a97f2e6dadd51bdf9eb105d",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/messageFormatter.test.ts": {
+    "mtime": 1784587014.2151802,
+    "ast_hash": "3c1832a7e2ca9a1faf7789eff7e7b381",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/messageFormatter.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "b3c2175fd999e4463eb1df06f93e3b74",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/pageWindow.test.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "ff19a79ee7fd5b1b1e0ca560d5cc1ef4",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/pageWindow.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "12cbe01fa02dc88ec2f8939dbb8175dc",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/pluginConfigForm.test.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "a317a659df8f7bb435f23d85de9c4cbc",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/pluginConfigForm.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "aec763e556876e325f080f08042f0253",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/reconnectState.test.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "2b3b10d71766888f95e61e544d2901a8",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/reconnectState.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "f68abdf1a18195bbf2faeac1c8cc8f1c",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/scrollDecision.test.ts": {
+    "mtime": 1784587014.2171862,
+    "ast_hash": "f3df03719ec37ed05fb461cb5db4f44d",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/scrollDecision.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "e09a64776a1171a254f633aba15b1331",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/search-highlight.test.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "8ca0fd728a535578a8a6a71245687380",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/search-highlight.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "b14af3b67486ca2fad0d378b4d0bec09",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/urlSecurity.test.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "b5e3ba7bb9f819da1b3c080ffea0e5ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/utils/urlSecurity.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "e226a2e568bc8b12e4e44f80454afd58",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/vite-env.d.ts": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "8cd881622a1e01b9a8808bc23bf51e41",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/tsconfig.app.json": {
+    "mtime": 1784587014.2191908,
+    "ast_hash": "28215b64baf1cb378c479f7d2889c2a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/tsconfig.json": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "852c3a5df14a4b43ac28e9554ebedf4a",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/tsconfig.node.json": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "c5c9cdf8e005158c0b05c527b5634360",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/tsconfig.test.json": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "ee56bb32dcb3675efcb00e20da96300b",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/vite.config.ts": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "07dffd08fb101b3bea5d2b5164d7f23f",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/plugins/registry.json": {
+    "mtime": 1784587266.7003915,
+    "ast_hash": "d68c5e8bd179267d97b58564b00984da",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/CertificateRevocation/10660/_metadata/verified_contents.json": {
+    "mtime": 1784549050.0,
+    "ast_hash": "76b953e0d14eab7e470c186d387d28eb",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/CertificateRevocation/10660/manifest.json": {
+    "mtime": 1784549050.0,
+    "ast_hash": "23cfc759cfbdbe7fb44b8ce1fdfd3b09",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/Subresource Filter/Unindexed Rules/9.69.0/_metadata/verified_contents.json": {
+    "mtime": 1781171780.0,
+    "ast_hash": "f073d0e0c70f4675a5b0df32d1ae4b84",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/Subresource Filter/Unindexed Rules/9.69.0/manifest.json": {
+    "mtime": 1781171780.0,
+    "ast_hash": "480c5cfb83a0b5132101868428f0b2ec",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/component_crx_cache/metadata.json": {
+    "mtime": 1784587372.8530183,
+    "ast_hash": "352d9894df34aa9b2bcac46b48df12a5",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/extensions_crx_cache/metadata.json": {
+    "mtime": 1784587302.1539283,
+    "ast_hash": "2aa9e263ee3796d9ce358460a2451b4c",
+    "semantic_hash": ""
+  },
+  "OpenWA/docker-entrypoint.sh": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "eed93e3ce18761c503eea43e365a0013",
+    "semantic_hash": ""
+  },
+  "OpenWA/eslint.config.mjs": {
+    "mtime": 1784587014.25778,
+    "ast_hash": "90ea2f6acdd24b1eef2bb501c66d87f8",
+    "semantic_hash": ""
+  },
+  "OpenWA/nest-cli.json": {
+    "mtime": 1784587014.25778,
+    "ast_hash": "fa439650fa28a1a7aa8c2b6d81c8cc20",
+    "semantic_hash": ""
+  },
+  "OpenWA/openapi.json": {
+    "mtime": 1784587014.2597806,
+    "ast_hash": "6d34eabd5331b16610d6e95e62ee1adf",
+    "semantic_hash": ""
+  },
+  "OpenWA/package.json": {
+    "mtime": 1784587014.2637794,
+    "ast_hash": "f4e586d0e3818e47bca149db11173368",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/backup.sh": {
+    "mtime": 1784587014.2637794,
+    "ast_hash": "a01773970179519ab3b5b76d902f1345",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/check-doc-versions.mjs": {
+    "mtime": 1784587014.2647803,
+    "ast_hash": "a0f590defdd67f5b14fd75425f4bac91",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/export-openapi.ts": {
+    "mtime": 1784587014.2647803,
+    "ast_hash": "56911cb9a3d81795fc1a84c075b1d62d",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/openwa.sh": {
+    "mtime": 1784587014.2647803,
+    "ast_hash": "3d5a736eb7dd175fb5689f176ec44eae",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/patch-wwebjs-201832.js": {
+    "mtime": 1784587014.2657812,
+    "ast_hash": "dac6813942bf5135b9a4b3d019c5e389",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/pg-uuid-smoke.js": {
+    "mtime": 1784587014.2657812,
+    "ast_hash": "b2add43ba54ccf129473f0c7705e3c64",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/postgres-init-schema.sh": {
+    "mtime": 1784587014.2667813,
+    "ast_hash": "81c319a48c2f5659aece966e48e21b00",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/restore.sh": {
+    "mtime": 1784587014.2667813,
+    "ast_hash": "8fa8f85fc23b252580a372248b65291a",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/smoke-test-docker-proxy.sh": {
+    "mtime": 1784587014.2667813,
+    "ast_hash": "69aa4582d35945d7998d945a6ee680d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/scripts/smoke-test-non-root.sh": {
+    "mtime": 1784587014.2667813,
+    "ast_hash": "6aa243bbd7259131080801ff6be062ef",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/auth.go": {
+    "mtime": 1784587014.2687814,
+    "ast_hash": "137b74db19f1e86fe080cc4c365c9639",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/calls.go": {
+    "mtime": 1784587014.2687814,
+    "ast_hash": "8b7a329eba3c0f90b8d087e1d069acd2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/catalog.go": {
+    "mtime": 1784587014.2697828,
+    "ast_hash": "9c6266d6ff8fb8ad65ec57e1074c0245",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/channels.go": {
+    "mtime": 1784587014.2697828,
+    "ast_hash": "20c14374e49a32a7a5566d07aaebfd9a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/chats.go": {
+    "mtime": 1784587014.2697828,
+    "ast_hash": "5422c72e25343651dc6e14970d953b21",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/client.go": {
+    "mtime": 1784587014.2707808,
+    "ast_hash": "9c9ad7b54755aaa39c9a96fbdbf78142",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/client_test.go": {
+    "mtime": 1784587014.2707808,
+    "ast_hash": "d01770c02d30b9ab54ec3dacebbfe7d4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/contacts.go": {
+    "mtime": 1784587014.2717829,
+    "ast_hash": "cfd7c15e27545fde7f41cb5aa59d3056",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/errors.go": {
+    "mtime": 1784587014.2717829,
+    "ast_hash": "2b36ae58f082dfd3b6b4a945e35ec463",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/example_test.go": {
+    "mtime": 1784587014.2717829,
+    "ast_hash": "1304e25ef6f881f9b5aea65162778880",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/groups.go": {
+    "mtime": 1784587014.2727818,
+    "ast_hash": "10a42dfa32d2dab91b2160e2c8cf1cac",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/health.go": {
+    "mtime": 1784587014.2727818,
+    "ast_hash": "6f656b7e455a79951d2dfcd8ca8f6c58",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/labels.go": {
+    "mtime": 1784587014.2727818,
+    "ast_hash": "7a905e269daebbfc2d5500c490824c95",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/logger.go": {
+    "mtime": 1784587014.2727818,
+    "ast_hash": "e29e0faf8646d93d71d23c1bba5bb4d7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/messages.go": {
+    "mtime": 1784587014.2737813,
+    "ast_hash": "389c044d9217bc91b084d1684c3167f0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/options.go": {
+    "mtime": 1784587014.274342,
+    "ast_hash": "364b310807fb374fcf45ac650115c701",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/profile.go": {
+    "mtime": 1784587014.274342,
+    "ast_hash": "ad9f653aec74146120f2131a082c0ce5",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/retry.go": {
+    "mtime": 1784587014.274342,
+    "ast_hash": "59190cf4266334fabb62e057cf067306",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/routing_test.go": {
+    "mtime": 1784587014.274342,
+    "ast_hash": "184bbe08a82d47251a532c21424a7912",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/search.go": {
+    "mtime": 1784587014.274342,
+    "ast_hash": "1e703bbf915921897f763aac94b4eb08",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/sessions.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "90b1ce8f469f7598b1a01998e30e07ac",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/status.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "6a7bfa20df540b621ea78418ffc43fe8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/templates.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "86bd76dd0732939277eeb3d7d8b2978f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/transport.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "802c530f99d04e806c496b349a45cef6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "1ced284b8b9771b8d35483bb30c8a4cd",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_catalog.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "c72bf4fad29caf20f8bf830fa107dda7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_channel.go": {
+    "mtime": 1784587014.2764723,
+    "ast_hash": "ea3b008db881ca58941a614e7a1ce48c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_chat.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "1c96ef6e5f796648ddfd4082901361a8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_contact.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "4dcc9313f0080038a3ab92b7ad1f52ac",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_group.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "d83a63d37b4fdbe81312f2193accd4e0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_message.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "b2a5630580c675361e8c74a3cb7ba3e2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_misc.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "f1e691085415f1e131ab549daa261284",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_profile.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "4d0675175303517d6a6dc5a5a980df42",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_search.go": {
+    "mtime": 1784587014.278479,
+    "ast_hash": "fac9fe28ff478bbff9a30e749f2162e5",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_session.go": {
+    "mtime": 1784587014.2804859,
+    "ast_hash": "2dc88e57fd8ac4bb1b4ea5c611088b1b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_status.go": {
+    "mtime": 1784587014.2804859,
+    "ast_hash": "a562c8f95b1ec54d99b3694e18ef60f3",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/types_webhook.go": {
+    "mtime": 1784587014.2804859,
+    "ast_hash": "e806adae77ef121d3c9fb1fda8250b83",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/webhooks.go": {
+    "mtime": 1784587014.2804859,
+    "ast_hash": "2c769f2004bc2409e1bd739512e53a17",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/ClientConfig.java": {
+    "mtime": 1784587014.2824914,
+    "ast_hash": "5cafde34e80806a4e0c6e1ab47b98b6d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/OpenWAClient.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "6b9dc0ea527d919fbd26904b85c18a56",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWAApiError.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "a3b0e83fd32f7819cea92a6f7d84986f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWAAuthError.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "aa4104841166706a8b7d6b0e440d2ed7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWAConflictError.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "f4eeb8d52f71b75453cd8b11166c759f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWAError.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "35b58c4028d19e76ecb898054d70e06b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWAForbiddenError.java": {
+    "mtime": 1784587014.2844992,
+    "ast_hash": "fc2f5edb101820f5d3d1151fba7217e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWANotFoundError.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "82b0bd9bc86ae7bdf77c398acbb28830",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWANotImplementedError.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "3af436f15b1e297116b85cefd073957e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWARateLimitError.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "5ead5fbd8ec1bc41432d79fa83e097ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/errors/OpenWATimeoutError.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "b4f8eda7ae4be3b75dc4ee0f1338b2cc",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/DefaultHttpTransport.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "5e61534b3da10befd52735a137bec09a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/Http.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "88c6a6abdca7adb70e72911f3366256d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/HttpMethod.java": {
+    "mtime": 1784587014.286505,
+    "ast_hash": "f088eba980cc1f5c31d41753f6208efd",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/HttpRequestData.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "509575b59fa21b480d6c78804b762ac1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/HttpResponseData.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "2bc41f4d4829b17532366fac35bceeb4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/http/HttpTransport.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "cc00810017e1948f001898d476bc9535",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/AddLabelRequest.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "288b0d62df523ce74bfb36627366749b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/AuthValidateResponse.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "4f4aab6f4ffd21a2b93ab650321f0e9d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BatchMessageResult.java": {
+    "mtime": 1784587014.2885106,
+    "ast_hash": "e6366b5782ce11abccd94ecc07af6715",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BatchProgress.java": {
+    "mtime": 1784587014.2902586,
+    "ast_hash": "c1c77c1205d95552d1e03aea76f11c55",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BatchStatusResponse.java": {
+    "mtime": 1784587014.2910717,
+    "ast_hash": "efcc9824e478403c93b2d606a3065394",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BulkMediaRequest.java": {
+    "mtime": 1784587014.2910717,
+    "ast_hash": "e898beb39cbf21b10cf3cec6b046b00e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BulkMessageContent.java": {
+    "mtime": 1784587014.2910717,
+    "ast_hash": "511f37257ca1bef14e8c4823b27cafa6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BulkMessageItem.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "dfefb7c20e0fdf79a4ad86f5a32f553b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BulkMessageResponse.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "6f5d0460ca670f87a13726cc178835b4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/BulkMessageType.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "1438b6afba2624c7a46d81077a7be911",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CatalogInfo.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "b1fbf3b484a043bb2c8d5664d3c35c86",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CatalogProduct.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "6eaa8ab39562411c58471cbd77fdbbed",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CatalogProductsQuery.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "d453135e6068d0addb4e24bfa3748cf0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChannelMessageQuery.java": {
+    "mtime": 1784587014.29316,
+    "ast_hash": "6134194f59e73a55d52615a71fe324a1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChannelMessageRecord.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "d89035a2239b70e548fb74a2849c8d4a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChannelRecord.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "3a781b155b85d6f0ed3d6298917fa98a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChatHistoryMessage.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "92bea8946746d8d659c8ca68a71097da",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChatState.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "04d7f6e190d74ad167310260fe6a1d0f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ChatSummary.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "7f1279b240cbdf3af93fa622767018e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CheckNumberResponse.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "8e6c9ee5e526c3a05a4f893deb9881a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ContactPhoneResponse.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "9778c7eba5602fd3e8953328002df1a6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ContactRecord.java": {
+    "mtime": 1784587014.295165,
+    "ast_hash": "785041809330dfa64f58d9705c6e9b9d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CreateGroupRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "c86af7672a04a87a8e3073725daaaeac",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CreateSessionRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "6deb22d81faac7dd26c5b62f6b7b265c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CreateTemplateRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "eb5525f1bdbaa5c65e8085b840c2412f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/CreateWebhookRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "52c75163350a92687edd66971abb6e90",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/DeleteChatRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "f1ef777239b0d13684763c738ce17364",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/DeleteMessageRequest.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "06113beeb59134ef661ac03e171e13c2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/DeliveryStatus.java": {
+    "mtime": 1784587014.297171,
+    "ast_hash": "e6b0d408e927bf8c667971aff6b78ae6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/EditMessageRequest.java": {
+    "mtime": 1784587014.2991786,
+    "ast_hash": "d196b52ea9e9174ece504e4443f2f3a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ForwardMessageRequest.java": {
+    "mtime": 1784587014.2991786,
+    "ast_hash": "80bb9d8df6e4a77312dabe9d49cde089",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupDescriptionRequest.java": {
+    "mtime": 1784587014.2991786,
+    "ast_hash": "37c0fc4d772dc26795f47b4b4d79b681",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupInfo.java": {
+    "mtime": 1784587014.2991786,
+    "ast_hash": "d7cdc81262ff58ab2720c1a9eb6e14f3",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupParticipant.java": {
+    "mtime": 1784587014.2991786,
+    "ast_hash": "87b24b77c785e1e5e5c90bb8874f2c78",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupSettings.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "b44859e384bf103ce5ae2f784dc794fc",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupSubjectRequest.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "c74f34c1d0802accb50b166bb8b2e6de",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/GroupSummary.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "dd2d7e22525c18749083debd62d1c21d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/HealthReadyDetails.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "c69028102a0de3a950c68da530f1a284",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/HealthReadyResponse.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "e5abc6903b32729b45bedd5dc0bc878a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/HealthResponse.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "0af0d81e13cef4deb7df12f2416fb3a0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/InviteCodeResponse.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "f01f974b9b2f0c179c7e876f0294e6b7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/JoinGroupRequest.java": {
+    "mtime": 1784587014.3011837,
+    "ast_hash": "2f31d2c474d84b29f10a946ec9ebf9d2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/JoinGroupResponse.java": {
+    "mtime": 1784587014.3031914,
+    "ast_hash": "bb6f1f3759a40040881a829700f9b88a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/LabelRecord.java": {
+    "mtime": 1784587014.3031914,
+    "ast_hash": "852f89a3c18adc12bac7e7d3e1a9dc73",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ListChatsQuery.java": {
+    "mtime": 1784587014.3031914,
+    "ast_hash": "b723cadcf171a31b14792014be057cab",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ListContactsQuery.java": {
+    "mtime": 1784587014.3031914,
+    "ast_hash": "e089a477e2496fb69f8324cb7cf4643b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ListGroupsQuery.java": {
+    "mtime": 1784587014.3031914,
+    "ast_hash": "59ca67ed1c012f27566ae130c47c9090",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ListMessagesQuery.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "ccf180845dbc641678b59b83db6fb1c9",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MarkChatRequest.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "09eff99ad2a8b48c628abedde095bdb8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MessageDirection.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "987d3253d61a327d5609c9deedd1bac4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MessageHistoryQuery.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "6a56b33de889ddd843970869006ec844",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MessageListResponse.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "fde35643ace0246f1138f2470aa7294e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MessageRecord.java": {
+    "mtime": 1784587014.3051977,
+    "ast_hash": "4181a5a1eb438f6feef67905a931e0ba",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/MessageResponse.java": {
+    "mtime": 1784587014.3069456,
+    "ast_hash": "7a64df385c3e5605b75769e23bb83df8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/PaginatedProducts.java": {
+    "mtime": 1784587014.3069456,
+    "ast_hash": "5f595ee568d2c345e6e210e6ead64d04",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/PairingCodeResponse.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "1a079216abc2fe73bc88715259c9a6ae",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ParticipantsRequest.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "162a4dfb4ad8a08796a407a6cbeeff68",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ProfilePictureResponse.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "43a594fcf114c4769051961c9d60a1ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/QrCodeResponse.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "88a5225c4a817fd4de278a685eb7e6bf",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ReactMessageRequest.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "f450c20611d6d5e43f834845509116c8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ReactionRecord.java": {
+    "mtime": 1784587014.3076673,
+    "ast_hash": "a50bcf7b50e4834bca8c4bd56fe130d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ReactionSender.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "6c337777d3ad4d3d83abb532476c3dfc",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/ReplyMessageRequest.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "0a2def68fa059b25ca52ac3fabf9c104",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/RequestPairingCodeRequest.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "55f13d790edd2c1487cdfa2adffb06c5",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SearchHit.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "aab8c8db95e8b74a87051a0f87032f57",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SearchQuery.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "179de69cbec04f57ac3782136240e72e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SearchResults.java": {
+    "mtime": 1784587014.3098404,
+    "ast_hash": "2eae03031cdd63c6bc73c5def2652a9d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendAudioRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "f30eeb1e671ee5f966cbb96fa16746cd",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendBulkRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "72dec47aad222545732edfcc86e35022",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendCatalogRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "4de5b61c87e4e3eb12c79ad3ff1dfc91",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendChatStateRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "39856c08d8d9d0d7e1a242601ffb8f5e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendContactRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "e0a69ca67645fed9a2f1f55c37e5465a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendImageStatusRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "18290885011269223bd726174e46a28a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendLocationRequest.java": {
+    "mtime": 1784587014.3118472,
+    "ast_hash": "9b296a7bcb4a0ae8afdbfcc9098bc336",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendMediaRequest.java": {
+    "mtime": 1784587014.3138528,
+    "ast_hash": "723c2ffa35a45ccf5cc3815a73063060",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendProductRequest.java": {
+    "mtime": 1784587014.3138528,
+    "ast_hash": "37b24bb89a7530d1d5d0ba5a943f154f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendTemplateRequest.java": {
+    "mtime": 1784587014.3138528,
+    "ast_hash": "c72e1880abb9c9f7077e34f2e4c7a9b4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendTextRequest.java": {
+    "mtime": 1784587014.3138528,
+    "ast_hash": "c49693132717029fef579a14fe26f2e6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendTextStatusRequest.java": {
+    "mtime": 1784587014.3138528,
+    "ast_hash": "3e0196f3944a7dd25ff041880753e8a1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SendVideoStatusRequest.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "1fb7bcd6f6f36ebb4d6cd7e819b76831",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SessionResponse.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "7ecb8aac526a44a16ed7d3fdd97bda41",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SessionStatsOverview.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "8e3d5c4b388d54c7fd6d908a40694a95",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SessionStatus.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "4cff4df8b9f42734f9dd6f817d31f4f4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SetProfileNameRequest.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "a9f56a3a051eaae8511411914af5130b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SetProfilePictureRequest.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "84fe66a444c787c7ca2146f4222cbb87",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SetProfileStatusRequest.java": {
+    "mtime": 1784587014.3158574,
+    "ast_hash": "16d1a3bea3e538f0b42140b0355df872",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/StatusContact.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "0cdbf03bb3899e079950f76fbf1b7f13",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/StatusListResult.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "6bf7e65293cf32f575d637b486d8f387",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/StatusMediaInput.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "ec664c13637959e2f9d50cf91d30cee6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/StatusRecord.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "fa6b1f9f565bad00384e4c4ca1abc742",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/StatusResult.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "5f750bc6298cbec536695a72df03ab2b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SubscribeChannelRequest.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "7a06119f87b53cb8f0ba9a9daebd5048",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/SuccessResult.java": {
+    "mtime": 1784587014.3178627,
+    "ast_hash": "32b3d438c9d4c838b1e8f310b44b918a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/TemplateRecord.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "befcadd81154ecdc88ea542412ff4687",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/UpdateTemplateRequest.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "080f3c0b2184d6e0c2e9438f1dd599ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/UpdateWebhookRequest.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "ebf2f513885ecf0b146b846fb081617e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/WebhookEvent.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "bd322b2193698f0c6cb7f89e8b3c9862",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/WebhookFilterCondition.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "0b1e450bf0232119372662362ddbeb85",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/WebhookFilters.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "27935c91185c8c4e7eb64ffa8bcade9c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/WebhookResponse.java": {
+    "mtime": 1784587014.3198674,
+    "ast_hash": "23ee18186bf64c5530ea8f34fd22b03c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/model/WebhookTestResult.java": {
+    "mtime": 1784587014.3218718,
+    "ast_hash": "02d278836ca0f9056d547f451af1a429",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/package-info.java": {
+    "mtime": 1784587014.3218718,
+    "ast_hash": "7aaa0a6a246bff52d7d3515937a99a30",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/CallsResource.java": {
+    "mtime": 1784587014.3218718,
+    "ast_hash": "96dfd14632b755a29a9ac8fd5bfaf58d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/CatalogResource.java": {
+    "mtime": 1784587014.3218718,
+    "ast_hash": "929e94ae115c6f1cdff9b4603761ab22",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/ChannelsResource.java": {
+    "mtime": 1784587014.3236213,
+    "ast_hash": "80fa0ed1b1ba5c3573e643ffbdf2fbc9",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/ChatsResource.java": {
+    "mtime": 1784587014.3236213,
+    "ast_hash": "0a8c6d8b386cb20b5fdb9e247bc91d8c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/ContactsResource.java": {
+    "mtime": 1784587014.3236213,
+    "ast_hash": "867e7c34e86b2cba1e9f3e8f93f1bfe1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/GroupsResource.java": {
+    "mtime": 1784587014.3247583,
+    "ast_hash": "9e18dbe3cc01e8ff4ff7460dbe4d135d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/HealthResource.java": {
+    "mtime": 1784587014.3247583,
+    "ast_hash": "f652f6920ceb1f85d332e9cece022e0e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/LabelsResource.java": {
+    "mtime": 1784587014.3257575,
+    "ast_hash": "0ba8feb31d74683c90760be63e858cc8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/MessagesResource.java": {
+    "mtime": 1784587014.3257575,
+    "ast_hash": "c4bfd5b8c7aed0da0be7414005b0bd11",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/ProfileResource.java": {
+    "mtime": 1784587014.3257575,
+    "ast_hash": "33f48a51df84f7226334a8fe65a03d13",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/SearchResource.java": {
+    "mtime": 1784587014.326761,
+    "ast_hash": "67a78322c0e6081974adc0e2a46dffb2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/SessionsResource.java": {
+    "mtime": 1784587014.326761,
+    "ast_hash": "7fce2aeed0e7144b415aefb2b4790912",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/StatusResource.java": {
+    "mtime": 1784587014.326761,
+    "ast_hash": "c333577d717adafb1ef2f988b775fe67",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/TemplatesResource.java": {
+    "mtime": 1784587014.326761,
+    "ast_hash": "fb50e700c420ec0cb0db178fbed318cb",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/main/java/com/rmyndharis/openwa/resources/WebhooksResource.java": {
+    "mtime": 1784587014.32776,
+    "ast_hash": "2c0a33bf736a984572a5b12b7fb081fe",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/ClientTest.java": {
+    "mtime": 1784587014.3287578,
+    "ast_hash": "991c817c723711d116ce4af49bc15e67",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/ConfigTest.java": {
+    "mtime": 1784587014.3287578,
+    "ast_hash": "83ef9e4b53f4f490ca0796c1cb2d0447",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/ScaffoldTest.java": {
+    "mtime": 1784587014.3297575,
+    "ast_hash": "f41b44ad844fa583f912ed92d817a573",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/errors/ErrorsTest.java": {
+    "mtime": 1784587014.3297575,
+    "ast_hash": "7ff88b352943b0b17ead7c9f8ea95217",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/http/HttpTest.java": {
+    "mtime": 1784587014.3297575,
+    "ast_hash": "7cd22a2feb77ba6a0930f65fb208944e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/CallsResourceTest.java": {
+    "mtime": 1784587014.3307576,
+    "ast_hash": "35abb57fca97490bb8b098823f63cc51",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/CatalogResourceTest.java": {
+    "mtime": 1784587014.3307576,
+    "ast_hash": "82180ff137286b509fca48c85a64c42c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/ChannelsResourceTest.java": {
+    "mtime": 1784587014.3317616,
+    "ast_hash": "54413d14fee76275b7687ae1458da144",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/ChatsResourceTest.java": {
+    "mtime": 1784587014.3317616,
+    "ast_hash": "9bbc2ede1121a5829c1865cbecab9640",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/ContactsResourceTest.java": {
+    "mtime": 1784587014.3317616,
+    "ast_hash": "d73239e7c1d6c50d93965ac8d83bc786",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/GroupsResourceTest.java": {
+    "mtime": 1784587014.3327615,
+    "ast_hash": "c6856d4279825a0142dd3086bfe92f5c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/HealthResourceTest.java": {
+    "mtime": 1784587014.3327615,
+    "ast_hash": "2e8aed0a0a3e7c5807e2d99f945611f9",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/LabelsResourceTest.java": {
+    "mtime": 1784587014.3327615,
+    "ast_hash": "17f902a47b17c6879186e27fef4834bc",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/MessagesResourceTest.java": {
+    "mtime": 1784587014.3337617,
+    "ast_hash": "d11e3503ef461c7042beb2c94bbdc937",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/ProfileResourceTest.java": {
+    "mtime": 1784587014.3337617,
+    "ast_hash": "86d6e48eb8c67b11ebbc9ebf498bc355",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/SearchResourceTest.java": {
+    "mtime": 1784587014.3337617,
+    "ast_hash": "6b9ff63cf644e3b2a4bc63ba58994c5f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/SessionsResourceTest.java": {
+    "mtime": 1784587014.3347626,
+    "ast_hash": "cac2817b7d0829efeddbb94757040801",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/StatusResourceTest.java": {
+    "mtime": 1784587014.3347626,
+    "ast_hash": "61ae789ed2940ec2f0710ab251ae1c38",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/TemplatesResourceTest.java": {
+    "mtime": 1784587014.3347626,
+    "ast_hash": "5e3e44e5811d6310f3ddad69740d406d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/resources/WebhooksResourceTest.java": {
+    "mtime": 1784587014.335761,
+    "ast_hash": "8dc71d7f09f088013dd67f628d36dfa0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/src/test/java/com/rmyndharis/openwa/support/MockTransport.java": {
+    "mtime": 1784587014.336763,
+    "ast_hash": "eeea404a504f0cfbc923aafb1b0990d8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/package.json": {
+    "mtime": 1784587014.3377619,
+    "ast_hash": "6ecb3beace05c97916f2a94a8ebef32d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/scripts/smoke.mjs": {
+    "mtime": 1784587014.3377619,
+    "ast_hash": "928ff5773795af8f68122e9312641bf1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/client.ts": {
+    "mtime": 1784587014.3387623,
+    "ast_hash": "b85d7144b621d3cc0df53eda5a324057",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/errors.ts": {
+    "mtime": 1784587014.3387623,
+    "ast_hash": "33ba2799d550783a6debef9c9e219cb5",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/http.ts": {
+    "mtime": 1784587014.3397627,
+    "ast_hash": "db1ed66f03cac1f1a6ec24e4ebfc1b2e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/index.ts": {
+    "mtime": 1784587014.3397627,
+    "ast_hash": "67c0703ab23e98e82093e2db6d580f52",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/calls.ts": {
+    "mtime": 1784587014.3397627,
+    "ast_hash": "39762ef3ead8432fb9160fbc5c5376b8",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/catalog.ts": {
+    "mtime": 1784587014.3417623,
+    "ast_hash": "d31a48adca9d5d0aa9f42e3d3ffd7195",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/channels.ts": {
+    "mtime": 1784587014.3417623,
+    "ast_hash": "0154b0a9e8b96702de87d93915538f8e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/chats.ts": {
+    "mtime": 1784587014.3427632,
+    "ast_hash": "3f7b2f30c0c2b3f100b164e8c5bc573d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/contacts.ts": {
+    "mtime": 1784587014.3427632,
+    "ast_hash": "cc2ee8375d0329ab4fb34565d3a46696",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/groups.ts": {
+    "mtime": 1784587014.343762,
+    "ast_hash": "c2ae7d0623011aa3799120eee7637e06",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/health.ts": {
+    "mtime": 1784587014.343762,
+    "ast_hash": "18ef25502f51162c2e0198f73e4f52b6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/labels.ts": {
+    "mtime": 1784587014.3447623,
+    "ast_hash": "2af8ea63a28ce826dba1a11374db4f48",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/messages.ts": {
+    "mtime": 1784587014.3447623,
+    "ast_hash": "b7ee4f9cd9d0baceffe936e634a71e26",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/profile.ts": {
+    "mtime": 1784587014.3457627,
+    "ast_hash": "988077b097108a2c09d3a3704030ef6c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/search.ts": {
+    "mtime": 1784587014.3457627,
+    "ast_hash": "e9d5bbb2f4ffdedf6271476396e2ac25",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/sessions.ts": {
+    "mtime": 1784587014.3457627,
+    "ast_hash": "7fef12904edf8d36a7d629ba552b93d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/status.ts": {
+    "mtime": 1784587014.346764,
+    "ast_hash": "bf372020144d422b2fce1dccc42a55ac",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/templates.ts": {
+    "mtime": 1784587014.3472695,
+    "ast_hash": "0ba3d8abb95206864b28cd2d3d428c0f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/resources/webhooks.ts": {
+    "mtime": 1784587014.3472695,
+    "ast_hash": "48feba03a717b8d14fd5b74f52bd8df7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/src/types.ts": {
+    "mtime": 1784587014.3472695,
+    "ast_hash": "8cc2d07fd60acb270b16ab97acc9ef98",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/client.test.ts": {
+    "mtime": 1784587014.3482769,
+    "ast_hash": "c696486d4a3b94082a9c28560600d039",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/helpers.ts": {
+    "mtime": 1784587014.3482769,
+    "ast_hash": "14bda57d2c46baae9ce75a2447dc43ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/labels-channels-catalog.test.ts": {
+    "mtime": 1784587014.3482769,
+    "ast_hash": "44674dc8b2bee7f08e4a43f72e2be40b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/messages.test.ts": {
+    "mtime": 1784587014.3492777,
+    "ast_hash": "c58375a362c9a1c2d4393c3a3e2f2c36",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/resources.test.ts": {
+    "mtime": 1784587014.3492777,
+    "ast_hash": "58eb04d1ed4fb3e9d4aa16e7adda6f8c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/sessions.test.ts": {
+    "mtime": 1784587014.3502762,
+    "ast_hash": "4dd6d82036246d2208e0919424f70f4f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/test/wire-contract.test-d.ts": {
+    "mtime": 1784587014.3502762,
+    "ast_hash": "dbbeb33e37bff97bd5ec4e59647f7c9e",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/tsconfig.cjs.json": {
+    "mtime": 1784587014.3512774,
+    "ast_hash": "eacc24fa1926f78c958e838d11bfc48b",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/tsconfig.esm.json": {
+    "mtime": 1784587014.3512774,
+    "ast_hash": "042f3fab1256c935e7ee4be9a78f5b25",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/tsconfig.json": {
+    "mtime": 1784587014.352276,
+    "ast_hash": "a1df72542ca875f44d1c84a052407776",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/vitest.config.ts": {
+    "mtime": 1784587014.352276,
+    "ast_hash": "019c4d736a374ff702e03ab07a6f0a31",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/composer.json": {
+    "mtime": 1784587014.353276,
+    "ast_hash": "7c8c42f6ea2255bfc44d2e9bb28834a7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Client.php": {
+    "mtime": 1784587014.355277,
+    "ast_hash": "51b92bcdc1b1deccba1d205a62447556",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWAApiException.php": {
+    "mtime": 1784587014.355277,
+    "ast_hash": "f9f4a758d7237eec96e5e41840ffebe2",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWAAuthException.php": {
+    "mtime": 1784587014.355277,
+    "ast_hash": "13daff9b6279898bd4e01a3cc1310e52",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWAConflictException.php": {
+    "mtime": 1784587014.356278,
+    "ast_hash": "8e803e73f2e34dfce64857a511d00896",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWAException.php": {
+    "mtime": 1784587014.356278,
+    "ast_hash": "90aec958dfed569117782d0a810759f0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWAForbiddenException.php": {
+    "mtime": 1784587014.356278,
+    "ast_hash": "b81907a161e7e6c561cdfd1131babc81",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWANotFoundException.php": {
+    "mtime": 1784587014.357644,
+    "ast_hash": "42e5bc78f139f144ee624c20b40e659f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWANotImplementedException.php": {
+    "mtime": 1784587014.357644,
+    "ast_hash": "230cd80f19524b30b31513f2aa8de8d7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWARateLimitException.php": {
+    "mtime": 1784587014.357644,
+    "ast_hash": "4009c9bbd21f08d2eaa30ce77f664981",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Exceptions/OpenWATimeoutException.php": {
+    "mtime": 1784587014.357644,
+    "ast_hash": "517a043b1754d7425af7deb9dc7577ae",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Http/HttpExecutor.php": {
+    "mtime": 1784587014.358645,
+    "ast_hash": "774b7815d8e599cd7103c1f2eb35d46c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/CallsResource.php": {
+    "mtime": 1784587014.358645,
+    "ast_hash": "76b6354e5cc1afc92a873248548a8484",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/CatalogResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "369a12e5efe1483fcfd87c198a8a0dbf",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/ChannelsResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "14fed62c74ba65bdb164c9b4c6ea760c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/ChatsResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "8896a412d3e1608e40d39e33e0da6783",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/ContactsResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "471bc542bd7c503f0cbe61987894ab21",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/GroupsResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "973f7528e36d310a5fa78a48568f6918",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/HealthResource.php": {
+    "mtime": 1784587014.3602977,
+    "ast_hash": "d6d483b04da3c1f9edf238c4180dcad1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/LabelsResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "b3c0627ef5854561e46db4f33baf1842",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/MessagesResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "c5e4aad7dfb468276cb2f412b7864751",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/ProfileResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "a0b48046f0c2bea811bf060ea5f5ba4c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/SearchResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "1aa78b797fffd6d2501bbb63dda667c0",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/SessionsResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "78849a6ef03e4b30232ba29400d64373",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/StatusResource.php": {
+    "mtime": 1784587014.3623037,
+    "ast_hash": "c4a036bf28451b394cbdcad364a05c5f",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/TemplatesResource.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "d12085406a36826781e6074335863acd",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/src/Resources/WebhooksResource.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "21301936ad70255db5417cb5ece3dbbd",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/ClientTest.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "b072dc66d1dc4ad7c457775bb71eb982",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/LabelsChannelsCatalogTest.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "c3ca18465c41b31d80f34f0ff9fb8389",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/MessagesTest.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "e9d90d1acbed62417fc1179ead9e8bfe",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/MockBackend.php": {
+    "mtime": 1784587014.3643093,
+    "ast_hash": "ab653b0fc5a1b570c5d958565215da78",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/ProfileCallsTest.php": {
+    "mtime": 1784587014.3663151,
+    "ast_hash": "9d3b0e54bd10a11b2071368334d0c348",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/ResourcesTest.php": {
+    "mtime": 1784587014.3663151,
+    "ast_hash": "bca43b44b110db30352e59a3fe320cbb",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/SearchTest.php": {
+    "mtime": 1784587014.3663151,
+    "ast_hash": "fbb9dc19a344ac4835f64146ed926861",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/tests/TemplatesTest.php": {
+    "mtime": 1784587014.3663151,
+    "ast_hash": "d16482f2981b8150f82cbe586ab4e378",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/__init__.py": {
+    "mtime": 1784587014.3683195,
+    "ast_hash": "fce068d1623bb188a9154409f76d73d5",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/_http.py": {
+    "mtime": 1784587014.3683195,
+    "ast_hash": "27ec36be954419c2f4d67b95c1772cfe",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/client.py": {
+    "mtime": 1784587014.3683195,
+    "ast_hash": "33a234e19f3027fe349dc56a764e5800",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/errors.py": {
+    "mtime": 1784587014.3683195,
+    "ast_hash": "9c096848af23362ae76ed491adac6e20",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/__init__.py": {
+    "mtime": 1784587014.3703244,
+    "ast_hash": "cb827c709a2e9f875876ac2783d35009",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/calls.py": {
+    "mtime": 1784587014.3703244,
+    "ast_hash": "3491c8adcd73bfc02328e5e4bd691770",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/catalog.py": {
+    "mtime": 1784587014.3703244,
+    "ast_hash": "e3eadb9a00d4b9a59e9f30e48f1b31cb",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/channels.py": {
+    "mtime": 1784587014.3703244,
+    "ast_hash": "0dd6cadf445ebcca5b246ad13b024642",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/chats.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "7a6cad38fe5aaf0d71c184305b241646",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/contacts.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "1779d4e4101403023321ea97091a72b9",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/groups.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "c02e1a2140d8ef0dec3803ba754fac87",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/health.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "22e75278270317a6cf93293e1240b1d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/labels.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "24ba5c003b6b361c34fbb7ae9b1d35d7",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/messages.py": {
+    "mtime": 1784587014.3723295,
+    "ast_hash": "b79fd03b19fe79d3c6c05b874d51dd3d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/profile.py": {
+    "mtime": 1784587014.3764055,
+    "ast_hash": "9591d386ceca9469f5c961f40985b36d",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/search.py": {
+    "mtime": 1784587014.3764055,
+    "ast_hash": "58652e584ec23912a8269094622ec68c",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/sessions.py": {
+    "mtime": 1784587014.377407,
+    "ast_hash": "39fbef390d8af06bfaa27fc79790b363",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/status.py": {
+    "mtime": 1784587014.377407,
+    "ast_hash": "678651fc3e4de9de784e465b5ba3ed75",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/templates.py": {
+    "mtime": 1784587014.3784072,
+    "ast_hash": "8f2acb0348ae71f7800184b6cb9095f4",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/resources/webhooks.py": {
+    "mtime": 1784587014.3784072,
+    "ast_hash": "1096b99a9b364694a2f79ca458e2b25a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/openwa/types.py": {
+    "mtime": 1784587014.379407,
+    "ast_hash": "e7cf5c45e11879638f8461cf64056784",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/tests/conftest.py": {
+    "mtime": 1784587014.3804076,
+    "ast_hash": "67fe590005159fee51d8a47bf450ade1",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/tests/test_sdk.py": {
+    "mtime": 1784587014.3804076,
+    "ast_hash": "9825f211f0d1d4b6f6d7695bc68a22a5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/app.module.ts": {
+    "mtime": 1784587014.3814056,
+    "ast_hash": "c72d14cbd72c31ded618b0e83b69c805",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/cache/cache.module.ts": {
+    "mtime": 1784587014.3824072,
+    "ast_hash": "9519b2064a391ae58d2c3da180bc71fc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/cache/cache.service.spec.ts": {
+    "mtime": 1784587014.3824072,
+    "ast_hash": "24b1c87a2fd3efe1b3e304dcc106e4e0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/cache/cache.service.ts": {
+    "mtime": 1784587014.3834062,
+    "ast_hash": "e8a7f576e87a8fae2931e8fba7a3dc3a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/cache/index.ts": {
+    "mtime": 1784587014.3834062,
+    "ast_hash": "35cd22b6e2b8e70fb1473d3bddf4b773",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/call-not-found.error.spec.ts": {
+    "mtime": 1784587014.3834062,
+    "ast_hash": "84deab3408f4aa2836dc7855a7292d46",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/call-not-found.error.ts": {
+    "mtime": 1784587014.3844073,
+    "ast_hash": "7b48837cf8e0b3b480a61a9722a944fd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/channel-media-not-supported.error.ts": {
+    "mtime": 1784587014.3844073,
+    "ast_hash": "270bd13616455656975b3bdde47fce6b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/channel-not-found.error.ts": {
+    "mtime": 1784587014.3844073,
+    "ast_hash": "4f257c9cc093ce868fbc87233079f0fd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/chat-labels-unsupported.error.spec.ts": {
+    "mtime": 1784587014.3854065,
+    "ast_hash": "f02a6358c06f03b4086f798f4b05c7ac",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/chat-labels-unsupported.error.ts": {
+    "mtime": 1784587014.3854065,
+    "ast_hash": "46c36bb870421329041290b6f73b66e0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/engine-not-ready.error.ts": {
+    "mtime": 1784587014.386407,
+    "ast_hash": "ebbb229bcb86cceb838f8a39edd8acd4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/engine-not-supported.error.spec.ts": {
+    "mtime": 1784587014.386407,
+    "ast_hash": "05b1f17d003555cbf94b0876ef05d788",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/engine-not-supported.error.ts": {
+    "mtime": 1784587014.386407,
+    "ast_hash": "446eccb93c527f516308db05f10ab718",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/engine-refused.error.spec.ts": {
+    "mtime": 1784587014.387408,
+    "ast_hash": "00a55bc6d45744281b8a2a4e6c615742",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/engine-refused.error.ts": {
+    "mtime": 1784587014.387408,
+    "ast_hash": "f09f25799a79d85ee0212b540985d9fa",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/group-not-found.error.spec.ts": {
+    "mtime": 1784587014.3881643,
+    "ast_hash": "694cb7c18881708f64eab77f0f7d5010",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/group-not-found.error.ts": {
+    "mtime": 1784587014.3886902,
+    "ast_hash": "4364c6441f0eadd8aaa646f2281aa3fe",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/invalid-invite-code.error.spec.ts": {
+    "mtime": 1784587014.3886902,
+    "ast_hash": "915813bc2f5e465407b6c8a07d194697",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/invalid-invite-code.error.ts": {
+    "mtime": 1784587014.3892133,
+    "ast_hash": "db3a14a56d8bca03dbbda3712f909f8c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/message-not-found.error.spec.ts": {
+    "mtime": 1784587014.3892133,
+    "ast_hash": "01e9097da5fce8545b1332672214fad4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/errors/message-not-found.error.ts": {
+    "mtime": 1784587014.3901117,
+    "ast_hash": "07754e8a497efb1357977a3844e855b9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/interceptors/request-metrics.interceptor.spec.ts": {
+    "mtime": 1784587014.3925076,
+    "ast_hash": "04820a3ef5e023d2624cad12fc475e74",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/interceptors/request-metrics.interceptor.ts": {
+    "mtime": 1784587014.3938596,
+    "ast_hash": "0e8f0a321d0fca3fb6982c33f75e1715",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/media/load-remote-media.spec.ts": {
+    "mtime": 1784587014.394307,
+    "ast_hash": "3b944ea5d7c8ca57654055b8b8a601e1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/media/load-remote-media.ts": {
+    "mtime": 1784587014.3948123,
+    "ast_hash": "83039491122910669c0119a3fa6d9dad",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/request-metrics.spec.ts": {
+    "mtime": 1784587014.3953402,
+    "ast_hash": "6c087074884b4696eedb014e87c13b1f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/request-metrics.ts": {
+    "mtime": 1784587014.3958635,
+    "ast_hash": "146d5b0ce88df761154b3ca13f5a1b21",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/session-reconnect-metrics.spec.ts": {
+    "mtime": 1784587014.3963845,
+    "ast_hash": "d4827640fc987bc6f4f5cfcb52c30ec9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/session-reconnect-metrics.ts": {
+    "mtime": 1784587014.3963845,
+    "ast_hash": "9e8786afe39c6c3f5d4ce8d87b61a94a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/webhook-delivery-metrics.spec.ts": {
+    "mtime": 1784587014.397993,
+    "ast_hash": "67395eb13e0a7f44aeb071c1fc916c52",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/metrics/webhook-delivery-metrics.ts": {
+    "mtime": 1784587014.3985536,
+    "ast_hash": "aa7a559208a07eea7c0c0ab92be5e60d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/middleware/request-context.middleware.spec.ts": {
+    "mtime": 1784587014.3985536,
+    "ast_hash": "b7b853439c997ebd419117c1a960bbbc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/middleware/request-context.middleware.ts": {
+    "mtime": 1784587014.399135,
+    "ast_hash": "143d6b9798df0f8c802c3fff0419baca",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/bull-board-auth.middleware.spec.ts": {
+    "mtime": 1784587014.4001434,
+    "ast_hash": "ddff506d6283d6555e168fc6d987ce86",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/bull-board-auth.middleware.ts": {
+    "mtime": 1784587014.4001434,
+    "ast_hash": "c86765675b5f2ba8b8b988a4075077eb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/proxy-aware-throttler.guard.spec.ts": {
+    "mtime": 1784587014.4001434,
+    "ast_hash": "08913b3c70c3df8deabb20a2d24435ef",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/proxy-aware-throttler.guard.ts": {
+    "mtime": 1784587014.401143,
+    "ast_hash": "3b7678a6a366970498bcb4b6a8b216f1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/ssrf-guard.spec.ts": {
+    "mtime": 1784587014.401143,
+    "ast_hash": "6962633115ab039495b3ff3c55b845dc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/ssrf-guard.ts": {
+    "mtime": 1784587014.4021423,
+    "ast_hash": "3929343a6bfbe8fab4579d20d4790108",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/security/ssrf-undici-pin.spec.ts": {
+    "mtime": 1784587014.4021423,
+    "ast_hash": "8bd43290c12b80113f376afa65bf42e7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/logger.module.ts": {
+    "mtime": 1784587014.4021423,
+    "ast_hash": "fbff83ec1ec416d343d1d497be77abcf",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/logger.service.spec.ts": {
+    "mtime": 1784587014.4031425,
+    "ast_hash": "f9f467edab4f0b883e9270be0a0ba65c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/logger.service.ts": {
+    "mtime": 1784587014.4031425,
+    "ast_hash": "af462cc0e1fd8d28f56639c27fe665e2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/request-context.spec.ts": {
+    "mtime": 1784587014.4031425,
+    "ast_hash": "549dbdb63841ec3b117466c0ccb2268c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/request-context.ts": {
+    "mtime": 1784587014.4041421,
+    "ast_hash": "2485f850da7bc51b1b28c168f7bb7717",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/shutdown.service.spec.ts": {
+    "mtime": 1784587014.4041421,
+    "ast_hash": "1e47740e7c1fe4277a8e090f51579ec5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/services/shutdown.service.ts": {
+    "mtime": 1784587014.4051425,
+    "ast_hash": "3b976eb0503cb0e071b45692a2461f53",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/storage/storage.module.ts": {
+    "mtime": 1784587014.4051425,
+    "ast_hash": "4e38d8248dc68ea01bbd2f0685c2b1b7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/storage/storage.service.s3.spec.ts": {
+    "mtime": 1784587014.4051425,
+    "ast_hash": "f8c53ca10ac018c1628163044f81c58b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/storage/storage.service.spec.ts": {
+    "mtime": 1784587014.4061422,
+    "ast_hash": "d790b361ed6335d3c8d07b40972d9348",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/storage/storage.service.ts": {
+    "mtime": 1784587014.4061422,
+    "ast_hash": "d90242804309081ef130169bd5e106fd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/throttler/redis-throttler.storage.spec.ts": {
+    "mtime": 1784587014.4071426,
+    "ast_hash": "463c9bf66681df4a365a3193e600edae",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/throttler/redis-throttler.storage.ts": {
+    "mtime": 1784587014.4078448,
+    "ast_hash": "4d75a202c6d58aeb727983344e3ec330",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/transformers/date.transformer.spec.ts": {
+    "mtime": 1784587014.4078448,
+    "ast_hash": "2130f2ff49cb009fc9bb5545147e5762",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/transformers/date.transformer.ts": {
+    "mtime": 1784587014.4089603,
+    "ast_hash": "1e2fce7cf328401a22b86ad3e173661a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/column-types.spec.ts": {
+    "mtime": 1784587014.4089603,
+    "ast_hash": "96f26610e120a6d73b4b3d3d2c756760",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/column-types.ts": {
+    "mtime": 1784587014.4089603,
+    "ast_hash": "803d55ec6044cc577516b44d2a13a98f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/concurrency-limiter.spec.ts": {
+    "mtime": 1784587014.40996,
+    "ast_hash": "8f48f189608963d4b6bab0544c22895a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/concurrency-limiter.ts": {
+    "mtime": 1784587014.40996,
+    "ast_hash": "eb228a606550f7618c3f6489c9c8e05f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/db-errors.spec.ts": {
+    "mtime": 1784587014.40996,
+    "ast_hash": "c5f7d8f3e22cd50ee1e147f75a755e29",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/db-errors.ts": {
+    "mtime": 1784587014.4109612,
+    "ast_hash": "5cf9ab9059081d07c9f177a9f94e914a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/ip.spec.ts": {
+    "mtime": 1784587014.4119596,
+    "ast_hash": "f344dfa7cd860660277a58c537c6b141",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/ip.ts": {
+    "mtime": 1784587014.4119596,
+    "ast_hash": "78aea4d8d91e35ae3555c11a3fe4e17c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/paginate.spec.ts": {
+    "mtime": 1784587014.4119596,
+    "ast_hash": "2e581a5152f94910b9583dfdeebff417",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/paginate.ts": {
+    "mtime": 1784587014.4129603,
+    "ast_hash": "d05a1bff2f5511b9a970b4e1c22f5091",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/path-safety.spec.ts": {
+    "mtime": 1784587014.4129603,
+    "ast_hash": "4a4874b2a11c741fe16171beecc3fb96",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/path-safety.ts": {
+    "mtime": 1784587014.41396,
+    "ast_hash": "94ffe1e51736dccfb79aa50ad97252ee",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/template-render.spec.ts": {
+    "mtime": 1784587014.414961,
+    "ast_hash": "3ebe123c3c8f9895711ab1cef1d06a74",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/template-render.ts": {
+    "mtime": 1784587014.414961,
+    "ast_hash": "91185ba02cfc45781e5577ca157b88c9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/unique-constraint.util.spec.ts": {
+    "mtime": 1784587014.4159603,
+    "ast_hash": "eab510711f939689eac9ef027e2f5bc2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/common/utils/unique-constraint.util.ts": {
+    "mtime": 1784587014.4159603,
+    "ast_hash": "16d90599d7a7a082c97a7a5651ef0980",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/app-validation.ts": {
+    "mtime": 1784587014.4159603,
+    "ast_hash": "5eaa10ab9b5aaac97b0d1e89b562d9b6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/bootstrap-security.spec.ts": {
+    "mtime": 1784587014.41696,
+    "ast_hash": "9a7cab6db85567c79f5147bc18580de4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/bootstrap-security.ts": {
+    "mtime": 1784587014.41696,
+    "ast_hash": "32b93b3e27ca504ce9a5064743049a24",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/configuration.spec.ts": {
+    "mtime": 1784587014.4179592,
+    "ast_hash": "c428dc451f529b2b6b6120871336cce6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/configuration.ts": {
+    "mtime": 1784587014.4179592,
+    "ast_hash": "71cc789b80733e0e339fe5ba34359408",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/dashboard-csp.spec.ts": {
+    "mtime": 1784587014.4189603,
+    "ast_hash": "1cd948e3f70ac04beb3442c7556750ee",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/dashboard-csp.ts": {
+    "mtime": 1784587014.4189603,
+    "ast_hash": "7cde5ea41d61cdad108937caef413d59",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/env-precedence.spec.ts": {
+    "mtime": 1784587014.4199605,
+    "ast_hash": "da52d82b8dbd2165be9a2a544ae90afc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/env-precedence.ts": {
+    "mtime": 1784587014.4199605,
+    "ast_hash": "53a9feac61d9f1d2145f41598d7bd73d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/env.validation.spec.ts": {
+    "mtime": 1784587014.4199605,
+    "ast_hash": "d1ece63e27599705fb4bdd853b02270c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/env.validation.ts": {
+    "mtime": 1784587014.4209614,
+    "ast_hash": "cf8cada5b1ce5f590557757a009fb820",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/feature-flags.spec.ts": {
+    "mtime": 1784587014.4209614,
+    "ast_hash": "f8769c76a1512949293308ed4ce78b71",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/feature-flags.ts": {
+    "mtime": 1784587014.4209614,
+    "ast_hash": "2c0a34436abad203f87c125d2047d702",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/http-timeouts.spec.ts": {
+    "mtime": 1784587014.421961,
+    "ast_hash": "5a5c8b0df3dcc86f960b48838f51ce30",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/http-timeouts.ts": {
+    "mtime": 1784587014.421961,
+    "ast_hash": "ceb4a87a04fb4ed9ee168fc1c7775452",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/load-env.spec.ts": {
+    "mtime": 1784587014.421961,
+    "ast_hash": "7b2a4564d43ba5c0294ec37f6e457648",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/load-env.ts": {
+    "mtime": 1784587014.4229603,
+    "ast_hash": "94f979f45e1d529d43f6d8716d7e8e15",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/process-error-monitor.spec.ts": {
+    "mtime": 1784587014.4229603,
+    "ast_hash": "fee474f4ad104e41feccaff7c662b442",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/process-error-monitor.ts": {
+    "mtime": 1784587014.4229603,
+    "ast_hash": "7962b09bad5f02a5241ab64dc596c094",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/swagger.config.spec.ts": {
+    "mtime": 1784587014.4229603,
+    "ast_hash": "e6fcd2858ddc15fafc9fe01f5ead4ff7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/config/swagger.config.ts": {
+    "mtime": 1784587014.4239607,
+    "ast_hash": "0105fbc3c9b32bb6d5eea08761345e72",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/agent-tools.module.ts": {
+    "mtime": 1784587014.4269612,
+    "ast_hash": "44d311d81d84c0bae117a79e345267f1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/session-scope-invariant.spec.ts": {
+    "mtime": 1784587014.4269612,
+    "ast_hash": "6eebcf5a936b91d8fb6c796861ad1d64",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tool-descriptor.ts": {
+    "mtime": 1784587014.4269612,
+    "ast_hash": "83d807ecb3f604be5d9719b904428d4e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tool-invoker.spec.ts": {
+    "mtime": 1784587014.4279609,
+    "ast_hash": "93d0c972d30c0cb5124cc9b379ba83b4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tool-invoker.ts": {
+    "mtime": 1784587014.4279609,
+    "ast_hash": "68626cfb58d49fc0609cd3a483478ed7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tool-registry.service.ts": {
+    "mtime": 1784587014.4289608,
+    "ast_hash": "a542db1285a0168ef2ee1a5736ad0bb9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tool-registry.spec.ts": {
+    "mtime": 1784587014.4289608,
+    "ast_hash": "23cb6c4637c7c57e1d9c9389871333f7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/contact.tools.ts": {
+    "mtime": 1784587014.4289608,
+    "ast_hash": "7209cc6fe23c25aaa8db2be21327a37c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/group.tools.ts": {
+    "mtime": 1784587014.4299605,
+    "ast_hash": "afe521eaacd35e7a56472282c60c5c8f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/message.tools.ts": {
+    "mtime": 1784587014.4299605,
+    "ast_hash": "6f84c02972cfc7e9c0b6dcc7c6102e54",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/session.tools.ts": {
+    "mtime": 1784587014.4309604,
+    "ast_hash": "84d7bdff2c27236666707ccde082a25f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/tool-output-sanitisation.spec.ts": {
+    "mtime": 1784587014.4309604,
+    "ast_hash": "27c6e538125f8474066128371b6885bb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/agent-tools/tools/webhook.tools.ts": {
+    "mtime": 1784587014.4319594,
+    "ast_hash": "f2acbfd4ff0e6e00397db12a115f5a09",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/hook-manager.service.spec.ts": {
+    "mtime": 1784587014.4319594,
+    "ast_hash": "1884f2c250ee7ed61c86ca80ce0951b7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/hook-manager.service.ts": {
+    "mtime": 1784587014.4329655,
+    "ast_hash": "0446d67a78a18fe15d64bbb541ac85f8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/hook.interfaces.spec.ts": {
+    "mtime": 1784587014.4329655,
+    "ast_hash": "8005e19845df2b7adcfa31b798b0e2a6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/hook.interfaces.ts": {
+    "mtime": 1784587014.433965,
+    "ast_hash": "ce4a3abd8fca3b1deb158088e89003cc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/hooks.module.ts": {
+    "mtime": 1784587014.433965,
+    "ast_hash": "1ffbdedb493acf43a1220d80bdf6d591",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/hooks/index.ts": {
+    "mtime": 1784587014.433965,
+    "ast_hash": "33addb2870866eff1daa88b1ab90b7c0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/conversation-send-facade.spec.ts": {
+    "mtime": 1784587014.4349647,
+    "ast_hash": "1dfab0af38a3130bf33fbad1c2169a42",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/conversation-send-facade.ts": {
+    "mtime": 1784587014.4349647,
+    "ast_hash": "3ef05424e408471f7cc74fe2113e3e15",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/handover-gate.spec.ts": {
+    "mtime": 1784587014.4359648,
+    "ast_hash": "740b800e527c342f9a5e86fa7bf0d354",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/handover-gate.ts": {
+    "mtime": 1784587014.4359648,
+    "ast_hash": "86e4b2c6cd7a8ef7c08883cf24db3e39",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/index.ts": {
+    "mtime": 1784587014.4359648,
+    "ast_hash": "7e8761bfe51462c64ff16dd4234bef36",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-activation.spec.ts": {
+    "mtime": 1784587014.4369648,
+    "ast_hash": "dcf9ef996b50f7a78d15e045582921c6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-activation.ts": {
+    "mtime": 1784587014.4369648,
+    "ast_hash": "0518f5e464a36d5ff07780c7dfb2fa42",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-capability.spec.ts": {
+    "mtime": 1784587014.4369648,
+    "ast_hash": "4cd79b52ff90d8614dabbb04caca6af9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-loader-activation.spec.ts": {
+    "mtime": 1784587014.4379652,
+    "ast_hash": "c7e7dcb3dfe8b07e0ef8c99007752572",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-loader-sandbox-routing.spec.ts": {
+    "mtime": 1784587014.4379652,
+    "ast_hash": "c050c88bb49f4d562d02325e20fef082",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-loader.service.spec.ts": {
+    "mtime": 1784587014.4389658,
+    "ast_hash": "076cad4a540c58881687e12f46e255e5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-loader.service.ts": {
+    "mtime": 1784587014.4399657,
+    "ast_hash": "bd17809e9848c7b6df83b612e83073c6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-manifest-ingress.spec.ts": {
+    "mtime": 1784587014.4399657,
+    "ast_hash": "c7e5c9ce40b74f1d147bc59cea1f9b40",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-net.spec.ts": {
+    "mtime": 1784587014.440964,
+    "ast_hash": "d23894cd8703a176f0bf685e940d972a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-net.ts": {
+    "mtime": 1784587014.4421656,
+    "ast_hash": "1606cde449591a2d373cf712abf11400",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-storage.service.spec.ts": {
+    "mtime": 1784587014.4421656,
+    "ast_hash": "f0056ad28e76a4a728d3b40e94b1cdd6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin-storage.service.ts": {
+    "mtime": 1784587014.4431655,
+    "ast_hash": "528040daaae99f476d710e24b7e3b7db",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugin.interfaces.ts": {
+    "mtime": 1784587014.4431655,
+    "ast_hash": "f5ff7eb2054b2bb266a7aede93a34963",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/plugins.module.ts": {
+    "mtime": 1784587014.4441652,
+    "ast_hash": "0ab61bdcf895d96246184300d922486e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/capability-router.spec.ts": {
+    "mtime": 1784587014.4441652,
+    "ast_hash": "29e293d50bf9652e9f5b819b64b6d809",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/capability-router.ts": {
+    "mtime": 1784587014.445166,
+    "ast_hash": "daaf5bd4f06f5d1ee40bde7b5bdfa7ae",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/conversation-send.spec.ts": {
+    "mtime": 1784587014.445166,
+    "ast_hash": "7a074256980977703283cf56cbf8e842",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/dispatch-webhook.spec.ts": {
+    "mtime": 1784587014.445166,
+    "ast_hash": "4c004060448bffca073baf3bc1872750",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/handover-set.spec.ts": {
+    "mtime": 1784587014.445166,
+    "ast_hash": "9ee2a5adcd2537908070c2bad22e5ef4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/plugin-worker-host.spec.ts": {
+    "mtime": 1784587014.446672,
+    "ast_hash": "00661f6caee271480435117fb81721f5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/plugin-worker-host.ts": {
+    "mtime": 1784587014.446672,
+    "ast_hash": "afc4a17424211f36e9c8add503596be3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/plugin-worker.integration.spec.ts": {
+    "mtime": 1784587014.4476786,
+    "ast_hash": "c5a5ee5d9c3fcd0069cca1d33503d0dc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/protocol.ts": {
+    "mtime": 1784587014.4476786,
+    "ast_hash": "48671b4c326599d35b3e50412a80d0de",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-bootstrap.ts": {
+    "mtime": 1784587014.4476786,
+    "ast_hash": "8912ccdc3760956ee42c72de84526c2f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-capability.spec.ts": {
+    "mtime": 1784587014.4486785,
+    "ast_hash": "8a7003a9e5c6dc066b0931eb06bdf3c3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-capability.ts": {
+    "mtime": 1784587014.4486785,
+    "ast_hash": "138d2499f9538c0fed2b2a739b472f34",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-hooks.spec.ts": {
+    "mtime": 1784587014.4486785,
+    "ast_hash": "cdf9c481b80a3930af1fc8e166799326",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-hooks.ts": {
+    "mtime": 1784587014.4496782,
+    "ast_hash": "83d6e913fc756e7ad2a86e003f06e57e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-search-registry.spec.ts": {
+    "mtime": 1784587014.4496782,
+    "ast_hash": "c321044ac91891a8c1fbd896b6a99b40",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-search-registry.ts": {
+    "mtime": 1784587014.4506793,
+    "ast_hash": "539949501d5a9c1d933204c2540af33e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-thread-channel.ts": {
+    "mtime": 1784587014.4506793,
+    "ast_hash": "2b6769bee935e4db152329ccd3c38d4a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/sandbox/worker-webhooks.ts": {
+    "mtime": 1784587014.4506793,
+    "ast_hash": "ead2e56f8adb26fb831f20a63e3000ec",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/search-provider-registration.spec.ts": {
+    "mtime": 1784587014.4516778,
+    "ast_hash": "773393127349904f68e37f86b742b7e8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/search-provider-registration.util.ts": {
+    "mtime": 1784587014.4516778,
+    "ast_hash": "4bc7d4a479b492f09582bf198907dad0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/webhook-subscribe.spec.ts": {
+    "mtime": 1784587014.4516778,
+    "ast_hash": "4f0e7ef1c846408a3c5ee46fc2b8943e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/core/plugins/webhook-subscribe.util.ts": {
+    "mtime": 1784587014.4526782,
+    "ast_hash": "f942007cba9877761a75c90d34f4dcaa",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/add-integration-fabric.spec.ts": {
+    "mtime": 1784587014.4526782,
+    "ast_hash": "503eba1973ca0e9c9caa92e9341c14fb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/add-integration-uuid-defaults.spec.ts": {
+    "mtime": 1784587014.4536788,
+    "ast_hash": "e6440f70b23efae2bc9688ecba2dc63c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/add-uuid-defaults-migration.spec.ts": {
+    "mtime": 1784587014.4536788,
+    "ast_hash": "302cc9cda9b1d8aefb1e69e2c5da1c83",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/add-webhooks-sessionid-index.spec.ts": {
+    "mtime": 1784587014.4536788,
+    "ast_hash": "128061d82fb40bde1b0d58d29fdf0ae2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/data-source-main.spec.ts": {
+    "mtime": 1784587014.454677,
+    "ast_hash": "482d0cc1b22511d5efd92d22ece6b63e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/data-source-main.ts": {
+    "mtime": 1784587014.454677,
+    "ast_hash": "6c79ec17b99dd5ce147b52ed4f33bb53",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/data-source.spec.ts": {
+    "mtime": 1784587014.454677,
+    "ast_hash": "1fdeea9fb7a13ab9ea17e5da9f7e6090",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/data-source.ts": {
+    "mtime": 1784587014.4556777,
+    "ast_hash": "b51d61cc5d4d6556597251302f11f1f9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/load-cli-env.spec.ts": {
+    "mtime": 1784587014.4556777,
+    "ast_hash": "1e4f2c1dc6c49c0c5600c2f501bc9dbd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/load-cli-env.ts": {
+    "mtime": 1784587014.4556777,
+    "ast_hash": "62fadeb0e5576268bea4e899fa423403",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations-main/1779900000000-CreateAuthAuditTables.ts": {
+    "mtime": 1784587014.4566782,
+    "ast_hash": "3d448987f129db03fb05aa04584e777d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations-main/__tests__/1779900000000-CreateAuthAuditTables.spec.ts": {
+    "mtime": 1784587014.4566782,
+    "ast_hash": "bbc0d139f594eacfd5cc753b7b49f46a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1770108659848-AddMessageStatus.ts": {
+    "mtime": 1784587014.458678,
+    "ast_hash": "6fc54412f48b8cac502b07667857286c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1770200000000-NormalizeSynchronizeUuidColumns.ts": {
+    "mtime": 1784587014.458678,
+    "ast_hash": "b99a4fb374ca429d22fe5721e0029743",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1779235200000-AddUuidDefaultsForPostgres.ts": {
+    "mtime": 1784587014.458678,
+    "ast_hash": "f75b6acd6a9e4f05e70c4fec423aefb3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1779840000000-AddTemplates.ts": {
+    "mtime": 1784587014.4596777,
+    "ast_hash": "e7b6d8c31b6f5146882f94e022f7000b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1779900100000-AddMessageSessionWaIndex.ts": {
+    "mtime": 1784587014.4596777,
+    "ast_hash": "98f7491f05607637ac7991b5a917f822",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781000000000-AddBaileysStoredMessages.ts": {
+    "mtime": 1784587014.460679,
+    "ast_hash": "4aad2c630f8f6bb0d74d6b8ec497f36f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781100000000-AddTemplateNameUnique.ts": {
+    "mtime": 1784587014.460679,
+    "ast_hash": "4717b81b4ffd0aa8eb7f4dd27276c18b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781200000000-AddLidMappings.ts": {
+    "mtime": 1784587014.460679,
+    "ast_hash": "33238e55b01c7029118d72bd1c809094",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781300000000-AddMessagesWaMessageIdUnique.ts": {
+    "mtime": 1784587014.4616802,
+    "ast_hash": "da3fa6d92591ba769b19c597b1480b2a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781500000000-AddWebhookFilters.ts": {
+    "mtime": 1784587014.4616802,
+    "ast_hash": "88a18d1d1ac9699e21e1882d8e31ca01",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781600000000-DropRedundantMessagesSessionIdIndex.ts": {
+    "mtime": 1784587014.4616802,
+    "ast_hash": "2044a47683e3aa44d74218cfc5a7e50a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781700000000-AddWebhookDeliveryFailures.ts": {
+    "mtime": 1784587014.4626784,
+    "ast_hash": "0da37044fa6faf8271a48c1f56c32f1d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781800000000-ScopeBatchIdUniqueToSession.ts": {
+    "mtime": 1784587014.4626784,
+    "ast_hash": "3448c779793abb7fb1ec0aea028eae7c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1781900000000-AddIntegrationFabric.ts": {
+    "mtime": 1784587014.4626784,
+    "ast_hash": "7b44fba60b33c21732aa25fd6e4ade42",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1782000000000-AddMessageChatName.ts": {
+    "mtime": 1784587014.4636772,
+    "ast_hash": "318a44ed8940c346a010eb70a44fed81",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1782100000000-WidenIngressDedupKey.ts": {
+    "mtime": 1784587014.4636772,
+    "ast_hash": "66902102a9132ee3c03e4657fb33810a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1782200000000-AddWebhooksSessionIdIndex.ts": {
+    "mtime": 1784587014.4636772,
+    "ast_hash": "d6db9fd1d0f85b68078e631bf8df28ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1782300000000-AddIntegrationUuidDefaults.ts": {
+    "mtime": 1784587014.4646788,
+    "ast_hash": "147d9f7e7fe830af63c575f9c9a507eb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/1782400000000-AddMessagesFts.ts": {
+    "mtime": 1784587014.4646788,
+    "ast_hash": "fce9bc90e245b004268c6fb2c3e27997",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1770108659848-AddMessageStatus.spec.ts": {
+    "mtime": 1784587014.465679,
+    "ast_hash": "f9615d229d0e97936329de66fb1d8073",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1770200000000-NormalizeSynchronizeUuidColumns.spec.ts": {
+    "mtime": 1784587014.465679,
+    "ast_hash": "ab8088834de1c55e15b8b56f27e35c8b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1779840000000-AddTemplates.spec.ts": {
+    "mtime": 1784587014.465679,
+    "ast_hash": "5c8a090ff010046fffdcf19f1a009aed",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781000000000-AddBaileysStoredMessages.spec.ts": {
+    "mtime": 1784587014.466679,
+    "ast_hash": "437e463bfcf6264e7bd469e8788cb08a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781100000000-AddTemplateNameUnique.spec.ts": {
+    "mtime": 1784587014.466679,
+    "ast_hash": "b88642e0fc4b6eda23d5eb853c4ff6dd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781200000000-AddLidMappings.spec.ts": {
+    "mtime": 1784587014.4676793,
+    "ast_hash": "db408788edf2adfb6ef85dfcf7cb552d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781300000000-AddMessagesWaMessageIdUnique.spec.ts": {
+    "mtime": 1784587014.4676793,
+    "ast_hash": "6daf761210b88d89a3e3398aeb6a1358",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781600000000-DropRedundantMessagesSessionIdIndex.spec.ts": {
+    "mtime": 1784587014.4676793,
+    "ast_hash": "0a5f74dbeacc6dcbe3a6b303c3d8dc9b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781700000000-AddWebhookDeliveryFailures.spec.ts": {
+    "mtime": 1784587014.468679,
+    "ast_hash": "0888346c6ab6a7aa2fbb8618b4fe83a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1781800000000-ScopeBatchIdUniqueToSession.spec.ts": {
+    "mtime": 1784587014.468679,
+    "ast_hash": "1b65183235b54f07b27bdc3b39c20e89",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1782400000000-AddMessagesFts.pg.spec.ts": {
+    "mtime": 1784587014.468679,
+    "ast_hash": "cf137243b4715fc76db0850486364039",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/database/migrations/__tests__/1782400000000-AddMessagesFts.spec.ts": {
+    "mtime": 1784587014.4696782,
+    "ast_hash": "a04a92ad39368e0b0705aa4e22ce19b6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-group-mapper.spec.ts": {
+    "mtime": 1784587014.4706788,
+    "ast_hash": "0f6fd09fbf71da10112e479ceff87fea",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-group-mapper.ts": {
+    "mtime": 1784587014.4706788,
+    "ast_hash": "1cd378bbd485b21e9f8f9103dcb07505",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-message-mapper.spec.ts": {
+    "mtime": 1784587014.4706788,
+    "ast_hash": "238879646932bd141af9418edcb0293b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-message-mapper.ts": {
+    "mtime": 1784587014.4706788,
+    "ast_hash": "41a273852a1bd68283b11a0efaa78af3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-message-store.service.spec.ts": {
+    "mtime": 1784587014.4726777,
+    "ast_hash": "5ef93cb385068fb4d7d134633e38b63e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-message-store.service.ts": {
+    "mtime": 1784587014.4726777,
+    "ast_hash": "8b85349e937d29a5c041ccf9800eb503",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-session-store.spec.ts": {
+    "mtime": 1784587014.4726777,
+    "ast_hash": "3bb1de2616949335f43bb0e0aab04fa0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-session-store.ts": {
+    "mtime": 1784587014.473679,
+    "ast_hash": "aa24e65e35fa167f2d729714704e4817",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys-stored-message.entity.ts": {
+    "mtime": 1784587014.473679,
+    "ast_hash": "91d3d907076de8be4324c207f07f7b41",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys.adapter.spec.ts": {
+    "mtime": 1784587014.474678,
+    "ast_hash": "f5059f1b449ad9225dca39a70f4044b1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/baileys.adapter.ts": {
+    "mtime": 1784587014.4756773,
+    "ast_hash": "58d3a71ae2584eeea6e1e44919a5017f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/inbound-media-cap.spec.ts": {
+    "mtime": 1784587014.4766781,
+    "ast_hash": "1bb6288b9f6277080f475a008f408dda",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/inbound-media-cap.ts": {
+    "mtime": 1784587014.4766781,
+    "ast_hash": "90a005cad5cdfb97ce71057b3b8df32b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/message-mapper.spec.ts": {
+    "mtime": 1784587014.4766781,
+    "ast_hash": "c1f9386f7bf69fc6a9868623fa8cf4e1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/message-mapper.ts": {
+    "mtime": 1784587014.4776804,
+    "ast_hash": "573be77741ef296f4899357c524fd431",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/vcard.spec.ts": {
+    "mtime": 1784587014.4776804,
+    "ast_hash": "43fab52a3bc720bec717b5eda76865b7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/vcard.ts": {
+    "mtime": 1784587014.4776804,
+    "ast_hash": "975ba19df6cb5b23696492aa4f35b396",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/whatsapp-web-js.adapter.spec.ts": {
+    "mtime": 1784587014.4786794,
+    "ast_hash": "ee9ded4e9afd647d5210b05f11f94ffc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/whatsapp-web-js.adapter.ts": {
+    "mtime": 1784587014.4796803,
+    "ast_hash": "d2f5f7c27eec9c01ad2df2baf3591337",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/adapters/wwebjs-backport-201832.spec.ts": {
+    "mtime": 1784587014.4806795,
+    "ast_hash": "adfb355f68b7c0a0a6763bb98954c3fc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/engine-capability-matrix.ts": {
+    "mtime": 1784587014.4806795,
+    "ast_hash": "2dbfaa4e55d5fd64aecc370ca682bfbb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/engine-parity.spec.ts": {
+    "mtime": 1784587014.4806795,
+    "ast_hash": "dd95ed9abcdc551af0075be4d64c1688",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/engine.factory.spec.ts": {
+    "mtime": 1784587014.4816792,
+    "ast_hash": "6d038c72e30a233eaf7ba09d3c54f3ef",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/engine.factory.ts": {
+    "mtime": 1784587014.4816792,
+    "ast_hash": "9008c117e260d2ace8d02689235a39d3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/engine.module.ts": {
+    "mtime": 1784587014.4826784,
+    "ast_hash": "c992317c28f20a9863a8ba992c1e7abb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/identity/lid-mapping-store.service.ts": {
+    "mtime": 1784587014.4826784,
+    "ast_hash": "9d8ef8cf9cf6969c0c8c7e4988998891",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/identity/lid-mapping-store.spec.ts": {
+    "mtime": 1784587014.4836793,
+    "ast_hash": "e20e889cce4da35b71ec8fb2bcee3368",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/identity/lid-mapping.entity.ts": {
+    "mtime": 1784587014.4836793,
+    "ast_hash": "6a30f6f753aafa4ba26ce3b7239493d9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/identity/wa-id.spec.ts": {
+    "mtime": 1784587014.4836793,
+    "ast_hash": "8868b3c28e19c7bc433ac3235d718906",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/identity/wa-id.ts": {
+    "mtime": 1784587014.48468,
+    "ast_hash": "54cdbad62239ae84c46f220d57f44ff2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/interfaces/whatsapp-engine.interface.ts": {
+    "mtime": 1784587014.48468,
+    "ast_hash": "ca2882855d190cf9f09b29dd297838d9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/types/baileys.types.ts": {
+    "mtime": 1784587014.4856791,
+    "ast_hash": "7d4a4339e5021e82d982e4837e934e74",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/types/whatsapp-web-js.types.ts": {
+    "mtime": 1784587014.4856791,
+    "ast_hash": "01d4c452681239146636e4cb5a9ead4f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/wa-web-version.spec.ts": {
+    "mtime": 1784587014.4856791,
+    "ast_hash": "c0f71df0ff6afae9270dbaa6f2c71b4e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/engine/wa-web-version.ts": {
+    "mtime": 1784587014.4866805,
+    "ast_hash": "248031711b154ee7f62c70968d0786ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/main.ts": {
+    "mtime": 1784587014.4866805,
+    "ast_hash": "e39e41b363bb9d5334e5b544d4254d8c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit-coverage.spec.ts": {
+    "mtime": 1784587014.4876783,
+    "ast_hash": "bbffdbcd8eb4a29ed5f5894f90541103",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit.controller.spec.ts": {
+    "mtime": 1784587014.4883347,
+    "ast_hash": "eb0c0f6201f87c3810a1a04f0a9f4671",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit.controller.ts": {
+    "mtime": 1784587014.4888408,
+    "ast_hash": "b88dfebb0d9d9f08de7a9143518b873e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit.module.ts": {
+    "mtime": 1784587014.4888408,
+    "ast_hash": "a8ef38d706bce5142fc7f4778c488bd3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit.service.spec.ts": {
+    "mtime": 1784587014.4888408,
+    "ast_hash": "1285179acb0c09926dccede4816f4772",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/audit.service.ts": {
+    "mtime": 1784587014.4895997,
+    "ast_hash": "627dbdbaf239d6ff5de7dc2a0fba9995",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/entities/audit-log.entity.ts": {
+    "mtime": 1784587014.4901326,
+    "ast_hash": "b9af1171130faa5b83d6cfcf56293c7e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/audit/intentionally-unemitted-actions.ts": {
+    "mtime": 1784587014.4906566,
+    "ast_hash": "e458d718ce19762f8fc2dbcaccc0d0ee",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/api-key-hash.spec.ts": {
+    "mtime": 1784587014.4911783,
+    "ast_hash": "07cc7861d44520b9bd06ed8512aa7ff7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/api-key-hash.ts": {
+    "mtime": 1784587014.491698,
+    "ast_hash": "b7426124bd1df4994563c28447d0bfe4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth-validate.controller.spec.ts": {
+    "mtime": 1784587014.4922218,
+    "ast_hash": "5c1e6f1db891c94a7082478d107c1ca1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth-validate.controller.ts": {
+    "mtime": 1784587014.4922218,
+    "ast_hash": "0e39d25f2c77a80e226f2f3efebc130e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth.controller.spec.ts": {
+    "mtime": 1784587014.4927459,
+    "ast_hash": "5d31bd6553b21e9d68f83244839f9bbd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth.controller.ts": {
+    "mtime": 1784587014.4934046,
+    "ast_hash": "520db0201fc4bb11e1ac3ccc324316c6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth.module.ts": {
+    "mtime": 1784587014.4934046,
+    "ast_hash": "a7526581e386f6adeb8d71d96eb27553",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth.service.spec.ts": {
+    "mtime": 1784587014.4940355,
+    "ast_hash": "0ab8ddca35846179e978553d6beee259",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/auth.service.ts": {
+    "mtime": 1784587014.4945588,
+    "ast_hash": "f65b363f3d7adc36f21691392df4f446",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/decorators/auth.decorators.ts": {
+    "mtime": 1784587014.4945588,
+    "ast_hash": "03d4c8822c185731d9125165f40057de",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/dto/api-key.dto.ts": {
+    "mtime": 1784587014.4955664,
+    "ast_hash": "b5d14286382046a655866bb57b11cab9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/dto/index.ts": {
+    "mtime": 1784587014.4955664,
+    "ast_hash": "2e6df1a88bc7e205519838e65b30793b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/dto/is-ip-or-cidr.validator.spec.ts": {
+    "mtime": 1784587014.4955664,
+    "ast_hash": "2bac2d055fe2f87b4d77599264692363",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/dto/is-ip-or-cidr.validator.ts": {
+    "mtime": 1784587014.4955664,
+    "ast_hash": "0a0d63ec7d83e6e3ecc2a1915d4b8e41",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/entities/api-key.entity.ts": {
+    "mtime": 1784587014.4965668,
+    "ast_hash": "ccee0f862895e56f09d58e9fd64970c5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/guards/api-key.guard.spec.ts": {
+    "mtime": 1784587014.4965668,
+    "ast_hash": "1a053ca84c3e7936823ca5ba785773df",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/guards/api-key.guard.ts": {
+    "mtime": 1784587014.497566,
+    "ast_hash": "66e8c8f0c9c48199fcfa653a31ec5820",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/auth/role-coverage.spec.ts": {
+    "mtime": 1784587014.497566,
+    "ast_hash": "4c0983cf6b59c3a8d2bb2c9614424554",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/call/call.controller.spec.ts": {
+    "mtime": 1784587014.497566,
+    "ast_hash": "f12ee36c658a6c2c4d4a269f5edbea63",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/call/call.controller.ts": {
+    "mtime": 1784587014.4985664,
+    "ast_hash": "0728cb368b5330f9220d2ae6325c6d2b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/call/call.module.ts": {
+    "mtime": 1784587014.4985664,
+    "ast_hash": "40cdbb1210afe7e8dc4e3891d5466b43",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/call/call.service.spec.ts": {
+    "mtime": 1784587014.4985664,
+    "ast_hash": "0c65cb3ef1766f24f53ed1a441fe4fcb",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/call/call.service.ts": {
+    "mtime": 1784587014.4985664,
+    "ast_hash": "e4d3c9bc359ec651d658b464c34a22d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/catalog/catalog.controller.ts": {
+    "mtime": 1784587014.4995666,
+    "ast_hash": "0929fd97136fb9072fe3e48861d59702",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/catalog/catalog.module.ts": {
+    "mtime": 1784587014.4995666,
+    "ast_hash": "6d76286249ff59d83d3b981189698d41",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/catalog/catalog.service.ts": {
+    "mtime": 1784587014.4995666,
+    "ast_hash": "b713fe477681d2d4107ab7621761054f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/catalog/dto/send-product.dto.ts": {
+    "mtime": 1784587014.5005665,
+    "ast_hash": "b905bff7efc2b12f71d6522e4ad317ef",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/channel.controller.spec.ts": {
+    "mtime": 1784587014.5015676,
+    "ast_hash": "25a70c57f74a94efdaea3b24405eb08b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/channel.controller.ts": {
+    "mtime": 1784587014.5015676,
+    "ast_hash": "9165e296841a81fb460c23ff254bf859",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/channel.module.ts": {
+    "mtime": 1784587014.5015676,
+    "ast_hash": "d516f4d13dba68c693bb29a60e7cfd0b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/channel.service.spec.ts": {
+    "mtime": 1784587014.5025659,
+    "ast_hash": "106c5022ce6ce00cb028ee78647b1156",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/channel.service.ts": {
+    "mtime": 1784587014.5025659,
+    "ast_hash": "e964f3cfe3c9a34f6718691f61c7e314",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/channel/dto/subscribe-channel.dto.ts": {
+    "mtime": 1784587014.5035665,
+    "ast_hash": "f33e20773a93cc659fecd3183438e93b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/contact/contact.controller.ts": {
+    "mtime": 1784587014.5035665,
+    "ast_hash": "bec729a7f80375555d9b2cfa4dc13740",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/contact/contact.module.ts": {
+    "mtime": 1784587014.5045657,
+    "ast_hash": "139b9ce5c00ed14ea3299e6f5c2bbcfe",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/contact/contact.service.spec.ts": {
+    "mtime": 1784587014.5045657,
+    "ast_hash": "bc43d4c5d9f2f6218728990bad58f0e8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/contact/contact.service.ts": {
+    "mtime": 1784587014.5045657,
+    "ast_hash": "a3bb93e915b04f17f6d1604225c7dc38",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/docker/compose-network.spec.ts": {
+    "mtime": 1784587014.5055647,
+    "ast_hash": "97dda302158118c9484cbf832ff0a778",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/docker/docker.module.ts": {
+    "mtime": 1784587014.5055647,
+    "ast_hash": "c74bfe5317adcddf68274210d4c4fe90",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/docker/docker.service.spec.ts": {
+    "mtime": 1784587014.506565,
+    "ast_hash": "b732f11b0b5c2c33d04fc98401c19b4f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/docker/docker.service.ts": {
+    "mtime": 1784587014.506565,
+    "ast_hash": "7e4266ee0ab719d5bfb923d8aaa61b24",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/docker/index.ts": {
+    "mtime": 1784587014.506565,
+    "ast_hash": "9f48094f3df8e4d809d8d24ce451e90c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/events/dto/ws-messages.dto.ts": {
+    "mtime": 1784587014.5080316,
+    "ast_hash": "863b4e4ab3240433dcc6b0856eef230d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/events/events.gateway.spec.ts": {
+    "mtime": 1784587014.509068,
+    "ast_hash": "55d01c86d67b19507c28acae4d1f7fb5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/events/events.gateway.ts": {
+    "mtime": 1784587014.509068,
+    "ast_hash": "4e40ae958b8d2ad4c5c6710f3b48ca53",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/events/events.module.ts": {
+    "mtime": 1784587014.5100684,
+    "ast_hash": "9fe24cb511af7a3d58cf8a61784feea8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/dto/group.dto.spec.ts": {
+    "mtime": 1784587014.5100684,
+    "ast_hash": "f81c86318b46da24388a7c7142e5b5fa",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/dto/group.dto.ts": {
+    "mtime": 1784587014.5100684,
+    "ast_hash": "080fb7573a5b1103e7c6b1325ec4ef47",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/group.controller.spec.ts": {
+    "mtime": 1784587014.5110676,
+    "ast_hash": "deaa347d68f21d88b560ad7d1222f318",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/group.controller.ts": {
+    "mtime": 1784587014.5110676,
+    "ast_hash": "4648aef49f40ac3475ec1394a0220b6b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/group.module.ts": {
+    "mtime": 1784587014.5110676,
+    "ast_hash": "1333282299fe09c9fac910b4cf2eaac5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/group.service.spec.ts": {
+    "mtime": 1784587014.5110676,
+    "ast_hash": "2f6995cb1322baf512d059330fe981b2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/group/group.service.ts": {
+    "mtime": 1784587014.512067,
+    "ast_hash": "70fa82c922faa4d7a94cf6d73bde4c21",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/health/health.controller.spec.ts": {
+    "mtime": 1784587014.512067,
+    "ast_hash": "2ad7f8e201d3b6dd81089b3f658d1cb6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/health/health.controller.ts": {
+    "mtime": 1784587014.512067,
+    "ast_hash": "d24ced019b8904698061701e78ccfe6e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/health/health.module.ts": {
+    "mtime": 1784587014.5130694,
+    "ast_hash": "717d72f31291ba916bf633e479c7a629",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/infra/dto/import-storage.dto.ts": {
+    "mtime": 1784587014.5130694,
+    "ast_hash": "1523efa39b63aa25b5f1d4dbcfd14e51",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/infra/infra.controller.spec.ts": {
+    "mtime": 1784587014.5140686,
+    "ast_hash": "99dffbfc16a323e26958a81c6eb948e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/infra/infra.controller.ts": {
+    "mtime": 1784587014.5140686,
+    "ast_hash": "8817ef09f5c42dd286cc33537028ebe2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/infra/infra.module.ts": {
+    "mtime": 1784587014.515068,
+    "ast_hash": "3e2c7e6f62c2835e992200715ad8c55b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/__fixtures__/chatwoot-message_created.json": {
+    "mtime": 1784587014.515068,
+    "ast_hash": "654f0f803d9cea1c2bb58849c02cddb8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/conversation-mapping.service.spec.ts": {
+    "mtime": 1784587014.5160668,
+    "ast_hash": "65f041fb37c8bd38a298befae147b19d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/conversation-mapping.service.ts": {
+    "mtime": 1784587014.5160668,
+    "ast_hash": "ff31645d92fd7fbf9b25acd7ccb2c31d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/dto/instance.dto.ts": {
+    "mtime": 1784587014.5160668,
+    "ast_hash": "495c48330ff0d029eccdacb7883d32ed",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/entities/conversation-mapping.entity.ts": {
+    "mtime": 1784587014.5170662,
+    "ast_hash": "912ca4a4c48c815bc71b2387741ba50f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/entities/ingress-event.entity.ts": {
+    "mtime": 1784587014.5170662,
+    "ast_hash": "8db26c6bce44b35e07c5ef7478eef26d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/entities/integration-delivery-failure.entity.ts": {
+    "mtime": 1784587014.5170662,
+    "ast_hash": "ab2885309dc630e1d5df5847c091389d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/entities/plugin-instance.entity.ts": {
+    "mtime": 1784587014.5170662,
+    "ast_hash": "b1a9f3a092f8f4a785b7012447cfa5d5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-ack.spec.ts": {
+    "mtime": 1784587014.5180674,
+    "ast_hash": "3cdd59e8d430ed4f8ac99c4d79eb7441",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-ack.ts": {
+    "mtime": 1784587014.5180674,
+    "ast_hash": "2d72130e387758ea963df618c1f147ba",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-enqueue.service.spec.ts": {
+    "mtime": 1784587014.5190675,
+    "ast_hash": "3d613e5f7620479e8f6d15a68477012c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-enqueue.service.ts": {
+    "mtime": 1784587014.5190675,
+    "ast_hash": "5dbb6ad497cd7f0ae01458cec9c0a0f7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-event.service.spec.ts": {
+    "mtime": 1784587014.5190675,
+    "ast_hash": "eeef918e1ddac652c8ba9e0766f0ffd4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-event.service.ts": {
+    "mtime": 1784587014.5190675,
+    "ast_hash": "6038cf474379ae739001c3268867b33d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-golden.spec.ts": {
+    "mtime": 1784587014.5200663,
+    "ast_hash": "0e58c8821c94319241b23bc82b8e5265",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-preflight.spec.ts": {
+    "mtime": 1784587014.5200663,
+    "ast_hash": "717852e0f3218a16320964e0181df9b2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-preflight.ts": {
+    "mtime": 1784587014.5200663,
+    "ast_hash": "3e3355800e33b1ca301aeb0174179ea7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-signature.spec.ts": {
+    "mtime": 1784587014.521067,
+    "ast_hash": "40397d1740e75b0539625215b45ff305",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-signature.ts": {
+    "mtime": 1784587014.521067,
+    "ast_hash": "f96a9660eebcdd59c148991e7961bc0c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-url.spec.ts": {
+    "mtime": 1784587014.521067,
+    "ast_hash": "d6a2340cbbd39ecf716477d28d5eccb5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress-url.ts": {
+    "mtime": 1784587014.5220668,
+    "ast_hash": "0badea5dcd01df10af7a5aa55522722a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress.controller.spec.ts": {
+    "mtime": 1784587014.5220668,
+    "ast_hash": "36fe35b853af50defc1017f52f51d37a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress.controller.ts": {
+    "mtime": 1784587014.5220668,
+    "ast_hash": "d8d805cc5b61352dbe81e8837335d633",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress.service.spec.ts": {
+    "mtime": 1784587014.5230665,
+    "ast_hash": "58a007baac219149e063b6a5847cfcd2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ingress.service.ts": {
+    "mtime": 1784587014.5230665,
+    "ast_hash": "5295950b17e3b888c35858bd3bbc7df2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/instance-throttler.guard.spec.ts": {
+    "mtime": 1784587014.5230665,
+    "ast_hash": "00f27446c096992032e003717da52094",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/instance-throttler.guard.ts": {
+    "mtime": 1784587014.5240693,
+    "ast_hash": "f3dd9279b4944989c706158be6548531",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration-instance.controller.spec.ts": {
+    "mtime": 1784587014.5240693,
+    "ast_hash": "f0396bf22604fe5caee85db5d881588e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration-instance.controller.ts": {
+    "mtime": 1784587014.5240693,
+    "ast_hash": "58d2b2fa74b6aa1995e58425177ec8d5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration-retention.service.spec.ts": {
+    "mtime": 1784587014.5250678,
+    "ast_hash": "c8d15e461929ab54e427299155ec3746",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration-retention.service.ts": {
+    "mtime": 1784587014.5250678,
+    "ast_hash": "b625b779836564f3bc2daed74b5388b6",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration.constants.ts": {
+    "mtime": 1784587014.5250678,
+    "ast_hash": "b173748b0f0a51fc8bbb8446b0b65445",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/integration.module.ts": {
+    "mtime": 1784587014.526067,
+    "ast_hash": "72b6027ccca4f42c8c2b744cdfb334b2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ordering-lock.spec.ts": {
+    "mtime": 1784587014.526067,
+    "ast_hash": "f7fbed634827e8ab9fb9f95be46a5700",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/ordering-lock.ts": {
+    "mtime": 1784587014.5270674,
+    "ast_hash": "7abcf98acab08917b75e6087f1bdda70",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/plugin-instance.service.spec.ts": {
+    "mtime": 1784587014.5275543,
+    "ast_hash": "ba9d82b3fa5ff689e486f3db7c0cadea",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/plugin-instance.service.ts": {
+    "mtime": 1784587014.5275543,
+    "ast_hash": "5457e94813be1fbdaa75e645c893e75d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/redrive.controller.spec.ts": {
+    "mtime": 1784587014.5280592,
+    "ast_hash": "00be7354bf0c7417aeeaf3122ff4feec",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/redrive.controller.ts": {
+    "mtime": 1784587014.5280592,
+    "ast_hash": "ec67b8ac928b84478240683e77491e40",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/redrive.service.spec.ts": {
+    "mtime": 1784587014.5280592,
+    "ast_hash": "89befda549abc8bf8e35ad52f35637ae",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/redrive.service.ts": {
+    "mtime": 1784587014.5280592,
+    "ast_hash": "81935db62bed04a2b1407478f65e8e9f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/scope-binding.service.spec.ts": {
+    "mtime": 1784587014.5290651,
+    "ast_hash": "50502171bae567545e1db54e940ecb01",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/integration/scope-binding.service.ts": {
+    "mtime": 1784587014.5290651,
+    "ast_hash": "db4e35d885c49f541f95f02287a487a7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/label/dto/add-label.dto.ts": {
+    "mtime": 1784587014.5300658,
+    "ast_hash": "8df35d10255718447776b57ebebe1014",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/label/label.controller.ts": {
+    "mtime": 1784587014.5300658,
+    "ast_hash": "3ee9fdb689fde8b32f3a4c59f9430135",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/label/label.module.ts": {
+    "mtime": 1784587014.5310662,
+    "ast_hash": "33194759488dfc53d00c911ebfdeadfa",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/label/label.service.spec.ts": {
+    "mtime": 1784587014.5310662,
+    "ast_hash": "0ff061cfef0db734260b647427efd84a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/label/label.service.ts": {
+    "mtime": 1784587014.5310662,
+    "ast_hash": "6e22fe6f995df8769320343722788832",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/mcp-rate-limit.spec.ts": {
+    "mtime": 1784587014.5320663,
+    "ast_hash": "57cac22bd01d33ef0a3c52fdad1dc876",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/mcp-rate-limit.ts": {
+    "mtime": 1784587014.5320663,
+    "ast_hash": "cf06b277ac2979ff487d7f6fb7e6f190",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/mcp.module.ts": {
+    "mtime": 1784587014.5320663,
+    "ast_hash": "e54bc1e00ae6f0a02729c6803eb86dff",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/mcp.server.spec.ts": {
+    "mtime": 1784587014.533066,
+    "ast_hash": "bf95e2eb59411a6f967e71b36ea2bd63",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/mcp.server.ts": {
+    "mtime": 1784587014.533066,
+    "ast_hash": "118a0136f9e127193c19f58db368bb6e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/mcp/tool-result.ts": {
+    "mtime": 1784587014.5340652,
+    "ast_hash": "936f80cc34718e3547c1a20682bdd31a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/bulk-message.service.spec.ts": {
+    "mtime": 1784587014.5340652,
+    "ast_hash": "7959d64033691adf40bfdd8ddd3f2f7a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/bulk-message.service.ts": {
+    "mtime": 1784587014.5350664,
+    "ast_hash": "d6f10ec95c89f0f0beab4adc09d4cde1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/bulk-message.dto.spec.ts": {
+    "mtime": 1784587014.5350664,
+    "ast_hash": "8bf358cca8edcd477570ad105d0455be",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/bulk-message.dto.ts": {
+    "mtime": 1784587014.5350664,
+    "ast_hash": "b276a8c0df6399088d1a23cf30c00443",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/index.ts": {
+    "mtime": 1784587014.5350664,
+    "ast_hash": "c220a3a9f3fd9eaa154e95717ad0eb9d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/message-actions.dto.spec.ts": {
+    "mtime": 1784587014.536573,
+    "ast_hash": "92eb7fb7f31a44836ad6db56a006144f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/message-actions.dto.ts": {
+    "mtime": 1784587014.536573,
+    "ast_hash": "a65aa12ebfc59c2568f1c82a374fc452",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/send-message.dto.spec.ts": {
+    "mtime": 1784587014.536573,
+    "ast_hash": "d80aebde43334746fb0279137fa9f41a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/send-message.dto.ts": {
+    "mtime": 1784587014.5375798,
+    "ast_hash": "3b89242dd91426cc6ef8bce865bce3b2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/dto/send-template.dto.ts": {
+    "mtime": 1784587014.5375798,
+    "ast_hash": "12d83a1edb2c844f5344ad713fba4a02",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/entities/message-batch.entity.ts": {
+    "mtime": 1784587014.5375798,
+    "ast_hash": "63fcd7fbc0bc9e1e3576d3de4d63069d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/entities/message.entity.spec.ts": {
+    "mtime": 1784587014.5385804,
+    "ast_hash": "5a9f098554bb902bc57b21fba072dcfc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/entities/message.entity.ts": {
+    "mtime": 1784587014.5385804,
+    "ast_hash": "145fbeae3206d03ea4f27cb97e4aa7d0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/media-cap.util.spec.ts": {
+    "mtime": 1784587014.5385804,
+    "ast_hash": "85154f85a494ec85127d490e84a73776",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/media-cap.util.ts": {
+    "mtime": 1784587014.53958,
+    "ast_hash": "6b401fc27cd2c56a38f433b5ac62e950",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message-status.util.spec.ts": {
+    "mtime": 1784587014.5401423,
+    "ast_hash": "cc87cbff6ed8c7a152df854660a5d734",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message-status.util.ts": {
+    "mtime": 1784587014.5401423,
+    "ast_hash": "7ea223e7ccd3b44265a58e33d321712e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message-type-backfill.service.spec.ts": {
+    "mtime": 1784587014.5401423,
+    "ast_hash": "da14e9d1c7ab1b17ece869fa390c72db",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message-type-backfill.service.ts": {
+    "mtime": 1784587014.5401423,
+    "ast_hash": "e87b92d0d4ca4bdaa9d17740f7c8f7fc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message.controller.ts": {
+    "mtime": 1784587014.541147,
+    "ast_hash": "7c831be01f570466ee94b9fa6ca6c218",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message.module.ts": {
+    "mtime": 1784587014.541147,
+    "ast_hash": "5f4419940ccbfaad41201feee2dd48ac",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message.service.spec.ts": {
+    "mtime": 1784587014.5421486,
+    "ast_hash": "7f278aa4a5bf87554e2899b0d4f5d4d5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/message/message.service.ts": {
+    "mtime": 1784587014.5421486,
+    "ast_hash": "d3d75201979e06a7fa7db3bd5b1f51a8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/metrics/metrics.controller.ts": {
+    "mtime": 1784587014.5431483,
+    "ast_hash": "293dae0ce6db5eb289c274376e63ffee",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/metrics/metrics.module.ts": {
+    "mtime": 1784587014.5431483,
+    "ast_hash": "4cc34074209141554d504d850709c40f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/metrics/metrics.service.spec.ts": {
+    "mtime": 1784587014.5431483,
+    "ast_hash": "3e188ad149f6f953691071f3b8c709af",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/metrics/metrics.service.ts": {
+    "mtime": 1784587014.5441492,
+    "ast_hash": "e3b6b8e74b62462126af0dc60e9cedb7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/catalog.spec.ts": {
+    "mtime": 1784587014.5441492,
+    "ast_hash": "763d580ca3fc3c2058d24e760e756536",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/catalog.ts": {
+    "mtime": 1784587014.5441492,
+    "ast_hash": "b94aa82726a40a7dba076449c4a3a52f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/dto/index.ts": {
+    "mtime": 1784587014.5451481,
+    "ast_hash": "77e72b5c2cf583b705c4c3ef418884d9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/dto/plugin.dto.ts": {
+    "mtime": 1784587014.5451481,
+    "ast_hash": "0c1997446694941bd98891dc17ed9dda",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugin-download.ts": {
+    "mtime": 1784587014.5451481,
+    "ast_hash": "edeff957afc9d4039e5aeaa21edc993d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugin-installer.spec.ts": {
+    "mtime": 1784587014.5451481,
+    "ast_hash": "5fb5361a9c2e4fbe479b9577d3f6d576",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugin-installer.ts": {
+    "mtime": 1784587014.5451481,
+    "ast_hash": "aa257ab071d2aab675074cd1b125224e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugins.controller.spec.ts": {
+    "mtime": 1784587014.5466533,
+    "ast_hash": "4bfd0c6171664e10e6110f2e1f2bedbf",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugins.controller.ts": {
+    "mtime": 1784587014.5466533,
+    "ast_hash": "2c4e1b75ad1393fd4dc58e32700aba08",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugins.module.ts": {
+    "mtime": 1784587014.5466533,
+    "ast_hash": "80c0a481774beeb596c0afd69b2dcf4a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugins.service.spec.ts": {
+    "mtime": 1784587014.5476599,
+    "ast_hash": "4b2e8bd5104c7f2eb11030d44e150e80",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/plugins.service.ts": {
+    "mtime": 1784587014.5476599,
+    "ast_hash": "4b560ad25071ae46269c11a1b6480886",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/redact-config.spec.ts": {
+    "mtime": 1784587014.5486598,
+    "ast_hash": "d1184acf008faa93680409411e65f9e8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/plugins/redact-config.ts": {
+    "mtime": 1784587014.5486598,
+    "ast_hash": "0fc9c497beb97c1534722bf9b473cd89",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/dto/profile.dto.spec.ts": {
+    "mtime": 1784587014.5496597,
+    "ast_hash": "fb5b016e535a3ecb50fd58d0cf3105fa",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/dto/profile.dto.ts": {
+    "mtime": 1784587014.5496597,
+    "ast_hash": "2ef13fa78c0b65201257ec2ebcef3030",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/profile.controller.spec.ts": {
+    "mtime": 1784587014.5496597,
+    "ast_hash": "f6174f26273aea1169696152857af93f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/profile.controller.ts": {
+    "mtime": 1784587014.5506606,
+    "ast_hash": "8aeb772c0b4be93bae920a7aff123365",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/profile.module.ts": {
+    "mtime": 1784587014.5506606,
+    "ast_hash": "03c1430117349d026cb866169021851c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/profile.service.spec.ts": {
+    "mtime": 1784587014.5506606,
+    "ast_hash": "bd5b74f9657e9b0e2b24cd56679a3363",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/profile/profile.service.ts": {
+    "mtime": 1784587014.551659,
+    "ast_hash": "4443d3551fd447ff80e7bcb28ef6de59",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/processors/ingress.processor.spec.ts": {
+    "mtime": 1784587014.551659,
+    "ast_hash": "38e4d6fd9ced2db72f993e47bb31e3e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/processors/ingress.processor.ts": {
+    "mtime": 1784587014.551659,
+    "ast_hash": "835959356414875d81088e88e429f438",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/processors/webhook.processor.spec.ts": {
+    "mtime": 1784587014.5526602,
+    "ast_hash": "3a317e0e58a085aebee6d253bcf56ae0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/processors/webhook.processor.ts": {
+    "mtime": 1784587014.5526602,
+    "ast_hash": "e24d6f246cea073d47d32ddaf4c0e74b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/queue-names.ts": {
+    "mtime": 1784587014.5526602,
+    "ast_hash": "dcb66eac710bde5d585924e1bfc9bc4a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/queue.module.ts": {
+    "mtime": 1784587014.5536592,
+    "ast_hash": "a89fee554096b12c5f1e4b912a0eec8a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/redis-connection.spec.ts": {
+    "mtime": 1784587014.5536592,
+    "ast_hash": "136a18c0b9e952795f1debdbc3cd351b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/queue/redis-connection.ts": {
+    "mtime": 1784587014.5536592,
+    "ast_hash": "560e0ab72978dea123654b6b2570d9c9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/dto/search-query.dto.spec.ts": {
+    "mtime": 1784587014.5546606,
+    "ast_hash": "f823ab50850dde6bc43a7117d73fb7ce",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/dto/search-query.dto.ts": {
+    "mtime": 1784587014.5546606,
+    "ast_hash": "d440c7e04509eaf8772abb650b01c7bc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/providers/builtin-fts.provider.spec.ts": {
+    "mtime": 1784587014.5556624,
+    "ast_hash": "6f3d4c8b1712c45f05c0fb301ca8f4c5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/providers/builtin-fts.provider.ts": {
+    "mtime": 1784587014.5556624,
+    "ast_hash": "fb901d9699a08bfd9530d831f509b984",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/providers/plugin-search-provider.spec.ts": {
+    "mtime": 1784587014.5556624,
+    "ast_hash": "ee8bef5ef9cee64f78a61d8becaec21c",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/providers/plugin-search-provider.ts": {
+    "mtime": 1784587014.5566633,
+    "ast_hash": "431b883d6a0d5f53dfd7a2dea543d92b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/providers/search-dual-db.spec.ts": {
+    "mtime": 1784587014.5566633,
+    "ast_hash": "e46facd71e45d3cb92f7ac6310fff562",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search-provider.contract.spec.ts": {
+    "mtime": 1784587014.55766,
+    "ast_hash": "84388a4519499a04b30be02697c2c63f",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search-provider.registry.spec.ts": {
+    "mtime": 1784587014.55766,
+    "ast_hash": "5813d115c25506fdfd2c4adde61995cf",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search-provider.registry.ts": {
+    "mtime": 1784587014.5586612,
+    "ast_hash": "ea97348135d720161462e396b471e9ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.constants.ts": {
+    "mtime": 1784587014.5586612,
+    "ast_hash": "cfac19c004b3dec8399fcc19df78105b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.controller.spec.ts": {
+    "mtime": 1784587014.5596604,
+    "ast_hash": "47d8d874f86c8c61bfa3b1aff3f0fd76",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.controller.ts": {
+    "mtime": 1784587014.5596604,
+    "ast_hash": "738dc4029648ae55d1f7471afcc31b50",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.module.spec.ts": {
+    "mtime": 1784587014.560661,
+    "ast_hash": "b80eaf94356b831edc698116560d0516",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.module.ts": {
+    "mtime": 1784587014.560661,
+    "ast_hash": "0e56808c32eb019aa8f6009978b2b480",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.service.spec.ts": {
+    "mtime": 1784587014.560661,
+    "ast_hash": "7ab93f2efc63902fdcee041312577fb1",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.service.ts": {
+    "mtime": 1784587014.5616605,
+    "ast_hash": "83605dc34181087b245260bbfa1f5cb5",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.types.spec.ts": {
+    "mtime": 1784587014.5616605,
+    "ast_hash": "9d4b45cfe282317830aa56f36f522b16",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/search/search.types.ts": {
+    "mtime": 1784587014.5616605,
+    "ast_hash": "8999760c3ecb52ef88e430c83c24eaa3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/create-session.dto.spec.ts": {
+    "mtime": 1784587014.562662,
+    "ast_hash": "b92c2450331bdfefaccb5b0ce12cb623",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/create-session.dto.ts": {
+    "mtime": 1784587014.562662,
+    "ast_hash": "e881f31f33576d441afa5a4a6e6d0ab3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/delete-chat.dto.ts": {
+    "mtime": 1784587014.562662,
+    "ast_hash": "db6a7069d8313afb535866a155e906ad",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/index.ts": {
+    "mtime": 1784587014.56366,
+    "ast_hash": "910552e129eedc36ec3e954b3a2b46b9",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/mark-chat-read.dto.spec.ts": {
+    "mtime": 1784587014.56366,
+    "ast_hash": "aa91b00bdea63859b7b32f3356ce7c1e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/mark-chat-read.dto.ts": {
+    "mtime": 1784587014.5646596,
+    "ast_hash": "7fca1f33635f8e7a5cf2dc09c91512dd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/request-pairing-code.dto.spec.ts": {
+    "mtime": 1784587014.5646596,
+    "ast_hash": "8cb825f589b6198ce73532333a03d60b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/request-pairing-code.dto.ts": {
+    "mtime": 1784587014.5646596,
+    "ast_hash": "341e3e85a5618e567ba09635abc7a823",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/send-chat-state.dto.ts": {
+    "mtime": 1784587014.5656593,
+    "ast_hash": "96998686ee098040a8864a8bb61ff340",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/dto/session-response.dto.ts": {
+    "mtime": 1784587014.5656593,
+    "ast_hash": "029c1d026b6551645d20d2c23374ec3a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/entities/session.entity.ts": {
+    "mtime": 1784587014.5656593,
+    "ast_hash": "2514b4fe06ad8be02843ea54c36bdb29",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/reconnect-config.spec.ts": {
+    "mtime": 1784587014.5666597,
+    "ast_hash": "6f7ba6592e81ac63e41b57a326c8e1e0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/session.controller.ts": {
+    "mtime": 1784587014.5666597,
+    "ast_hash": "8a40ea89c2466208631e56e4600841c3",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/session.module.ts": {
+    "mtime": 1784587014.5666597,
+    "ast_hash": "0b45a7cb16704bbf552908600321eede",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/session.service.spec.ts": {
+    "mtime": 1784587014.5686615,
+    "ast_hash": "f1a0dd7af2b328f64a2986fc0415b8e2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/session/session.service.ts": {
+    "mtime": 1784587014.56966,
+    "ast_hash": "b0bfeeb9280b19cfa421b29ed4d21b22",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/settings/settings.controller.spec.ts": {
+    "mtime": 1784587014.5706599,
+    "ast_hash": "e6507abcc9368f44df32fa319883ff91",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/settings/settings.controller.ts": {
+    "mtime": 1784587014.5706599,
+    "ast_hash": "334a1d92e81adbaa4c47fdee1e75969d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/settings/settings.module.ts": {
+    "mtime": 1784587014.5706599,
+    "ast_hash": "00b4ed0b61dc34510647dc9e35600ad0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/dto/stats-query.dto.ts": {
+    "mtime": 1784587014.57166,
+    "ast_hash": "f6ab9f2cbac9e89440079e35bddf3cf4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/stats.controller.spec.ts": {
+    "mtime": 1784587014.57166,
+    "ast_hash": "5b7288f34105647f20f6391fd64931be",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/stats.controller.ts": {
+    "mtime": 1784587014.572659,
+    "ast_hash": "1eb31634b4f4386ba5342c848db9d321",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/stats.module.ts": {
+    "mtime": 1784587014.572659,
+    "ast_hash": "640b12f459c46af249f4d65a67bb3bd0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/stats.service.spec.ts": {
+    "mtime": 1784587014.572659,
+    "ast_hash": "8dfe9c9a006dcb5ac1a89732515497e4",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/stats/stats.service.ts": {
+    "mtime": 1784587014.5736592,
+    "ast_hash": "e2abcd20b846a810328b864f36d5dd60",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/dto/send-media-status.dto.spec.ts": {
+    "mtime": 1784587014.5736592,
+    "ast_hash": "9ddaec5cbad2529537e9b77acbc45120",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/dto/send-media-status.dto.ts": {
+    "mtime": 1784587014.57466,
+    "ast_hash": "7efd633f9a0682b630fe01b64ef60136",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/dto/send-text-status.dto.spec.ts": {
+    "mtime": 1784587014.57466,
+    "ast_hash": "1739e70bb88e24db4a17ddb59591ebd8",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/dto/send-text-status.dto.ts": {
+    "mtime": 1784587014.5756598,
+    "ast_hash": "7ddc6a4cda7f49d33465283b98dbac70",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/status.controller.ts": {
+    "mtime": 1784587014.5756598,
+    "ast_hash": "3aa213365d83645f9f85bc3fb40e1dcd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/status.module.ts": {
+    "mtime": 1784587014.5766587,
+    "ast_hash": "ade6787660fd26d08550c80903c6cf81",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/status.service.spec.ts": {
+    "mtime": 1784587014.5766587,
+    "ast_hash": "e56c9e9c48e3618f7ffa35e6e5f49082",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/status/status.service.ts": {
+    "mtime": 1784587014.5766587,
+    "ast_hash": "dbb3b98121d8089c0362aeb9648bc2bc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/dto/index.ts": {
+    "mtime": 1784587014.5776598,
+    "ast_hash": "4123c83272af826b4ccb26b458faacfd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/dto/template.dto.ts": {
+    "mtime": 1784587014.5776598,
+    "ast_hash": "41cab8d801015a922e8282b17ce3735a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/entities/template.entity.ts": {
+    "mtime": 1784587014.5786593,
+    "ast_hash": "c07913f38ad6a6f585dc48d035e80ee0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/template.controller.ts": {
+    "mtime": 1784587014.5786593,
+    "ast_hash": "70ff3a929c26a2e824bd0b1fb40ccd87",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/template.module.ts": {
+    "mtime": 1784587014.5786593,
+    "ast_hash": "e98080f54b9e984c620a44f92acfc10b",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/template.service.spec.ts": {
+    "mtime": 1784587014.57966,
+    "ast_hash": "9dc070d4ca500ceef07d17b6a54bae71",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/template/template.service.ts": {
+    "mtime": 1784587014.57966,
+    "ast_hash": "e00658ed145a79c5d3f298f7867daf24",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/dto/index.ts": {
+    "mtime": 1784587014.5806594,
+    "ast_hash": "ea9fb7acb7d1fc590985ad8e219d5046",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/dto/is-header-map.validator.ts": {
+    "mtime": 1784587014.5806594,
+    "ast_hash": "e0e6da269954140ee58c1a8ca7000dab",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/dto/webhook.dto.spec.ts": {
+    "mtime": 1784587014.5806594,
+    "ast_hash": "9bccb1b9d754a94490a7e221c77e9661",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/dto/webhook.dto.ts": {
+    "mtime": 1784587014.5816598,
+    "ast_hash": "a85efeffd2821b54c1e6b34e42e05a3e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/entities/webhook-delivery-failure.entity.ts": {
+    "mtime": 1784587014.5816598,
+    "ast_hash": "c052744ce74485d2fb6f095b3ec14485",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/entities/webhook.entity.ts": {
+    "mtime": 1784587014.5816598,
+    "ast_hash": "f1c15dba925258ca8dbc8d2dac53db9e",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/filters/filter-evaluator.spec.ts": {
+    "mtime": 1784587014.5826592,
+    "ast_hash": "b31a201160a7716012baa2e0895fdbcd",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/filters/filter-evaluator.ts": {
+    "mtime": 1784587014.5826592,
+    "ast_hash": "5fed44905920034faf5a48267c551805",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/filters/filter-types.ts": {
+    "mtime": 1784587014.5836592,
+    "ast_hash": "f90436f9793f5821aa48b8851119b514",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/filters/filter-validation.ts": {
+    "mtime": 1784587014.5836592,
+    "ast_hash": "db72087e02774655b0b129c20860f0b7",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/utils/idempotency.util.spec.ts": {
+    "mtime": 1784587014.5846589,
+    "ast_hash": "4129eb4c796be241e441ae0f19f0c857",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/utils/idempotency.util.ts": {
+    "mtime": 1784587014.5846589,
+    "ast_hash": "9290705916b63bd624c94960b1781b2d",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/utils/record-delivery-failure.spec.ts": {
+    "mtime": 1784587014.5846589,
+    "ast_hash": "98dcb352abc12c674f3a61f1d817b074",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/utils/record-delivery-failure.ts": {
+    "mtime": 1784587014.5846589,
+    "ast_hash": "76bb519ef721db77aa26625db938776a",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook-session-scope.spec.ts": {
+    "mtime": 1784587014.5856595,
+    "ast_hash": "d8ab92036b8d40761d4a57e99b9f5b94",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook.controller.spec.ts": {
+    "mtime": 1784587014.5856595,
+    "ast_hash": "acd2b20f9dcd86ad7f608d3c66a66633",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook.controller.ts": {
+    "mtime": 1784587014.5866594,
+    "ast_hash": "c23f20b24cd6366382b2b335729ed455",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook.module.ts": {
+    "mtime": 1784587014.5866594,
+    "ast_hash": "b02532465e2d8821047454773c107884",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook.service.spec.ts": {
+    "mtime": 1784587014.587659,
+    "ast_hash": "d6111fc3bcdb7f460b4a70cedaf8ebee",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhook.service.ts": {
+    "mtime": 1784587014.587659,
+    "ast_hash": "0f2ed0d69a707d7cadac64c6f788f482",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/modules/webhook/webhooks-list.controller.ts": {
+    "mtime": 1784587014.5886588,
+    "ast_hash": "cdc0f758067d08e12c40dfbb56d0d4e0",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/baileys/index.spec.ts": {
+    "mtime": 1784587014.5896597,
+    "ast_hash": "41755b139f02fca6adad1555e523c838",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/baileys/index.ts": {
+    "mtime": 1784587014.5896597,
+    "ast_hash": "3f567d95e75e473c2e22afd8fb8ae1d2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/baileys/manifest.json": {
+    "mtime": 1784587014.5896597,
+    "ast_hash": "3cfcdbec8ecd7dd334c42b7c3ecce6e2",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/whatsapp-web-js/index.spec.ts": {
+    "mtime": 1784587014.5896597,
+    "ast_hash": "0adbf79f3221d2ae94454cf33bab0f95",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/whatsapp-web-js/index.ts": {
+    "mtime": 1784587014.5906596,
+    "ast_hash": "da5f2cccf7540a09972a5a726c330dcc",
+    "semantic_hash": ""
+  },
+  "OpenWA/src/plugins/engines/whatsapp-web-js/manifest.json": {
+    "mtime": 1784587014.5916595,
+    "ast_hash": "38525dec7a0b5709ed851a7e4d7b5f04",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/__mocks__/@whiskeysockets/baileys.ts": {
+    "mtime": 1784587014.5916595,
+    "ast_hash": "12e1d991ba5ffd93179acfbf23fdd0f7",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/app.e2e-spec.ts": {
+    "mtime": 1784587014.5926602,
+    "ast_hash": "a09cc23f918756b98eab48ab769f00b8",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/baileys-engine.e2e-spec.ts": {
+    "mtime": 1784587014.5926602,
+    "ast_hash": "2b52f974a50ad261d89be8f3e7df88ca",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/ingress-instance-throttle.e2e-spec.ts": {
+    "mtime": 1784587014.5966594,
+    "ast_hash": "bb54c2614a7bf75f946a0cba6d8ed4ee",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/integration-fabric.e2e-spec.ts": {
+    "mtime": 1784587014.5966594,
+    "ast_hash": "554fa9faadf2541ebed71240579465af",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/integration-instance.e2e-spec.ts": {
+    "mtime": 1784587014.5966594,
+    "ast_hash": "32a615d7ff1aa2cff1d01efb63822af3",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/jest-e2e.json": {
+    "mtime": 1784587014.597659,
+    "ast_hash": "156f68e920e3e1d1e68495ce362b8d9f",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/mcp-auth.e2e-spec.ts": {
+    "mtime": 1784587014.597659,
+    "ast_hash": "215a280d10cf15772688332d7fc139ab",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/search.e2e-spec.ts": {
+    "mtime": 1784587014.597659,
+    "ast_hash": "de48891a48c17553ad75c5cef259ce2e",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/serve-static.e2e-spec.ts": {
+    "mtime": 1784587014.598662,
+    "ast_hash": "25da9b46f1b9261ea28f0ecb8eb05610",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/setup-e2e.ts": {
+    "mtime": 1784587014.598662,
+    "ast_hash": "7a10e9481a43674fbe6a689e3be1b7fb",
+    "semantic_hash": ""
+  },
+  "OpenWA/test/webhooks.e2e-spec.ts": {
+    "mtime": 1784587014.598662,
+    "ast_hash": "8540588eb2511765813ad5c68cf1e1d9",
+    "semantic_hash": ""
+  },
+  "OpenWA/tsconfig.build.json": {
+    "mtime": 1784587014.5996587,
+    "ast_hash": "a97bae1a3bbfc2d9ead4456772d2c26d",
+    "semantic_hash": ""
+  },
+  "OpenWA/tsconfig.json": {
+    "mtime": 1784587014.5996587,
+    "ast_hash": "e762cc94af8cd5ae508e988c9a9df79a",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/ISSUE_TEMPLATE/bug_report.yml": {
+    "mtime": 1784587014.166346,
+    "ast_hash": "e3cc94dbe3ecc374db4fea9e4cda1f35",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/ISSUE_TEMPLATE/config.yml": {
+    "mtime": 1784587014.166346,
+    "ast_hash": "86785983fba4f2531b3b668f5b46d52a",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/ISSUE_TEMPLATE/feature_request.yml": {
+    "mtime": 1784587014.166346,
+    "ast_hash": "80ec01c671abba7a7fa2f4874f12c0c1",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/dependabot.yml": {
+    "mtime": 1784587014.167348,
+    "ast_hash": "be09d7658433b7f317015897ce1e30e3",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/pull_request_template.md": {
+    "mtime": 1784587014.167348,
+    "ast_hash": "f2cfb0f67c7269d9c18c5170196e1efc",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/workflows/ci.yml": {
+    "mtime": 1784587014.167348,
+    "ast_hash": "8a53bda1b7032f1fb92cc0676d585dfa",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/workflows/java-sdk-release.yml": {
+    "mtime": 1784587014.1683547,
+    "ast_hash": "9bb7a2f976d060013f2ac98576191c52",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/workflows/release.yml": {
+    "mtime": 1784587014.1683547,
+    "ast_hash": "0a078bb9b5d593726f755e5b261d0f4f",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/workflows/sdk-ci.yml": {
+    "mtime": 1784587014.1683547,
+    "ast_hash": "99aa7a2eddb352fb00cfa4c80527d4f9",
+    "semantic_hash": ""
+  },
+  "OpenWA/.github/workflows/split-php-sdk.yml": {
+    "mtime": 1784587014.1683547,
+    "ast_hash": "0f8c270f502b1fa007d61cc8dce180a0",
+    "semantic_hash": ""
+  },
+  "OpenWA/CHANGELOG.md": {
+    "mtime": 1784587014.1713533,
+    "ast_hash": "5e888d4f0c21bde38e45e7be46176114",
+    "semantic_hash": ""
+  },
+  "OpenWA/CODE_OF_CONDUCT.md": {
+    "mtime": 1784587014.1713533,
+    "ast_hash": "618b18108c7c85ce4bb40505d04d442b",
+    "semantic_hash": ""
+  },
+  "OpenWA/CONTRIBUTING.md": {
+    "mtime": 1784587014.1713533,
+    "ast_hash": "06f790962ab2603bb76fab7bbfd02e39",
+    "semantic_hash": ""
+  },
+  "OpenWA/README.md": {
+    "mtime": 1784587014.1723528,
+    "ast_hash": "adc832e68db23e9212723a2aea80d79b",
+    "semantic_hash": ""
+  },
+  "OpenWA/SECURITY.md": {
+    "mtime": 1784587014.1723528,
+    "ast_hash": "f06a313d12c0e99ffc401e4240492980",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/README.md": {
+    "mtime": 1784587014.173354,
+    "ast_hash": "3344cf73758b78ce1c5ed83fd780b587",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/index.html": {
+    "mtime": 1784587014.174354,
+    "ast_hash": "395fe2339ba1280bd6a1f819185ca0bf",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/index.txt": {
+    "mtime": 1784587315.2551818,
+    "ast_hash": "9d210069c70b1b2b7bb3e8d85cf7606e",
+    "semantic_hash": ""
+  },
+  "OpenWA/data/sessions/session-kinkly-main/Subresource Filter/Unindexed Rules/9.69.0/LICENSE.txt": {
+    "mtime": 1781171726.0,
+    "ast_hash": "d33aaa5246e1ce0a94fa15ba0c407ae2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docker-compose.dev.yml": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "863dabb121c9107bfdd55984dd026afe",
+    "semantic_hash": ""
+  },
+  "OpenWA/docker-compose.yml": {
+    "mtime": 1784587014.2211967,
+    "ast_hash": "c9ebd55ff73f688f15888d2014979875",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/01-project-overview.md": {
+    "mtime": 1784587014.2232022,
+    "ast_hash": "e096d376020e86b712e5ffe9bcbb6b46",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/02-requirements-specification.md": {
+    "mtime": 1784587014.2232022,
+    "ast_hash": "f8d20e32b4df622a4e9ed8371588d935",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/03-system-architecture.md": {
+    "mtime": 1784587014.2243347,
+    "ast_hash": "753fcb93de1395c8823eb0f164e29a98",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/04-security-design.md": {
+    "mtime": 1784587014.2253337,
+    "ast_hash": "fe211247d1dcb3c0524331c2bcbc41bb",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/05-database-design.md": {
+    "mtime": 1784587014.2253337,
+    "ast_hash": "29b64d0fcc4e2d850dd4359e1aa021e8",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/06-api-specification.md": {
+    "mtime": 1784587014.227336,
+    "ast_hash": "771689912a26c3a7c34071bafb54a65e",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/07-api-collection.md": {
+    "mtime": 1784587014.228333,
+    "ast_hash": "ffbedfccc8c97fc618530d2b66940166",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/08-development-guidelines.md": {
+    "mtime": 1784587014.228333,
+    "ast_hash": "d851fd5325281e6cb60007d4ece03437",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/09-testing-strategy.md": {
+    "mtime": 1784587014.2293344,
+    "ast_hash": "41cfcbb9de3631fa1496bff6c94f41d1",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/10-devops-infrastructure.md": {
+    "mtime": 1784587014.2293344,
+    "ast_hash": "495ad87c3eaa66f8f91bde45044996d2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/11-operational-runbooks.md": {
+    "mtime": 1784587014.2303329,
+    "ast_hash": "7ead2e5dc20c0e3111a082f9e457c252",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/12-troubleshooting-faq.md": {
+    "mtime": 1784587014.2303329,
+    "ast_hash": "94108b4851dde20e494fcecb820e3f90",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/13-horizontal-scaling.md": {
+    "mtime": 1784587014.2303329,
+    "ast_hash": "443a3e3578e2c828b09d8ddffd69f39e",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/14-migration-guide.md": {
+    "mtime": 1784587014.231333,
+    "ast_hash": "e0ec9546340935f431ac5d8d91ecbfd4",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/15-project-roadmap.md": {
+    "mtime": 1784587014.232337,
+    "ast_hash": "96fc19ba3960fed61a58e13aec1aece2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/16-risk-management.md": {
+    "mtime": 1784587014.232337,
+    "ast_hash": "c4c6b03ff8d1969299613271c11354dc",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/17-dashboard-design.md": {
+    "mtime": 1784587014.2333379,
+    "ast_hash": "2a6d11e1ea25243b4e72aa3ab43e1752",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/18-sdk-design.md": {
+    "mtime": 1784587014.2333379,
+    "ast_hash": "e7e2bf61f570a49929650153d52b71f2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/19-plugin-architecture.md": {
+    "mtime": 1784587014.2343373,
+    "ast_hash": "61f3d6ad8a7e725b324a535feb97acf8",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/20-community-guidelines.md": {
+    "mtime": 1784587014.2343373,
+    "ast_hash": "8ada60a1bebebfdb92bd31788bf7ade3",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/21-glossary.md": {
+    "mtime": 1784587014.2343373,
+    "ast_hash": "46f31aa1c8f3901a5c7c9621363ff6dc",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/22-n8n-integration.md": {
+    "mtime": 1784587014.2353384,
+    "ast_hash": "4b391dc45b734c7c8fc710d2661045ca",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/23-community-integrations.md": {
+    "mtime": 1784587014.2353384,
+    "ast_hash": "c6bcb52f036e65749f8bf7f1d597d546",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/23-plugin-sandboxing.md": {
+    "mtime": 1784587014.2353384,
+    "ast_hash": "8f90f9fcca8c86602580f092f8b5a02b",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/24-mcp-integration.md": {
+    "mtime": 1784587014.2363372,
+    "ast_hash": "f228f626c89d93db92801e6e1831164e",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/25-integration-fabric.md": {
+    "mtime": 1784587014.2363372,
+    "ast_hash": "50e7847cbfe8bbf30fb59975f109349e",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/26-global-search.md": {
+    "mtime": 1784587014.237339,
+    "ast_hash": "168e354b2b97c8b7c9f2610d502ec834",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/27-plugin-search-providers.md": {
+    "mtime": 1784587014.237339,
+    "ast_hash": "ab1328f6b459a31dfda2a55f39877dc4",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/28-multitenancy.md": {
+    "mtime": 1784587014.237339,
+    "ast_hash": "703e13379a45cb24063ec0a0773cf637",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/DOCKER_ID.md": {
+    "mtime": 1784587014.237339,
+    "ast_hash": "6d7fa23000ce24efd2244e69510e1bc2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/README.md": {
+    "mtime": 1784587014.237339,
+    "ast_hash": "e0255d838170055f20f2b0a90c7528a4",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/engine-capability-matrix.md": {
+    "mtime": 1784587014.239388,
+    "ast_hash": "90aabd430312ca22801b56468b346957",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/examples/chat-history-limits.md": {
+    "mtime": 1784587014.239388,
+    "ast_hash": "2229f3bc2c3fe728cf0acff2f5e37da1",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/examples/n8n-appointment-booking.md": {
+    "mtime": 1784587014.239388,
+    "ast_hash": "8bbb7c5526798fc9c3111de8012e1717",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/examples/session-phone-number-pairing.md": {
+    "mtime": 1784587014.2409232,
+    "ast_hash": "631449c4e1d8540d940d6aa32b45a9a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/examples/webhook-signature-verification.md": {
+    "mtime": 1784587014.2409232,
+    "ast_hash": "ec8b9df67c95a2800d4e44fa0a69a6a6",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/README.md": {
+    "mtime": 1784587014.2677815,
+    "ast_hash": "c70c736f416986473eed6f44a34d4478",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/go/README.md": {
+    "mtime": 1784587014.2687814,
+    "ast_hash": "d901627c5d1393ae401aca4cdd99edd9",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/java/README.md": {
+    "mtime": 1784587014.2824914,
+    "ast_hash": "7ad3dcc76915f3486bf366e6705875d3",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/javascript/README.md": {
+    "mtime": 1784587014.336763,
+    "ast_hash": "2b85c8a754d5ba20953364bd8c97e50a",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/php/README.md": {
+    "mtime": 1784587014.353276,
+    "ast_hash": "f940047bb44dc02ba2488a01c17766af",
+    "semantic_hash": ""
+  },
+  "OpenWA/sdk/python/README.md": {
+    "mtime": 1784587014.3683195,
+    "ast_hash": "f0f243bffbd3034f8b6124fea75179a2",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/public/favicon.svg": {
+    "mtime": 1784587014.176353,
+    "ast_hash": "9f17c8d1f4a4a8d25797e6da5ffd6bec",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/public/openwa_logo.webp": {
+    "mtime": 1784587014.176353,
+    "ast_hash": "7eb6ec3e35d34005b871b4c92b687244",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/assets/icons/folder.svg": {
+    "mtime": 1784587014.1783888,
+    "ast_hash": "2f925821d21c114f6a8b37a9b049cb20",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/assets/icons/postgresql.svg": {
+    "mtime": 1784587014.1783888,
+    "ast_hash": "bae4eabea5c2343f4346dcbb29ecf4ee",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/assets/icons/s3.svg": {
+    "mtime": 1784587014.1783888,
+    "ast_hash": "dbed9e7c9042ebd68adc56002a25f9f3",
+    "semantic_hash": ""
+  },
+  "OpenWA/dashboard/src/assets/icons/sqlite.svg": {
+    "mtime": 1784587014.1803935,
+    "ast_hash": "3934b1c1194c162367feb9fbc4c462ff",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/logo/openwa.svg": {
+    "mtime": 1784587014.2409232,
+    "ast_hash": "9f17c8d1f4a4a8d25797e6da5ffd6bec",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/logo/openwa_logo.png": {
+    "mtime": 1784587014.2430327,
+    "ast_hash": "01ceabb23be2c79bd8b747e69f794800",
+    "semantic_hash": ""
+  },
+  "OpenWA/docs/logo/openwa_logo.webp": {
+    "mtime": 1784587014.2567813,
+    "ast_hash": "7eb6ec3e35d34005b871b4c92b687244",
     "semantic_hash": ""
   }
 }
