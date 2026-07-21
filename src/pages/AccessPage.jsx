@@ -45,6 +45,34 @@ function getAudienceFromRedirect(redirectTarget = '') {
   return 'client'
 }
 
+function getLockedAudienceFromRedirect(redirectTarget = '') {
+  const normalizedTarget = String(redirectTarget || '').toLowerCase()
+
+  if (
+    normalizedTarget.startsWith('/registro-modelos') ||
+    normalizedTarget.startsWith('/modelo/') ||
+    normalizedTarget.startsWith('/model/')
+  ) {
+    return 'model'
+  }
+
+  if (
+    normalizedTarget.startsWith('/cliente/') ||
+    normalizedTarget.startsWith('/library') ||
+    normalizedTarget.startsWith('/profile') ||
+    normalizedTarget.startsWith('/free-content') ||
+    normalizedTarget.startsWith('/checkout/') ||
+    normalizedTarget.startsWith('/videos/') ||
+    normalizedTarget.startsWith('/packs/') ||
+    normalizedTarget.startsWith('/calzones/') ||
+    normalizedTarget.startsWith('/blog/')
+  ) {
+    return 'client'
+  }
+
+  return ''
+}
+
 function buildFormDefaults() {
   return {
     loginIdentifier: '',
@@ -80,15 +108,20 @@ export function AccessPage() {
     const candidate = String(searchParams.get('redirect') || '').trim()
     return candidate.startsWith('/') ? candidate : ''
   }, [searchParams])
+  const lockedAudience = useMemo(() => getLockedAudienceFromRedirect(redirectTarget), [redirectTarget])
 
   const initialAudience = useMemo(() => {
+    if (lockedAudience) {
+      return lockedAudience
+    }
+
     const queryAudience = normalizeAudience(searchParams.get('audience'))
     if (queryAudience !== 'client') {
       return queryAudience
     }
 
     return getAudienceFromRedirect(redirectTarget)
-  }, [redirectTarget, searchParams])
+  }, [lockedAudience, redirectTarget, searchParams])
 
   const initialMode = searchParams.get('mode') === 'register' ? 'register' : 'login'
 
@@ -127,7 +160,7 @@ export function AccessPage() {
     if (!session) {
       setSelectedAudience(initialAudience)
     }
-  }, [initialAudience, session?.audience, session?.id])
+  }, [initialAudience, lockedAudience, session?.audience, session?.id])
 
   useEffect(() => {
     let isCancelled = false
@@ -189,7 +222,7 @@ export function AccessPage() {
     const isOauthReturn = searchParams.get('oauth') === '1'
 
     if (isOauthReturn) {
-      const nextAudience = normalizeAudience(searchParams.get('audience') || selectedAudience)
+      const nextAudience = lockedAudience || normalizeAudience(searchParams.get('audience') || selectedAudience)
       const target = resolveAudienceTarget(nextAudience, redirectTarget)
 
       void (async () => {
@@ -203,11 +236,24 @@ export function AccessPage() {
       return
     }
 
+    if (lockedAudience) {
+      void (async () => {
+        if (session.audience !== lockedAudience) {
+          await setMemberAudience(lockedAudience)
+        }
+
+        navigate(resolveAudienceTarget(lockedAudience, redirectTarget), { replace: true })
+      })()
+
+      return
+    }
+
     if (session.audience === 'model') {
       navigate(resolveAudienceTarget('model', redirectTarget), { replace: true })
     }
   }, [
     navigate,
+    lockedAudience,
     redirectTarget,
     searchParams,
     selectedAudience,
@@ -230,6 +276,10 @@ export function AccessPage() {
   }
 
   function handleAudienceSelect(audience) {
+    if (lockedAudience) {
+      return
+    }
+
     const normalized = normalizeAudience(audience)
     setSelectedAudience(normalized)
     resetFlowMessages()
@@ -418,6 +468,7 @@ export function AccessPage() {
   const isWhatsappReady = whatsappVerificationEnabled === true
   const isWhatsappLoading = whatsappVerificationEnabled === null
   const activeRedirect = resolveAudienceTarget(selectedAudience, redirectTarget)
+  const isAudienceLocked = Boolean(lockedAudience)
 
   if (isBootstrapping) {
     return <AppLoader title={t('loading.general')} subtitle={t('loading.subtitle')} />
@@ -463,32 +514,44 @@ export function AccessPage() {
             <div className="access-auth-authbox">
               <div className="access-auth-section">
                 <div className="access-auth-section-copy">
-                  <p className="access-auth-eyebrow">Tipo de cuenta</p>
+                  <p className="access-auth-eyebrow">{isAudienceLocked ? 'Ruta privada' : 'Tipo de cuenta'}</p>
                   <p className="access-auth-helper">
-                    Este selector va primero para que el siguiente paso ya sepa a que panel te vamos a llevar.
+                    {isAudienceLocked
+                      ? lockedAudience === 'model'
+                        ? 'Este acceso queda reservado para modelos y te lleva directo al flujo de solicitud o panel.'
+                        : 'Este acceso queda reservado para clientes y te lleva directo a su panel privado.'
+                      : 'Este selector va primero para que el siguiente paso ya sepa a que panel te vamos a llevar.'}
                   </p>
                 </div>
 
-                <div className="access-auth-tabs" role="tablist" aria-label="Tipo de cuenta">
-                  <button
-                    type="button"
-                    className={`access-auth-tab ${selectedAudience === 'model' ? 'is-active' : ''}`}
-                    role="tab"
-                    aria-selected={selectedAudience === 'model'}
-                    onClick={() => handleAudienceSelect('model')}
-                  >
-                    Modelo
-                  </button>
-                  <button
-                    type="button"
-                    className={`access-auth-tab ${selectedAudience !== 'model' ? 'is-active' : ''}`}
-                    role="tab"
-                    aria-selected={selectedAudience !== 'model'}
-                    onClick={() => handleAudienceSelect('client')}
-                  >
-                    Cliente
-                  </button>
-                </div>
+                {isAudienceLocked ? (
+                  <div className="access-auth-tabs" aria-live="polite">
+                    <button type="button" className="access-auth-tab is-active" disabled>
+                      {lockedAudience === 'model' ? 'Acceso de modelo' : 'Acceso de cliente'}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="access-auth-tabs" role="tablist" aria-label="Tipo de cuenta">
+                    <button
+                      type="button"
+                      className={`access-auth-tab ${selectedAudience === 'model' ? 'is-active' : ''}`}
+                      role="tab"
+                      aria-selected={selectedAudience === 'model'}
+                      onClick={() => handleAudienceSelect('model')}
+                    >
+                      Modelo
+                    </button>
+                    <button
+                      type="button"
+                      className={`access-auth-tab ${selectedAudience !== 'model' ? 'is-active' : ''}`}
+                      role="tab"
+                      aria-selected={selectedAudience !== 'model'}
+                      onClick={() => handleAudienceSelect('client')}
+                    >
+                      Cliente
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="access-auth-section">
@@ -846,7 +909,7 @@ export function AccessPage() {
             </div>
           </div>
 
-          {session ? (
+          {session && !isAudienceLocked ? (
             <div className="access-audience-panel">
               <div className="access-role-grid access-auth-choice-grid" aria-label="Seleccion de panel">
                 <button

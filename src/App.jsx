@@ -213,7 +213,7 @@ function AppRoutes() {
         <Route
           path="/modelo/dashboard"
           element={
-            <ProtectedRegisteredRoute redirectTo="/access?redirect=/modelo/dashboard">
+            <ProtectedRegisteredRoute redirectTo="/access?redirect=/modelo/dashboard&audience=model">
               <ModelDashboardPage />
             </ProtectedRegisteredRoute>
           }

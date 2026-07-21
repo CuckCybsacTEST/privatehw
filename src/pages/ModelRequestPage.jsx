@@ -173,7 +173,7 @@ export function ModelRequestPage() {
   }, [session?.email, session?.name])
 
   if (!isBootstrapping && !session) {
-    return <Navigate to="/access?redirect=/registro-modelos" replace />
+    return <Navigate to="/access?redirect=/registro-modelos&audience=model" replace />
   }
 
   const submitLabel = useMemo(

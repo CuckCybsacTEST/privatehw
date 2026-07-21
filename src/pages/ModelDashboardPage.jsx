@@ -456,7 +456,7 @@ export function ModelDashboardPage() {
   }
 
   if (!session && !isBootstrapping) {
-    return <Navigate to="/access?redirect=/modelo/dashboard" replace />
+    return <Navigate to="/access?redirect=/modelo/dashboard&audience=model" replace />
   }
 
   if (isBootstrapping || loading) {
