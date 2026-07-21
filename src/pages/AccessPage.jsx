@@ -691,8 +691,8 @@ export function AccessPage() {
                               ? 'Usa tu cuenta de X para continuar sin salir del flujo.'
                               : selectedMethod === 'whatsapp'
                                 ? accessMode === 'register'
-                                  ? 'Verificamos tu numero antes de terminar el registro.'
-                                  : 'Te enviamos un codigo y validamos tu entrada en esta misma ventana.'
+                                  ? 'Verificamos tu numero una sola vez antes de terminar el registro.'
+                                  : 'Te enviamos un codigo para entrar a una cuenta ya existente.'
                                 : accessMode === 'register'
                                   ? 'Completa tus datos y crea el acceso sin dejar la tarjeta.'
                                   : 'Escribe tus credenciales y entra desde esta misma ventana.'}
@@ -772,17 +772,17 @@ export function AccessPage() {
                             />
                           </label>
 
-                          <button
-                            type="button"
-                            className="hero-primary-cta"
-                            onClick={() => void handleVerifyWhatsappCode()}
-                            disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
+                        <button
+                          type="button"
+                          className="hero-primary-cta"
+                          onClick={() => void handleVerifyWhatsappCode()}
+                          disabled={isVerifyingWhatsappCode || !whatsappChallengeId}
                         >
                           {isVerifyingWhatsappCode
                             ? 'Validando...'
                             : accessMode === 'register'
-                              ? 'Verificar teléfono'
-                              : 'Validar y continuar'}
+                              ? 'Verificar numero'
+                              : 'Entrar con codigo'}
                         </button>
                       </div>
 
@@ -791,8 +791,8 @@ export function AccessPage() {
                           ? 'Comprobando la configuracion de WhatsApp...'
                           : isWhatsappReady
                             ? accessMode === 'register'
-                              ? 'WhatsApp esta listo para verificar tu numero.'
-                              : 'WhatsApp esta listo para entrar.'
+                              ? 'WhatsApp esta listo para verificar tu numero antes de crear la cuenta.'
+                              : 'WhatsApp esta listo para abrir tu sesion existente.'
                             : 'WhatsApp todavia no esta configurado. Activa OpenWA para usar este metodo.'}
                       </p>
                     </div>
@@ -848,7 +848,7 @@ export function AccessPage() {
                             </label>
 
                             {normalizedWhatsappPhone && whatsappVerifiedPhone === normalizedWhatsappPhone ? (
-                              <p className="access-auth-success">Telefono verificado para este registro.</p>
+                              <p className="access-auth-success">Numero verificado. Ya puedes terminar el registro.</p>
                             ) : null}
                           </>
                         ) : (
